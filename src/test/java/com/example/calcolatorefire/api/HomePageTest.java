@@ -1,0 +1,55 @@
+package com.example.calcolatorefire.api;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+@SpringBootTest
+class HomePageTest {
+
+    @Autowired
+    private WebApplicationContext context;
+
+    private MockMvc mockMvc;
+
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+    }
+
+    @Test
+    void servesTheCalculatorHomePage() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/index.html"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("text/html"))
+                .andExpect(content().string(containsString("Quanto ti serve per raggiungere il FIRE?")))
+                .andExpect(content().string(containsString("id=\"fire-form\"")))
+                .andExpect(content().string(containsString("id=\"accumulation-chart\"")))
+                .andExpect(content().string(containsString("id=\"decumulation-chart\"")));
+    }
+
+    @Test
+    void servesTheFrontendAssets() throws Exception {
+        mockMvc.perform(get("/styles.css"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("text/css"));
+
+        mockMvc.perform(get("/app.js"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("text/javascript"))
+                .andExpect(content().string(containsString("/api/v1/fire/calculations")))
+                .andExpect(content().string(containsString("renderProjectionCharts")));
+    }
+}

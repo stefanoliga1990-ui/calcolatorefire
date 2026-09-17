@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Calcola il patrimonio necessario per il FIRE e il PAC mensile per raggiungerlo.">
+    <title>Calcolo FIRE Italia</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="#top" aria-label="Calcolo FIRE Italia, torna all'inizio">
+        <span class="brand-mark" aria-hidden="true">CF</span>
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <a class="header-link" href="#come-funziona">Come funziona</a>
+</header>
+
+<main id="top">
+    <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Pianificazione FIRE, con ipotesi trasparenti</p>
+        <h1 id="page-title">Quanto ti serve per raggiungere il FIRE?</h1>
+        <p class="hero-copy">
+            Stima il capitale necessario, il PAC mensile e l'evoluzione del patrimonio con un modello
+            deterministico basato sui tuoi dati.
+        </p>
+        <div class="hero-facts" aria-label="Caratteristiche del calcolatore">
+            <span>Nessun account</span>
+            <span>Valori modificabili</span>
+            <span>Fiscalità esclusa</span>
+        </div>
+    </section>
+
+    <div class="app-layout">
+        <section class="panel form-panel" aria-labelledby="form-title">
+            <div class="section-heading">
+                <div>
+                    <p class="step-label">01 · I tuoi dati</p>
+                    <h2 id="form-title">Costruisci lo scenario</h2>
+                </div>
+                <button class="text-button" id="reset-button" type="button">Ripristina valori</button>
+            </div>
+
+            <div id="form-error" class="alert" role="alert" tabindex="-1" hidden></div>
+
+            <form id="fire-form" novalidate>
+                <fieldset>
+                    <legend>Obiettivo FIRE</legend>
+                    <div class="field-grid">
+                        <label class="field">
+                            <span>Età attuale</span>
+                            <input id="currentAge" name="currentAge" type="number" min="0" step="1" value="36" required>
+                            <small>Anni compiuti</small>
+                        </label>
+                        <label class="field">
+                            <span>Età di ingresso nel FIRE</span>
+                            <input id="fireAge" name="fireAge" type="number" min="0" step="1" value="50" required>
+                            <small>Deve essere almeno pari all'età attuale</small>
+                        </label>
+                        <label class="field">
+                            <span>Durata del FIRE</span>
+                            <span class="input-suffix">
+                                <input id="fireDurationYears" name="fireDurationYears" type="number" min="1" step="1" value="35" required>
+                                <span>anni</span>
+                            </span>
+                        </label>
+                        <label class="field">
+                            <span>Spesa mensile desiderata oggi</span>
+                            <span class="input-prefix">
+                                <span>€</span>
+                                <input id="monthlyExpenseToday" name="monthlyExpenseToday" type="number" min="0" step="50" value="1600" required>
+                            </span>
+                        </label>
+                        <label class="field field-wide">
+                            <span>Metodo di calcolo</span>
+                            <select id="method" name="method" required>
+                                <option value="FINITE">Durata finita — consigliato</option>
+                                <option value="SWR">Safe Withdrawal Rate</option>
+                                <option value="CONSERVATIVE">Conservativo — il maggiore dei due</option>
+                            </select>
+                            <small>La durata finita finanzia il periodo scelto; la SWR resta un benchmark.</small>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Ipotesi finanziarie</legend>
+                    <div class="field-grid">
+                        <label class="field">
+                            <span>Inflazione annua</span>
+                            <span class="input-suffix">
+                                <input id="annualInflationRate" name="annualInflationRate" type="number" min="-99.99" step="0.01" value="2" required>
+                                <span>%</span>
+                            </span>
+                        </label>
+                        <label class="field">
+                            <span>Rendimento annuo nel FIRE</span>
+                            <span class="input-suffix">
+                                <input id="annualFireReturnRate" name="annualFireReturnRate" type="number" min="-99.99" step="0.01" value="5" required>
+                                <span>%</span>
+                            </span>
+                            <small>Al netto dei costi, prima delle imposte personali</small>
+                        </label>
+                        <label class="field">
+                            <span>Safe Withdrawal Rate</span>
+                            <span class="input-suffix">
+                                <input id="annualSafeWithdrawalRate" name="annualSafeWithdrawalRate" type="number" min="0.01" step="0.01" value="4" required>
+                                <span>%</span>
+                            </span>
+                        </label>
+                        <label class="field">
+                            <span>Margine di sicurezza</span>
+                            <span class="input-suffix">
+                                <input id="safetyMargin" name="safetyMargin" type="number" min="0" step="1" value="10" required>
+                                <span>%</span>
+                            </span>
+                        </label>
+                        <label class="field field-wide">
+                            <span>Capitale finale desiderato, in euro di oggi</span>
+                            <span class="input-prefix">
+                                <span>€</span>
+                                <input id="terminalCapitalToday" name="terminalCapitalToday" type="number" min="0" step="1000" value="0" required>
+                            </span>
+                            <small>Inserisci zero se prevedi di consumare il capitale nel periodo scelto.</small>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Piano di accumulo</legend>
+                    <div class="field-grid">
+                        <label class="field">
+                            <span>Patrimonio investito oggi</span>
+                            <span class="input-prefix">
+                                <span>€</span>
+                                <input id="currentCapital" name="currentCapital" type="number" min="0" step="1000" value="10000" required>
+                            </span>
+                        </label>
+                        <label class="field">
+                            <span>Rendimento annuo in accumulo</span>
+                            <span class="input-suffix">
+                                <input id="annualAccumulationReturnRate" name="annualAccumulationReturnRate" type="number" min="-99.99" step="0.01" value="7" required>
+                                <span>%</span>
+                            </span>
+                            <small>Al netto dei costi, prima delle imposte personali</small>
+                        </label>
+                        <label class="field field-wide">
+                            <span>Crescita annua del PAC</span>
+                            <span class="input-suffix">
+                                <input id="annualContributionGrowthRate" name="annualContributionGrowthRate" type="number" min="-99.99" step="0.01" value="0" required>
+                                <span>%</span>
+                            </span>
+                            <small>Con 0% il versamento resta costante; altrimenti cambia ogni mese.</small>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <button class="primary-button" id="calculate-button" type="submit">
+                    <span class="button-label">Calcola il mio scenario</span>
+                    <span class="button-loader" aria-hidden="true"></span>
+                </button>
+            </form>
+        </section>
+
+        <section class="panel results-panel" id="results" aria-labelledby="results-title" aria-live="polite">
+            <div class="results-placeholder" id="results-placeholder">
+                <span class="placeholder-number">02</span>
+                <h2>Qui vedrai i risultati</h2>
+                <p>Compila lo scenario per calcolare target FIRE, PAC mensile e capitale residuo.</p>
+            </div>
+
+            <div id="results-content" hidden>
+                <div class="section-heading results-heading">
+                    <div>
+                        <p class="step-label">02 · Il risultato</p>
+                        <h2 id="results-title">Il tuo percorso verso il FIRE</h2>
+                    </div>
+                    <span class="method-badge" id="result-method"></span>
+                </div>
+
+                <div class="result-hero">
+                    <p>Patrimonio consigliato all'ingresso nel FIRE</p>
+                    <strong id="recommended-target">—</strong>
+                    <span id="recommended-target-today">— in euro di oggi</span>
+                </div>
+
+                <div class="primary-results">
+                    <article class="result-card accent-card">
+                        <p>PAC mensile iniziale</p>
+                        <strong id="monthly-contribution">—</strong>
+                        <span id="accumulation-time">—</span>
+                    </article>
+                    <article class="result-card">
+                        <p>Primo prelievo mensile</p>
+                        <strong id="first-withdrawal">—</strong>
+                        <span>all'inizio del primo mese FIRE</span>
+                    </article>
+                </div>
+
+                <dl class="result-list">
+                    <div>
+                        <dt>Target a durata finita</dt>
+                        <dd id="finite-target">—</dd>
+                    </div>
+                    <div>
+                        <dt>Target secondo la SWR</dt>
+                        <dd id="swr-target">—</dd>
+                    </div>
+                    <div>
+                        <dt>Patrimonio corrente proiettato</dt>
+                        <dd id="projected-current-capital">—</dd>
+                    </div>
+                    <div>
+                        <dt>Nuovi versamenti nominali</dt>
+                        <dd id="total-contributions">—</dd>
+                    </div>
+                    <div>
+                        <dt>Capitale personale a fine FIRE</dt>
+                        <dd id="personal-final-balance">—</dd>
+                    </div>
+                    <div>
+                        <dt>Shortfall previsto</dt>
+                        <dd id="total-shortfall">—</dd>
+                    </div>
+                </dl>
+
+                <div class="result-note" id="result-note"></div>
+                <button class="secondary-button" id="edit-button" type="button">Modifica lo scenario</button>
+            </div>
+        </section>
+    </div>
+
+    <section class="projections" id="projections" aria-labelledby="projections-title" hidden>
+        <div class="projections-heading">
+            <div>
+                <p class="step-label">03 · Le proiezioni</p>
+                <h2 id="projections-title">Come evolve il patrimonio nel tempo</h2>
+            </div>
+            <p>Passa sul grafico o toccalo per leggere i valori nei singoli momenti.</p>
+        </div>
+
+        <div class="chart-grid">
+            <figure class="chart-panel">
+                <figcaption>
+                    <div>
+                        <h3 id="accumulation-chart-title">Fase di accumulo</h3>
+                        <p id="accumulation-chart-summary">Patrimonio e capitale versato fino all'età FIRE.</p>
+                    </div>
+                    <div class="chart-legend" aria-label="Serie del grafico di accumulo">
+                        <button type="button" data-chart="accumulation" data-series="balance" aria-pressed="true">
+                            <span class="legend-swatch series-one" aria-hidden="true"></span>Patrimonio
+                        </button>
+                        <button type="button" data-chart="accumulation" data-series="contributions" aria-pressed="true">
+                            <span class="legend-swatch series-two" aria-hidden="true"></span>Capitale versato
+                        </button>
+                    </div>
+                </figcaption>
+                <div class="chart-wrap">
+                    <svg id="accumulation-chart" class="projection-chart" role="img"
+                         aria-labelledby="accumulation-chart-title accumulation-chart-summary"></svg>
+                    <div id="accumulation-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
+                </div>
+            </figure>
+
+            <figure class="chart-panel">
+                <figcaption>
+                    <div>
+                        <h3 id="decumulation-chart-title">Fase di decumulo</h3>
+                        <p id="decumulation-chart-summary">Patrimonio residuo e prelievi cumulati durante il FIRE.</p>
+                    </div>
+                    <div class="chart-legend" aria-label="Serie del grafico di decumulo">
+                        <button type="button" data-chart="decumulation" data-series="balance" aria-pressed="true">
+                            <span class="legend-swatch series-one" aria-hidden="true"></span>Patrimonio
+                        </button>
+                        <button type="button" data-chart="decumulation" data-series="withdrawals" aria-pressed="true">
+                            <span class="legend-swatch series-two" aria-hidden="true"></span>Prelievi cumulati
+                        </button>
+                    </div>
+                </figcaption>
+                <div class="chart-wrap">
+                    <svg id="decumulation-chart" class="projection-chart" role="img"
+                         aria-labelledby="decumulation-chart-title decumulation-chart-summary"></svg>
+                    <div id="decumulation-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
+                </div>
+            </figure>
+        </div>
+    </section>
+
+    <section class="explanation" id="come-funziona" aria-labelledby="explanation-title">
+        <p class="step-label">Come funziona</p>
+        <h2 id="explanation-title">Tre scelte esplicite, nessuna formula nascosta</h2>
+        <div class="explanation-grid">
+            <article>
+                <span>1</span>
+                <h3>Valori mensili</h3>
+                <p>PAC e prelievi sono mensili. Il PAC entra a fine mese; il prelievo avviene a inizio mese.</p>
+            </article>
+            <article>
+                <span>2</span>
+                <h3>Inflazione separata</h3>
+                <p>Rendimento e inflazione restano distinti, così puoi confrontare euro futuri ed euro di oggi.</p>
+            </article>
+            <article>
+                <span>3</span>
+                <h3>Ipotesi modificabili</h3>
+                <p>Il risultato non è una promessa: mostra cosa accade se le ipotesi medie inserite si realizzano.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="disclaimer" aria-labelledby="disclaimer-title">
+        <h2 id="disclaimer-title">Prima di usare il risultato</h2>
+        <p>
+            Questa simulazione ha finalità educative. Non include fiscalità sui prelievi, volatilità,
+            sequenza reale dei rendimenti o altri redditi. Non costituisce consulenza finanziaria,
+            fiscale o previdenziale.
+        </p>
+    </section>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Modello deterministico · MVP</span>
+</footer>
+</body>
+</html>
