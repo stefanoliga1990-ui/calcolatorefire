@@ -44,6 +44,7 @@ class FireCalculationApiTest {
                 .andExpect(jsonPath("$.target.safeWithdrawalRateTarget").doesNotExist())
                 .andExpect(jsonPath("$.target.recommendedTarget").value(closeTo(613_547.7744, 0.01)))
                 .andExpect(jsonPath("$.accumulation.initialMonthlyContribution").value(closeTo(2_105.3040, 0.01)))
+                .andExpect(jsonPath("$.accumulation.projectedCurrentCapitalAtFire").doesNotExist())
                 .andExpect(jsonPath("$.accumulation.projection", hasSize(169)))
                 .andExpect(jsonPath("$.decumulation.projection", hasSize(421)))
                 .andExpect(jsonPath("$.decumulation.totalShortfall").value(closeTo(0.0, 0.01)));

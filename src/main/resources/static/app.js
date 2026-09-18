@@ -27,13 +27,7 @@ const methodDescriptions = {
 
 const defaults = Object.fromEntries(new FormData(form).entries());
 const methodSelect = form.elements.namedItem("method");
-methodSelect.addEventListener("change", () => {
-    updateMethodFields();
-    resultsContent.hidden = true;
-    resultsPlaceholder.hidden = false;
-    projections.hidden = true;
-    destroyCharts();
-});
+methodSelect.addEventListener("change", updateMethodFields);
 updateMethodFields();
 
 function updateMethodFields() {
@@ -130,7 +124,6 @@ function renderResults(data) {
     } else {
         setText("finite-target", money(data.target.finiteTarget));
     }
-    setText("projected-current-capital", money(data.accumulation.projectedCurrentCapitalAtFire));
     setText("total-contributions", money(data.accumulation.totalNominalContributions));
     setText("personal-final-balance", money(data.decumulation.personalFinalBalance));
     setText("total-shortfall", money(data.decumulation.totalShortfall));

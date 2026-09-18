@@ -41,7 +41,8 @@ class HomePageTest {
                 .andExpect(content().string(containsString("id=\"decumulation-chart\"")))
                 .andExpect(content().string(containsString("id=\"method-description\"")))
                 .andExpect(content().string(containsString("id=\"swr-field\" hidden")))
-                .andExpect(content().string(containsString("src=\"/app.js?v=9aab585879e9\"")))
+                .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
+                .andExpect(content().string(containsString("src=\"/app.js?v=b53fd601608a\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
@@ -51,7 +52,7 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
-        mockMvc.perform(get("/app.js").queryParam("v", "9aab585879e9"))
+        mockMvc.perform(get("/app.js").queryParam("v", "b53fd601608a"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/javascript"))
                 .andExpect(content().string(containsString("/api/v1/fire/calculations")))

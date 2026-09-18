@@ -41,7 +41,6 @@ public record FireCalculationResponse(
                         result.finiteTargetProjectedFinalBalance()
                 ),
                 new Accumulation(
-                        result.projectedCurrentCapitalAtFire(),
                         result.capitalGap(),
                         result.initialMonthlyContribution(),
                         result.totalNominalContributions(),
@@ -84,7 +83,6 @@ public record FireCalculationResponse(
     }
 
     public record Accumulation(
-            double projectedCurrentCapitalAtFire,
             double capitalGap,
             double initialMonthlyContribution,
             double totalNominalContributions,

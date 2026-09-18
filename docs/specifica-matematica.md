@@ -245,7 +245,6 @@ Per spiegare il solo effetto del target e del margine si può mostrare anche una
 - target base selezionato;
 - target consigliato con margine;
 - equivalenti in euro di oggi;
-- patrimonio corrente proiettato all'età FIRE;
 - PAC mensile iniziale;
 - totale nominale dei versamenti;
 - saldo mensile di accumulo e decumulo;
