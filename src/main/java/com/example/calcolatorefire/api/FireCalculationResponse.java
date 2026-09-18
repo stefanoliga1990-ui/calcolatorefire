@@ -2,6 +2,8 @@ package com.example.calcolatorefire.api;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import com.example.calcolatorefire.domain.AccumulationPoint;
 import com.example.calcolatorefire.domain.DecumulationPoint;
 import com.example.calcolatorefire.domain.FireCalculationResult;
@@ -66,17 +68,18 @@ public record FireCalculationResponse(
     ) {
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public record Target(
             double firstMonthlyWithdrawal,
             double terminalCapitalAtFire,
             double terminalCapitalNominalAtEnd,
-            double finiteTarget,
-            double safeWithdrawalRateTarget,
+            Double finiteTarget,
+            Double safeWithdrawalRateTarget,
             double selectedTarget,
             double recommendedTarget,
             double selectedTargetToday,
             double recommendedTargetToday,
-            double finiteTargetProjectedFinalBalance
+            Double finiteTargetProjectedFinalBalance
     ) {
     }
 

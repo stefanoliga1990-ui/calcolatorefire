@@ -36,8 +36,6 @@ public record FireCalculationRequest(
         @DecimalMin(value = "-1.0", inclusive = false, message = "Il rendimento FIRE deve essere maggiore di -100%")
         Double annualFireReturnRate,
 
-        @NotNull(message = "La SWR è obbligatoria")
-        @Positive(message = "La SWR deve essere positiva")
         Double annualSafeWithdrawalRate,
 
         @NotNull(message = "Il margine di sicurezza è obbligatorio")

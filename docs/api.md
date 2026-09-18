@@ -20,7 +20,6 @@ I tassi sono numeri decimali: `0.02` rappresenta il 2%.
   "monthlyExpenseToday": 1600,
   "annualInflationRate": 0.02,
   "annualFireReturnRate": 0.05,
-  "annualSafeWithdrawalRate": 0.04,
   "safetyMargin": 0.10,
   "terminalCapitalToday": 0,
   "currentCapital": 10000,
@@ -33,7 +32,8 @@ Valori ammessi per `method`:
 
 - `FINITE`
 - `SWR`
-- `CONSERVATIVE`
+
+`annualSafeWithdrawalRate` è richiesto solo per `SWR` e può essere omesso o `null` per `FINITE`. `terminalCapitalToday` è usato solo da `FINITE`; per `SWR` inviare `0`. La durata FIRE e il rendimento FIRE restano richiesti per la proiezione del decumulo.
 
 ### Risposta `200 OK`
 
@@ -41,7 +41,7 @@ La risposta contiene:
 
 - `accumulationMonths` e `fireMonths`;
 - `rates`, con i tassi mensili equivalenti;
-- `target`, con target a durata finita, SWR, selezionato e consigliato;
+- `target`, con il solo target del metodo selezionato e il target consigliato;
 - `accumulation`, con PAC richiesto e proiezione mensile;
 - `decumulation`, con prelievi, saldo, eventuale shortfall e proiezione mensile.
 
@@ -54,7 +54,6 @@ Esempio sintetico, con le serie mensili omesse:
   "target": {
     "firstMonthlyWithdrawal": 2111.1660209006,
     "finiteTarget": 557770.7040214724,
-    "safeWithdrawalRateTarget": 633349.8062701838,
     "selectedTarget": 557770.7040214724,
     "recommendedTarget": 613547.7744236196
   },

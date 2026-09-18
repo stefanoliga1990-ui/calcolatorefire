@@ -32,14 +32,14 @@ class FireCalculatorGoldenTest {
         assertEquals(expected.accumulationMonths(), result.accumulationMonths(), scenarioId);
         assertEquals(expected.fireMonths(), result.fireMonths(), scenarioId);
         assertMoney(expected.firstWithdrawal(), result.firstMonthlyWithdrawal(), scenarioId);
-        assertMoney(expected.finiteTarget(), result.finiteTarget(), scenarioId);
-        assertMoney(expected.swrTarget(), result.safeWithdrawalRateTarget(), scenarioId);
+        assertOptionalMoney(expected.finiteTarget(), result.finiteTarget(), scenarioId);
+        assertOptionalMoney(expected.swrTarget(), result.safeWithdrawalRateTarget(), scenarioId);
         assertMoney(expected.selectedTarget(), result.selectedTarget(), scenarioId);
         assertMoney(expected.recommendedTarget(), result.recommendedTarget(), scenarioId);
         assertMoney(expected.initialContribution(), result.initialMonthlyContribution(), scenarioId);
         assertMoney(expected.accumulationFinal(), result.projectedAccumulationFinalBalance(), scenarioId);
         assertMoney(expected.terminalNominal(), result.terminalCapitalNominalAtEnd(), scenarioId);
-        assertMoney(expected.finiteBaseFinal(), result.finiteTargetProjectedFinalBalance(), scenarioId);
+        assertOptionalMoney(expected.finiteBaseFinal(), result.finiteTargetProjectedFinalBalance(), scenarioId);
         assertMoney(expected.targetDecumulationFinal(), result.targetDecumulationFinalBalance(), scenarioId);
         assertMoney(expected.personalDecumulationStart(), result.personalDecumulationStartBalance(), scenarioId);
         assertMoney(expected.personalDecumulationFinal(), result.personalDecumulationFinalBalance(), scenarioId);
@@ -106,6 +106,28 @@ class FireCalculatorGoldenTest {
         assertEquals(CalculationErrorCode.INVALID_AGE_ORDER, exception.code());
     }
 
+    @Test
+    void finiteMethodDoesNotRequireOrCalculateSwr() {
+        FireCalculationInput input = new FireCalculationInput(
+                FireMethod.FINITE, 36, 50, 35, 1_600, 0.02, 0.05,
+                null, 0.10, 0, 10_000, 0.07, 0
+        );
+        FireCalculationResult result = calculator.calculate(input);
+        assertNull(result.safeWithdrawalRateTarget());
+        assertMoney(557_770.7040, result.finiteTarget(), "finite target without SWR");
+    }
+
+    @Test
+    void swrMethodRequiresSwr() {
+        FireCalculationInput input = new FireCalculationInput(
+                FireMethod.SWR, 36, 50, 35, 1_600, 0.02, 0.05,
+                null, 0.10, 0, 10_000, 0.07, 0
+        );
+        FireCalculationException exception = assertThrows(
+                FireCalculationException.class, () -> calculator.calculate(input));
+        assertEquals(CalculationErrorCode.INVALID_SWR, exception.code());
+    }
+
     private static FireCalculationInput baseInput() {
         return new FireCalculationInput(
                 FireMethod.FINITE, 36, 50, 35, 1_600, 0.02, 0.05,
@@ -115,6 +137,14 @@ class FireCalculatorGoldenTest {
 
     private static void assertMoney(double expected, double actual, String message) {
         assertEquals(expected, actual, MONEY_TOLERANCE, message);
+    }
+
+    private static void assertOptionalMoney(Double expected, Double actual, String message) {
+        if (expected == null) {
+            assertNull(actual, message);
+        } else {
+            assertMoney(expected, actual, message);
+        }
     }
 
     private static Stream<Arguments> goldenScenarios() throws IOException {
@@ -144,7 +174,7 @@ class FireCalculatorGoldenTest {
                 decimal(values, columns, "expense_monthly_today"),
                 decimal(values, columns, "inflation_annual"),
                 decimal(values, columns, "fire_return_annual"),
-                decimal(values, columns, "swr_annual"),
+                nullableDecimal(values, columns, "swr_annual"),
                 decimal(values, columns, "safety_margin"),
                 decimal(values, columns, "terminal_capital_today"),
                 decimal(values, columns, "current_capital"),
@@ -155,14 +185,14 @@ class FireCalculatorGoldenTest {
                 integer(values, columns, "expected_accumulation_months"),
                 integer(values, columns, "expected_fire_months"),
                 decimal(values, columns, "expected_first_withdrawal"),
-                decimal(values, columns, "expected_finite_target"),
-                decimal(values, columns, "expected_swr_target"),
+                nullableDecimal(values, columns, "expected_finite_target"),
+                nullableDecimal(values, columns, "expected_swr_target"),
                 decimal(values, columns, "expected_selected_target"),
                 decimal(values, columns, "expected_recommended_target"),
                 decimal(values, columns, "expected_initial_monthly_contribution"),
                 decimal(values, columns, "expected_accumulation_final"),
                 decimal(values, columns, "expected_terminal_nominal"),
-                decimal(values, columns, "expected_finite_base_final"),
+                nullableDecimal(values, columns, "expected_finite_base_final"),
                 decimal(values, columns, "expected_target_decumulation_final"),
                 decimal(values, columns, "expected_personal_decumulation_start"),
                 decimal(values, columns, "expected_personal_decumulation_final")
@@ -186,18 +216,23 @@ class FireCalculatorGoldenTest {
         return Double.parseDouble(text(values, columns, name));
     }
 
+    private static Double nullableDecimal(String[] values, Map<String, Integer> columns, String name) {
+        String value = text(values, columns, name);
+        return value.isBlank() ? null : Double.parseDouble(value);
+    }
+
     private record Expected(
             int accumulationMonths,
             int fireMonths,
             double firstWithdrawal,
-            double finiteTarget,
-            double swrTarget,
+            Double finiteTarget,
+            Double swrTarget,
             double selectedTarget,
             double recommendedTarget,
             double initialContribution,
             double accumulationFinal,
             double terminalNominal,
-            double finiteBaseFinal,
+            Double finiteBaseFinal,
             double targetDecumulationFinal,
             double personalDecumulationStart,
             double personalDecumulationFinal

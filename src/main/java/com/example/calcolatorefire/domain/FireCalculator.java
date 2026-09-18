@@ -26,18 +26,13 @@ public final class FireCalculator {
         double terminalCapitalNominalAtEnd = input.terminalCapitalToday()
                 * Math.pow(1.0 + monthlyInflation, accumulationMonths + fireMonths);
 
-        double finiteTarget = finiteTarget(
-                firstWithdrawal,
-                terminalCapitalAtFire,
-                monthlyRealFireReturn,
-                fireMonths
-        );
-        double swrTarget = firstWithdrawal * 12.0 / input.annualSafeWithdrawalRate();
-        double selectedTarget = switch (input.method()) {
-            case FINITE -> finiteTarget;
-            case SWR -> swrTarget;
-            case CONSERVATIVE -> Math.max(finiteTarget, swrTarget);
-        };
+        Double finiteTarget = input.method() == FireMethod.FINITE
+                ? finiteTarget(firstWithdrawal, terminalCapitalAtFire, monthlyRealFireReturn, fireMonths)
+                : null;
+        Double swrTarget = input.method() == FireMethod.SWR
+                ? firstWithdrawal * 12.0 / input.annualSafeWithdrawalRate()
+                : null;
+        double selectedTarget = input.method() == FireMethod.FINITE ? finiteTarget : swrTarget;
         double recommendedTarget = selectedTarget * (1.0 + input.safetyMargin());
         double selectedTargetToday = selectedTarget / inflationToFire;
         double recommendedTargetToday = recommendedTarget / inflationToFire;
@@ -68,12 +63,8 @@ public final class FireCalculator {
                 initialContribution
         );
 
-        double finiteTargetProjectedFinal = projectRawFinalBalance(
-                finiteTarget,
-                firstWithdrawal,
-                monthlyInflation,
-                monthlyFireReturn,
-                fireMonths
+        Double finiteTargetProjectedFinal = finiteTarget == null ? null : projectRawFinalBalance(
+                finiteTarget, firstWithdrawal, monthlyInflation, monthlyFireReturn, fireMonths
         );
 
         DecumulationRun targetRun = projectDecumulation(
@@ -298,7 +289,9 @@ public final class FireCalculator {
         validateRate(input.annualAccumulationReturnRate(), "Il rendimento di accumulo");
         validateRate(input.annualContributionGrowthRate(), "La crescita del PAC");
 
-        if (!Double.isFinite(input.annualSafeWithdrawalRate()) || input.annualSafeWithdrawalRate() <= 0.0) {
+        if (input.method() == FireMethod.SWR && (input.annualSafeWithdrawalRate() == null
+                || !Double.isFinite(input.annualSafeWithdrawalRate())
+                || input.annualSafeWithdrawalRate() <= 0.0)) {
             throw new FireCalculationException(
                     CalculationErrorCode.INVALID_SWR,
                     "La SWR deve essere positiva."

@@ -1,6 +1,7 @@
 package com.example.calcolatorefire.api;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,7 +38,10 @@ class HomePageTest {
                 .andExpect(content().string(containsString("Quanto ti serve per raggiungere il FIRE?")))
                 .andExpect(content().string(containsString("id=\"fire-form\"")))
                 .andExpect(content().string(containsString("id=\"accumulation-chart\"")))
-                .andExpect(content().string(containsString("id=\"decumulation-chart\"")));
+                .andExpect(content().string(containsString("id=\"decumulation-chart\"")))
+                .andExpect(content().string(containsString("id=\"method-description\"")))
+                .andExpect(content().string(containsString("id=\"swr-field\" hidden")))
+                .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
     @Test

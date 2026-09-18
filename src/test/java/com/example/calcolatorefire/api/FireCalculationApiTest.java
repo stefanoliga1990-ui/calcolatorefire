@@ -41,6 +41,7 @@ class FireCalculationApiTest {
                 .andExpect(jsonPath("$.accumulationMonths").value(168))
                 .andExpect(jsonPath("$.fireMonths").value(420))
                 .andExpect(jsonPath("$.target.finiteTarget").value(closeTo(557_770.7040, 0.01)))
+                .andExpect(jsonPath("$.target.safeWithdrawalRateTarget").doesNotExist())
                 .andExpect(jsonPath("$.target.recommendedTarget").value(closeTo(613_547.7744, 0.01)))
                 .andExpect(jsonPath("$.accumulation.initialMonthlyContribution").value(closeTo(2_105.3040, 0.01)))
                 .andExpect(jsonPath("$.accumulation.projection", hasSize(169)))
@@ -84,6 +85,29 @@ class FireCalculationApiTest {
                 .andExpect(jsonPath("$.title").value("Richiesta non leggibile"));
     }
 
+    @Test
+    void calculatesSwrWithoutFiniteTarget() throws Exception {
+        String request = baseRequest()
+                .replace("\"FINITE\"", "\"SWR\"")
+                .replace("\"annualSafeWithdrawalRate\": null", "\"annualSafeWithdrawalRate\": 0.04");
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.target.safeWithdrawalRateTarget").value(closeTo(633_349.8063, 0.01)))
+                .andExpect(jsonPath("$.target.finiteTarget").doesNotExist());
+    }
+
+    @Test
+    void rejectsSwrWithoutRate() throws Exception {
+        String request = baseRequest().replace("\"FINITE\"", "\"SWR\"");
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
+                .andExpect(status().isUnprocessableContent())
+                .andExpect(jsonPath("$.code").value("INVALID_SWR"));
+    }
+
     private static String baseRequest() {
         return """
                 {
@@ -94,7 +118,7 @@ class FireCalculationApiTest {
                   "monthlyExpenseToday": 1600,
                   "annualInflationRate": 0.02,
                   "annualFireReturnRate": 0.05,
-                  "annualSafeWithdrawalRate": 0.04,
+                  "annualSafeWithdrawalRate": null,
                   "safetyMargin": 0.10,
                   "terminalCapitalToday": 0,
                   "currentCapital": 10000,

@@ -62,13 +62,13 @@ Il primo prelievo avviene immediatamente all'ingresso nel FIRE. Formula chiusa e
 | `S_0` | Spesa mensile di oggi | euro di oggi al mese |
 | `i_a` | Inflazione | tasso annuo effettivo |
 | `r_fa` | Rendimento nel FIRE | tasso annuo nominale effettivo |
-| `swr` | Safe Withdrawal Rate | tasso annuo iniziale |
+| `swr` | Safe Withdrawal Rate | tasso annuo iniziale, richiesto solo per `SWR` |
 | `m` | Margine di sicurezza | percentuale applicata al target base; default 10% |
-| `L_0` | Capitale finale desiderato | euro di oggi; default zero |
+| `L_0` | Capitale finale desiderato | euro di oggi; default zero; usato dal target `FINITE` |
 | `V_0` | Patrimonio investito oggi | euro nominali di oggi |
 | `r_aa` | Rendimento in accumulo | tasso annuo nominale effettivo |
 | `g_a` | Crescita del PAC | tasso annuo effettivo; default 0% |
-| `metodo` | Metodo del target | `FINITE`, `SWR` o `CONSERVATIVE` |
+| `metodo` | Metodo del target | `FINITE` o `SWR` |
 
 Gli importi monetari restano in piena precisione nei calcoli. L'arrotondamento avviene solo nella visualizzazione.
 
@@ -147,8 +147,9 @@ La selezione del target base è:
 ```text
 FINITE       → T_base = T_finite
 SWR          → T_base = T_swr
-CONSERVATIVE → T_base = max(T_finite, T_swr)
 ```
+
+Si calcola solo il target del metodo selezionato. Nel metodo `FINITE` la SWR non è richiesta né calcolata; nel metodo `SWR` il target a durata finita non è calcolato. Durata FIRE e rendimento FIRE restano necessari alla proiezione mensile anche quando il metodo del target è `SWR`. Il capitale finale desiderato non influisce sul target `SWR`.
 
 Il target consigliato è:
 
@@ -240,8 +241,7 @@ Per spiegare il solo effetto del target e del margine si può mostrare anche una
 
 - mesi disponibili prima del FIRE;
 - primo prelievo nominale;
-- target a durata finita;
-- target SWR;
+- target del metodo selezionato (`FINITE` oppure `SWR`);
 - target base selezionato;
 - target consigliato con margine;
 - equivalenti in euro di oggi;
@@ -261,12 +261,12 @@ Non vengono imposti limiti commerciali arbitrari. Sono obbligatorie le seguenti 
 | `INVALID_AGE_ORDER` | `A_f < A_0` |
 | `INVALID_FIRE_DURATION` | durata FIRE non positiva |
 | `INVALID_RATE` | inflazione, rendimento o crescita PAC minori o uguali a −100% |
-| `INVALID_SWR` | metodo `SWR` o `CONSERVATIVE` con `swr <= 0` |
+| `INVALID_SWR` | metodo `SWR` con SWR mancante, non finita o `swr <= 0` |
 | `INVALID_MARGIN` | margine minore di −100% |
 | `INVALID_AMOUNT` | importo negativo o non finito |
 | `UNREACHABLE_WITH_ZERO_MONTHS` | nessun mese di accumulo e capitale insufficiente |
 
-Il metodo `FINITE` non richiede una SWR positiva se la SWR non viene usata né mostrata come risultato calcolabile. Se l'interfaccia mostra sempre il confronto SWR, deve chiedere comunque un valore positivo.
+Il metodo `FINITE` non richiede una SWR. L'interfaccia mostra solo i parametri e il target del metodo selezionato.
 
 ## 12. Precisione e criteri di test
 

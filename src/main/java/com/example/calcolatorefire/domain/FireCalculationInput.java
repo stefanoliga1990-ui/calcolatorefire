@@ -8,7 +8,7 @@ public record FireCalculationInput(
         double monthlyExpenseToday,
         double annualInflationRate,
         double annualFireReturnRate,
-        double annualSafeWithdrawalRate,
+        Double annualSafeWithdrawalRate,
         double safetyMargin,
         double terminalCapitalToday,
         double currentCapital,

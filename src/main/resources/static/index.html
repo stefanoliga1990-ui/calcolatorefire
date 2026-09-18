@@ -74,12 +74,11 @@
                         </label>
                         <label class="field field-wide">
                             <span>Metodo di calcolo</span>
-                            <select id="method" name="method" required>
-                                <option value="FINITE">Durata finita — consigliato</option>
+                            <select id="method" name="method" aria-describedby="method-description" required>
+                                <option value="FINITE">Durata finita</option>
                                 <option value="SWR">Safe Withdrawal Rate</option>
-                                <option value="CONSERVATIVE">Conservativo — il maggiore dei due</option>
                             </select>
-                            <small>La durata finita finanzia il periodo scelto; la SWR resta un benchmark.</small>
+                            <small id="method-description" aria-live="polite">Calcola il capitale per finanziare la spesa mensile per la durata FIRE scelta.</small>
                         </label>
                     </div>
                 </fieldset>
@@ -102,7 +101,7 @@
                             </span>
                             <small>Al netto dei costi, prima delle imposte personali</small>
                         </label>
-                        <label class="field">
+                        <label class="field" id="swr-field" hidden>
                             <span>Safe Withdrawal Rate</span>
                             <span class="input-suffix">
                                 <input id="annualSafeWithdrawalRate" name="annualSafeWithdrawalRate" type="number" min="0.01" step="0.01" value="4" required>
@@ -116,7 +115,7 @@
                                 <span>%</span>
                             </span>
                         </label>
-                        <label class="field field-wide">
+                        <label class="field field-wide" id="terminal-capital-field">
                             <span>Capitale finale desiderato, in euro di oggi</span>
                             <span class="input-prefix">
                                 <span>€</span>
@@ -199,11 +198,11 @@
                 </div>
 
                 <dl class="result-list">
-                    <div>
+                    <div id="finite-target-row">
                         <dt>Target a durata finita</dt>
                         <dd id="finite-target">—</dd>
                     </div>
-                    <div>
+                    <div id="swr-target-row" hidden>
                         <dt>Target secondo la SWR</dt>
                         <dd id="swr-target">—</dd>
                     </div>
@@ -289,7 +288,7 @@
 
     <section class="explanation" id="come-funziona" aria-labelledby="explanation-title">
         <p class="step-label">Come funziona</p>
-        <h2 id="explanation-title">Tre scelte esplicite, nessuna formula nascosta</h2>
+        <h2 id="explanation-title">Ipotesi esplicite e formule leggibili</h2>
         <div class="explanation-grid">
             <article>
                 <span>1</span>

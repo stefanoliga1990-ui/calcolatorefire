@@ -17,11 +17,33 @@ const currency = new Intl.NumberFormat("it-IT", {
 
 const methodLabels = {
     FINITE: "Durata finita",
-    SWR: "SWR",
-    CONSERVATIVE: "Conservativo"
+    SWR: "SWR"
+};
+
+const methodDescriptions = {
+    FINITE: "Calcola il capitale per finanziare la spesa mensile per la durata FIRE scelta.",
+    SWR: "Calcola il capitale dividendo la spesa annua iniziale per il tasso di prelievo scelto."
 };
 
 const defaults = Object.fromEntries(new FormData(form).entries());
+const methodSelect = form.elements.namedItem("method");
+methodSelect.addEventListener("change", () => {
+    updateMethodFields();
+    resultsContent.hidden = true;
+    resultsPlaceholder.hidden = false;
+    projections.hidden = true;
+    destroyCharts();
+});
+updateMethodFields();
+
+function updateMethodFields() {
+    const isSwr = value("method") === "SWR";
+    document.querySelector("#method-description").textContent = methodDescriptions[value("method")];
+    document.querySelector("#swr-field").hidden = !isSwr;
+    document.querySelector("#terminal-capital-field").hidden = isSwr;
+    form.elements.namedItem("annualSafeWithdrawalRate").disabled = !isSwr;
+    form.elements.namedItem("terminalCapitalToday").disabled = isSwr;
+}
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -60,6 +82,7 @@ resetButton.addEventListener("click", () => {
             control.value = value;
         }
     }
+    updateMethodFields();
     clearErrors();
     resultsContent.hidden = true;
     resultsPlaceholder.hidden = false;
@@ -82,9 +105,9 @@ function buildRequest() {
         monthlyExpenseToday: number("monthlyExpenseToday"),
         annualInflationRate: percent("annualInflationRate"),
         annualFireReturnRate: percent("annualFireReturnRate"),
-        annualSafeWithdrawalRate: percent("annualSafeWithdrawalRate"),
+        annualSafeWithdrawalRate: value("method") === "SWR" ? percent("annualSafeWithdrawalRate") : null,
         safetyMargin: percent("safetyMargin"),
-        terminalCapitalToday: number("terminalCapitalToday"),
+        terminalCapitalToday: value("method") === "FINITE" ? number("terminalCapitalToday") : 0,
         currentCapital: number("currentCapital"),
         annualAccumulationReturnRate: percent("annualAccumulationReturnRate"),
         annualContributionGrowthRate: percent("annualContributionGrowthRate")
@@ -99,8 +122,14 @@ function renderResults(data) {
     setText("monthly-contribution", `${money(data.accumulation.initialMonthlyContribution)} / mese`);
     setText("accumulation-time", `${formatMonths(data.accumulationMonths)} per raggiungere il target`);
     setText("first-withdrawal", `${money(data.target.firstMonthlyWithdrawal)} / mese`);
-    setText("finite-target", money(data.target.finiteTarget));
-    setText("swr-target", money(data.target.safeWithdrawalRateTarget));
+    const isSwr = method === "SWR";
+    document.querySelector("#finite-target-row").hidden = isSwr;
+    document.querySelector("#swr-target-row").hidden = !isSwr;
+    if (isSwr) {
+        setText("swr-target", money(data.target.safeWithdrawalRateTarget));
+    } else {
+        setText("finite-target", money(data.target.finiteTarget));
+    }
     setText("projected-current-capital", money(data.accumulation.projectedCurrentCapitalAtFire));
     setText("total-contributions", money(data.accumulation.totalNominalContributions));
     setText("personal-final-balance", money(data.decumulation.personalFinalBalance));
