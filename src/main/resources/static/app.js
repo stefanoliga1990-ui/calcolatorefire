@@ -100,7 +100,6 @@ function buildRequest() {
         annualInflationRate: percent("annualInflationRate"),
         annualFireReturnRate: percent("annualFireReturnRate"),
         annualSafeWithdrawalRate: value("method") === "SWR" ? percent("annualSafeWithdrawalRate") : null,
-        safetyMargin: percent("safetyMargin"),
         terminalCapitalToday: value("method") === "FINITE" ? number("terminalCapitalToday") : 0,
         currentCapital: number("currentCapital"),
         annualAccumulationReturnRate: percent("annualAccumulationReturnRate"),
@@ -111,8 +110,8 @@ function buildRequest() {
 function renderResults(data) {
     const method = value("method");
     setText("result-method", methodLabels[method]);
-    setText("recommended-target", money(data.target.recommendedTarget));
-    setText("recommended-target-today", `${money(data.target.recommendedTargetToday)} in euro di oggi`);
+    setText("selected-target", money(data.target.selectedTarget));
+    setText("selected-target-today", `${money(data.target.selectedTargetToday)} in euro di oggi`);
     setText("monthly-contribution", `${money(data.accumulation.initialMonthlyContribution)} / mese`);
     setText("accumulation-time", `${formatMonths(data.accumulationMonths)} per raggiungere il target`);
     setText("first-withdrawal", `${money(data.target.firstMonthlyWithdrawal)} / mese`);
@@ -126,7 +125,6 @@ function renderResults(data) {
     }
     setText("total-contributions", money(data.accumulation.totalNominalContributions));
     setText("personal-final-balance", money(data.decumulation.personalFinalBalance));
-    setText("total-shortfall", money(data.decumulation.totalShortfall));
 
     const contribution = data.accumulation.initialMonthlyContribution;
     const note = contribution === 0

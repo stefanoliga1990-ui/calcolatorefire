@@ -33,13 +33,11 @@ public final class FireCalculator {
                 ? firstWithdrawal * 12.0 / input.annualSafeWithdrawalRate()
                 : null;
         double selectedTarget = input.method() == FireMethod.FINITE ? finiteTarget : swrTarget;
-        double recommendedTarget = selectedTarget * (1.0 + input.safetyMargin());
         double selectedTargetToday = selectedTarget / inflationToFire;
-        double recommendedTargetToday = recommendedTarget / inflationToFire;
 
         double projectedCurrentCapitalAtFire = input.currentCapital()
                 * Math.pow(1.0 + monthlyAccumulationReturn, accumulationMonths);
-        double capitalGap = Math.max(0.0, recommendedTarget - projectedCurrentCapitalAtFire);
+        double capitalGap = Math.max(0.0, selectedTarget - projectedCurrentCapitalAtFire);
 
         if (accumulationMonths == 0 && capitalGap > MONEY_TOLERANCE) {
             throw new FireCalculationException(
@@ -68,7 +66,7 @@ public final class FireCalculator {
         );
 
         DecumulationRun targetRun = projectDecumulation(
-                recommendedTarget,
+                selectedTarget,
                 input.fireAge(),
                 firstWithdrawal,
                 monthlyInflation,
@@ -76,7 +74,7 @@ public final class FireCalculator {
                 fireMonths
         );
 
-        double personalStart = Math.max(recommendedTarget, accumulation.finalBalance());
+        double personalStart = Math.max(selectedTarget, accumulation.finalBalance());
         DecumulationRun personalRun = projectDecumulation(
                 personalStart,
                 input.fireAge(),
@@ -100,9 +98,7 @@ public final class FireCalculator {
                 finiteTarget,
                 swrTarget,
                 selectedTarget,
-                recommendedTarget,
                 selectedTargetToday,
-                recommendedTargetToday,
                 projectedCurrentCapitalAtFire,
                 capitalGap,
                 initialContribution,
@@ -295,12 +291,6 @@ public final class FireCalculator {
             throw new FireCalculationException(
                     CalculationErrorCode.INVALID_SWR,
                     "La SWR deve essere positiva."
-            );
-        }
-        if (!Double.isFinite(input.safetyMargin()) || input.safetyMargin() <= -1.0) {
-            throw new FireCalculationException(
-                    CalculationErrorCode.INVALID_MARGIN,
-                    "Il margine deve essere maggiore di -100%."
             );
         }
     }

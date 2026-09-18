@@ -38,10 +38,6 @@ public record FireCalculationRequest(
 
         Double annualSafeWithdrawalRate,
 
-        @NotNull(message = "Il margine di sicurezza è obbligatorio")
-        @DecimalMin(value = "-1.0", inclusive = false, message = "Il margine deve essere maggiore di -100%")
-        Double safetyMargin,
-
         @NotNull(message = "Il capitale finale è obbligatorio")
         @PositiveOrZero(message = "Il capitale finale non può essere negativo")
         Double terminalCapitalToday,
@@ -69,7 +65,6 @@ public record FireCalculationRequest(
                 annualInflationRate,
                 annualFireReturnRate,
                 annualSafeWithdrawalRate,
-                safetyMargin,
                 terminalCapitalToday,
                 currentCapital,
                 annualAccumulationReturnRate,

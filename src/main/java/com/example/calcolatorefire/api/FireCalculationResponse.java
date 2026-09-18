@@ -35,9 +35,7 @@ public record FireCalculationResponse(
                         result.finiteTarget(),
                         result.safeWithdrawalRateTarget(),
                         result.selectedTarget(),
-                        result.recommendedTarget(),
                         result.selectedTargetToday(),
-                        result.recommendedTargetToday(),
                         result.finiteTargetProjectedFinalBalance()
                 ),
                 new Accumulation(
@@ -75,9 +73,7 @@ public record FireCalculationResponse(
             Double finiteTarget,
             Double safeWithdrawalRateTarget,
             double selectedTarget,
-            double recommendedTarget,
             double selectedTargetToday,
-            double recommendedTargetToday,
             Double finiteTargetProjectedFinalBalance
     ) {
     }

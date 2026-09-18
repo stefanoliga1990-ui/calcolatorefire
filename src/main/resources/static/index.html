@@ -6,7 +6,7 @@
     <meta name="description" content="Calcola il patrimonio necessario per il FIRE e il PAC mensile per raggiungerlo.">
     <title>Calcolo FIRE Italia</title>
     <link rel="stylesheet" href="/styles.css">
-    <script src="/app.js?v=b53fd601608a" defer></script>
+    <script src="/app.js?v=5f889d945af4" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -108,13 +108,6 @@
                                 <span>%</span>
                             </span>
                         </label>
-                        <label class="field">
-                            <span>Margine di sicurezza</span>
-                            <span class="input-suffix">
-                                <input id="safetyMargin" name="safetyMargin" type="number" min="0" step="1" value="10" required>
-                                <span>%</span>
-                            </span>
-                        </label>
                         <label class="field field-wide" id="terminal-capital-field">
                             <span>Capitale finale desiderato, in euro di oggi</span>
                             <span class="input-prefix">
@@ -179,9 +172,9 @@
                 </div>
 
                 <div class="result-hero">
-                    <p>Patrimonio consigliato all'ingresso nel FIRE</p>
-                    <strong id="recommended-target">—</strong>
-                    <span id="recommended-target-today">— in euro di oggi</span>
+                    <p>Patrimonio necessario all'ingresso nel FIRE</p>
+                    <strong id="selected-target">—</strong>
+                    <span id="selected-target-today">— in euro di oggi</span>
                 </div>
 
                 <div class="primary-results">
@@ -213,10 +206,6 @@
                     <div>
                         <dt>Capitale personale a fine FIRE</dt>
                         <dd id="personal-final-balance">—</dd>
-                    </div>
-                    <div>
-                        <dt>Shortfall previsto</dt>
-                        <dd id="total-shortfall">—</dd>
                     </div>
                 </dl>
 

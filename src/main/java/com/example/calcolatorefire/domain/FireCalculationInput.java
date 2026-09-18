@@ -9,7 +9,6 @@ public record FireCalculationInput(
         double annualInflationRate,
         double annualFireReturnRate,
         Double annualSafeWithdrawalRate,
-        double safetyMargin,
         double terminalCapitalToday,
         double currentCapital,
         double annualAccumulationReturnRate,

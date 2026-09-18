@@ -20,7 +20,6 @@ I tassi sono numeri decimali: `0.02` rappresenta il 2%.
   "monthlyExpenseToday": 1600,
   "annualInflationRate": 0.02,
   "annualFireReturnRate": 0.05,
-  "safetyMargin": 0.10,
   "terminalCapitalToday": 0,
   "currentCapital": 10000,
   "annualAccumulationReturnRate": 0.07,
@@ -41,7 +40,7 @@ La risposta contiene:
 
 - `accumulationMonths` e `fireMonths`;
 - `rates`, con i tassi mensili equivalenti;
-- `target`, con il solo target del metodo selezionato e il target consigliato;
+- `target`, con il solo target del metodo selezionato;
 - `accumulation`, con PAC richiesto e proiezione mensile;
 - `decumulation`, con prelievi, saldo, eventuale shortfall e proiezione mensile.
 
@@ -55,16 +54,16 @@ Esempio sintetico, con le serie mensili omesse:
     "firstMonthlyWithdrawal": 2111.1660209006,
     "finiteTarget": 557770.7040214724,
     "selectedTarget": 557770.7040214724,
-    "recommendedTarget": 613547.7744236196
+    "selectedTargetToday": 422720.4860249008
   },
   "accumulation": {
-    "initialMonthlyContribution": 2105.3039926758,
-    "projectedFinalBalance": 613547.7744236196,
+    "initialMonthlyContribution": 1905.5163192213,
+    "projectedFinalBalance": 557770.7040214724,
     "projection": ["una voce iniziale e una per ogni mese"]
   },
   "decumulation": {
-    "personalStartBalance": 613547.7744236196,
-    "personalFinalBalance": 307667.1774975806,
+    "personalStartBalance": 557770.7040214724,
+    "personalFinalBalance": 0,
     "totalShortfall": 0,
     "depletionMonth": null,
     "projection": ["una voce iniziale e una per ogni mese"]
@@ -91,7 +90,6 @@ La richiesta è formalmente corretta, ma viola una regola del dominio. I codici 
 - `INVALID_FIRE_DURATION`
 - `INVALID_RATE`
 - `INVALID_SWR`
-- `INVALID_MARGIN`
 - `INVALID_AMOUNT`
 - `INVALID_METHOD`
 - `UNREACHABLE_WITH_ZERO_MONTHS`

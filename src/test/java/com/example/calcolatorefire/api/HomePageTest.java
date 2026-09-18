@@ -42,7 +42,9 @@ class HomePageTest {
                 .andExpect(content().string(containsString("id=\"method-description\"")))
                 .andExpect(content().string(containsString("id=\"swr-field\" hidden")))
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
-                .andExpect(content().string(containsString("src=\"/app.js?v=b53fd601608a\"")))
+                .andExpect(content().string(not(containsString("Margine di sicurezza"))))
+                .andExpect(content().string(not(containsString("Shortfall previsto"))))
+                .andExpect(content().string(containsString("src=\"/app.js?v=5f889d945af4\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
@@ -52,7 +54,7 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
-        mockMvc.perform(get("/app.js").queryParam("v", "b53fd601608a"))
+        mockMvc.perform(get("/app.js").queryParam("v", "5f889d945af4"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/javascript"))
                 .andExpect(content().string(containsString("/api/v1/fire/calculations")))

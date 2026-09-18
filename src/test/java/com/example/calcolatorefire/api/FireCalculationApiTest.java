@@ -42,8 +42,9 @@ class FireCalculationApiTest {
                 .andExpect(jsonPath("$.fireMonths").value(420))
                 .andExpect(jsonPath("$.target.finiteTarget").value(closeTo(557_770.7040, 0.01)))
                 .andExpect(jsonPath("$.target.safeWithdrawalRateTarget").doesNotExist())
-                .andExpect(jsonPath("$.target.recommendedTarget").value(closeTo(613_547.7744, 0.01)))
-                .andExpect(jsonPath("$.accumulation.initialMonthlyContribution").value(closeTo(2_105.3040, 0.01)))
+                .andExpect(jsonPath("$.target.selectedTarget").value(closeTo(557_770.7040, 0.01)))
+                .andExpect(jsonPath("$.target.recommendedTarget").doesNotExist())
+                .andExpect(jsonPath("$.accumulation.initialMonthlyContribution").value(closeTo(1_905.5163, 0.01)))
                 .andExpect(jsonPath("$.accumulation.projectedCurrentCapitalAtFire").doesNotExist())
                 .andExpect(jsonPath("$.accumulation.projection", hasSize(169)))
                 .andExpect(jsonPath("$.decumulation.projection", hasSize(421)))
@@ -120,7 +121,6 @@ class FireCalculationApiTest {
                   "annualInflationRate": 0.02,
                   "annualFireReturnRate": 0.05,
                   "annualSafeWithdrawalRate": null,
-                  "safetyMargin": 0.10,
                   "terminalCapitalToday": 0,
                   "currentCapital": 10000,
                   "annualAccumulationReturnRate": 0.07,

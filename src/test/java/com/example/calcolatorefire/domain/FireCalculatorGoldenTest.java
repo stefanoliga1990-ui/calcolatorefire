@@ -35,7 +35,6 @@ class FireCalculatorGoldenTest {
         assertOptionalMoney(expected.finiteTarget(), result.finiteTarget(), scenarioId);
         assertOptionalMoney(expected.swrTarget(), result.safeWithdrawalRateTarget(), scenarioId);
         assertMoney(expected.selectedTarget(), result.selectedTarget(), scenarioId);
-        assertMoney(expected.recommendedTarget(), result.recommendedTarget(), scenarioId);
         assertMoney(expected.initialContribution(), result.initialMonthlyContribution(), scenarioId);
         assertMoney(expected.accumulationFinal(), result.projectedAccumulationFinalBalance(), scenarioId);
         assertMoney(expected.terminalNominal(), result.terminalCapitalNominalAtEnd(), scenarioId);
@@ -67,7 +66,7 @@ class FireCalculatorGoldenTest {
     void rejectsInsufficientCapitalWhenNoAccumulationMonthsExist() {
         FireCalculationInput input = new FireCalculationInput(
                 FireMethod.FINITE, 50, 50, 35, 1_600, 0.02, 0.05,
-                0.04, 0.10, 0, 0, 0.07, 0
+                0.04, 0, 0, 0.07, 0
         );
 
         FireCalculationException exception = assertThrows(
@@ -81,7 +80,7 @@ class FireCalculatorGoldenTest {
     void acceptsZeroAccumulationMonthsWhenCapitalIsAlreadySufficient() {
         FireCalculationInput input = new FireCalculationInput(
                 FireMethod.FINITE, 50, 50, 35, 1_000, 0.02, 0.04,
-                0.04, 0.10, 0, 1_000_000, 0.05, 0
+                0.04, 0, 1_000_000, 0.05, 0
         );
 
         FireCalculationResult result = calculator.calculate(input);
@@ -96,7 +95,7 @@ class FireCalculatorGoldenTest {
     void reportsValidationCodeForInvalidAgeOrder() {
         FireCalculationInput invalid = new FireCalculationInput(
                 FireMethod.FINITE, 51, 50, 35, 1_000, 0.02, 0.04,
-                0.04, 0.10, 0, 10_000, 0.05, 0
+                0.04, 0, 10_000, 0.05, 0
         );
 
         FireCalculationException exception = assertThrows(
@@ -110,7 +109,7 @@ class FireCalculatorGoldenTest {
     void finiteMethodDoesNotRequireOrCalculateSwr() {
         FireCalculationInput input = new FireCalculationInput(
                 FireMethod.FINITE, 36, 50, 35, 1_600, 0.02, 0.05,
-                null, 0.10, 0, 10_000, 0.07, 0
+                null, 0, 10_000, 0.07, 0
         );
         FireCalculationResult result = calculator.calculate(input);
         assertNull(result.safeWithdrawalRateTarget());
@@ -121,7 +120,7 @@ class FireCalculatorGoldenTest {
     void swrMethodRequiresSwr() {
         FireCalculationInput input = new FireCalculationInput(
                 FireMethod.SWR, 36, 50, 35, 1_600, 0.02, 0.05,
-                null, 0.10, 0, 10_000, 0.07, 0
+                null, 0, 10_000, 0.07, 0
         );
         FireCalculationException exception = assertThrows(
                 FireCalculationException.class, () -> calculator.calculate(input));
@@ -131,7 +130,7 @@ class FireCalculatorGoldenTest {
     private static FireCalculationInput baseInput() {
         return new FireCalculationInput(
                 FireMethod.FINITE, 36, 50, 35, 1_600, 0.02, 0.05,
-                0.04, 0.10, 0, 10_000, 0.07, 0
+                0.04, 0, 10_000, 0.07, 0
         );
     }
 
@@ -175,7 +174,6 @@ class FireCalculatorGoldenTest {
                 decimal(values, columns, "inflation_annual"),
                 decimal(values, columns, "fire_return_annual"),
                 nullableDecimal(values, columns, "swr_annual"),
-                decimal(values, columns, "safety_margin"),
                 decimal(values, columns, "terminal_capital_today"),
                 decimal(values, columns, "current_capital"),
                 decimal(values, columns, "accumulation_return_annual"),
@@ -188,7 +186,6 @@ class FireCalculatorGoldenTest {
                 nullableDecimal(values, columns, "expected_finite_target"),
                 nullableDecimal(values, columns, "expected_swr_target"),
                 decimal(values, columns, "expected_selected_target"),
-                decimal(values, columns, "expected_recommended_target"),
                 decimal(values, columns, "expected_initial_monthly_contribution"),
                 decimal(values, columns, "expected_accumulation_final"),
                 decimal(values, columns, "expected_terminal_nominal"),
@@ -228,7 +225,6 @@ class FireCalculatorGoldenTest {
             Double finiteTarget,
             Double swrTarget,
             double selectedTarget,
-            double recommendedTarget,
             double initialContribution,
             double accumulationFinal,
             double terminalNominal,

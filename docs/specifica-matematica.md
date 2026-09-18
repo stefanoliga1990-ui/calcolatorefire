@@ -2,7 +2,7 @@
 
 Stato: convenzioni matematiche approvate per l'implementazione dell'MVP.
 
-Questa specifica è la fonte primaria del futuro motore Java. Il workbook Excel resta un riferimento funzionale, ma non è un golden master finché le differenze indicate in fondo al documento non vengono corrette.
+Questa specifica è la fonte primaria del motore Java. Il workbook Excel resta un riferimento funzionale, ma non è un golden master finché le differenze indicate in fondo al documento non vengono corrette.
 
 ## 1. Perimetro
 
@@ -63,7 +63,6 @@ Il primo prelievo avviene immediatamente all'ingresso nel FIRE. Formula chiusa e
 | `i_a` | Inflazione | tasso annuo effettivo |
 | `r_fa` | Rendimento nel FIRE | tasso annuo nominale effettivo |
 | `swr` | Safe Withdrawal Rate | tasso annuo iniziale, richiesto solo per `SWR` |
-| `m` | Margine di sicurezza | percentuale applicata al target base; default 10% |
 | `L_0` | Capitale finale desiderato | euro di oggi; default zero; usato dal target `FINITE` |
 | `V_0` | Patrimonio investito oggi | euro nominali di oggi |
 | `r_aa` | Rendimento in accumulo | tasso annuo nominale effettivo |
@@ -142,22 +141,14 @@ T_swr = W_1 × 12 / swr
 
 La SWR è un benchmark annuale. Non rappresenta né un rendimento né una percentuale da applicare ogni anno al saldo residuo.
 
-La selezione del target base è:
+La selezione del target necessario è:
 
 ```text
-FINITE       → T_base = T_finite
-SWR          → T_base = T_swr
+FINITE       → T_target = T_finite
+SWR          → T_target = T_swr
 ```
 
 Si calcola solo il target del metodo selezionato. Nel metodo `FINITE` la SWR non è richiesta né calcolata; nel metodo `SWR` il target a durata finita non è calcolato. Durata FIRE e rendimento FIRE restano necessari alla proiezione mensile anche quando il metodo del target è `SWR`. Il capitale finale desiderato non influisce sul target `SWR`.
-
-Il target consigliato è:
-
-```text
-T_recommended = T_base × (1 + m)
-```
-
-Il margine si applica una sola volta al target base. Nella proiezione non aumenta i prelievi: resta investito e forma il cuscinetto. Per questo il capitale residuo finale può essere molto superiore al 10% iniziale dopo molti anni di rendimento composto.
 
 ## 8. Piano di accumulo
 
@@ -170,7 +161,7 @@ FV_current = V_0 × (1 + r_am)^N_acc
 Il capitale ancora da costruire è:
 
 ```text
-Gap = max(0, T_recommended − FV_current)
+Gap = max(0, T_target − FV_current)
 ```
 
 Il versamento del mese `j`, con `j` che parte da 1, è:
@@ -213,14 +204,14 @@ contribution_j = C_1 × (1 + g_m)^(j − 1)
 B_j = B_(j−1) + return_j + contribution_j
 ```
 
-Al termine, `B_N_acc` deve coincidere con il target consigliato entro la tolleranza, salvo il caso di capitale già sufficiente, nel quale sarà superiore.
+Al termine, `B_N_acc` deve coincidere con il target selezionato entro la tolleranza, salvo il caso di capitale già sufficiente, nel quale sarà superiore.
 
 ### 9.2 Decumulo
 
 La proiezione personale parte dal patrimonio effettivamente disponibile all'ingresso nel FIRE:
 
 ```text
-B_0 = max(T_recommended, saldo finale effettivo dell'accumulo)
+B_0 = max(T_target, saldo finale effettivo dell'accumulo)
 ```
 
 Per ogni mese `k`:
@@ -235,21 +226,19 @@ B_k = max(0, B_(k−1) − actual_withdrawal_k + return_k)
 
 La simulazione registra il primo mese con shortfall e non permette che il saldo mostrato diventi negativo.
 
-Per spiegare il solo effetto del target e del margine si può mostrare anche una linea di confronto che parte esattamente da `T_recommended`.
+La proiezione del target parte esattamente da `T_target` e consente di confrontarla con la proiezione personale.
 
 ## 10. Risultati minimi dell'MVP
 
 - mesi disponibili prima del FIRE;
 - primo prelievo nominale;
 - target del metodo selezionato (`FINITE` oppure `SWR`);
-- target base selezionato;
-- target consigliato con margine;
 - equivalenti in euro di oggi;
 - PAC mensile iniziale;
 - totale nominale dei versamenti;
 - saldo mensile di accumulo e decumulo;
 - capitale finale nominale ed equivalente in euro di oggi;
-- eventuale mese di esaurimento e shortfall complessivo.
+- eventuale mese di esaurimento e shortfall complessivo nei dati API e nelle proiezioni; la schermata dei risultati non mostra il campo shortfall complessivo.
 
 ## 11. Validazioni
 
@@ -261,7 +250,6 @@ Non vengono imposti limiti commerciali arbitrari. Sono obbligatorie le seguenti 
 | `INVALID_FIRE_DURATION` | durata FIRE non positiva |
 | `INVALID_RATE` | inflazione, rendimento o crescita PAC minori o uguali a −100% |
 | `INVALID_SWR` | metodo `SWR` con SWR mancante, non finita o `swr <= 0` |
-| `INVALID_MARGIN` | margine minore di −100% |
 | `INVALID_AMOUNT` | importo negativo o non finito |
 | `UNREACHABLE_WITH_ZERO_MONTHS` | nessun mese di accumulo e capitale insufficiente |
 
@@ -272,7 +260,7 @@ Il metodo `FINITE` non richiede una SWR. L'interfaccia mostra solo i parametri e
 - Calcoli interni Java con `BigDecimal` o `double` senza arrotondamenti intermedi. La scelta definitiva verrà presa nell'implementazione del dominio; i test confrontano risultati numerici, non la rappresentazione binaria.
 - Tolleranza monetaria dei test di accettazione: `0,01 euro`.
 - Tolleranza sui tassi: `1e-12`.
-- Un target a durata finita senza margine deve riconciliarsi con la proiezione mensile entro `0,01 euro`.
+- Un target a durata finita deve riconciliarsi con la proiezione mensile entro `0,01 euro`.
 - Le proprietà direzionali devono essere testate oltre ai valori puntuali: più spesa aumenta il target; più rendimento FIRE riduce il target a durata finita; più patrimonio corrente riduce o annulla il PAC.
 
 Gli scenari numerici versionati sono in `src/test/resources/golden-scenarios.csv`.
@@ -283,7 +271,7 @@ Il workbook non va copiato letteralmente nei punti seguenti:
 
 1. `FIRE Calculator!B22` usa una rendita posticipata; l'MVP usa una rendita anticipata perché il primo prelievo è immediato.
 2. `Proiezione mensile` calcola rendimento e poi prelievo; l'MVP preleva e poi applica il rendimento al capitale rimasto.
-3. Il workbook applica un margine effettivo del 5% mentre la nota indica 10%; l'MVP usa 10% come default modificabile.
+3. Il workbook applica un margine effettivo del 5% mentre la nota indica 10%; l'MVP non applica alcun margine aggiuntivo.
 4. Il capitale finale non ha un'unità temporale coerente; l'MVP lo interpreta in euro di oggi.
 5. I rendimenti del workbook sono descritti come netti anche di tasse; l'MVP li definisce al netto dei costi ricorrenti ma prima delle imposte personali.
 6. Gli altri redditi presenti nel workbook sono esclusi dall'MVP.
