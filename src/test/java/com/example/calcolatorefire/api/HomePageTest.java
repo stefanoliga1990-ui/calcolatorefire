@@ -35,6 +35,7 @@ class HomePageTest {
         mockMvc.perform(get("/index.html"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
+                .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
                 .andExpect(content().string(containsString("Calcola il patrimonio necessario per raggiungere il FIRE, e gli investimenti necessari per raggiungerlo")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
                 .andExpect(content().string(not(containsString("Pianificazione FIRE, con ipotesi trasparenti"))))
@@ -65,7 +66,7 @@ class HomePageTest {
 
     @Test
     void servesTheFrontendAssets() throws Exception {
-        mockMvc.perform(get("/styles.css").queryParam("v", "4130c8f75949"))
+        mockMvc.perform(get("/styles.css").queryParam("v", "1efc5ea2665e"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
