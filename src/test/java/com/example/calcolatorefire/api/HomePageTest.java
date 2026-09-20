@@ -47,6 +47,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("01 ·"))))
                 .andExpect(content().string(not(containsString("02 ·"))))
                 .andExpect(content().string(not(containsString("03 ·"))))
+                .andExpect(content().string(not(containsString("placeholder-number"))))
                 .andExpect(content().string(containsString("aumenta il rischio di esaurirlo")))
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
