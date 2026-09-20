@@ -36,7 +36,7 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-daa4f32601b6.css\"")))
+                .andExpect(content().string(containsString("href=\"/styles-d981607327b6.css\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
                 .andExpect(content().string(containsString("Calcola il patrimonio necessario per raggiungere il FIRE, e gli investimenti necessari per raggiungerlo")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
@@ -62,7 +62,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app.js?v=103508d33530\"")))
+                .andExpect(content().string(containsString("src=\"/app-206d9756f15f.js\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
@@ -71,17 +71,23 @@ class HomePageTest {
         mockMvc.perform(get("/fonts/InterVariable.woff2").queryParam("v", "4.1"))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/styles-daa4f32601b6.css"))
+        mockMvc.perform(get("/styles-d981607327b6.css"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
-        mockMvc.perform(get("/app.js").queryParam("v", "103508d33530"))
+        mockMvc.perform(get("/app-206d9756f15f.js"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/javascript"))
                 .andExpect(content().string(containsString("/api/v1/fire/calculations")))
                 .andExpect(content().string(containsString("attachParameterHelp")))
                 .andExpect(content().string(containsString("Valore di riferimento")))
                 .andExpect(content().string(containsString("Esempi a confronto")))
+                .andExpect(content().string(containsString("Formula utilizzata")))
+                .andExpect(content().string(containsString("Significato dei simboli")))
+                .andExpect(content().string(containsString("T_finite =")))
+                .andExpect(content().string(containsString("T_SWR =")))
+                .andExpect(content().string(containsString("Gap = max")))
+                .andExpect(content().string(containsString("Capitale_finale = B_N_FIRE")))
                 .andExpect(content().string(containsString("360 = 720.000")))
                 .andExpect(content().string(containsString("4% = 600.000")))
                 .andExpect(content().string(containsString("primo prelievo non interamente coperto")))

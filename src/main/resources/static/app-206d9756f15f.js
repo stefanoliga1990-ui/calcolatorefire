@@ -8,6 +8,7 @@ const resultsContent = document.querySelector("#results-content");
 const projections = document.querySelector("#projections");
 
 let chartCleanups = [];
+let renderedMethod = null;
 
 const currency = new Intl.NumberFormat("it-IT", {
     style: "currency",
@@ -23,6 +24,114 @@ const methodLabels = {
 const methodDescriptions = {
     FINITE: "Calcola il capitale per finanziare la spesa mensile per la durata FIRE scelta.",
     SWR: "Calcola il capitale dalla spesa annua e dal tasso di prelievo scelto; la proiezione verifica se copre tutta la durata FIRE."
+};
+
+const finiteTargetFormula = {
+    expressions: [
+        "T_finite = W₁ × [1 − (1 + r_reale,m)^(-N_FIRE)] ÷ r_reale,m × (1 + r_reale,m) + L_FIRE ÷ (1 + r_reale,m)^N_FIRE",
+        "Se r_reale,m = 0:  T_finite = W₁ × N_FIRE + L_FIRE"
+    ],
+    symbols: [
+        ["T_finite", "target nominale calcolato con il metodo Durata finita"],
+        ["W₁", "primo prelievo mensile nominale all’ingresso nel FIRE"],
+        ["r_reale,m", "rendimento reale mensile nel FIRE: (1 + r_f,m) ÷ (1 + i_m) − 1"],
+        ["N_FIRE", "numero di mesi della durata FIRE"],
+        ["L_FIRE", "capitale finale desiderato, rivalutato fino all’ingresso nel FIRE"]
+    ]
+};
+
+const swrTargetFormula = {
+    expressions: ["T_SWR = W₁ × 12 ÷ SWR"],
+    symbols: [
+        ["T_SWR", "target nominale calcolato con il metodo Safe Withdrawal Rate"],
+        ["W₁", "primo prelievo mensile nominale all’ingresso nel FIRE"],
+        ["12", "numero di mesi usato per trasformare il prelievo mensile in spesa annua"],
+        ["SWR", "tasso annuo di prelievo iniziale, espresso in forma decimale"]
+    ]
+};
+
+const selectedTargetFormulas = {
+    FINITE: {
+        expressions: [...finiteTargetFormula.expressions, "T_oggi = T_finite ÷ (1 + i_m)^N_acc"],
+        symbols: [
+            ...finiteTargetFormula.symbols,
+            ["T_oggi", "equivalente del target in euro di oggi"],
+            ["i_m", "tasso mensile equivalente dell’inflazione"],
+            ["N_acc", "numero di mesi dall’età attuale all’ingresso nel FIRE"]
+        ]
+    },
+    SWR: {
+        expressions: [...swrTargetFormula.expressions, "T_oggi = T_SWR ÷ (1 + i_m)^N_acc"],
+        symbols: [
+            ...swrTargetFormula.symbols,
+            ["T_oggi", "equivalente del target in euro di oggi"],
+            ["i_m", "tasso mensile equivalente dell’inflazione"],
+            ["N_acc", "numero di mesi dall’età attuale all’ingresso nel FIRE"]
+        ]
+    }
+};
+
+const contributionFormula = {
+    expressions: [
+        "C₁ = Gap ÷ F",
+        "Gap = max(0, T_target − V₀ × (1 + r_a,m)^N_acc)",
+        "F = [(1 + r_a,m)^N_acc − (1 + g_m)^N_acc] ÷ (r_a,m − g_m)",
+        "Se r_a,m = g_m:  F = N_acc × (1 + r_a,m)^(N_acc − 1)"
+    ],
+    symbols: [
+        ["C₁", "PAC del primo mese, versato a fine mese"],
+        ["Gap", "capitale che i nuovi versamenti devono ancora costruire"],
+        ["F", "fattore di capitalizzazione dei versamenti mensili"],
+        ["T_target", "patrimonio necessario secondo il metodo selezionato: T_finite oppure T_SWR"],
+        ["V₀", "patrimonio investito oggi"],
+        ["r_a,m", "rendimento mensile equivalente nella fase di accumulo"],
+        ["g_m", "crescita mensile equivalente del PAC"],
+        ["N_acc", "numero di mesi disponibili per l’accumulo"]
+    ]
+};
+
+const firstWithdrawalFormula = {
+    expressions: ["W₁ = S₀ × (1 + i_m)^N_acc"],
+    symbols: [
+        ["W₁", "primo prelievo mensile nominale all’ingresso nel FIRE"],
+        ["S₀", "spesa mensile desiderata espressa in euro di oggi"],
+        ["i_m", "tasso mensile equivalente dell’inflazione"],
+        ["N_acc", "numero di mesi dall’età attuale all’ingresso nel FIRE"]
+    ]
+};
+
+const totalContributionsFormula = {
+    expressions: ["Versamenti_totali = Σ da j = 1 a N_acc di [C₁ × (1 + g_m)^(j − 1)]"],
+    symbols: [
+        ["Versamenti_totali", "somma nominale di tutti i nuovi versamenti PAC"],
+        ["j", "numero progressivo del mese di accumulo"],
+        ["C₁", "PAC del primo mese"],
+        ["g_m", "crescita mensile equivalente del PAC"],
+        ["N_acc", "numero totale di mesi di accumulo"]
+    ]
+};
+
+const personalFinalBalanceFormula = {
+    expressions: [
+        "B₀ = max(T_target, B_acc)",
+        "W_k = W₁ × (1 + i_m)^(k − 1)",
+        "A_k = min(B_(k−1), W_k)",
+        "B_k = max(0, [B_(k−1) − A_k] × (1 + r_f,m))",
+        "Capitale_finale = B_N_FIRE"
+    ],
+    symbols: [
+        ["B₀", "capitale personale disponibile all’inizio del FIRE"],
+        ["T_target", "patrimonio necessario secondo il metodo selezionato"],
+        ["B_acc", "patrimonio effettivamente raggiunto al termine dell’accumulo"],
+        ["k", "numero progressivo del mese FIRE"],
+        ["W_k", "prelievo programmato all’inizio del mese k"],
+        ["W₁", "primo prelievo mensile nominale"],
+        ["i_m", "tasso mensile equivalente dell’inflazione"],
+        ["A_k", "prelievo effettivamente coperto nel mese k"],
+        ["B_k", "capitale alla fine del mese k"],
+        ["r_f,m", "rendimento nominale mensile equivalente durante il FIRE"],
+        ["N_FIRE", "numero totale di mesi della durata FIRE"]
+    ]
 };
 
 const parameterHelp = {
@@ -102,31 +211,38 @@ const parameterHelp = {
     },
     selectedTarget: {
         title: "Patrimonio necessario all'ingresso nel FIRE",
-        description: "È il capitale nominale da raggiungere all'età FIRE secondo il metodo selezionato. Sotto viene mostrato anche l'equivalente in euro di oggi."
+        description: "È il capitale nominale da raggiungere all'età FIRE secondo il metodo selezionato. Sotto viene mostrato anche l'equivalente in euro di oggi.",
+        formulas: selectedTargetFormulas
     },
     initialMonthlyContribution: {
         title: "PAC mensile iniziale",
-        description: "È il primo versamento mensile necessario per raggiungere il target, considerando patrimonio attuale, rendimento e crescita del PAC. Il versamento avviene a fine mese."
+        description: "È il primo versamento mensile necessario per raggiungere il target, considerando patrimonio attuale, rendimento e crescita del PAC. Il versamento avviene a fine mese.",
+        formula: contributionFormula
     },
     firstMonthlyWithdrawal: {
         title: "Primo prelievo mensile",
-        description: "È la spesa mensile di oggi rivalutata con l'inflazione fino all'età FIRE. Viene prelevata all'inizio del primo mese e alimenta entrambi i metodi."
+        description: "È la spesa mensile di oggi rivalutata con l'inflazione fino all'età FIRE. Viene prelevata all'inizio del primo mese e alimenta entrambi i metodi.",
+        formula: firstWithdrawalFormula
     },
     finiteTarget: {
         title: "Target a durata finita",
-        description: "È il capitale necessario per finanziare tutti i prelievi della durata scelta e terminare con il capitale finale desiderato. Usa una rendita anticipata perché il primo prelievo è immediato."
+        description: "È il capitale necessario per finanziare tutti i prelievi della durata scelta e terminare con il capitale finale desiderato. Usa una rendita anticipata perché il primo prelievo è immediato.",
+        formula: finiteTargetFormula
     },
     swrTarget: {
         title: "Target secondo la SWR",
-        description: "È la prima spesa annua all'ingresso nel FIRE divisa per la SWR. La proiezione successiva verifica se questo capitale copre davvero tutta la durata indicata."
+        description: "È la prima spesa annua all'ingresso nel FIRE divisa per la SWR. La proiezione successiva verifica se questo capitale copre davvero tutta la durata indicata.",
+        formula: swrTargetFormula
     },
     totalNominalContributions: {
         title: "Nuovi versamenti nominali",
-        description: "È la somma di tutti i versamenti PAC effettuati fino al FIRE. Non comprende il patrimonio già investito né i rendimenti maturati."
+        description: "È la somma di tutti i versamenti PAC effettuati fino al FIRE. Non comprende il patrimonio già investito né i rendimenti maturati.",
+        formula: totalContributionsFormula
     },
     personalFinalBalance: {
         title: "Capitale personale a fine FIRE",
-        description: "È il patrimonio nominale residuo al termine della durata FIRE, dopo prelievi e rendimenti. Se il capitale si esaurisce prima, il risultato mostra 0 € e l'avviso indica il primo mese non interamente coperto."
+        description: "È il patrimonio nominale residuo al termine della durata FIRE, dopo prelievi e rendimenti. Se il capitale si esaurisce prima, il risultato mostra 0 € e l'avviso indica il primo mese non interamente coperto.",
+        formula: personalFinalBalanceFormula
     }
 };
 
@@ -163,7 +279,8 @@ function attachParameterHelp() {
         button.addEventListener("click", (event) => {
             event.preventDefault();
             event.stopPropagation();
-            openParameterHelp(content);
+            const method = container.closest("#results") ? renderedMethod : value("method");
+            openParameterHelp(content, method);
         });
         label.append(button);
     });
@@ -176,13 +293,18 @@ function attachParameterHelp() {
     });
 }
 
-function openParameterHelp(content) {
+function openParameterHelp(content, method) {
     helpDialogTitle.textContent = content.title;
     helpDialogContent.replaceChildren();
 
     const description = document.createElement("p");
     description.textContent = content.description;
     helpDialogContent.append(description);
+
+    const formula = content.formulas?.[method] ?? content.formula;
+    if (formula) {
+        appendFormulaHelp(formula);
+    }
 
     if (content.examples) {
         const examples = document.createElement("div");
@@ -224,6 +346,45 @@ function openParameterHelp(content) {
     }
 
     helpDialog.showModal();
+}
+
+function appendFormulaHelp(formula) {
+    const section = document.createElement("section");
+    section.className = "help-formula";
+
+    const heading = document.createElement("h3");
+    heading.textContent = "Formula utilizzata";
+    section.append(heading);
+
+    const equations = document.createElement("div");
+    equations.className = "help-equations";
+    for (const expression of formula.expressions) {
+        const equation = document.createElement("code");
+        equation.setAttribute("role", "math");
+        equation.textContent = expression;
+        equations.append(equation);
+    }
+    section.append(equations);
+
+    const legendHeading = document.createElement("h4");
+    legendHeading.textContent = "Significato dei simboli";
+    section.append(legendHeading);
+
+    const symbols = document.createElement("dl");
+    symbols.className = "help-symbols";
+    for (const [symbol, meaning] of formula.symbols) {
+        const row = document.createElement("div");
+        const term = document.createElement("dt");
+        const code = document.createElement("code");
+        code.textContent = symbol;
+        term.append(code);
+        const description = document.createElement("dd");
+        description.textContent = meaning;
+        row.append(term, description);
+        symbols.append(row);
+    }
+    section.append(symbols);
+    helpDialogContent.append(section);
 }
 
 function updateMethodFields() {
@@ -305,6 +466,7 @@ function buildRequest() {
 
 function renderResults(data) {
     const method = value("method");
+    renderedMethod = method;
     setText("result-method", methodLabels[method]);
     setText("selected-target", money(data.target.selectedTarget));
     setText("selected-target-today", `${money(data.target.selectedTargetToday)} in euro di oggi`);

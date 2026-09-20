@@ -812,7 +812,7 @@ select[aria-invalid="true"] {
 }
 
 .help-dialog {
-    width: min(540px, calc(100% - 32px));
+    width: min(680px, calc(100% - 32px));
     max-height: min(720px, calc(100% - 32px));
     padding: 0;
     border: 0;
@@ -865,6 +865,74 @@ select[aria-invalid="true"] {
 
 #parameter-help-content > p {
     margin: 0;
+}
+
+.help-formula {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+}
+
+.help-formula h3,
+.help-formula h4 {
+    color: var(--ink);
+}
+
+.help-formula h3 {
+    margin: 0 0 12px;
+    font-size: 0.96rem;
+}
+
+.help-formula h4 {
+    margin: 17px 0 8px;
+    font-size: 0.82rem;
+}
+
+.help-equations {
+    display: grid;
+    gap: 8px;
+}
+
+.help-equations code {
+    display: block;
+    padding: 11px 12px;
+    border: 1px solid rgba(15, 107, 78, 0.18);
+    border-radius: 9px;
+    color: var(--green-dark);
+    background: var(--green-pale);
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-size: 0.84rem;
+    font-weight: 650;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.help-symbols {
+    margin: 0;
+}
+
+.help-symbols div {
+    display: grid;
+    grid-template-columns: minmax(76px, 0.28fr) minmax(0, 1fr);
+    gap: 12px;
+    padding: 8px 0;
+    border-top: 1px solid rgba(19, 35, 31, 0.09);
+}
+
+.help-symbols dt,
+.help-symbols dd {
+    margin: 0;
+}
+
+.help-symbols dt code {
+    color: var(--green-dark);
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 750;
+}
+
+.help-symbols dd {
+    font-size: 0.84rem;
 }
 
 .help-reference {
