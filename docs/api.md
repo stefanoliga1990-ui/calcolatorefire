@@ -34,6 +34,8 @@ Valori ammessi per `method`:
 
 `annualSafeWithdrawalRate` è richiesto solo per `SWR` e può essere omesso o `null` per `FINITE`. `terminalCapitalToday` è usato solo da `FINITE`; per `SWR` inviare `0`. La durata FIRE e il rendimento FIRE restano richiesti per la proiezione del decumulo.
 
+Nel metodo `SWR`, aumentare `annualSafeWithdrawalRate` riduce matematicamente il target. La sostenibilità sull'orizzonte scelto va letta nei campi `decumulation.depletionMonth` e `decumulation.totalShortfall`: un `depletionMonth` valorizzato indica il primo mese in cui il prelievo programmato non è interamente coperto.
+
 ### Risposta `200 OK`
 
 La risposta contiene:

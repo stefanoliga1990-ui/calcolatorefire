@@ -1,6 +1,7 @@
 package com.example.calcolatorefire.api;
 
 import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -108,6 +109,21 @@ class FireCalculationApiTest {
                         .content(request))
                 .andExpect(status().isUnprocessableContent())
                 .andExpect(jsonPath("$.code").value("INVALID_SWR"));
+    }
+
+    @Test
+    void reportsWhenAnAggressiveSwrDoesNotCoverTheFireDuration() throws Exception {
+        String request = baseRequest()
+                .replace("\"FINITE\"", "\"SWR\"")
+                .replace("\"annualSafeWithdrawalRate\": null", "\"annualSafeWithdrawalRate\": 0.06");
+
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.target.safeWithdrawalRateTarget").value(closeTo(422_233.2042, 0.01)))
+                .andExpect(jsonPath("$.decumulation.depletionMonth").value(273))
+                .andExpect(jsonPath("$.decumulation.totalShortfall").value(greaterThan(0.0)));
     }
 
     private static String baseRequest() {

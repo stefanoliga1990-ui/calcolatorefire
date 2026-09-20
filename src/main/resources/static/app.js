@@ -22,7 +22,7 @@ const methodLabels = {
 
 const methodDescriptions = {
     FINITE: "Calcola il capitale per finanziare la spesa mensile per la durata FIRE scelta.",
-    SWR: "Calcola il capitale dividendo la spesa annua iniziale per il tasso di prelievo scelto."
+    SWR: "Calcola il capitale dalla spesa annua e dal tasso di prelievo scelto; la proiezione verifica se copre tutta la durata FIRE."
 };
 
 const defaults = Object.fromEntries(new FormData(form).entries());
@@ -127,9 +127,14 @@ function renderResults(data) {
     setText("personal-final-balance", money(data.decumulation.personalFinalBalance));
 
     const contribution = data.accumulation.initialMonthlyContribution;
-    const note = contribution === 0
-        ? "Il patrimonio che possiedi oggi è già sufficiente nello scenario inserito: il PAC richiesto è zero."
-        : `Il versamento indicato è quello del primo mese. Avviene a fine mese e ${number("annualContributionGrowthRate") === 0 ? "resta costante" : "cresce nel tempo"}.`;
+    const depletionMonth = data.decumulation.depletionMonth;
+    const resultNote = document.querySelector("#result-note");
+    const note = depletionMonth !== null
+        ? `Attenzione: con una SWR del ${number("annualSafeWithdrawalRate").toLocaleString("it-IT")}% il capitale non copre tutti i ${number("fireDurationYears")} anni. Il primo prelievo non interamente coperto si verifica al ${depletionMonth}° mese FIRE.`
+        : contribution === 0
+            ? "Il patrimonio che possiedi oggi è già sufficiente nello scenario inserito: il PAC richiesto è zero."
+            : `Il versamento indicato è quello del primo mese. Avviene a fine mese e ${number("annualContributionGrowthRate") === 0 ? "resta costante" : "cresce nel tempo"}.`;
+    resultNote.classList.toggle("is-warning", depletionMonth !== null);
     setText("result-note", note);
 
     resultsPlaceholder.hidden = true;

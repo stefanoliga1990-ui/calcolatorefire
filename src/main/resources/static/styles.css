@@ -717,6 +717,12 @@ select[aria-invalid="true"] {
     line-height: 1.45;
 }
 
+.result-note.is-warning {
+    color: #fff4d2;
+    background: rgba(227, 168, 59, 0.18);
+    box-shadow: inset 3px 0 0 var(--amber);
+}
+
 .secondary-button {
     border: 1px solid rgba(255, 255, 255, 0.28);
     color: white;

@@ -41,23 +41,25 @@ class HomePageTest {
                 .andExpect(content().string(containsString("id=\"decumulation-chart\"")))
                 .andExpect(content().string(containsString("id=\"method-description\"")))
                 .andExpect(content().string(containsString("id=\"swr-field\" hidden")))
+                .andExpect(content().string(containsString("aumenta il rischio di esaurirlo")))
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app.js?v=5f889d945af4\"")))
+                .andExpect(content().string(containsString("src=\"/app.js?v=1a23273d6fcc\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
     @Test
     void servesTheFrontendAssets() throws Exception {
-        mockMvc.perform(get("/styles.css"))
+        mockMvc.perform(get("/styles.css").queryParam("v", "2a9a9744199e"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
-        mockMvc.perform(get("/app.js").queryParam("v", "5f889d945af4"))
+        mockMvc.perform(get("/app.js").queryParam("v", "1a23273d6fcc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/javascript"))
                 .andExpect(content().string(containsString("/api/v1/fire/calculations")))
+                .andExpect(content().string(containsString("primo prelievo non interamente coperto")))
                 .andExpect(content().string(containsString("renderProjectionCharts")));
     }
 }

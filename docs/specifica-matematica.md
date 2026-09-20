@@ -141,6 +141,8 @@ T_swr = W_1 × 12 / swr
 
 La SWR è un benchmark annuale. Non rappresenta né un rendimento né una percentuale da applicare ogni anno al saldo residuo.
 
+Per costruzione, un valore SWR più alto produce un target più basso. Questo non implica una maggiore sostenibilità: aumenta la quota iniziale prelevata rispetto al capitale. La proiezione mensile deve quindi segnalare chiaramente quando il target SWR non copre tutti i prelievi della durata FIRE selezionata, indicando il primo mese con shortfall. Non si applicano limiti arbitrari alla SWR e non si sostituisce implicitamente il target SWR con quello a durata finita.
+
 La selezione del target necessario è:
 
 ```text
@@ -224,7 +226,7 @@ return_k = (B_(k−1) − actual_withdrawal_k) × r_fm
 B_k = max(0, B_(k−1) − actual_withdrawal_k + return_k)
 ```
 
-La simulazione registra il primo mese con shortfall e non permette che il saldo mostrato diventi negativo.
+La simulazione registra il primo mese con shortfall e non permette che il saldo mostrato diventi negativo. Se il metodo è `SWR` e si verifica uno shortfall, l'interfaccia mostra un avviso esplicito che il capitale non copre l'intera durata FIRE e indica il primo mese non interamente finanziato.
 
 La proiezione del target parte esattamente da `T_target` e consente di confrontarla con la proiezione personale.
 
