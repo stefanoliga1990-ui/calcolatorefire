@@ -147,6 +147,27 @@ h1 {
     align-content: start;
 }
 
+@media (min-width: 921px) {
+    .app-layout {
+        grid-template-rows: auto auto;
+        align-items: stretch;
+    }
+
+    .input-stack,
+    .result-stack {
+        grid-row: 1 / span 2;
+        grid-template-rows: subgrid;
+    }
+
+    .input-stack {
+        grid-column: 1;
+    }
+
+    .result-stack {
+        grid-column: 2;
+    }
+}
+
 .projections {
     width: min(1180px, calc(100% - 40px));
     margin: 0 auto 100px;

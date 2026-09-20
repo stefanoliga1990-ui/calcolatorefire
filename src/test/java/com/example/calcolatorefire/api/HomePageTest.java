@@ -36,7 +36,7 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-2c99eae36d43.css\"")))
+                .andExpect(content().string(containsString("href=\"/styles-2fd4b7f038ca.css\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
                 .andExpect(content().string(containsString("Calcola il patrimonio necessario per raggiungere il FIRE, e gli investimenti necessari per raggiungerlo")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
@@ -82,7 +82,7 @@ class HomePageTest {
         mockMvc.perform(get("/fonts/InterVariable.woff2").queryParam("v", "4.1"))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/styles-2c99eae36d43.css"))
+        mockMvc.perform(get("/styles-2fd4b7f038ca.css"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
