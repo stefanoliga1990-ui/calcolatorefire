@@ -40,7 +40,10 @@ class HomePageTest {
                 .andExpect(content().string(containsString("id=\"accumulation-chart\"")))
                 .andExpect(content().string(containsString("id=\"decumulation-chart\"")))
                 .andExpect(content().string(containsString("id=\"method-description\"")))
-                .andExpect(content().string(containsString("id=\"swr-field\" hidden")))
+                .andExpect(content().string(containsString("id=\"swr-field\"")))
+                .andExpect(content().string(containsString("data-help=\"currentAge\"")))
+                .andExpect(content().string(containsString("data-help=\"personalFinalBalance\"")))
+                .andExpect(content().string(containsString("id=\"parameter-help-dialog\"")))
                 .andExpect(content().string(containsString(">I tuoi dati<")))
                 .andExpect(content().string(containsString(">Il risultato<")))
                 .andExpect(content().string(containsString(">Le proiezioni<")))
@@ -52,20 +55,22 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app.js?v=1a23273d6fcc\"")))
+                .andExpect(content().string(containsString("src=\"/app.js?v=b79100239db7\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
     @Test
     void servesTheFrontendAssets() throws Exception {
-        mockMvc.perform(get("/styles.css").queryParam("v", "2a9a9744199e"))
+        mockMvc.perform(get("/styles.css").queryParam("v", "8735c22b4994"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
-        mockMvc.perform(get("/app.js").queryParam("v", "1a23273d6fcc"))
+        mockMvc.perform(get("/app.js").queryParam("v", "b79100239db7"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/javascript"))
                 .andExpect(content().string(containsString("/api/v1/fire/calculations")))
+                .andExpect(content().string(containsString("attachParameterHelp")))
+                .andExpect(content().string(containsString("Valore di riferimento")))
                 .andExpect(content().string(containsString("primo prelievo non interamente coperto")))
                 .andExpect(content().string(containsString("renderProjectionCharts")));
     }

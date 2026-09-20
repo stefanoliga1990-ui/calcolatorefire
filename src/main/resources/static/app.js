@@ -25,10 +25,178 @@ const methodDescriptions = {
     SWR: "Calcola il capitale dalla spesa annua e dal tasso di prelievo scelto; la proiezione verifica se copre tutta la durata FIRE."
 };
 
+const parameterHelp = {
+    currentAge: {
+        title: "Età attuale",
+        description: "È l'età da cui parte la simulazione. Insieme all'età FIRE determina quanti mesi hai a disposizione per accumulare capitale.",
+        reference: "Inserisci gli anni compiuti oggi: non serve usare un valore medio o stimato."
+    },
+    fireAge: {
+        title: "Età di ingresso nel FIRE",
+        description: "È l'età alla quale termina l'accumulo e iniziano i prelievi dal patrimonio.",
+        reference: "Scegli un obiettivo realistico e confronta anche uno scenario posticipato di 2–5 anni per misurare quanto cambia il PAC."
+    },
+    fireDurationYears: {
+        title: "Durata del FIRE",
+        description: "Indica per quanti anni la proiezione deve finanziare i prelievi. Incide sul target a durata finita e verifica la sostenibilità del target SWR.",
+        reference: "Controllo pratico: età FIRE più durata dovrebbe arrivare almeno all'età fino alla quale vuoi essere coperto, spesso 90–100 anni."
+    },
+    monthlyExpenseToday: {
+        title: "Spesa mensile desiderata oggi",
+        description: "È il tenore di vita mensile che vuoi finanziare, espresso con il potere d'acquisto di oggi. Il calcolatore lo rivaluta con l'inflazione fino all'ingresso nel FIRE.",
+        reference: "Usa la media degli ultimi 12 mesi e aggiungi le spese annuali o irregolari divise per 12. Evita una media nazionale: il dato utile è la tua spesa reale."
+    },
+    method: {
+        title: "Metodo di calcolo",
+        description: "Durata finita calcola il capitale necessario per un numero preciso di anni e un eventuale capitale finale. SWR divide la prima spesa annua per il tasso di prelievo scelto e poi ne verifica la durata nella proiezione.",
+        reference: "Confronta entrambi i metodi quando vuoi distinguere un obiettivo legato a una durata precisa da una regola di prelievo sintetica."
+    },
+    annualInflationRate: {
+        title: "Inflazione annua",
+        description: "Serve a trasformare la spesa di oggi nei prelievi nominali futuri e a esprimere i risultati anche in euro di oggi.",
+        reference: "Il 2% è il riferimento di lungo periodo della BCE. Puoi affiancare uno scenario più prudente al 3%.",
+        source: { label: "Obiettivo di inflazione BCE", url: "https://www.ecb.europa.eu/mopo/strategy/strategy-review/html/price-stability-objective.en.html" }
+    },
+    annualFireReturnRate: {
+        title: "Rendimento annuo nel FIRE",
+        description: "È il rendimento nominale medio ipotizzato durante i prelievi, al netto dei costi ricorrenti e prima delle imposte personali.",
+        reference: "Non esiste un valore universale. Per un controllo prudente confronta 3%, 4% e 5%. Le previsioni di mercato cambiano nel tempo e il portafoglio in decumulo può rendere meno di uno azionario.",
+        source: { label: "Previsioni dei rendimenti Vanguard", url: "https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-return-forecasts.html" }
+    },
+    annualSafeWithdrawalRate: {
+        title: "Safe Withdrawal Rate",
+        description: "È la percentuale del patrimonio prelevata nel primo anno. L'importo viene poi adeguato all'inflazione. Una percentuale più alta abbassa il target ma aumenta il rischio di esaurimento.",
+        reference: "Come scenari iniziali confronta 3%, 3,5% e 4%. La ricerca Morningstar 2025 stima il 3,9% per 30 anni e probabilità di successo del 90%; orizzonti FIRE più lunghi richiedono maggiore prudenza.",
+        source: { label: "Ricerca Morningstar sulla SWR", url: "https://www.morningstar.com/retirement/whats-safe-retirement-withdrawal-rate-2026" }
+    },
+    terminalCapitalToday: {
+        title: "Capitale finale desiderato",
+        description: "È il patrimonio che vuoi conservare alla fine del periodo FIRE, espresso in euro di oggi. È usato solo dal metodo Durata finita.",
+        reference: "Usa 0 € se accetti di consumare il capitale nello scenario medio. Inserisci una riserva reale specifica se vuoi lasciare un'eredità o mantenere un cuscinetto finale."
+    },
+    currentCapital: {
+        title: "Patrimonio investito oggi",
+        description: "È il capitale già investito che partecipa al piano di accumulo e sul quale si aggiungeranno i versamenti del PAC.",
+        reference: "Inserisci solo il patrimonio realmente destinato al FIRE. Escludi fondo di emergenza, abitazione e somme che prevedi di spendere prima del FIRE."
+    },
+    annualAccumulationReturnRate: {
+        title: "Rendimento annuo in accumulo",
+        description: "È il rendimento nominale medio ipotizzato prima del FIRE, al netto dei costi ricorrenti e prima delle imposte personali.",
+        reference: "Confronta almeno 4%, 5% e 6%. Le attuali previsioni Vanguard per ampi mercati azionari sono circa 4,2–6,5% nominali prima di costi, imposte e inflazione; il rendimento del tuo portafoglio può essere diverso.",
+        source: { label: "Previsioni dei rendimenti Vanguard", url: "https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-return-forecasts.html" }
+    },
+    annualContributionGrowthRate: {
+        title: "Crescita annua del PAC",
+        description: "Indica di quanto aumentano i versamenti nel tempo. Il valore viene convertito in una crescita mensile equivalente.",
+        reference: "Usa 0% se vuoi un PAC costante. Il 2% simula un aumento vicino al riferimento d'inflazione BCE, ma usalo solo se prevedi che il reddito permetta davvero di aumentare i versamenti."
+    },
+    selectedTarget: {
+        title: "Patrimonio necessario all'ingresso nel FIRE",
+        description: "È il capitale nominale da raggiungere all'età FIRE secondo il metodo selezionato. Sotto viene mostrato anche l'equivalente in euro di oggi."
+    },
+    initialMonthlyContribution: {
+        title: "PAC mensile iniziale",
+        description: "È il primo versamento mensile necessario per raggiungere il target, considerando patrimonio attuale, rendimento e crescita del PAC. Il versamento avviene a fine mese."
+    },
+    firstMonthlyWithdrawal: {
+        title: "Primo prelievo mensile",
+        description: "È la spesa mensile di oggi rivalutata con l'inflazione fino all'età FIRE. Viene prelevata all'inizio del primo mese e alimenta entrambi i metodi."
+    },
+    finiteTarget: {
+        title: "Target a durata finita",
+        description: "È il capitale necessario per finanziare tutti i prelievi della durata scelta e terminare con il capitale finale desiderato. Usa una rendita anticipata perché il primo prelievo è immediato."
+    },
+    swrTarget: {
+        title: "Target secondo la SWR",
+        description: "È la prima spesa annua all'ingresso nel FIRE divisa per la SWR. La proiezione successiva verifica se questo capitale copre davvero tutta la durata indicata."
+    },
+    totalNominalContributions: {
+        title: "Nuovi versamenti nominali",
+        description: "È la somma di tutti i versamenti PAC effettuati fino al FIRE. Non comprende il patrimonio già investito né i rendimenti maturati."
+    },
+    personalFinalBalance: {
+        title: "Capitale personale a fine FIRE",
+        description: "È il patrimonio nominale residuo al termine della durata FIRE, dopo prelievi e rendimenti. Se il capitale si esaurisce prima, il risultato mostra 0 € e l'avviso indica il primo mese non interamente coperto."
+    }
+};
+
+const helpDialog = document.querySelector("#parameter-help-dialog");
+const helpDialogTitle = document.querySelector("#parameter-help-title");
+const helpDialogContent = document.querySelector("#parameter-help-content");
+const helpDialogClose = document.querySelector("#parameter-help-close");
+
+attachParameterHelp();
+
 const defaults = Object.fromEntries(new FormData(form).entries());
 const methodSelect = form.elements.namedItem("method");
 methodSelect.addEventListener("change", updateMethodFields);
 updateMethodFields();
+
+function attachParameterHelp() {
+    document.querySelectorAll("[data-help]").forEach((container) => {
+        const key = container.dataset.help;
+        const content = parameterHelp[key];
+        const label = container.matches(".field")
+            ? container.querySelector(":scope > span:first-child")
+            : container.querySelector(":scope > p, :scope > dt");
+        if (!content || !label) {
+            return;
+        }
+
+        label.classList.add("label-with-info");
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "info-button";
+        button.textContent = "i";
+        button.setAttribute("aria-label", `Informazioni su ${content.title}`);
+        button.setAttribute("aria-haspopup", "dialog");
+        button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            openParameterHelp(content);
+        });
+        label.append(button);
+    });
+
+    helpDialogClose.addEventListener("click", () => helpDialog.close());
+    helpDialog.addEventListener("click", (event) => {
+        if (event.target === helpDialog) {
+            helpDialog.close();
+        }
+    });
+}
+
+function openParameterHelp(content) {
+    helpDialogTitle.textContent = content.title;
+    helpDialogContent.replaceChildren();
+
+    const description = document.createElement("p");
+    description.textContent = content.description;
+    helpDialogContent.append(description);
+
+    if (content.reference) {
+        const reference = document.createElement("div");
+        reference.className = "help-reference";
+        const heading = document.createElement("strong");
+        heading.textContent = "Valore di riferimento";
+        const text = document.createElement("p");
+        text.textContent = content.reference;
+        reference.append(heading, text);
+        helpDialogContent.append(reference);
+    }
+
+    if (content.source) {
+        const source = document.createElement("a");
+        source.className = "help-source";
+        source.href = content.source.url;
+        source.target = "_blank";
+        source.rel = "noreferrer";
+        source.textContent = `${content.source.label} ↗`;
+        helpDialogContent.append(source);
+    }
+
+    helpDialog.showModal();
+}
 
 function updateMethodFields() {
     const isSwr = value("method") === "SWR";
