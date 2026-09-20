@@ -49,7 +49,17 @@ const parameterHelp = {
     method: {
         title: "Metodo di calcolo",
         description: "Durata finita calcola il capitale necessario per un numero preciso di anni e un eventuale capitale finale. SWR divide la prima spesa annua per il tasso di prelievo scelto e poi ne verifica la durata nella proiezione.",
-        reference: "Confronta entrambi i metodi quando vuoi distinguere un obiettivo legato a una durata precisa da una regola di prelievo sintetica."
+        reference: "Confronta entrambi i metodi quando vuoi distinguere un obiettivo legato a una durata precisa da una regola di prelievo sintetica.",
+        examples: [
+            {
+                title: "Durata finita",
+                text: "Esempio semplificato: 2.000 € al mese per 30 anni, rendimento reale 0% e capitale finale 0 €. Il target finanzia 360 prelievi: 2.000 € × 360 = 720.000 €. Con un rendimento reale positivo il target calcolato sarebbe più basso."
+            },
+            {
+                title: "Safe Withdrawal Rate",
+                text: "Con la stessa spesa di 2.000 € al mese e una SWR del 4%, il target è 2.000 € × 12 ÷ 4% = 600.000 €. La durata non entra direttamente nella formula: la proiezione verifica poi se 600.000 € coprono tutti gli anni scelti."
+            }
+        ]
     },
     annualInflationRate: {
         title: "Inflazione annua",
@@ -173,6 +183,24 @@ function openParameterHelp(content) {
     const description = document.createElement("p");
     description.textContent = content.description;
     helpDialogContent.append(description);
+
+    if (content.examples) {
+        const examples = document.createElement("div");
+        examples.className = "help-examples";
+        const heading = document.createElement("h3");
+        heading.textContent = "Esempi a confronto";
+        examples.append(heading);
+        for (const example of content.examples) {
+            const card = document.createElement("article");
+            const title = document.createElement("strong");
+            title.textContent = example.title;
+            const text = document.createElement("p");
+            text.textContent = example.text;
+            card.append(title, text);
+            examples.append(card);
+        }
+        helpDialogContent.append(examples);
+    }
 
     if (content.reference) {
         const reference = document.createElement("div");

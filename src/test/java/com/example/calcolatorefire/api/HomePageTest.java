@@ -55,22 +55,25 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app.js?v=b79100239db7\"")))
+                .andExpect(content().string(containsString("src=\"/app.js?v=103508d33530\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
     @Test
     void servesTheFrontendAssets() throws Exception {
-        mockMvc.perform(get("/styles.css").queryParam("v", "8735c22b4994"))
+        mockMvc.perform(get("/styles.css").queryParam("v", "381003a5453c"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
-        mockMvc.perform(get("/app.js").queryParam("v", "b79100239db7"))
+        mockMvc.perform(get("/app.js").queryParam("v", "103508d33530"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/javascript"))
                 .andExpect(content().string(containsString("/api/v1/fire/calculations")))
                 .andExpect(content().string(containsString("attachParameterHelp")))
                 .andExpect(content().string(containsString("Valore di riferimento")))
+                .andExpect(content().string(containsString("Esempi a confronto")))
+                .andExpect(content().string(containsString("360 = 720.000")))
+                .andExpect(content().string(containsString("4% = 600.000")))
                 .andExpect(content().string(containsString("primo prelievo non interamente coperto")))
                 .andExpect(content().string(containsString("renderProjectionCharts")));
     }
