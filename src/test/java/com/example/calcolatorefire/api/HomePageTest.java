@@ -36,7 +36,7 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-d981607327b6.css\"")))
+                .andExpect(content().string(containsString("href=\"/styles-34046396d6df.css\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
                 .andExpect(content().string(containsString("Calcola il patrimonio necessario per raggiungere il FIRE, e gli investimenti necessari per raggiungerlo")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
@@ -51,9 +51,14 @@ class HomePageTest {
                 .andExpect(content().string(containsString("data-help=\"currentAge\"")))
                 .andExpect(content().string(containsString("data-help=\"personalFinalBalance\"")))
                 .andExpect(content().string(containsString("id=\"parameter-help-dialog\"")))
-                .andExpect(content().string(containsString(">I tuoi dati<")))
-                .andExpect(content().string(containsString(">Il risultato<")))
+                .andExpect(content().string(containsString(">I dati FIRE<")))
+                .andExpect(content().string(containsString(">I dati PAC<")))
+                .andExpect(content().string(containsString(">Il risultato FIRE<")))
+                .andExpect(content().string(containsString(">Il risultato PAC<")))
                 .andExpect(content().string(containsString(">Le proiezioni<")))
+                .andExpect(content().string(containsString("id=\"currentCapital\" name=\"currentCapital\" type=\"number\" min=\"0\" step=\"1000\" value=\"0\"")))
+                .andExpect(content().string(containsString("id=\"annualAccumulationReturnRate\" name=\"annualAccumulationReturnRate\" type=\"number\" min=\"-99.99\" step=\"0.01\" value=\"5\"")))
+                .andExpect(content().string(containsString("id=\"annualContributionGrowthRate\" name=\"annualContributionGrowthRate\" type=\"number\" min=\"-99.99\" step=\"0.01\" value=\"0\"")))
                 .andExpect(content().string(not(containsString("01 ·"))))
                 .andExpect(content().string(not(containsString("02 ·"))))
                 .andExpect(content().string(not(containsString("03 ·"))))
@@ -62,7 +67,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app-206d9756f15f.js\"")))
+                .andExpect(content().string(containsString("src=\"/app-77a51c0de673.js\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
@@ -71,11 +76,11 @@ class HomePageTest {
         mockMvc.perform(get("/fonts/InterVariable.woff2").queryParam("v", "4.1"))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/styles-d981607327b6.css"))
+        mockMvc.perform(get("/styles-34046396d6df.css"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
-        mockMvc.perform(get("/app-206d9756f15f.js"))
+        mockMvc.perform(get("/app-77a51c0de673.js"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/javascript"))
                 .andExpect(content().string(containsString("/api/v1/fire/calculations")))

@@ -3,8 +3,8 @@ const calculateButton = document.querySelector("#calculate-button");
 const resetButton = document.querySelector("#reset-button");
 const editButton = document.querySelector("#edit-button");
 const errorBox = document.querySelector("#form-error");
-const resultsPlaceholder = document.querySelector("#results-placeholder");
-const resultsContent = document.querySelector("#results-content");
+const resultsPlaceholders = document.querySelectorAll("[data-results-placeholder]");
+const resultsContents = document.querySelectorAll("[data-results-content]");
 const projections = document.querySelector("#projections");
 
 let chartCleanups = [];
@@ -435,15 +435,16 @@ resetButton.addEventListener("click", () => {
     }
     updateMethodFields();
     clearErrors();
-    resultsContent.hidden = true;
-    resultsPlaceholder.hidden = false;
+    renderedMethod = null;
+    resultsContents.forEach((content) => content.hidden = true);
+    resultsPlaceholders.forEach((placeholder) => placeholder.hidden = false);
     projections.hidden = true;
     destroyCharts();
     form.querySelector("input, select")?.focus();
 });
 
 editButton.addEventListener("click", () => {
-    document.querySelector("#form-title").scrollIntoView({ behavior: "smooth", block: "start" });
+    document.querySelector("#fire-form-title").scrollIntoView({ behavior: "smooth", block: "start" });
     form.querySelector("input, select")?.focus({ preventScroll: true });
 });
 
@@ -486,17 +487,22 @@ function renderResults(data) {
 
     const contribution = data.accumulation.initialMonthlyContribution;
     const depletionMonth = data.decumulation.depletionMonth;
-    const resultNote = document.querySelector("#result-note");
-    const note = depletionMonth !== null
-        ? `Attenzione: con una SWR del ${number("annualSafeWithdrawalRate").toLocaleString("it-IT")}% il capitale non copre tutti i ${number("fireDurationYears")} anni. Il primo prelievo non interamente coperto si verifica al ${depletionMonth}° mese FIRE.`
-        : contribution === 0
-            ? "Il patrimonio che possiedi oggi è già sufficiente nello scenario inserito: il PAC richiesto è zero."
-            : `Il versamento indicato è quello del primo mese. Avviene a fine mese e ${number("annualContributionGrowthRate") === 0 ? "resta costante" : "cresce nel tempo"}.`;
-    resultNote.classList.toggle("is-warning", depletionMonth !== null);
-    setText("result-note", note);
+    const fireResultNote = document.querySelector("#fire-result-note");
+    fireResultNote.hidden = depletionMonth === null;
+    if (depletionMonth !== null) {
+        setText(
+            "fire-result-note",
+            `Attenzione: con una SWR del ${number("annualSafeWithdrawalRate").toLocaleString("it-IT")}% il capitale non copre tutti i ${number("fireDurationYears")} anni. Il primo prelievo non interamente coperto si verifica al ${depletionMonth}° mese FIRE.`
+        );
+    }
 
-    resultsPlaceholder.hidden = true;
-    resultsContent.hidden = false;
+    const pacNote = contribution === 0
+        ? "Il patrimonio che possiedi oggi è già sufficiente nello scenario inserito: il PAC richiesto è zero."
+        : `Il versamento indicato è quello del primo mese. Avviene a fine mese e ${number("annualContributionGrowthRate") === 0 ? "resta costante" : "cresce nel tempo"}.`;
+    setText("pac-result-note", pacNote);
+
+    resultsPlaceholders.forEach((placeholder) => placeholder.hidden = true);
+    resultsContents.forEach((content) => content.hidden = false);
     projections.hidden = false;
     renderProjectionCharts(data);
     if (window.matchMedia("(max-width: 920px)").matches) {

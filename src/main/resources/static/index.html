@@ -6,8 +6,8 @@
     <meta name="description" content="Calcola il patrimonio necessario per il FIRE e il PAC mensile per raggiungerlo.">
     <title>Calcolo FIRE Italia</title>
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-d981607327b6.css">
-    <script src="/app-206d9756f15f.js" defer></script>
+    <link rel="stylesheet" href="/styles-34046396d6df.css">
+    <script src="/app-77a51c0de673.js" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -24,18 +24,18 @@
     </section>
 
     <div class="app-layout">
-        <section class="panel form-panel" aria-labelledby="form-title">
-            <div class="section-heading">
-                <div>
-                    <p class="step-label">I tuoi dati</p>
-                    <h2 id="form-title">Costruisci lo scenario</h2>
+        <form class="input-stack" id="fire-form" novalidate>
+            <section class="panel form-panel" aria-labelledby="fire-form-title">
+                <div class="section-heading">
+                    <div>
+                        <p class="step-label">I dati FIRE</p>
+                        <h2 id="fire-form-title">Costruisci lo scenario FIRE</h2>
+                    </div>
+                    <button class="text-button" id="reset-button" type="button">Ripristina valori</button>
                 </div>
-                <button class="text-button" id="reset-button" type="button">Ripristina valori</button>
-            </div>
 
-            <div id="form-error" class="alert" role="alert" tabindex="-1" hidden></div>
+                <div id="form-error" class="alert" role="alert" tabindex="-1" hidden></div>
 
-            <form id="fire-form" novalidate>
                 <fieldset>
                     <legend>Obiettivo FIRE</legend>
                     <div class="field-grid">
@@ -111,6 +111,16 @@
                     </div>
                 </fieldset>
 
+            </section>
+
+            <section class="panel form-panel" aria-labelledby="pac-form-title">
+                <div class="section-heading">
+                    <div>
+                        <p class="step-label">I dati PAC</p>
+                        <h2 id="pac-form-title">Pianifica l'accumulo</h2>
+                    </div>
+                </div>
+
                 <fieldset>
                     <legend>Piano di accumulo</legend>
                     <div class="field-grid">
@@ -118,13 +128,13 @@
                             <span>Patrimonio investito oggi</span>
                             <span class="input-prefix">
                                 <span>€</span>
-                                <input id="currentCapital" name="currentCapital" type="number" min="0" step="1000" value="10000" required>
+                                <input id="currentCapital" name="currentCapital" type="number" min="0" step="1000" value="0" required>
                             </span>
                         </label>
                         <label class="field" data-help="annualAccumulationReturnRate">
                             <span>Rendimento annuo in accumulo</span>
                             <span class="input-suffix">
-                                <input id="annualAccumulationReturnRate" name="annualAccumulationReturnRate" type="number" min="-99.99" step="0.01" value="7" required>
+                                <input id="annualAccumulationReturnRate" name="annualAccumulationReturnRate" type="number" min="-99.99" step="0.01" value="5" required>
                                 <span>%</span>
                             </span>
                             <small>Al netto dei costi, prima delle imposte personali</small>
@@ -144,66 +154,88 @@
                     <span class="button-label">Calcola il mio scenario</span>
                     <span class="button-loader" aria-hidden="true"></span>
                 </button>
-            </form>
-        </section>
+            </section>
+        </form>
 
-        <section class="panel results-panel" id="results" aria-labelledby="results-title" aria-live="polite">
-            <div class="results-placeholder" id="results-placeholder">
-                <h2>Qui vedrai i risultati</h2>
-                <p>Compila lo scenario per calcolare target FIRE, PAC mensile e capitale residuo.</p>
-            </div>
+        <div class="result-stack" id="results" aria-live="polite">
+            <section class="panel results-panel" aria-labelledby="fire-results-title">
+                <div class="results-placeholder" data-results-placeholder>
+                    <h2>Qui vedrai il risultato FIRE</h2>
+                    <p>Compila lo scenario per calcolare il patrimonio necessario e la fase di decumulo.</p>
+                </div>
 
-            <div id="results-content" hidden>
-                <div class="section-heading results-heading">
-                    <div>
-                        <p class="step-label">Il risultato</p>
-                        <h2 id="results-title">Il tuo percorso verso il FIRE</h2>
+                <div class="results-content" data-results-content hidden>
+                    <div class="section-heading results-heading">
+                        <div>
+                            <p class="step-label">Il risultato FIRE</p>
+                            <h2 id="fire-results-title">Il tuo obiettivo FIRE</h2>
+                        </div>
+                        <span class="method-badge" id="result-method"></span>
                     </div>
-                    <span class="method-badge" id="result-method"></span>
-                </div>
 
-                <div class="result-hero" data-help="selectedTarget">
-                    <p>Patrimonio necessario all'ingresso nel FIRE</p>
-                    <strong id="selected-target">—</strong>
-                    <span id="selected-target-today">— in euro di oggi</span>
-                </div>
+                    <div class="result-hero" data-help="selectedTarget">
+                        <p>Patrimonio necessario all'ingresso nel FIRE</p>
+                        <strong id="selected-target">—</strong>
+                        <span id="selected-target-today">— in euro di oggi</span>
+                    </div>
 
-                <div class="primary-results">
-                    <article class="result-card accent-card" data-help="initialMonthlyContribution">
-                        <p>PAC mensile iniziale</p>
-                        <strong id="monthly-contribution">—</strong>
-                        <span id="accumulation-time">—</span>
-                    </article>
-                    <article class="result-card" data-help="firstMonthlyWithdrawal">
+                    <article class="result-card fire-withdrawal-card" data-help="firstMonthlyWithdrawal">
                         <p>Primo prelievo mensile</p>
                         <strong id="first-withdrawal">—</strong>
                         <span>all'inizio del primo mese FIRE</span>
                     </article>
+
+                    <dl class="result-list">
+                        <div id="finite-target-row" data-help="finiteTarget">
+                            <dt>Target a durata finita</dt>
+                            <dd id="finite-target">—</dd>
+                        </div>
+                        <div id="swr-target-row" data-help="swrTarget" hidden>
+                            <dt>Target secondo la SWR</dt>
+                            <dd id="swr-target">—</dd>
+                        </div>
+                        <div data-help="personalFinalBalance">
+                            <dt>Capitale personale a fine FIRE</dt>
+                            <dd id="personal-final-balance">—</dd>
+                        </div>
+                    </dl>
+
+                    <div class="result-note is-warning" id="fire-result-note" hidden></div>
+                </div>
+            </section>
+
+            <section class="panel results-panel pac-results-panel" aria-labelledby="pac-results-title">
+                <div class="results-placeholder compact-placeholder" data-results-placeholder>
+                    <h2>Qui vedrai il risultato PAC</h2>
+                    <p>Il calcolo mostrerà il versamento mensile necessario per raggiungere il target FIRE.</p>
                 </div>
 
-                <dl class="result-list">
-                    <div id="finite-target-row" data-help="finiteTarget">
-                        <dt>Target a durata finita</dt>
-                        <dd id="finite-target">—</dd>
+                <div class="results-content" data-results-content hidden>
+                    <div class="section-heading results-heading">
+                        <div>
+                            <p class="step-label">Il risultato PAC</p>
+                            <h2 id="pac-results-title">Il tuo piano di accumulo</h2>
+                        </div>
                     </div>
-                    <div id="swr-target-row" data-help="swrTarget" hidden>
-                        <dt>Target secondo la SWR</dt>
-                        <dd id="swr-target">—</dd>
-                    </div>
-                    <div data-help="totalNominalContributions">
-                        <dt>Nuovi versamenti nominali</dt>
-                        <dd id="total-contributions">—</dd>
-                    </div>
-                    <div data-help="personalFinalBalance">
-                        <dt>Capitale personale a fine FIRE</dt>
-                        <dd id="personal-final-balance">—</dd>
-                    </div>
-                </dl>
 
-                <div class="result-note" id="result-note"></div>
-                <button class="secondary-button" id="edit-button" type="button">Modifica lo scenario</button>
-            </div>
-        </section>
+                    <article class="result-card accent-card pac-primary-result" data-help="initialMonthlyContribution">
+                        <p>PAC mensile iniziale</p>
+                        <strong id="monthly-contribution">—</strong>
+                        <span id="accumulation-time">—</span>
+                    </article>
+
+                    <dl class="result-list">
+                        <div data-help="totalNominalContributions">
+                            <dt>Nuovi versamenti nominali</dt>
+                            <dd id="total-contributions">—</dd>
+                        </div>
+                    </dl>
+
+                    <div class="result-note" id="pac-result-note"></div>
+                    <button class="secondary-button" id="edit-button" type="button">Modifica lo scenario</button>
+                </div>
+            </section>
+        </div>
     </div>
 
     <section class="projections" id="projections" aria-labelledby="projections-title" hidden>

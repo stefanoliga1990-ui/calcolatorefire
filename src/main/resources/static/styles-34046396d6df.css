@@ -140,6 +140,13 @@ h1 {
     align-items: start;
 }
 
+.input-stack,
+.result-stack {
+    display: grid;
+    gap: 22px;
+    align-content: start;
+}
+
 .projections {
     width: min(1180px, calc(100% - 40px));
     margin: 0 auto 100px;
@@ -362,9 +369,6 @@ h1 {
 }
 
 .results-panel {
-    position: sticky;
-    top: 18px;
-    min-height: 610px;
     color: white;
     background:
         radial-gradient(circle at 100% 0, rgba(227, 168, 59, 0.20), transparent 20rem),
@@ -563,12 +567,16 @@ select[aria-invalid="true"] {
 }
 
 .results-placeholder {
-    min-height: 510px;
+    min-height: 360px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+.compact-placeholder {
+    min-height: 220px;
 }
 
 .results-placeholder h2 {
@@ -644,6 +652,15 @@ select[aria-invalid="true"] {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
     margin: 18px 0;
+}
+
+.fire-withdrawal-card,
+.pac-primary-result {
+    margin: 18px 0;
+}
+
+.pac-primary-result {
+    min-height: 0;
 }
 
 .result-card {
