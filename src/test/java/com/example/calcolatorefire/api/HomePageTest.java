@@ -35,7 +35,11 @@ class HomePageTest {
         mockMvc.perform(get("/index.html"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
-                .andExpect(content().string(containsString("Quanto ti serve per raggiungere il FIRE?")))
+                .andExpect(content().string(containsString("Calcola il patrimonio necessario per raggiungere il FIRE, e gli investimenti necessari per raggiungerlo")))
+                .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
+                .andExpect(content().string(not(containsString("Pianificazione FIRE, con ipotesi trasparenti"))))
+                .andExpect(content().string(not(containsString("Nessun account"))))
+                .andExpect(content().string(not(containsString("brand-mark"))))
                 .andExpect(content().string(containsString("id=\"fire-form\"")))
                 .andExpect(content().string(containsString("id=\"accumulation-chart\"")))
                 .andExpect(content().string(containsString("id=\"decumulation-chart\"")))
@@ -61,7 +65,7 @@ class HomePageTest {
 
     @Test
     void servesTheFrontendAssets() throws Exception {
-        mockMvc.perform(get("/styles.css").queryParam("v", "381003a5453c"))
+        mockMvc.perform(get("/styles.css").queryParam("v", "4130c8f75949"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
