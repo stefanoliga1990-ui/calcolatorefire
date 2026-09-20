@@ -1,14 +1,19 @@
 const form = document.querySelector("#fire-form");
-const calculateButton = document.querySelector("#calculate-button");
+const calculateFireButton = document.querySelector("#calculate-fire-button");
+const calculatePacButton = document.querySelector("#calculate-pac-button");
 const resetButton = document.querySelector("#reset-button");
 const editButton = document.querySelector("#edit-button");
 const errorBox = document.querySelector("#form-error");
-const resultsPlaceholders = document.querySelectorAll("[data-results-placeholder]");
-const resultsContents = document.querySelectorAll("[data-results-content]");
+const pacErrorBox = document.querySelector("#pac-form-error");
+const fireResultsPlaceholder = document.querySelector("#fire-results-placeholder");
+const fireResultsContent = document.querySelector("#fire-results-content");
+const pacResultsPlaceholder = document.querySelector("#pac-results-placeholder");
+const pacResultsContent = document.querySelector("#pac-results-content");
 const projections = document.querySelector("#projections");
 
-let chartCleanups = [];
+let chartCleanups = { accumulation: null, decumulation: null };
 let renderedMethod = null;
+let lastFireRequest = null;
 
 const currency = new Intl.NumberFormat("it-IT", {
     style: "currency",
@@ -404,25 +409,60 @@ form.addEventListener("submit", async (event) => {
         return;
     }
 
-    setLoading(true);
+    const request = buildRequest();
+    calculatePacButton.disabled = true;
+    setLoading(calculateFireButton, true, "Calcola FIRE e PAC");
     try {
-        const response = await fetch("/api/v1/fire/calculations", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(buildRequest())
-        });
-
-        const body = await response.json();
-        if (!response.ok) {
-            showApiError(body);
+        const result = await calculate(request);
+        if (!result.ok) {
+            showApiError(result.body, errorBox);
             return;
         }
 
-        renderResults(body);
+        lastFireRequest = { ...request };
+        renderFireResults(result.body, request);
+        renderPacResults(result.body, request);
+        renderProjectionCharts(result.body, request);
+        calculatePacButton.disabled = false;
+        setText("pac-calculation-help", "Modifica i dati PAC e usa questo pulsante per aggiornare soltanto il piano di accumulo.");
+
+        if (window.matchMedia("(max-width: 920px)").matches) {
+            document.querySelector("#results").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
     } catch (error) {
         showError("Non è stato possibile contattare il calcolatore. Riprova tra poco.");
     } finally {
-        setLoading(false);
+        setLoading(calculateFireButton, false, "Calcola FIRE e PAC");
+        calculatePacButton.disabled = lastFireRequest === null;
+    }
+});
+
+calculatePacButton.addEventListener("click", async () => {
+    clearErrors();
+    if (!lastFireRequest || !validatePacInputs()) {
+        return;
+    }
+
+    const request = { ...lastFireRequest, ...buildPacRequest() };
+    calculateFireButton.disabled = true;
+    setLoading(calculatePacButton, true, "Ricalcola solo il PAC");
+    try {
+        const result = await calculate(request);
+        if (!result.ok) {
+            showApiError(result.body, pacErrorBox);
+            return;
+        }
+
+        renderPacResults(result.body, request);
+        renderAccumulationChart(result.body, request);
+        if (window.matchMedia("(max-width: 920px)").matches) {
+            document.querySelector(".pac-results-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    } catch (error) {
+        showError("Non è stato possibile ricalcolare il PAC. Riprova tra poco.", false, pacErrorBox);
+    } finally {
+        setLoading(calculatePacButton, false, "Ricalcola solo il PAC");
+        calculateFireButton.disabled = false;
     }
 });
 
@@ -436,8 +476,13 @@ resetButton.addEventListener("click", () => {
     updateMethodFields();
     clearErrors();
     renderedMethod = null;
-    resultsContents.forEach((content) => content.hidden = true);
-    resultsPlaceholders.forEach((placeholder) => placeholder.hidden = false);
+    lastFireRequest = null;
+    fireResultsContent.hidden = true;
+    pacResultsContent.hidden = true;
+    fireResultsPlaceholder.hidden = false;
+    pacResultsPlaceholder.hidden = false;
+    calculatePacButton.disabled = true;
+    setText("pac-calculation-help", "Calcola prima il FIRE per definire il patrimonio da raggiungere.");
     projections.hidden = true;
     destroyCharts();
     form.querySelector("input, select")?.focus();
@@ -465,14 +510,29 @@ function buildRequest() {
     };
 }
 
-function renderResults(data) {
-    const method = value("method");
+function buildPacRequest() {
+    return {
+        currentCapital: number("currentCapital"),
+        annualAccumulationReturnRate: percent("annualAccumulationReturnRate"),
+        annualContributionGrowthRate: percent("annualContributionGrowthRate")
+    };
+}
+
+async function calculate(request) {
+    const response = await fetch("/api/v1/fire/calculations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(request)
+    });
+    return { ok: response.ok, body: await response.json() };
+}
+
+function renderFireResults(data, request) {
+    const method = request.method;
     renderedMethod = method;
     setText("result-method", methodLabels[method]);
     setText("selected-target", money(data.target.selectedTarget));
     setText("selected-target-today", `${money(data.target.selectedTargetToday)} in euro di oggi`);
-    setText("monthly-contribution", `${money(data.accumulation.initialMonthlyContribution)} / mese`);
-    setText("accumulation-time", `${formatMonths(data.accumulationMonths)} per raggiungere il target`);
     setText("first-withdrawal", `${money(data.target.firstMonthlyWithdrawal)} / mese`);
     const isSwr = method === "SWR";
     document.querySelector("#finite-target-row").hidden = isSwr;
@@ -482,35 +542,39 @@ function renderResults(data) {
     } else {
         setText("finite-target", money(data.target.finiteTarget));
     }
-    setText("total-contributions", money(data.accumulation.totalNominalContributions));
     setText("personal-final-balance", money(data.decumulation.personalFinalBalance));
 
-    const contribution = data.accumulation.initialMonthlyContribution;
     const depletionMonth = data.decumulation.depletionMonth;
     const fireResultNote = document.querySelector("#fire-result-note");
     fireResultNote.hidden = depletionMonth === null;
     if (depletionMonth !== null) {
         setText(
             "fire-result-note",
-            `Attenzione: con una SWR del ${number("annualSafeWithdrawalRate").toLocaleString("it-IT")}% il capitale non copre tutti i ${number("fireDurationYears")} anni. Il primo prelievo non interamente coperto si verifica al ${depletionMonth}° mese FIRE.`
+            `Attenzione: con una SWR del ${(request.annualSafeWithdrawalRate * 100).toLocaleString("it-IT")}% il capitale non copre tutti i ${request.fireDurationYears} anni. Il primo prelievo non interamente coperto si verifica al ${depletionMonth}° mese FIRE.`
         );
     }
 
-    const pacNote = contribution === 0
-        ? "Il patrimonio che possiedi oggi è già sufficiente nello scenario inserito: il PAC richiesto è zero."
-        : `Il versamento indicato è quello del primo mese. Avviene a fine mese e ${number("annualContributionGrowthRate") === 0 ? "resta costante" : "cresce nel tempo"}.`;
-    setText("pac-result-note", pacNote);
-
-    resultsPlaceholders.forEach((placeholder) => placeholder.hidden = true);
-    resultsContents.forEach((content) => content.hidden = false);
-    projections.hidden = false;
-    renderProjectionCharts(data);
-    if (window.matchMedia("(max-width: 920px)").matches) {
-        document.querySelector("#results").scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    fireResultsPlaceholder.hidden = true;
+    fireResultsContent.hidden = false;
 }
 
-function showApiError(problem) {
+function renderPacResults(data, request) {
+    const contribution = data.accumulation.initialMonthlyContribution;
+    setText("monthly-contribution", `${money(data.accumulation.initialMonthlyContribution)} / mese`);
+    setText("accumulation-time", `${formatMonths(data.accumulationMonths)} per raggiungere il target`);
+    setText("total-contributions", money(data.accumulation.totalNominalContributions));
+
+    const pacNote = contribution === 0
+        ? "Il patrimonio che possiedi oggi è già sufficiente nello scenario inserito: il PAC richiesto è zero."
+        : `Il versamento indicato è quello del primo mese. Avviene a fine mese e ${request.annualContributionGrowthRate === 0 ? "resta costante" : "cresce nel tempo"}.`;
+    setText("pac-result-note", pacNote);
+
+    pacResultsPlaceholder.hidden = true;
+    pacResultsContent.hidden = false;
+    projections.hidden = false;
+}
+
+function showApiError(problem, target = errorBox) {
     if (Array.isArray(problem.fieldErrors)) {
         for (const error of problem.fieldErrors) {
             const control = form.elements.namedItem(error.field);
@@ -519,37 +583,51 @@ function showApiError(problem) {
         const items = problem.fieldErrors
             .map((error) => `<li>${escapeHtml(error.message)}</li>`)
             .join("");
-        showError(`${escapeHtml(problem.detail || "Controlla i dati inseriti.")}<ul>${items}</ul>`, true);
+        showError(`${escapeHtml(problem.detail || "Controlla i dati inseriti.")}<ul>${items}</ul>`, true, target);
         return;
     }
-    showError(problem.detail || "Lo scenario non può essere calcolato con questi valori.");
+    showError(problem.detail || "Lo scenario non può essere calcolato con questi valori.", false, target);
 }
 
-function showError(message, isHtml = false) {
+function showError(message, isHtml = false, target = errorBox) {
     if (isHtml) {
-        errorBox.innerHTML = message;
+        target.innerHTML = message;
     } else {
-        errorBox.textContent = message;
+        target.textContent = message;
     }
-    errorBox.hidden = false;
-    errorBox.focus();
+    target.hidden = false;
+    target.focus();
 }
 
 function clearErrors() {
-    errorBox.hidden = true;
-    errorBox.textContent = "";
+    for (const box of [errorBox, pacErrorBox]) {
+        box.hidden = true;
+        box.textContent = "";
+    }
     for (const control of form.elements) {
         control.removeAttribute?.("aria-invalid");
     }
 }
 
-function setLoading(loading) {
-    calculateButton.disabled = loading;
-    calculateButton.classList.toggle("is-loading", loading);
-    calculateButton.setAttribute("aria-busy", String(loading));
-    calculateButton.querySelector(".button-label").textContent = loading
+function validatePacInputs() {
+    const names = ["currentCapital", "annualAccumulationReturnRate", "annualContributionGrowthRate"];
+    for (const name of names) {
+        const control = form.elements.namedItem(name);
+        if (!control.checkValidity()) {
+            control.reportValidity();
+            return false;
+        }
+    }
+    return true;
+}
+
+function setLoading(button, loading, idleLabel) {
+    button.disabled = loading;
+    button.classList.toggle("is-loading", loading);
+    button.setAttribute("aria-busy", String(loading));
+    button.querySelector(".button-label").textContent = loading
         ? "Calcolo in corso"
-        : "Calcola il mio scenario";
+        : idleLabel;
 }
 
 function value(name) {
@@ -590,12 +668,39 @@ function escapeHtml(valueToEscape) {
 function renderProjectionCharts(data) {
     destroyCharts();
 
+    renderAccumulationChart(data);
+    renderDecumulationChart(data);
+}
+
+function renderAccumulationChart(data) {
+    chartCleanups.accumulation?.();
+
     const initialCapital = data.accumulation.projection[0]?.closingBalance ?? 0;
     const accumulationData = data.accumulation.projection.map((point) => ({
         age: point.age,
         balance: point.closingBalance,
         contributions: initialCapital + point.cumulativeContributions
     }));
+
+    setText(
+        "accumulation-chart-summary",
+        `Da ${money(initialCapital)} a ${money(data.accumulation.projectedFinalBalance)} tra ${data.accumulation.projection[0]?.age ?? 0} e ${data.accumulation.projection.at(-1)?.age ?? 0} anni.`
+    );
+
+    chartCleanups.accumulation = createProjectionChart({
+        name: "accumulation",
+        svgId: "accumulation-chart",
+        tooltipId: "accumulation-tooltip",
+        data: accumulationData,
+        series: [
+            { key: "balance", label: "Patrimonio", className: "series-one" },
+            { key: "contributions", label: "Capitale versato", className: "series-two" }
+        ]
+    });
+}
+
+function renderDecumulationChart(data) {
+    chartCleanups.decumulation?.();
 
     let cumulativeWithdrawals = 0;
     const decumulationData = data.decumulation.projection.map((point) => {
@@ -608,26 +713,11 @@ function renderProjectionCharts(data) {
     });
 
     setText(
-        "accumulation-chart-summary",
-        `Da ${money(initialCapital)} a ${money(data.accumulation.projectedFinalBalance)} tra ${number("currentAge")} e ${number("fireAge")} anni.`
-    );
-    setText(
         "decumulation-chart-summary",
         `Da ${money(data.decumulation.personalStartBalance)} a ${money(data.decumulation.personalFinalBalance)} nei ${data.fireMonths / 12} anni di FIRE.`
     );
 
-    chartCleanups.push(createProjectionChart({
-        name: "accumulation",
-        svgId: "accumulation-chart",
-        tooltipId: "accumulation-tooltip",
-        data: accumulationData,
-        series: [
-            { key: "balance", label: "Patrimonio", className: "series-one" },
-            { key: "contributions", label: "Capitale versato", className: "series-two" }
-        ]
-    }));
-
-    chartCleanups.push(createProjectionChart({
+    chartCleanups.decumulation = createProjectionChart({
         name: "decumulation",
         svgId: "decumulation-chart",
         tooltipId: "decumulation-tooltip",
@@ -636,7 +726,7 @@ function renderProjectionCharts(data) {
             { key: "balance", label: "Patrimonio", className: "series-one" },
             { key: "withdrawals", label: "Prelievi cumulati", className: "series-two" }
         ]
-    }));
+    });
 }
 
 function createProjectionChart({ name, svgId, tooltipId, data, series }) {
@@ -802,8 +892,9 @@ function createProjectionChart({ name, svgId, tooltipId, data, series }) {
 }
 
 function destroyCharts() {
-    chartCleanups.forEach((cleanup) => cleanup());
-    chartCleanups = [];
+    chartCleanups.accumulation?.();
+    chartCleanups.decumulation?.();
+    chartCleanups = { accumulation: null, decumulation: null };
 }
 
 function compactMoney(valueToFormat) {

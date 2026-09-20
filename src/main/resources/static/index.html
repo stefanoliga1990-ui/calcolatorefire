@@ -6,8 +6,8 @@
     <meta name="description" content="Calcola il patrimonio necessario per il FIRE e il PAC mensile per raggiungerlo.">
     <title>Calcolo FIRE Italia</title>
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-34046396d6df.css">
-    <script src="/app-77a51c0de673.js" defer></script>
+    <link rel="stylesheet" href="/styles-2c99eae36d43.css">
+    <script src="/app-b26d86b418df.js" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -111,6 +111,11 @@
                     </div>
                 </fieldset>
 
+                <button class="primary-button" id="calculate-fire-button" type="submit">
+                    <span class="button-label">Calcola FIRE e PAC</span>
+                    <span class="button-loader" aria-hidden="true"></span>
+                </button>
+
             </section>
 
             <section class="panel form-panel" aria-labelledby="pac-form-title">
@@ -120,6 +125,8 @@
                         <h2 id="pac-form-title">Pianifica l'accumulo</h2>
                     </div>
                 </div>
+
+                <div id="pac-form-error" class="alert" role="alert" tabindex="-1" hidden></div>
 
                 <fieldset>
                     <legend>Piano di accumulo</legend>
@@ -150,21 +157,22 @@
                     </div>
                 </fieldset>
 
-                <button class="primary-button" id="calculate-button" type="submit">
-                    <span class="button-label">Calcola il mio scenario</span>
+                <button class="primary-button" id="calculate-pac-button" type="button" disabled>
+                    <span class="button-label">Ricalcola solo il PAC</span>
                     <span class="button-loader" aria-hidden="true"></span>
                 </button>
+                <small class="button-help" id="pac-calculation-help">Calcola prima il FIRE per definire il patrimonio da raggiungere.</small>
             </section>
         </form>
 
         <div class="result-stack" id="results" aria-live="polite">
             <section class="panel results-panel" aria-labelledby="fire-results-title">
-                <div class="results-placeholder" data-results-placeholder>
+                <div class="results-placeholder" id="fire-results-placeholder">
                     <h2>Qui vedrai il risultato FIRE</h2>
                     <p>Compila lo scenario per calcolare il patrimonio necessario e la fase di decumulo.</p>
                 </div>
 
-                <div class="results-content" data-results-content hidden>
+                <div class="results-content" id="fire-results-content" hidden>
                     <div class="section-heading results-heading">
                         <div>
                             <p class="step-label">Il risultato FIRE</p>
@@ -205,12 +213,12 @@
             </section>
 
             <section class="panel results-panel pac-results-panel" aria-labelledby="pac-results-title">
-                <div class="results-placeholder compact-placeholder" data-results-placeholder>
+                <div class="results-placeholder compact-placeholder" id="pac-results-placeholder">
                     <h2>Qui vedrai il risultato PAC</h2>
                     <p>Il calcolo mostrerà il versamento mensile necessario per raggiungere il target FIRE.</p>
                 </div>
 
-                <div class="results-content" data-results-content hidden>
+                <div class="results-content" id="pac-results-content" hidden>
                     <div class="section-heading results-heading">
                         <div>
                             <p class="step-label">Il risultato PAC</p>
