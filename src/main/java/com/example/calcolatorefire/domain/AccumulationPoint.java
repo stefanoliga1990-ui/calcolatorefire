@@ -6,7 +6,11 @@ public record AccumulationPoint(
         double openingBalance,
         double investmentReturn,
         double contribution,
+        double additionalIncomeContribution,
         double closingBalance,
-        double cumulativeContributions
+        double cumulativeContributions,
+        double cumulativeAdditionalIncome,
+        double availableExistingInvestmentsBalance,
+        double totalAvailableBalance
 ) {
 }

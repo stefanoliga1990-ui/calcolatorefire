@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.lessThan;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -178,7 +179,12 @@ class FireCalculationApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(withAdditionalResources(resources)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.target.selectedTarget").value(closeTo(557_770.7040, 0.01)));
+                .andExpect(jsonPath("$.target.selectedTarget").value(lessThan(557_770.7040)))
+                .andExpect(jsonPath("$.accumulation.availableExistingInvestmentsFinalBalance")
+                        .value(greaterThan(0.0)))
+                .andExpect(jsonPath("$.accumulation.existingInvestments", hasSize(1)))
+                .andExpect(jsonPath("$.decumulation.projection[205].additionalIncome")
+                        .value(greaterThan(0.0)));
     }
 
     @Test

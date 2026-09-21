@@ -14,13 +14,21 @@ public record FireCalculationResult(
         double terminalCapitalAtFire,
         double terminalCapitalNominalAtEnd,
         Double finiteTarget,
+        Double safeWithdrawalRateBaseTarget,
         Double safeWithdrawalRateTarget,
         double selectedTarget,
         double selectedTargetToday,
+        double firstMonthlyAdditionalIncome,
+        double firstMonthlyNetWithdrawal,
         double projectedCurrentCapitalAtFire,
         double capitalGap,
         double initialMonthlyContribution,
         double totalNominalContributions,
+        double totalNominalAdditionalIncomeInvested,
+        double totalNominalExistingInvestmentContributions,
+        double projectedMainPortfolioFinalBalance,
+        double projectedInvestedIncomeFinalBalance,
+        double projectedAvailableExistingInvestmentsFinalBalance,
         double projectedAccumulationFinalBalance,
         Double finiteTargetProjectedFinalBalance,
         double targetDecumulationFinalBalance,
@@ -29,10 +37,12 @@ public record FireCalculationResult(
         double totalShortfall,
         Integer depletionMonth,
         List<AccumulationPoint> accumulationProjection,
-        List<DecumulationPoint> decumulationProjection
+        List<DecumulationPoint> decumulationProjection,
+        List<ExistingInvestmentResult> existingInvestments
 ) {
     public FireCalculationResult {
         accumulationProjection = List.copyOf(accumulationProjection);
         decumulationProjection = List.copyOf(decumulationProjection);
+        existingInvestments = List.copyOf(existingInvestments);
     }
 }

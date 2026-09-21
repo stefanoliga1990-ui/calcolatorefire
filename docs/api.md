@@ -111,7 +111,13 @@ Le età sono intere e rappresentano confini mensili. L'età iniziale è inclusa,
 - `receiptAge` deve essere compresa tra `currentAge` e `fireAge + fireDurationYears`;
 - `annualReturnRateAfterReceipt` è usato prima del FIRE soltanto quando `investAfterReceipt` è `true`; negli altri casi viene ignorato, ma deve comunque essere fornito.
 
-In questa Fase 2 il backend deserializza e valida le risorse, mantenendone il tipo nel modello di dominio. Il loro effetto sui target, sul PAC e sulle proiezioni verrà collegato al motore nelle Fasi 3 e 4. Fino a quel collegamento, la risposta mantiene il formato attuale e i risultati sono quelli dello scenario base.
+Gli investimenti esistenti e le rendite periodiche sono applicati dal motore:
+
+- il saldo degli investimenti con `availableAtFire: true` e le rendite reinvestite prima del FIRE riducono il capitale ancora da costruire con il nuovo PAC;
+- le rendite con `offsetDuringFire: true` riducono il prelievo netto e modificano il target `FINITE` o il capitale ponte del metodo `SWR`;
+- un investimento con `availableAtFire: false` viene proiettato e restituito dall'API, ma non riduce il PAC e non entra nel capitale FIRE.
+
+In questa Fase 3 `FUTURE_LUMP_SUM` viene deserializzato e validato, ma non ha ancora effetto sui calcoli. Verrà collegato al motore nella Fase 4.
 
 ### Risposta `200 OK`
 
@@ -120,8 +126,28 @@ La risposta contiene:
 - `accumulationMonths` e `fireMonths`;
 - `rates`, con i tassi mensili equivalenti;
 - `target`, con il solo target del metodo selezionato;
-- `accumulation`, con PAC richiesto e proiezione mensile;
-- `decumulation`, con prelievi, saldo, eventuale shortfall e proiezione mensile.
+- `accumulation`, con PAC richiesto, risorse disponibili e proiezioni mensili;
+- `decumulation`, con spesa lorda, rendite, prelievi netti, saldo ed eventuale shortfall.
+
+In `target`:
+
+- `firstMonthlyWithdrawal` conserva per compatibilità la spesa lorda nominale del primo mese FIRE;
+- `firstMonthlyAdditionalIncome` è la rendita che concorre nel primo mese;
+- `firstMonthlyNetWithdrawal` è il prelievo effettivamente richiesto al portafoglio dopo la rendita;
+- per `SWR`, `safeWithdrawalRateBaseTarget` è il target senza risorse e `safeWithdrawalRateTarget` è il target selezionato dopo capitale ponte e riserva stabile.
+
+In `accumulation`:
+
+- `totalNominalContributions` contiene soltanto i versamenti del nuovo PAC calcolato;
+- `totalNominalAdditionalIncomeInvested` contiene le rendite reinvestite durante l'accumulo;
+- `totalNominalExistingInvestmentContributions` contiene i versamenti dei PAC esistenti;
+- `mainPortfolioFinalBalance` comprende patrimonio principale, nuovo PAC e rendite reinvestite;
+- `investedIncomeFinalBalance` isola nel portafoglio principale la quota costruita dalle rendite;
+- `availableExistingInvestmentsFinalBalance` somma gli investimenti disponibili al FIRE;
+- `projectedFinalBalance` è il capitale totale disponibile al FIRE;
+- `existingInvestments` mantiene una proiezione distinta per ogni investimento, identificato dalla posizione `resourceIndex` nella lista della richiesta.
+
+Ogni voce di `decumulation.projection` espone `grossExpense`, `additionalIncome`, `scheduledWithdrawal` netto, `actualWithdrawal`, `shortfall` e saldo. `capitalInflow` è presente nel contratto ma resta zero fino all'implementazione dei capitali una tantum nella Fase 4.
 
 Esempio sintetico, con le serie mensili omesse:
 
@@ -133,12 +159,17 @@ Esempio sintetico, con le serie mensili omesse:
     "firstMonthlyWithdrawal": 2111.1660209006,
     "finiteTarget": 557770.7040214724,
     "selectedTarget": 557770.7040214724,
-    "selectedTargetToday": 422720.4860249008
+    "selectedTargetToday": 422720.4860249008,
+    "firstMonthlyAdditionalIncome": 0,
+    "firstMonthlyNetWithdrawal": 2111.1660209006
   },
   "accumulation": {
     "initialMonthlyContribution": 1905.5163192213,
+    "mainPortfolioFinalBalance": 557770.7040214724,
+    "availableExistingInvestmentsFinalBalance": 0,
     "projectedFinalBalance": 557770.7040214724,
-    "projection": ["una voce iniziale e una per ogni mese"]
+    "projection": ["una voce iniziale e una per ogni mese"],
+    "existingInvestments": []
   },
   "decumulation": {
     "personalStartBalance": 557770.7040214724,
