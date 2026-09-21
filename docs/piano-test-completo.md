@@ -230,3 +230,33 @@ Classe aggiunta: `FireCalculatorPeriodicIncomeCoverageTest`, 36 casi eseguiti.
 Esito complessivo al termine della fase: 155 test Maven, 0 errori,
 0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
 indipendente. Nessuna modifica al motore è risultata necessaria.
+
+### Fase 5 — Capitali futuri una tantum
+
+Classe aggiunta: `FireCalculatorFutureLumpSumCoverageTest`, 36 casi eseguiti.
+
+- importi nominali ed espressi in euro di oggi verificati con FINITE e SWR;
+- rivalutazione dalla data corrente fino alla ricezione, inclusa la ricezione
+  durante il FIRE;
+- ricezione al mese zero, durante l'accumulo, esattamente al FIRE, durante il
+  FIRE e al confine terminale, senza doppio conteggio;
+- visibilità del capitale ricevuto oggi nel checkpoint di accumulo del mese
+  zero;
+- rendimento proprio dopo la ricezione negativo, nullo e positivo prima del
+  FIRE;
+- rendimento configurato ignorato quando il capitale non viene investito e,
+  durante il FIRE, sostituito dal rendimento del portafoglio di decumulo;
+- più capitali in mesi diversi verificati per additività e indipendenza
+  dall'ordine;
+- equivalenza tra un capitale e due capitali contemporanei che ne suddividono
+  l'importo;
+- capitale terminale inferiore, uguale e superiore al capitale finale
+  desiderato, senza finanziamento retroattivo dei prelievi;
+- capitale terminale escluso dalla riduzione del target SWR;
+- neutralità di un capitale di importo zero;
+- rifiuto di importi negativi, base mancante, ricezioni fuori orizzonte e
+  rendimento minore o uguale a `-100%`.
+
+Esito complessivo al termine della fase: 191 test Maven, 0 errori,
+0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
+indipendente. Nessuna modifica al motore è risultata necessaria.
