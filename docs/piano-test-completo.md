@@ -202,3 +202,31 @@ eseguiti.
 Esito complessivo al termine della fase: 119 test Maven, 0 errori,
 0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
 indipendente. Nessuna modifica al motore è risultata necessaria.
+
+### Fase 4 — Rendite periodiche
+
+Classe aggiunta: `FireCalculatorPeriodicIncomeCoverageTest`, 36 casi eseguiti.
+
+- utilizzo della rendita soltanto in accumulo, soltanto durante il FIRE oppure
+  in entrambe le fasi, verificato con FINITE e SWR;
+- timing a fine mese delle rendite investite, incluso il rendimento positivo
+  del portafoglio principale;
+- rendite attive e future, con crescita calcolata dal mese zero e inizio
+  incluso;
+- confini all'ingresso nel FIRE e alla fine dell'orizzonte, con estremo finale
+  escluso;
+- importi inferiori, uguali e superiori alla spesa, senza prelievi negativi;
+- crescita negativa, nulla, uguale all'inflazione e positiva, verificata sia
+  durante l'accumulo sia durante il FIRE;
+- ponte SWR con due rendite permanenti future e tre regimi di prelievo: target
+  base `600.000 euro`, target con risorse `570.000 euro`;
+- più rendite verificate per additività e indipendenza dall'ordine;
+- equivalenza tra una rendita e due rendite che ne suddividono l'importo;
+- neutralità di una rendita con importo zero;
+- rifiuto di importi negativi, crescita a `-100%`, rendite inutilizzate,
+  periodi vuoti o esterni alla fase nella quale la rendita dovrebbe essere
+  usata.
+
+Esito complessivo al termine della fase: 155 test Maven, 0 errori,
+0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
+indipendente. Nessuna modifica al motore è risultata necessaria.
