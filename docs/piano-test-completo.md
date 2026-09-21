@@ -173,3 +173,32 @@ proiezione annuale e non come durata di accumulo configurabile.
 Esito complessivo al termine della fase: 89 test Maven, 0 errori, 0 fallimenti,
 0 test ignorati; tutti i 21 golden ancora riconciliati dal riferimento
 indipendente.
+
+### Fase 3 — Investimenti e PAC già esistenti
+
+Classe aggiunta: `FireCalculatorExistingInvestmentCoverageTest`, 30 casi
+eseguiti.
+
+- capitale iniziale, PAC esistente e combinazione dei due verificati sia con
+  FINITE sia con SWR;
+- finestre di versamento con inizio incluso e fine esclusa: da oggi, future,
+  anticipate e concluse esattamente al FIRE;
+- rendimento proprio dell'investimento negativo, nullo e positivo, verificato
+  sulla capitalizzazione decennale;
+- crescita del PAC negativa, nulla e positiva, verificata sulla somma dei
+  versamenti mensili equivalenti;
+- riconciliazione di ogni mese di un investimento con capitale, rendimento e
+  PAC crescente;
+- disponibilità al FIRE attiva e disattiva, inclusi PAC non disponibili e
+  scenari con zero mesi di accumulo;
+- più investimenti verificati per additività, separazione dei saldi e
+  indipendenza dall'ordine nella lista;
+- equivalenza tra una risorsa e la sua suddivisione in due risorse con gli
+  stessi tassi e periodi;
+- rifiuto di periodi incompleti, precedenti all'età attuale, successivi al FIRE
+  o vuoti;
+- rifiuto di rendimento e crescita del PAC minori o uguali a `-100%`.
+
+Esito complessivo al termine della fase: 119 test Maven, 0 errori,
+0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
+indipendente. Nessuna modifica al motore è risultata necessaria.
