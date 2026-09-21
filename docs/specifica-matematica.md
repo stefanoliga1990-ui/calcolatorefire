@@ -840,3 +840,27 @@ La Fase 1 dell'estensione è pronta per l'approvazione quando:
 - l'assenza di risorse garantisce compatibilità numerica con tutti i golden scenario esistenti;
 - sono documentati doppio conteggio, importi netti, eccedenze di rendita e confini temporali;
 - le decisioni possono essere tradotte in dominio e API senza dipendere dal workbook Excel.
+
+### 24.8 Golden scenario delle risorse aggiuntive
+
+Gli scenari numerici di accettazione delle risorse aggiuntive sono versionati in
+`src/test/resources/golden-additional-resources.json`. Il file
+`src/test/resources/golden-scenarios.csv` resta invariato e continua a verificare la
+compatibilità numerica dell'MVP quando non sono presenti risorse aggiuntive.
+
+I risultati attesi del nuovo golden set derivano dalle formule e dalle convenzioni
+temporali di questa specifica. Non vengono generati dal motore Java e il workbook
+Excel non è usato come fonte dei valori attesi.
+
+Ogni scenario verifica i risultati aggregati rilevanti e soltanto i checkpoint
+mensili necessari a dimostrare il timing dei flussi. Il set copre:
+
+- rendite permanenti, future e temporanee;
+- rendite investite durante l'accumulo;
+- investimenti esistenti, con PAC proprio e con disponibilità esclusa dal FIRE;
+- capitali una tantum ricevuti prima del FIRE, al FIRE, durante il FIRE e al confine finale;
+- importi una tantum espressi in euro di oggi;
+- combinazioni delle tre tipologie di risorsa;
+- zero mesi di accumulo.
+
+Le verifiche monetarie usano la tolleranza di `0,01 euro` definita nella sezione 12.

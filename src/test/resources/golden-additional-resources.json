@@ -1,0 +1,388 @@
+[
+  {
+    "scenarioId": "FINITE_PERMANENT_INCOME",
+    "request": {
+      "method": "FINITE", "currentAge": 50, "fireAge": 50, "fireDurationYears": 30,
+      "monthlyExpenseToday": 2000, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 0, "currentCapital": 540000,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "PERIODIC_INCOME", "name": "Affitto netto", "monthlyAmountToday": 500,
+          "annualGrowthRate": 0, "startAge": 50, "endAge": null,
+          "investBeforeFire": false, "offsetDuringFire": true}
+      ]
+    },
+    "expected": {
+      "accumulationMonths": 0, "fireMonths": 360, "finiteTarget": 540000,
+      "selectedTarget": 540000, "initialMonthlyContribution": 0,
+      "projectedFinalBalance": 540000, "personalFinalBalance": 0,
+      "firstMonthlyAdditionalIncome": 500, "firstMonthlyNetWithdrawal": 1500,
+      "totalShortfall": 0,
+      "decumulationCheckpoints": [
+        {"month": 1, "grossExpense": 2000, "additionalIncome": 500, "scheduledWithdrawal": 1500, "closingBalance": 538500},
+        {"month": 360, "closingBalance": 0}
+      ]
+    }
+  },
+  {
+    "scenarioId": "SWR_FUTURE_PENSION",
+    "request": {
+      "method": "SWR", "currentAge": 50, "fireAge": 50, "fireDurationYears": 30,
+      "monthlyExpenseToday": 2000, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": 0.04, "terminalCapitalToday": 0, "currentCapital": 540000,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "PERIODIC_INCOME", "name": "Pensione", "monthlyAmountToday": 1000,
+          "annualGrowthRate": 0, "startAge": 60, "endAge": null,
+          "investBeforeFire": false, "offsetDuringFire": true}
+      ]
+    },
+    "expected": {
+      "accumulationMonths": 0, "fireMonths": 360,
+      "safeWithdrawalRateBaseTarget": 600000, "safeWithdrawalRateTarget": 540000,
+      "selectedTarget": 540000, "initialMonthlyContribution": 0,
+      "projectedFinalBalance": 540000, "personalFinalBalance": 60000,
+      "firstMonthlyAdditionalIncome": 0, "firstMonthlyNetWithdrawal": 2000,
+      "totalShortfall": 0,
+      "decumulationCheckpoints": [
+        {"month": 120, "additionalIncome": 0, "closingBalance": 300000},
+        {"month": 121, "additionalIncome": 1000, "scheduledWithdrawal": 1000, "closingBalance": 299000},
+        {"month": 360, "closingBalance": 60000}
+      ]
+    }
+  },
+  {
+    "scenarioId": "SWR_TEMPORARY_INCOME",
+    "request": {
+      "method": "SWR", "currentAge": 50, "fireAge": 50, "fireDurationYears": 30,
+      "monthlyExpenseToday": 2000, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": 0.04, "terminalCapitalToday": 0, "currentCapital": 600000,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "PERIODIC_INCOME", "name": "Rendita temporanea", "monthlyAmountToday": 500,
+          "annualGrowthRate": 0, "startAge": 50, "endAge": 60,
+          "investBeforeFire": false, "offsetDuringFire": true}
+      ]
+    },
+    "expected": {
+      "safeWithdrawalRateBaseTarget": 600000, "safeWithdrawalRateTarget": 600000,
+      "selectedTarget": 600000, "initialMonthlyContribution": 0,
+      "projectedFinalBalance": 600000, "personalFinalBalance": 0,
+      "firstMonthlyAdditionalIncome": 500, "firstMonthlyNetWithdrawal": 1500,
+      "totalShortfall": 60000, "depletionMonth": 331,
+      "decumulationCheckpoints": [
+        {"month": 120, "additionalIncome": 500, "closingBalance": 420000},
+        {"month": 121, "additionalIncome": 0, "scheduledWithdrawal": 2000, "closingBalance": 418000},
+        {"month": 330, "closingBalance": 0},
+        {"month": 331, "shortfall": 2000, "closingBalance": 0}
+      ]
+    }
+  },
+  {
+    "scenarioId": "EXISTING_INVESTMENT_OWN_RETURN",
+    "request": {
+      "method": "FINITE", "currentAge": 40, "fireAge": 50, "fireDurationYears": 1,
+      "monthlyExpenseToday": 0, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 0, "currentCapital": 0,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "EXISTING_INVESTMENT", "name": "Portafoglio obbligazionario",
+          "currentCapital": 100000, "initialMonthlyContribution": 0,
+          "contributionStartAge": null, "contributionEndAge": null,
+          "annualReturnRate": 0.05, "annualContributionGrowthRate": 0, "availableAtFire": true}
+      ]
+    },
+    "expected": {
+      "finiteTarget": 0, "selectedTarget": 0, "initialMonthlyContribution": 0,
+      "projectedFinalBalance": 162889.4626777442,
+      "availableExistingInvestmentsFinalBalance": 162889.4626777442,
+      "personalFinalBalance": 162889.4626777442,
+      "firstMonthlyAdditionalIncome": 0, "firstMonthlyNetWithdrawal": 0, "totalShortfall": 0,
+      "existingInvestments": [
+        {"resourceIndex": 0, "availableAtFire": true, "totalNominalContributions": 0, "finalBalance": 162889.4626777442}
+      ],
+      "accumulationCheckpoints": [
+        {"month": 0, "availableExistingInvestmentsBalance": 100000, "totalAvailableBalance": 100000},
+        {"month": 120, "availableExistingInvestmentsBalance": 162889.4626777442, "totalAvailableBalance": 162889.4626777442}
+      ]
+    }
+  },
+  {
+    "scenarioId": "EXISTING_PAC_END_OF_MONTH",
+    "request": {
+      "method": "FINITE", "currentAge": 40, "fireAge": 41, "fireDurationYears": 1,
+      "monthlyExpenseToday": 100, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 0, "currentCapital": 0,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "EXISTING_INVESTMENT", "name": "PAC esistente", "currentCapital": 0,
+          "initialMonthlyContribution": 100, "contributionStartAge": 40, "contributionEndAge": 41,
+          "annualReturnRate": 0, "annualContributionGrowthRate": 0, "availableAtFire": true}
+      ]
+    },
+    "expected": {
+      "finiteTarget": 1200, "selectedTarget": 1200, "initialMonthlyContribution": 0,
+      "projectedFinalBalance": 1200, "availableExistingInvestmentsFinalBalance": 1200,
+      "personalFinalBalance": 0, "totalShortfall": 0,
+      "existingInvestments": [
+        {"resourceIndex": 0, "availableAtFire": true, "totalNominalContributions": 1200, "finalBalance": 1200}
+      ],
+      "accumulationCheckpoints": [
+        {"month": 1, "availableExistingInvestmentsBalance": 100, "totalAvailableBalance": 100},
+        {"month": 12, "availableExistingInvestmentsBalance": 1200, "totalAvailableBalance": 1200}
+      ]
+    }
+  },
+  {
+    "scenarioId": "PERIODIC_INCOME_INVESTED_BEFORE_FIRE",
+    "request": {
+      "method": "FINITE", "currentAge": 40, "fireAge": 41, "fireDurationYears": 1,
+      "monthlyExpenseToday": 100, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 0, "currentCapital": 0,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "PERIODIC_INCOME", "name": "Entrata investita", "monthlyAmountToday": 100,
+          "annualGrowthRate": 0, "startAge": 40, "endAge": 41,
+          "investBeforeFire": true, "offsetDuringFire": false}
+      ]
+    },
+    "expected": {
+      "finiteTarget": 1200, "selectedTarget": 1200, "initialMonthlyContribution": 0,
+      "projectedFinalBalance": 1200, "investedIncomeFinalBalance": 1200,
+      "totalNominalAdditionalIncomeInvested": 1200,
+      "personalFinalBalance": 0, "totalShortfall": 0,
+      "accumulationCheckpoints": [
+        {"month": 1, "additionalIncomeContribution": 100, "closingBalance": 100, "totalAvailableBalance": 100},
+        {"month": 12, "additionalIncomeContribution": 100, "closingBalance": 1200, "totalAvailableBalance": 1200}
+      ]
+    }
+  },
+  {
+    "scenarioId": "FINITE_LUMP_SUM_DURING_FIRE",
+    "request": {
+      "method": "FINITE", "currentAge": 50, "fireAge": 50, "fireDurationYears": 10,
+      "monthlyExpenseToday": 1000, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 0, "currentCapital": 70000,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "FUTURE_LUMP_SUM", "name": "Eredità", "amount": 50000,
+          "amountBasis": "NOMINAL", "receiptAge": 55,
+          "investAfterReceipt": false, "annualReturnRateAfterReceipt": 0}
+      ]
+    },
+    "expected": {
+      "finiteTarget": 70000, "selectedTarget": 70000, "initialMonthlyContribution": 0,
+      "projectedFinalBalance": 70000, "personalFinalBalance": 0,
+      "totalCapitalInflows": 50000, "terminalCapitalInflow": 0, "totalShortfall": 0,
+      "futureLumpSums": [
+        {"resourceIndex": 0, "nominalAmountAtReceipt": 50000, "balanceAtFire": 0, "fireReceiptMonth": 61}
+      ],
+      "decumulationCheckpoints": [
+        {"month": 60, "capitalInflow": 0, "closingBalance": 10000},
+        {"month": 61, "capitalInflow": 50000, "scheduledWithdrawal": 1000, "closingBalance": 59000},
+        {"month": 120, "closingBalance": 0}
+      ]
+    }
+  },
+  {
+    "scenarioId": "SWR_LUMP_SUM_BRIDGE",
+    "request": {
+      "method": "SWR", "currentAge": 50, "fireAge": 50, "fireDurationYears": 30,
+      "monthlyExpenseToday": 2000, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": 0.04, "terminalCapitalToday": 0, "currentCapital": 540000,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "FUTURE_LUMP_SUM", "name": "Capitale futuro", "amount": 300000,
+          "amountBasis": "NOMINAL", "receiptAge": 60,
+          "investAfterReceipt": false, "annualReturnRateAfterReceipt": 0}
+      ]
+    },
+    "expected": {
+      "safeWithdrawalRateBaseTarget": 600000, "safeWithdrawalRateTarget": 540000,
+      "selectedTarget": 540000, "initialMonthlyContribution": 0,
+      "projectedFinalBalance": 540000, "personalFinalBalance": 120000,
+      "totalCapitalInflows": 300000, "totalShortfall": 0,
+      "futureLumpSums": [
+        {"resourceIndex": 0, "nominalAmountAtReceipt": 300000, "balanceAtFire": 0, "fireReceiptMonth": 121}
+      ],
+      "decumulationCheckpoints": [
+        {"month": 120, "closingBalance": 300000},
+        {"month": 121, "capitalInflow": 300000, "closingBalance": 598000},
+        {"month": 360, "closingBalance": 120000}
+      ]
+    }
+  },
+  {
+    "scenarioId": "LUMP_SUM_AT_FIRE_REDUCES_PAC",
+    "request": {
+      "method": "FINITE", "currentAge": 40, "fireAge": 50, "fireDurationYears": 1,
+      "monthlyExpenseToday": 1000, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 0, "currentCapital": 0,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "FUTURE_LUMP_SUM", "name": "Capitale al FIRE", "amount": 6000,
+          "amountBasis": "NOMINAL", "receiptAge": 50,
+          "investAfterReceipt": false, "annualReturnRateAfterReceipt": 0}
+      ]
+    },
+    "expected": {
+      "finiteTarget": 12000, "selectedTarget": 12000, "initialMonthlyContribution": 50,
+      "projectedFinalBalance": 12000, "availableFutureLumpSumsFinalBalance": 6000,
+      "personalFinalBalance": 0, "totalCapitalInflows": 0, "totalShortfall": 0,
+      "futureLumpSums": [
+        {"resourceIndex": 0, "nominalAmountAtReceipt": 6000, "balanceAtFire": 6000, "fireReceiptMonth": null}
+      ],
+      "accumulationCheckpoints": [
+        {"month": 119, "contribution": 50, "availableFutureLumpSumsBalance": 0, "totalAvailableBalance": 5950},
+        {"month": 120, "contribution": 50, "availableFutureLumpSumsBalance": 6000, "totalAvailableBalance": 12000}
+      ]
+    }
+  },
+  {
+    "scenarioId": "LUMP_SUM_AT_TERMINAL_BOUNDARY",
+    "request": {
+      "method": "FINITE", "currentAge": 50, "fireAge": 50, "fireDurationYears": 10,
+      "monthlyExpenseToday": 1000, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 50000, "currentCapital": 120000,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "FUTURE_LUMP_SUM", "name": "Capitale finale", "amount": 50000,
+          "amountBasis": "NOMINAL", "receiptAge": 60,
+          "investAfterReceipt": false, "annualReturnRateAfterReceipt": 0}
+      ]
+    },
+    "expected": {
+      "finiteTarget": 120000, "selectedTarget": 120000, "initialMonthlyContribution": 0,
+      "projectedFinalBalance": 120000, "personalFinalBalance": 50000,
+      "totalCapitalInflows": 50000, "terminalCapitalInflow": 50000, "totalShortfall": 0,
+      "futureLumpSums": [
+        {"resourceIndex": 0, "nominalAmountAtReceipt": 50000, "balanceAtFire": 0, "fireReceiptMonth": 121}
+      ],
+      "decumulationCheckpoints": [
+        {"month": 120, "capitalInflow": 0, "terminalCapitalInflow": 50000, "closingBalance": 50000}
+      ]
+    }
+  },
+  {
+    "scenarioId": "ZERO_MONTHS_WITH_IMMEDIATE_LUMP_SUM",
+    "request": {
+      "method": "FINITE", "currentAge": 50, "fireAge": 50, "fireDurationYears": 30,
+      "monthlyExpenseToday": 1500, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 0, "currentCapital": 0,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "FUTURE_LUMP_SUM", "name": "Capitale immediato", "amount": 540000,
+          "amountBasis": "NOMINAL", "receiptAge": 50,
+          "investAfterReceipt": false, "annualReturnRateAfterReceipt": 0}
+      ]
+    },
+    "expected": {
+      "accumulationMonths": 0, "finiteTarget": 540000, "selectedTarget": 540000,
+      "initialMonthlyContribution": 0, "projectedFinalBalance": 540000,
+      "availableFutureLumpSumsFinalBalance": 540000, "personalFinalBalance": 0,
+      "totalShortfall": 0,
+      "accumulationCheckpoints": [
+        {"month": 0, "availableFutureLumpSumsBalance": 540000, "totalAvailableBalance": 540000}
+      ]
+    }
+  },
+  {
+    "scenarioId": "COMBINED_RESOURCES",
+    "request": {
+      "method": "FINITE", "currentAge": 40, "fireAge": 50, "fireDurationYears": 10,
+      "monthlyExpenseToday": 2000, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 0, "currentCapital": 0,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "EXISTING_INVESTMENT", "name": "PAC esistente", "currentCapital": 20000,
+          "initialMonthlyContribution": 100, "contributionStartAge": 40, "contributionEndAge": 50,
+          "annualReturnRate": 0, "annualContributionGrowthRate": 0, "availableAtFire": true},
+        {"type": "PERIODIC_INCOME", "name": "Affitto", "monthlyAmountToday": 200,
+          "annualGrowthRate": 0, "startAge": 40, "endAge": 60,
+          "investBeforeFire": true, "offsetDuringFire": true},
+        {"type": "FUTURE_LUMP_SUM", "name": "Capitale al FIRE", "amount": 10000,
+          "amountBasis": "NOMINAL", "receiptAge": 50,
+          "investAfterReceipt": false, "annualReturnRateAfterReceipt": 0}
+      ]
+    },
+    "expected": {
+      "finiteTarget": 216000, "selectedTarget": 216000, "initialMonthlyContribution": 1250,
+      "projectedFinalBalance": 216000, "investedIncomeFinalBalance": 24000,
+      "availableExistingInvestmentsFinalBalance": 32000,
+      "availableFutureLumpSumsFinalBalance": 10000,
+      "totalNominalAdditionalIncomeInvested": 24000,
+      "totalNominalExistingInvestmentContributions": 12000,
+      "personalFinalBalance": 0, "firstMonthlyAdditionalIncome": 200,
+      "firstMonthlyNetWithdrawal": 1800, "totalShortfall": 0,
+      "existingInvestments": [
+        {"resourceIndex": 0, "availableAtFire": true, "totalNominalContributions": 12000, "finalBalance": 32000}
+      ],
+      "futureLumpSums": [
+        {"resourceIndex": 2, "nominalAmountAtReceipt": 10000, "balanceAtFire": 10000, "fireReceiptMonth": null}
+      ],
+      "accumulationCheckpoints": [
+        {"month": 1, "contribution": 1250, "additionalIncomeContribution": 200,
+          "closingBalance": 1450, "availableExistingInvestmentsBalance": 20100,
+          "availableFutureLumpSumsBalance": 0, "totalAvailableBalance": 21550},
+        {"month": 120, "contribution": 1250, "additionalIncomeContribution": 200,
+          "closingBalance": 174000, "availableExistingInvestmentsBalance": 32000,
+          "availableFutureLumpSumsBalance": 10000, "totalAvailableBalance": 216000}
+      ],
+      "decumulationCheckpoints": [
+        {"month": 1, "grossExpense": 2000, "additionalIncome": 200,
+          "scheduledWithdrawal": 1800, "closingBalance": 214200},
+        {"month": 120, "closingBalance": 0}
+      ]
+    }
+  },
+  {
+    "scenarioId": "UNAVAILABLE_EXISTING_INVESTMENT",
+    "request": {
+      "method": "FINITE", "currentAge": 40, "fireAge": 50, "fireDurationYears": 1,
+      "monthlyExpenseToday": 100, "annualInflationRate": 0, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 0, "currentCapital": 0,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "EXISTING_INVESTMENT", "name": "Capitale non disponibile",
+          "currentCapital": 100000, "initialMonthlyContribution": 0,
+          "contributionStartAge": null, "contributionEndAge": null,
+          "annualReturnRate": 0, "annualContributionGrowthRate": 0, "availableAtFire": false}
+      ]
+    },
+    "expected": {
+      "finiteTarget": 1200, "selectedTarget": 1200, "initialMonthlyContribution": 10,
+      "projectedFinalBalance": 1200, "availableExistingInvestmentsFinalBalance": 0,
+      "personalFinalBalance": 0, "totalShortfall": 0,
+      "existingInvestments": [
+        {"resourceIndex": 0, "availableAtFire": false, "totalNominalContributions": 0, "finalBalance": 100000}
+      ],
+      "accumulationCheckpoints": [
+        {"month": 120, "contribution": 10, "availableExistingInvestmentsBalance": 0, "totalAvailableBalance": 1200}
+      ]
+    }
+  },
+  {
+    "scenarioId": "TODAY_BASIS_LUMP_SUM",
+    "request": {
+      "method": "FINITE", "currentAge": 40, "fireAge": 50, "fireDurationYears": 1,
+      "monthlyExpenseToday": 0, "annualInflationRate": 0.02, "annualFireReturnRate": 0,
+      "annualSafeWithdrawalRate": null, "terminalCapitalToday": 0, "currentCapital": 0,
+      "annualAccumulationReturnRate": 0, "annualContributionGrowthRate": 0,
+      "additionalResources": [
+        {"type": "FUTURE_LUMP_SUM", "name": "Capitale reale", "amount": 100000,
+          "amountBasis": "TODAY", "receiptAge": 45,
+          "investAfterReceipt": false, "annualReturnRateAfterReceipt": 0.20}
+      ]
+    },
+    "expected": {
+      "finiteTarget": 0, "selectedTarget": 0, "initialMonthlyContribution": 0,
+      "projectedFinalBalance": 110408.08032000001,
+      "availableFutureLumpSumsFinalBalance": 110408.08032000001,
+      "personalFinalBalance": 110408.08032000001, "totalShortfall": 0,
+      "futureLumpSums": [
+        {"resourceIndex": 0, "nominalAmountAtReceipt": 110408.08032000001,
+          "balanceAtFire": 110408.08032000001, "fireReceiptMonth": null}
+      ]
+    }
+  }
+]
