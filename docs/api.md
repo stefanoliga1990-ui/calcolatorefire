@@ -23,7 +23,8 @@ I tassi sono numeri decimali: `0.02` rappresenta il 2%.
   "terminalCapitalToday": 0,
   "currentCapital": 10000,
   "annualAccumulationReturnRate": 0.07,
-  "annualContributionGrowthRate": 0
+  "annualContributionGrowthRate": 0,
+  "additionalResources": []
 }
 ```
 
@@ -35,6 +36,82 @@ Valori ammessi per `method`:
 `annualSafeWithdrawalRate` è richiesto solo per `SWR` e può essere omesso o `null` per `FINITE`. `terminalCapitalToday` è usato solo da `FINITE`; per `SWR` inviare `0`. La durata FIRE e il rendimento FIRE restano richiesti per la proiezione del decumulo.
 
 Nel metodo `SWR`, aumentare `annualSafeWithdrawalRate` riduce matematicamente il target. La sostenibilità sull'orizzonte scelto va letta nei campi `decumulation.depletionMonth` e `decumulation.totalShortfall`: un `depletionMonth` valorizzato indica il primo mese in cui il prelievo programmato non è interamente coperto.
+
+### Risorse aggiuntive
+
+`additionalResources` è una lista facoltativa. Se il campo è omesso, vale `[]`: richieste create prima dell'estensione conservano quindi lo stesso comportamento e gli stessi risultati numerici.
+
+Ogni elemento usa `type` come discriminante e può avere un `name` facoltativo, lungo al massimo 100 caratteri. I tipi riconosciuti sono:
+
+- `EXISTING_INVESTMENT`: investimento o PAC già esistente;
+- `PERIODIC_INCOME`: rendita periodica attuale o futura;
+- `FUTURE_LUMP_SUM`: capitale futuro ricevuto una sola volta.
+
+Le età sono intere e rappresentano confini mensili. L'età iniziale è inclusa, quella finale è esclusa. Gli importi non possono essere negativi e i tassi devono essere maggiori di `-1`; come nel resto dell'API, `0.05` rappresenta il 5%.
+
+#### Investimento o PAC esistente
+
+```json
+{
+  "type": "EXISTING_INVESTMENT",
+  "name": "PAC già attivo",
+  "currentCapital": 25000,
+  "initialMonthlyContribution": 300,
+  "contributionStartAge": 36,
+  "contributionEndAge": 50,
+  "annualReturnRate": 0.05,
+  "annualContributionGrowthRate": 0,
+  "availableAtFire": true
+}
+```
+
+- `currentCapital` è distinto dal `currentCapital` principale della richiesta e non deve essere conteggiato anche lì;
+- `initialMonthlyContribution` è il primo versamento futuro, eseguito a fine mese;
+- se `initialMonthlyContribution` è maggiore di zero, entrambe le età dei versamenti sono obbligatorie e devono rispettare `currentAge <= contributionStartAge < contributionEndAge <= fireAge`;
+- se non sono previsti nuovi versamenti, `initialMonthlyContribution` vale zero e le due età possono essere entrambe `null`;
+- `annualReturnRate` è il total return della risorsa;
+- `availableAtFire` indica se il saldo potrà contribuire al capitale FIRE.
+
+#### Rendita periodica
+
+```json
+{
+  "type": "PERIODIC_INCOME",
+  "name": "Pensione",
+  "monthlyAmountToday": 1000,
+  "annualGrowthRate": 0.02,
+  "startAge": 67,
+  "endAge": null,
+  "investBeforeFire": false,
+  "offsetDuringFire": true
+}
+```
+
+- `monthlyAmountToday` è un importo mensile netto in euro di oggi;
+- `endAge: null` indica una rendita senza fine nell'orizzonte simulato;
+- `investBeforeFire` stabilisce se i flussi precedenti al FIRE confluiscono nel portafoglio di accumulo;
+- `offsetDuringFire` stabilisce se i flussi durante il FIRE riducono il prelievo richiesto;
+- almeno uno dei due indicatori deve essere `true` e la rendita deve sovrapporsi alla fase nella quale viene usata.
+
+#### Capitale futuro una tantum
+
+```json
+{
+  "type": "FUTURE_LUMP_SUM",
+  "name": "Capitale futuro",
+  "amount": 50000,
+  "amountBasis": "TODAY",
+  "receiptAge": 60,
+  "investAfterReceipt": true,
+  "annualReturnRateAfterReceipt": 0.03
+}
+```
+
+- `amountBasis` ammette `TODAY`, per un importo espresso in euro di oggi, e `NOMINAL`, per un importo nominale alla data di ricezione;
+- `receiptAge` deve essere compresa tra `currentAge` e `fireAge + fireDurationYears`;
+- `annualReturnRateAfterReceipt` è usato prima del FIRE soltanto quando `investAfterReceipt` è `true`; negli altri casi viene ignorato, ma deve comunque essere fornito.
+
+In questa Fase 2 il backend deserializza e valida le risorse, mantenendone il tipo nel modello di dominio. Il loro effetto sui target, sul PAC e sulle proiezioni verrà collegato al motore nelle Fasi 3 e 4. Fino a quel collegamento, la risposta mantiene il formato attuale e i risultati sono quelli dello scenario base.
 
 ### Risposta `200 OK`
 
@@ -94,5 +171,7 @@ La richiesta è formalmente corretta, ma viola una regola del dominio. I codici 
 - `INVALID_SWR`
 - `INVALID_AMOUNT`
 - `INVALID_METHOD`
+- `INVALID_RESOURCE`: configurazione della risorsa incompleta o priva di un utilizzo;
+- `INVALID_RESOURCE_PERIOD`: età o intervallo della risorsa incompatibile con lo scenario;
 - `UNREACHABLE_WITH_ZERO_MONTHS`
 

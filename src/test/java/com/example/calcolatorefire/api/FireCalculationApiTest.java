@@ -2,6 +2,7 @@ package com.example.calcolatorefire.api;
 
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -124,6 +125,126 @@ class FireCalculationApiTest {
                 .andExpect(jsonPath("$.target.safeWithdrawalRateTarget").value(closeTo(422_233.2042, 0.01)))
                 .andExpect(jsonPath("$.decumulation.depletionMonth").value(273))
                 .andExpect(jsonPath("$.decumulation.totalShortfall").value(greaterThan(0.0)));
+    }
+
+    @Test
+    void acceptsAnExplicitEmptyAdditionalResourcesListWithoutChangingTheCalculation() throws Exception {
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(withAdditionalResources("[]")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.target.selectedTarget").value(closeTo(557_770.7040, 0.01)))
+                .andExpect(jsonPath("$.accumulation.initialMonthlyContribution").value(closeTo(1_905.5163, 0.01)));
+    }
+
+    @Test
+    void deserializesAndValidatesAllAdditionalResourceTypes() throws Exception {
+        String resources = """
+                [
+                  {
+                    "type": "EXISTING_INVESTMENT",
+                    "name": "PAC già attivo",
+                    "currentCapital": 25000,
+                    "initialMonthlyContribution": 300,
+                    "contributionStartAge": 36,
+                    "contributionEndAge": 50,
+                    "annualReturnRate": 0.05,
+                    "annualContributionGrowthRate": 0,
+                    "availableAtFire": true
+                  },
+                  {
+                    "type": "PERIODIC_INCOME",
+                    "name": "Pensione",
+                    "monthlyAmountToday": 1000,
+                    "annualGrowthRate": 0.02,
+                    "startAge": 67,
+                    "endAge": null,
+                    "investBeforeFire": false,
+                    "offsetDuringFire": true
+                  },
+                  {
+                    "type": "FUTURE_LUMP_SUM",
+                    "name": "Capitale futuro",
+                    "amount": 50000,
+                    "amountBasis": "TODAY",
+                    "receiptAge": 60,
+                    "investAfterReceipt": true,
+                    "annualReturnRateAfterReceipt": 0.03
+                  }
+                ]
+                """;
+
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(withAdditionalResources(resources)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.target.selectedTarget").value(closeTo(557_770.7040, 0.01)));
+    }
+
+    @Test
+    void rejectsInvalidFieldsInsideAnAdditionalResource() throws Exception {
+        String resources = """
+                [{
+                  "type": "EXISTING_INVESTMENT",
+                  "currentCapital": -1,
+                  "initialMonthlyContribution": 0,
+                  "contributionStartAge": null,
+                  "contributionEndAge": null,
+                  "annualReturnRate": 0.05,
+                  "annualContributionGrowthRate": 0,
+                  "availableAtFire": true
+                }]
+                """;
+
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(withAdditionalResources(resources)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
+                .andExpect(jsonPath("$.fieldErrors[*].field",
+                        hasItem("additionalResources[0].currentCapital")));
+    }
+
+    @Test
+    void rejectsUnknownAdditionalResourceType() throws Exception {
+        String resources = """
+                [{"type": "UNKNOWN_RESOURCE"}]
+                """;
+
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(withAdditionalResources(resources)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("MALFORMED_REQUEST"));
+    }
+
+    @Test
+    void rejectsAnAdditionalResourceOutsideItsUsablePeriod() throws Exception {
+        String resources = """
+                [{
+                  "type": "PERIODIC_INCOME",
+                  "monthlyAmountToday": 1000,
+                  "annualGrowthRate": 0,
+                  "startAge": 86,
+                  "endAge": null,
+                  "investBeforeFire": false,
+                  "offsetDuringFire": true
+                }]
+                """;
+
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(withAdditionalResources(resources)))
+                .andExpect(status().isUnprocessableContent())
+                .andExpect(jsonPath("$.code").value("INVALID_RESOURCE_PERIOD"));
+    }
+
+    private static String withAdditionalResources(String resources) {
+        String request = baseRequest();
+        int closingBrace = request.lastIndexOf('}');
+        return request.substring(0, closingBrace)
+                + ",\n\"additionalResources\": " + resources
+                + request.substring(closingBrace);
     }
 
     private static String baseRequest() {

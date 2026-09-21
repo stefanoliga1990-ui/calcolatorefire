@@ -293,6 +293,8 @@ public final class FireCalculator {
                     "La SWR deve essere positiva."
             );
         }
+
+        AdditionalResourceValidator.validate(input);
     }
 
     private static void validateAmount(double value, String label) {

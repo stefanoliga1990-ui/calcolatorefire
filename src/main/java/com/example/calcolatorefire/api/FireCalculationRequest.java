@@ -1,5 +1,7 @@
 package com.example.calcolatorefire.api;
 
+import java.util.List;
+
 import com.example.calcolatorefire.domain.FireCalculationInput;
 import com.example.calcolatorefire.domain.FireMethod;
 
@@ -7,6 +9,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.Valid;
 
 public record FireCalculationRequest(
         @NotNull(message = "Il metodo è obbligatorio")
@@ -52,7 +55,9 @@ public record FireCalculationRequest(
 
         @NotNull(message = "La crescita del PAC è obbligatoria")
         @DecimalMin(value = "-1.0", inclusive = false, message = "La crescita del PAC deve essere maggiore di -100%")
-        Double annualContributionGrowthRate
+        Double annualContributionGrowthRate,
+
+        List<@NotNull(message = "La risorsa aggiuntiva non può essere nulla") @Valid AdditionalResourceRequest> additionalResources
 ) {
 
     public FireCalculationInput toDomain() {
@@ -68,7 +73,10 @@ public record FireCalculationRequest(
                 terminalCapitalToday,
                 currentCapital,
                 annualAccumulationReturnRate,
-                annualContributionGrowthRate
+                annualContributionGrowthRate,
+                additionalResources == null
+                        ? List.of()
+                        : additionalResources.stream().map(AdditionalResourceRequest::toDomain).toList()
         );
     }
 }
