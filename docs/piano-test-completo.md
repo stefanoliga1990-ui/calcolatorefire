@@ -61,7 +61,7 @@ test puntuali quando combina metodo, timing e valori di confine.
 | Fase | ID | Area | Classi e confini da coprire | Metodo | Livello |
 | --- | --- | --- | --- | --- | --- |
 | 2 | `BASE-RATE` | Tassi generali | negativo, zero, positivo, prossimo a `-100%` | FINITE, SWR | Dominio |
-| 2 | `BASE-TIME` | Asse temporale | 0, 1, 12 e molti mesi di accumulo | FINITE, SWR | Dominio |
+| 2 | `BASE-TIME` | Asse temporale | 0, 12 e molti mesi; checkpoint del primo mese | FINITE, SWR | Dominio |
 | 2 | `BASE-PAC` | Nuovo PAC | costante, crescente, decrescente, `r = g` | FINITE, SWR | Dominio |
 | 2 | `BASE-DIR` | Proprietà direzionali | più spesa, rendimento, capitale e durata | FINITE, SWR | Dominio |
 | 2 | `BASE-REC` | Riconciliazione | target, saldo mensile e capitale terminale | FINITE | Dominio |
@@ -141,3 +141,35 @@ mvn -s .\settings.xml -gs .\settings.xml test
 
 Il verificatore indipendente deve passare insieme alla suite Maven prima di
 considerare completa ogni fase numerica.
+
+## Esiti delle fasi
+
+### Fase 1 — Matrice e riferimento indipendente
+
+- 7 golden originari e 14 golden con risorse riconciliati entro `0,01 euro`;
+- nessuna divergenza tra valori versionati e calcolatore indipendente;
+- suite iniziale: 60 test, nessun errore o test ignorato.
+
+### Fase 2 — FIRE e PAC senza risorse
+
+Classe aggiunta: `FireCalculatorBaseCoverageTest`, 29 casi eseguiti.
+
+- conversione mensile equivalente per tassi annui negativi, nulli, positivi e
+  prossimi a `-100%`;
+- orizzonti di accumulo di 0, 12 e 480 mesi per FINITE e SWR;
+- PAC decrescente, costante e crescente, incluso il limite `r = g` con tassi
+  negativi, nulli e positivi;
+- monotonicità rispetto a spesa, rendimento FIRE, capitale corrente e durata;
+- target SWR verificato con tassi del 2%, 4% e 10%;
+- riconciliazione di ogni mese di accumulo e decumulo in uno scenario FINITE
+  con inflazione, rendimento, crescita PAC e capitale terminale;
+- validazione dei quattro tassi annuali a `-100%` e della SWR non positiva;
+- stabilità numerica di un rendimento FIRE pari a `-99,9999%`.
+
+La matrice `BASE-TIME` è stata precisata: con età intere `N_acc` è sempre un
+multiplo di 12, quindi il primo mese viene verificato come checkpoint di una
+proiezione annuale e non come durata di accumulo configurabile.
+
+Esito complessivo al termine della fase: 89 test Maven, 0 errori, 0 fallimenti,
+0 test ignorati; tutti i 21 golden ancora riconciliati dal riferimento
+indipendente.
