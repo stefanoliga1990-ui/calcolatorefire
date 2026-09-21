@@ -583,13 +583,18 @@ resourceTypePicker.addEventListener("click", (event) => {
     addResourceButton.setAttribute("aria-expanded", "false");
 });
 
-resourcesList.addEventListener("click", (event) => {
+resourcesList.addEventListener("click", async (event) => {
     const removeButton = event.target.closest("[data-remove-resource]");
     if (!removeButton) {
         return;
     }
-    removeButton.closest(".resource-card")?.remove();
+    const card = removeButton.closest(".resource-card");
+    const wasIncludedInLastCalculation = card?.dataset.includedInLastCalculation === "true";
+    card?.remove();
     updateResourcesState();
+    if (wasIncludedInLastCalculation && lastFireRequest !== null) {
+        await runFullCalculation(calculateResourcesButton, "Ricalcola FIRE e PAC");
+    }
 });
 
 resourcesList.addEventListener("change", (event) => {
@@ -628,6 +633,7 @@ async function runFullCalculation(triggerButton, idleLabel) {
         }
 
         lastFireRequest = structuredClone(request);
+        markCurrentResourcesAsCalculated();
         renderFireResults(result.body, request);
         renderPacResults(result.body, request);
         renderAdditionalResourcesResult(result.body, request);
@@ -823,6 +829,12 @@ function updateResourcesState() {
     resourcesEmpty.hidden = hasResources;
     if (hasResources) {
         resourcesActions.hidden = false;
+    }
+}
+
+function markCurrentResourcesAsCalculated() {
+    for (const card of resourcesList.querySelectorAll(".resource-card")) {
+        card.dataset.includedInLastCalculation = "true";
     }
 }
 

@@ -82,7 +82,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app-6f4d2c9a1e73.js\"")))
+                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
@@ -95,7 +95,7 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
-        mockMvc.perform(get("/app-6f4d2c9a1e73.js"))
+        mockMvc.perform(get("/app-91e2b4c7a630.js"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/javascript"))
                 .andExpect(content().string(containsString("/api/v1/fire/calculations")))
@@ -110,6 +110,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("Capitale_finale = B_N_FIRE")))
                 .andExpect(content().string(containsString("buildAdditionalResources")))
                 .andExpect(content().string(containsString("renderAdditionalResourcesResult")))
+                .andExpect(content().string(containsString("includedInLastCalculation")))
                 .andExpect(content().string(containsString("availableExistingInvestmentsFinalBalance")))
                 .andExpect(content().string(containsString("360 = 720.000")))
                 .andExpect(content().string(containsString("4% = 600.000")))
