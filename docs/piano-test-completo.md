@@ -339,3 +339,30 @@ MockMvc eseguiti.
 Esito complessivo al termine della fase: 243 test Maven, 0 errori,
 0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
 indipendente. Nessuna modifica al contratto o al motore è risultata necessaria.
+
+### Fase 9 — Flussi dell'interfaccia nel browser
+
+Eseguiti 18 scenari sul frontend e backend locali reali. Il dettaglio con input,
+valori osservati ed esito è conservato in `docs/verbale-test-ui-fase-9.md`.
+
+- stato iniziale, cambio tra FINITE e SWR e visibilità dei campi condizionali;
+- calcolo completo FINITE e SWR, inclusi avviso di esaurimento, assenza di
+  `NaN`, righe specifiche del metodo e mantenimento del risultato precedente;
+- ricalcolo del solo PAC dopo la modifica degli input di accumulo, senza
+  alterare target e decumulo già calcolati;
+- aggiunta di investimento, rendita periodica e capitale futuro, con verifica
+  dei campi condizionali e del riepilogo dei contributi;
+- rimozione di una risorsa già inclusa e ricalcolo automatico senza quella
+  risorsa;
+- errore di dominio, conservazione dell'ultimo risultato corretto e recupero
+  dopo la correzione dell'input;
+- reset completo di risultati, risorse, grafici e stato del pulsante PAC;
+- rendering delle due serie di entrambi i grafici e popup informativo con
+  formula e significato dei simboli;
+- viewport mobile senza overflow orizzontale e console priva di errori o
+  warning durante la sessione.
+
+Esito complessivo al termine della fase: 243 test Maven invariati, 18 scenari
+browser superati e tutti i 21 golden riconciliati dal riferimento indipendente.
+Nessuna modifica al frontend, al contratto API o al motore è risultata
+necessaria.
