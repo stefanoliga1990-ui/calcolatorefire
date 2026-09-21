@@ -311,3 +311,31 @@ motore.
 Esito complessivo al termine della fase: 215 test Maven, 0 errori,
 0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
 indipendente. Nessuna modifica al motore è risultata necessaria.
+
+### Fase 8 — Contratto API delle risorse aggiuntive
+
+Classe aggiunta: `FireCalculationAdditionalResourcesApiCoverageTest`, 28 casi
+MockMvc eseguiti.
+
+- compatibilità delle richieste con `additionalResources` omesso, `null` o
+  vuoto, tutte equivalenti al calcolo base senza risorse;
+- rifiuto di elementi nulli nella lista e di discriminatori `type` mancanti,
+  nulli o sconosciuti;
+- deserializzazione e validazione distinte per `EXISTING_INVESTMENT`,
+  `PERIODIC_INCOME` e `FUTURE_LUMP_SUM`;
+- campi obbligatori mancanti o nulli, importi negativi e tassi pari a `-100%`
+  verificati per tutte le tipologie, con controllo del percorso restituito in
+  `fieldErrors`;
+- rifiuto di nomi oltre 100 caratteri e di una base importo non riconosciuta;
+- mapping a `422` e ai codici `INVALID_RESOURCE` o
+  `INVALID_RESOURCE_PERIOD` per periodi incompleti, invertiti o fuori
+  orizzonte e per rendite prive di utilizzo;
+- risposta completa verificata con FINITE e SWR: target specifici del metodo,
+  totali nominali, saldi delle risorse, proiezioni, nomi, indici di provenienza
+  e accrediti mensili durante il FIRE;
+- formato `application/problem+json`, stato e URI dell'istanza verificati per
+  gli errori di dominio.
+
+Esito complessivo al termine della fase: 243 test Maven, 0 errori,
+0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
+indipendente. Nessuna modifica al contratto o al motore è risultata necessaria.
