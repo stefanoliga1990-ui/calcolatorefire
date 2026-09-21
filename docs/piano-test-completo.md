@@ -260,3 +260,27 @@ Classe aggiunta: `FireCalculatorFutureLumpSumCoverageTest`, 36 casi eseguiti.
 Esito complessivo al termine della fase: 191 test Maven, 0 errori,
 0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
 indipendente. Nessuna modifica al motore è risultata necessaria.
+
+### Fase 6 — Combinazioni di più risorse
+
+Classe aggiunta: `FireCalculatorMixedResourcesCoverageTest`, 19 casi eseguiti.
+
+- tutte le coppie di tipologie verificate con FINITE e SWR: investimento più
+  rendita, investimento più capitale futuro, rendita più capitale futuro;
+- combinazione delle tre tipologie verificata con valori semplici calcolabili
+  manualmente, sia per il target sia per il PAC;
+- scenario realistico con cinque risorse sovrapposte: due investimenti con
+  diversa disponibilità, affitto, pensione e capitale futuro;
+- provenienza e indici delle singole risorse conservati nelle proiezioni e nei
+  riepiloghi, inclusa la separazione degli investimenti non disponibili;
+- indipendenza dei risultati aggregati dall'ordine di risorse eterogenee;
+- neutralità simultanea di investimento non disponibile, rendita nulla e
+  capitale futuro nullo;
+- scenari con zero mesi di accumulo coperti sia quando le risorse finanziano
+  interamente il target sia quando resta un deficit non colmabile;
+- riconciliazione mensile di saldi, rendite investite, capitali ricevuti e
+  nuovo PAC in presenza di periodi sovrapposti, senza doppi conteggi.
+
+Esito complessivo al termine della fase: 210 test Maven, 0 errori,
+0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
+indipendente. Nessuna modifica al motore è risultata necessaria.
