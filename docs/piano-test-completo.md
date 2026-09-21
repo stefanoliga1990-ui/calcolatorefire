@@ -284,3 +284,30 @@ Classe aggiunta: `FireCalculatorMixedResourcesCoverageTest`, 19 casi eseguiti.
 Esito complessivo al termine della fase: 210 test Maven, 0 errori,
 0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
 indipendente. Nessuna modifica al motore è risultata necessaria.
+
+### Fase 7 — Proprietà matematiche su scenari generati
+
+Classe aggiunta: `FireCalculatorGeneratedPropertiesTest`, 5 famiglie JUnit,
+320 casi generati con seed deterministici e 600 esecuzioni comparative del
+motore.
+
+- scenari FINITE riconciliati con il capitale finale desiderato e senza
+  shortfall; aumento della spesa e del patrimonio verificato nelle rispettive
+  direzioni attese per target e PAC;
+- target SWR con risorse sempre non negativo e non superiore al target base,
+  che resta indipendente dalle risorse aggiunte;
+- risultati aggregati e proiezioni mensili invariati dopo la permutazione di
+  investimento, rendita periodica e capitale futuro;
+- equivalenza verificata dopo la divisione di ciascuna risorsa in due metà con
+  gli stessi tassi, periodi e opzioni;
+- conservazione mensile dei saldi in accumulo, negli investimenti esistenti e
+  nel FIRE, inclusi contributi cumulati, rendite, capitali, prelievi,
+  rendimenti, shortfall e capitale terminale;
+- lunghezza, indice e finitezza delle proiezioni verificati per entrambi i
+  metodi su orizzonti, importi e tassi variabili, inclusi tassi negativi;
+- ogni errore generativo riporta il seed necessario per riprodurre esattamente
+  lo scenario.
+
+Esito complessivo al termine della fase: 215 test Maven, 0 errori,
+0 fallimenti, 0 test ignorati; tutti i 21 golden riconciliati dal riferimento
+indipendente. Nessuna modifica al motore è risultata necessaria.
