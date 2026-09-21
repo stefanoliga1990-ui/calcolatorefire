@@ -147,6 +147,281 @@ h1 {
     align-content: start;
 }
 
+.additional-resources {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto 24px;
+    padding: clamp(24px, 4vw, 42px);
+}
+
+.resources-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 28px;
+}
+
+.resources-heading h2 {
+    margin-bottom: 10px;
+    font-size: clamp(1.55rem, 3vw, 2.2rem);
+    letter-spacing: -0.035em;
+}
+
+.resources-heading p:last-child {
+    max-width: 720px;
+    margin-bottom: 0;
+    color: var(--ink-soft);
+    line-height: 1.5;
+}
+
+.add-resource-button,
+.remove-resource-button {
+    border-radius: 10px;
+    font-weight: 750;
+}
+
+.add-resource-button {
+    min-width: 170px;
+    min-height: 48px;
+    padding: 10px 18px;
+    border: 0;
+    color: white;
+    background: var(--green);
+}
+
+.add-resource-button:hover {
+    background: var(--green-dark);
+}
+
+.resource-guidance {
+    display: grid;
+    gap: 4px;
+    margin: 24px 0;
+    padding: 15px 17px;
+    border-left: 3px solid var(--amber);
+    border-radius: 0 10px 10px 0;
+    color: var(--ink-soft);
+    background: rgba(227, 168, 59, 0.10);
+    font-size: 0.84rem;
+    line-height: 1.45;
+}
+
+.resource-guidance strong {
+    color: var(--ink);
+}
+
+.resource-type-picker {
+    margin-bottom: 24px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #fbfcf8;
+}
+
+.resource-type-picker > p {
+    margin-bottom: 14px;
+    font-weight: 800;
+}
+
+.resource-type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.resource-type-grid button {
+    min-height: 130px;
+    padding: 17px;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    color: var(--ink);
+    background: white;
+    text-align: left;
+}
+
+.resource-type-grid button:hover,
+.resource-type-grid button:focus-visible {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(15, 107, 78, 0.10);
+}
+
+.resource-type-grid strong,
+.resource-type-grid span {
+    display: block;
+}
+
+.resource-type-grid strong {
+    margin-bottom: 7px;
+}
+
+.resource-type-grid span {
+    color: var(--ink-soft);
+    font-size: 0.79rem;
+    line-height: 1.4;
+}
+
+.resources-empty {
+    padding: 22px;
+    border: 1px dashed #bdc9c1;
+    border-radius: 14px;
+    color: var(--ink-soft);
+    text-align: center;
+}
+
+.resources-empty p {
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.resources-list {
+    display: grid;
+    gap: 18px;
+}
+
+.resource-card {
+    padding: clamp(20px, 3vw, 30px);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: #fbfcf8;
+}
+
+.resource-card-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.resource-type-badge {
+    display: inline-block;
+    margin-bottom: 9px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    color: var(--green-dark);
+    background: var(--green-pale);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.resource-card-heading h3 {
+    margin-bottom: 6px;
+    font-size: 1.22rem;
+}
+
+.resource-card-heading p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.84rem;
+    line-height: 1.45;
+}
+
+.remove-resource-button {
+    padding: 8px 11px;
+    border: 1px solid rgba(163, 41, 41, 0.28);
+    color: var(--danger);
+    background: white;
+}
+
+.remove-resource-button:hover {
+    background: var(--danger-pale);
+}
+
+.resource-field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 16px;
+}
+
+.checkbox-control {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 13px;
+    border: 1px solid #c9d1cb;
+    border-radius: 10px;
+    background: white;
+}
+
+.checkbox-control input {
+    width: 19px;
+    height: 19px;
+    min-height: 0;
+    flex: 0 0 19px;
+    accent-color: var(--green);
+}
+
+.checkbox-control span {
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.resources-actions {
+    max-width: 520px;
+    margin: 22px auto 0;
+    text-align: center;
+}
+
+.resources-actions .primary-button {
+    margin-top: 0;
+}
+
+.resources-actions small {
+    display: block;
+    margin-top: 9px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+}
+
+.resources-result {
+    margin-top: 28px;
+    padding: clamp(20px, 3vw, 30px);
+    border-radius: 18px;
+    color: white;
+    background: var(--green-dark);
+}
+
+.resources-result .step-label {
+    color: #7ee0ba;
+}
+
+.resources-result h3 {
+    margin-bottom: 18px;
+    font-size: 1.35rem;
+}
+
+.resources-result dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 26px;
+    margin: 0;
+}
+
+.resources-result dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 12px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.resources-result dt {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.8rem;
+}
+
+.resources-result dd {
+    margin: 0;
+    font-size: 0.84rem;
+    font-weight: 750;
+    text-align: right;
+}
+
 @media (min-width: 921px) {
     .app-layout {
         grid-template-rows: auto auto;
@@ -785,12 +1060,15 @@ select[aria-invalid="true"] {
     opacity: 1;
 }
 
-.results-panel .info-button {
+.results-panel .info-button,
+.resources-result .info-button {
     color: rgba(255, 255, 255, 0.82);
 }
 
 .results-panel .info-button:hover,
-.results-panel .info-button:focus-visible {
+.results-panel .info-button:focus-visible,
+.resources-result .info-button:hover,
+.resources-result .info-button:focus-visible {
     color: var(--green-dark);
     background: white;
 }
@@ -1078,6 +1356,14 @@ footer {
         grid-template-columns: 1fr;
     }
 
+    .resource-type-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resource-type-grid button {
+        min-height: 0;
+    }
+
     .chart-panel figcaption {
         min-height: 0;
     }
@@ -1086,6 +1372,7 @@ footer {
 @media (max-width: 620px) {
     .intro,
     .app-layout,
+    .additional-resources,
     .projections,
     .explanation,
     .disclaimer,
@@ -1134,8 +1421,26 @@ footer {
     }
 
     .field-grid,
+    .resource-field-grid,
     .primary-results,
     .explanation-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resources-heading,
+    .resource-card-heading {
+        flex-direction: column;
+    }
+
+    .add-resource-button {
+        width: 100%;
+    }
+
+    .remove-resource-button {
+        align-self: flex-end;
+    }
+
+    .resources-result dl {
         grid-template-columns: 1fr;
     }
 

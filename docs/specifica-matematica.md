@@ -1,6 +1,6 @@
 # Calcolo FIRE Italia — specifica matematica del motore
 
-Stato: convenzioni matematiche dell'MVP approvate; estensione per risorse aggiuntive proposta nella Fase 1 del branch `rendite-aggiuntive`.
+Stato: convenzioni matematiche dell'MVP approvate; estensione per risorse aggiuntive implementata e verificata sul branch `rendite-aggiuntive`.
 
 Questa specifica è la fonte primaria del motore Java. Il workbook Excel resta un riferimento funzionale, ma non è un golden master finché le differenze indicate in fondo al documento non vengono corrette.
 

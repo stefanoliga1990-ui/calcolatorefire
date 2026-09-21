@@ -10,10 +10,19 @@ const fireResultsContent = document.querySelector("#fire-results-content");
 const pacResultsPlaceholder = document.querySelector("#pac-results-placeholder");
 const pacResultsContent = document.querySelector("#pac-results-content");
 const projections = document.querySelector("#projections");
+const addResourceButton = document.querySelector("#add-resource-button");
+const resourceTypePicker = document.querySelector("#resource-type-picker");
+const resourcesEmpty = document.querySelector("#resources-empty");
+const resourcesList = document.querySelector("#additional-resources-list");
+const resourcesActions = document.querySelector("#resources-actions");
+const resourcesResult = document.querySelector("#additional-resources-result");
+const calculateResourcesButton = document.querySelector("#calculate-resources-button");
+const resourceErrorBox = document.querySelector("#resource-form-error");
 
 let chartCleanups = { accumulation: null, decumulation: null };
 let renderedMethod = null;
 let lastFireRequest = null;
+let resourceCounter = 0;
 
 const currency = new Intl.NumberFormat("it-IT", {
     style: "currency",
@@ -33,25 +42,36 @@ const methodDescriptions = {
 
 const finiteTargetFormula = {
     expressions: [
-        "T_finite = W₁ × [1 − (1 + r_reale,m)^(-N_FIRE)] ÷ r_reale,m × (1 + r_reale,m) + L_FIRE ÷ (1 + r_reale,m)^N_FIRE",
-        "Se r_reale,m = 0:  T_finite = W₁ × N_FIRE + L_FIRE"
+        "D_k = max(0, W_k − R_k)",
+        "T_N = max(0, L_FIRE − K_terminale)",
+        "T_(k−1) = max(0, D_k − K_k + T_k ÷ (1 + r_f,m))",
+        "T_finite = T_0"
     ],
     symbols: [
         ["T_finite", "target nominale calcolato con il metodo Durata finita"],
-        ["W₁", "primo prelievo mensile nominale all’ingresso nel FIRE"],
-        ["r_reale,m", "rendimento reale mensile nel FIRE: (1 + r_f,m) ÷ (1 + i_m) − 1"],
-        ["N_FIRE", "numero di mesi della durata FIRE"],
-        ["L_FIRE", "capitale finale desiderato, rivalutato fino all’ingresso nel FIRE"]
+        ["W_k", "spesa lorda nominale del mese FIRE k"],
+        ["R_k", "rendite periodiche utilizzabili nel mese k"],
+        ["D_k", "prelievo netto richiesto al portafoglio nel mese k"],
+        ["K_k", "capitali una tantum disponibili all’inizio del mese k"],
+        ["K_terminale", "capitale una tantum ricevuto al confine finale"],
+        ["r_f,m", "rendimento nominale mensile equivalente durante il FIRE"],
+        ["L_FIRE", "capitale finale desiderato in valore nominale alla fine del FIRE"]
     ]
 };
 
 const swrTargetFormula = {
-    expressions: ["T_SWR = W₁ × 12 ÷ SWR"],
+    expressions: [
+        "T_SWR,base = W₁ × 12 ÷ SWR",
+        "T_SWR = min(T_SWR,base, capitale ponte + riserva del regime stabile)"
+    ],
     symbols: [
-        ["T_SWR", "target nominale calcolato con il metodo Safe Withdrawal Rate"],
-        ["W₁", "primo prelievo mensile nominale all’ingresso nel FIRE"],
+        ["T_SWR,base", "target calcolato ignorando le risorse aggiuntive"],
+        ["T_SWR", "target selezionato dopo rendite e capitali futuri"],
+        ["W₁", "prima spesa mensile lorda nominale all’ingresso nel FIRE"],
         ["12", "numero di mesi usato per trasformare il prelievo mensile in spesa annua"],
-        ["SWR", "tasso annuo di prelievo iniziale, espresso in forma decimale"]
+        ["SWR", "tasso annuo di prelievo iniziale, espresso in forma decimale"],
+        ["capitale ponte", "capitale necessario prima dell’inizio del regime stabile"],
+        ["riserva", "fabbisogno mensile stabile annualizzato e diviso per la SWR"]
     ]
 };
 
@@ -79,7 +99,7 @@ const selectedTargetFormulas = {
 const contributionFormula = {
     expressions: [
         "C₁ = Gap ÷ F",
-        "Gap = max(0, T_target − V₀ × (1 + r_a,m)^N_acc)",
+        "Gap = max(0, T_target − FV_disponibile)",
         "F = [(1 + r_a,m)^N_acc − (1 + g_m)^N_acc] ÷ (r_a,m − g_m)",
         "Se r_a,m = g_m:  F = N_acc × (1 + r_a,m)^(N_acc − 1)"
     ],
@@ -88,7 +108,7 @@ const contributionFormula = {
         ["Gap", "capitale che i nuovi versamenti devono ancora costruire"],
         ["F", "fattore di capitalizzazione dei versamenti mensili"],
         ["T_target", "patrimonio necessario secondo il metodo selezionato: T_finite oppure T_SWR"],
-        ["V₀", "patrimonio investito oggi"],
+        ["FV_disponibile", "patrimonio principale e risorse aggiuntive disponibili all’ingresso nel FIRE, prima del nuovo PAC"],
         ["r_a,m", "rendimento mensile equivalente nella fase di accumulo"],
         ["g_m", "crescita mensile equivalente del PAC"],
         ["N_acc", "numero di mesi disponibili per l’accumulo"]
@@ -119,9 +139,9 @@ const totalContributionsFormula = {
 const personalFinalBalanceFormula = {
     expressions: [
         "B₀ = max(T_target, B_acc)",
-        "W_k = W₁ × (1 + i_m)^(k − 1)",
-        "A_k = min(B_(k−1), W_k)",
-        "B_k = max(0, [B_(k−1) − A_k] × (1 + r_f,m))",
+        "D_k = max(0, W_k − R_k)",
+        "A_k = min(B_(k−1) + K_k, D_k)",
+        "B_k = max(0, [B_(k−1) + K_k − A_k] × (1 + r_f,m))",
         "Capitale_finale = B_N_FIRE"
     ],
     symbols: [
@@ -129,9 +149,10 @@ const personalFinalBalanceFormula = {
         ["T_target", "patrimonio necessario secondo il metodo selezionato"],
         ["B_acc", "patrimonio effettivamente raggiunto al termine dell’accumulo"],
         ["k", "numero progressivo del mese FIRE"],
-        ["W_k", "prelievo programmato all’inizio del mese k"],
-        ["W₁", "primo prelievo mensile nominale"],
-        ["i_m", "tasso mensile equivalente dell’inflazione"],
+        ["W_k", "spesa lorda nominale nel mese k"],
+        ["R_k", "rendite che riducono il fabbisogno nel mese k"],
+        ["D_k", "prelievo netto programmato"],
+        ["K_k", "capitali una tantum ricevuti all’inizio del mese k"],
         ["A_k", "prelievo effettivamente coperto nel mese k"],
         ["B_k", "capitale alla fine del mese k"],
         ["r_f,m", "rendimento nominale mensile equivalente durante il FIRE"],
@@ -214,6 +235,149 @@ const parameterHelp = {
         description: "Indica di quanto aumentano i versamenti nel tempo. Il valore viene convertito in una crescita mensile equivalente.",
         reference: "Usa 0% se vuoi un PAC costante. Il 2% simula un aumento vicino al riferimento d'inflazione BCE, ma usalo solo se prevedi che il reddito permetta davvero di aumentare i versamenti."
     },
+    resourceName: {
+        title: "Nome della risorsa",
+        description: "Serve a riconoscere questa risorsa nei dati e nei risultati. Non modifica il calcolo.",
+        reference: "Usa un nome breve e riconoscibile, per esempio PAC ETF, affitto netto o pensione."
+    },
+    resourceCurrentCapital: {
+        title: "Patrimonio già investito",
+        description: "È il saldo attuale di questo investimento separato dal patrimonio principale.",
+        reference: "Non includere qui somme già inserite in Patrimonio investito oggi."
+    },
+    resourceMonthlyContribution: {
+        title: "Versamento mensile già programmato",
+        description: "È il primo versamento futuro del PAC esistente e viene accreditato alla fine del mese.",
+        reference: "Inserisci 0 € se non effettuerai altri versamenti su questo investimento."
+    },
+    resourceContributionStartAge: {
+        title: "Età di inizio dei versamenti",
+        description: "È l'età, inclusa, dalla quale parte il versamento mensile dell'investimento esistente.",
+        reference: "Deve essere compresa tra l'età attuale e l'età FIRE. Lasciala vuota se il versamento è 0 €."
+    },
+    resourceContributionEndAge: {
+        title: "Età di fine dei versamenti",
+        description: "È il confine escluso dei versamenti: al raggiungimento di questa età il PAC esistente si interrompe.",
+        reference: "Deve essere successiva all'età iniziale e non oltre l'età FIRE. Lasciala vuota se il versamento è 0 €."
+    },
+    resourceReturnRate: {
+        title: "Rendimento annuo della risorsa",
+        description: "È il total return nominale annuo di questo investimento, al netto dei costi ricorrenti e prima delle imposte personali.",
+        reference: "Confronta più scenari. Se il rendimento comprende già cedole o dividendi reinvestiti, non aggiungerli anche come rendita."
+    },
+    resourceContributionGrowthRate: {
+        title: "Crescita annua dei versamenti",
+        description: "Indica come cresce nel tempo il PAC già esistente. Il calcolo usa il tasso mensile equivalente.",
+        reference: "Usa 0% per mantenere costante il versamento."
+    },
+    resourceAvailableAtFire: {
+        title: "Disponibile all'ingresso nel FIRE",
+        description: "Se selezionato, il saldo dell'investimento contribuirà al patrimonio FIRE e ridurrà il nuovo PAC necessario.",
+        reference: "Disattivalo se il capitale ha un altro scopo o non potrà essere usato per finanziare il FIRE."
+    },
+    resourceMonthlyIncome: {
+        title: "Importo mensile netto di oggi",
+        description: "È la rendita mensile al netto delle imposte stimate, espressa con il potere d'acquisto di oggi.",
+        reference: "Per un affitto considera anche periodi di sfitto, manutenzione e costi; per una pensione usa una stima netta."
+    },
+    resourceIncomeGrowthRate: {
+        title: "Crescita annua della rendita",
+        description: "Indica come viene rivalutata la rendita nel tempo.",
+        reference: "Usa 0% per una rendita nominalmente fissa; usa l'inflazione ipotizzata solo se prevedi un'effettiva indicizzazione."
+    },
+    resourceStartAge: {
+        title: "Età di inizio della rendita",
+        description: "È l'età, inclusa, dalla quale la rendita mensile diventa disponibile.",
+        reference: "Per una rendita già attiva inserisci l'età attuale."
+    },
+    resourceEndAge: {
+        title: "Età di fine della rendita",
+        description: "È l'età, esclusa, dalla quale la rendita non viene più percepita.",
+        reference: "Lasciala vuota se la rendita prosegue per tutto l'orizzonte simulato."
+    },
+    resourceInvestBeforeFire: {
+        title: "Investi prima del FIRE",
+        description: "Le mensilità ricevute prima del FIRE vengono versate nel portafoglio principale a fine mese e riducono il nuovo PAC necessario.",
+        reference: "Se non prevedi di investire questa entrata prima del FIRE, lascia l'opzione disattivata."
+    },
+    resourceOffsetDuringFire: {
+        title: "Usa durante il FIRE",
+        description: "Le mensilità ricevute durante il FIRE riducono il prelievo richiesto al patrimonio nello stesso mese.",
+        reference: "Attivala se la rendita sarà destinata alle spese durante il FIRE."
+    },
+    resourceLumpAmount: {
+        title: "Importo del capitale futuro",
+        description: "È la somma che prevedi di ricevere una sola volta.",
+        reference: "Inserisci una stima prudente e scegli sotto se l'importo è espresso in euro di oggi o nominali."
+    },
+    resourceAmountBasis: {
+        title: "Valore dell'importo",
+        description: "Euro di oggi rivaluta l'importo con l'inflazione fino alla ricezione; euro nominali usa esattamente la cifra inserita.",
+        reference: "Usa euro di oggi quando ragioni in potere d'acquisto corrente."
+    },
+    resourceReceiptAge: {
+        title: "Età di ricezione",
+        description: "È l'età alla quale il capitale diventa disponibile. Il momento determina se riduce il PAC o finanzia la fase FIRE.",
+        reference: "Deve rientrare tra l'età attuale e la fine dell'orizzonte FIRE."
+    },
+    resourceInvestAfterReceipt: {
+        title: "Investi dopo la ricezione",
+        description: "Se il capitale arriva prima del FIRE, questa opzione gli permette di maturare il rendimento indicato fino all'ingresso nel FIRE.",
+        reference: "Durante il FIRE il capitale confluisce comunque nel saldo al momento della ricezione."
+    },
+    resourceReturnAfterReceipt: {
+        title: "Rendimento dopo la ricezione",
+        description: "È il rendimento nominale annuo applicato al capitale ricevuto prima del FIRE quando scegli di investirlo.",
+        reference: "Usa un rendimento coerente con lo strumento nel quale prevedi di investire la somma."
+    },
+    resourceInvestedIncomeResult: {
+        title: "Rendite reinvestite prima del FIRE",
+        description: "È la somma nominale delle entrate periodiche versate nel portafoglio principale durante l'accumulo, senza i rendimenti maturati.",
+        formula: {
+            expressions: ["Rendite_investite = Σ I_j"],
+            symbols: [["I_j", "rendita del mese di accumulo j configurata per essere investita"]]
+        }
+    },
+    resourceExistingBalanceResult: {
+        title: "Investimenti e PAC disponibili al FIRE",
+        description: "È il saldo complessivo all'età FIRE degli investimenti aggiuntivi dichiarati disponibili.",
+        formula: {
+            expressions: ["Investimenti_disponibili = Σ available_q × B_q,N_acc"],
+            symbols: [["available_q", "vale 1 se la risorsa è disponibile al FIRE, altrimenti 0"], ["B_q,N_acc", "saldo finale dell'investimento q"]]
+        }
+    },
+    resourceLumpBalanceResult: {
+        title: "Capitali futuri disponibili al FIRE",
+        description: "Somma i capitali una tantum ricevuti entro l'ingresso nel FIRE e la loro eventuale crescita prima del FIRE.",
+        formula: {
+            expressions: ["Capitali_al_FIRE = Σ F_q,N_acc"],
+            symbols: [["F_q,N_acc", "saldo al FIRE del capitale futuro q ricevuto entro quel confine"]]
+        }
+    },
+    resourceFirstIncomeResult: {
+        title: "Rendite nel primo mese FIRE",
+        description: "È il totale delle rendite periodiche attive e utilizzabili all'inizio del primo mese FIRE.",
+        formula: {
+            expressions: ["R₁ = Σ R_q,1"],
+            symbols: [["R_q,1", "importo nominale della rendita q attiva nel primo mese FIRE"]]
+        }
+    },
+    resourceFirstNetWithdrawalResult: {
+        title: "Prelievo netto nel primo mese FIRE",
+        description: "È quanto deve essere prelevato dal patrimonio dopo aver sottratto le rendite disponibili dalla spesa lorda.",
+        formula: {
+            expressions: ["D₁ = max(0, W₁ − R₁)"],
+            symbols: [["W₁", "prima spesa mensile lorda nominale"], ["R₁", "rendite disponibili nel primo mese FIRE"], ["D₁", "prelievo netto richiesto al patrimonio"]]
+        }
+    },
+    resourceFireInflowsResult: {
+        title: "Capitali ricevuti durante il FIRE",
+        description: "È il totale nominale dei capitali una tantum ricevuti dopo l'ingresso nel FIRE, compreso l'eventuale capitale al confine finale.",
+        formula: {
+            expressions: ["Capitali_nel_FIRE = Σ K_k + K_terminale"],
+            symbols: [["K_k", "capitale ricevuto all'inizio del mese FIRE k"], ["K_terminale", "capitale ricevuto esattamente alla fine dell'orizzonte"]]
+        }
+    },
     selectedTarget: {
         title: "Patrimonio necessario all'ingresso nel FIRE",
         description: "È il capitale nominale da raggiungere all'età FIRE secondo il metodo selezionato. Sotto viene mostrato anche l'equivalente in euro di oggi.",
@@ -257,14 +421,23 @@ const helpDialogContent = document.querySelector("#parameter-help-content");
 const helpDialogClose = document.querySelector("#parameter-help-close");
 
 attachParameterHelp();
+helpDialogClose.addEventListener("click", () => helpDialog.close());
+helpDialog.addEventListener("click", (event) => {
+    if (event.target === helpDialog) {
+        helpDialog.close();
+    }
+});
 
 const defaults = Object.fromEntries(new FormData(form).entries());
 const methodSelect = form.elements.namedItem("method");
 methodSelect.addEventListener("change", updateMethodFields);
 updateMethodFields();
 
-function attachParameterHelp() {
-    document.querySelectorAll("[data-help]").forEach((container) => {
+function attachParameterHelp(root = document) {
+    root.querySelectorAll("[data-help]").forEach((container) => {
+        if (container.querySelector(":scope .info-button")) {
+            return;
+        }
         const key = container.dataset.help;
         const content = parameterHelp[key];
         const label = container.matches(".field")
@@ -290,12 +463,6 @@ function attachParameterHelp() {
         label.append(button);
     });
 
-    helpDialogClose.addEventListener("click", () => helpDialog.close());
-    helpDialog.addEventListener("click", (event) => {
-        if (event.target === helpDialog) {
-            helpDialog.close();
-        }
-    });
 }
 
 function openParameterHelp(content, method) {
@@ -401,27 +568,69 @@ function updateMethodFields() {
     form.elements.namedItem("terminalCapitalToday").disabled = isSwr;
 }
 
+addResourceButton.addEventListener("click", () => {
+    resourceTypePicker.hidden = !resourceTypePicker.hidden;
+    addResourceButton.setAttribute("aria-expanded", String(!resourceTypePicker.hidden));
+});
+
+resourceTypePicker.addEventListener("click", (event) => {
+    const typeButton = event.target.closest("[data-resource-type]");
+    if (!typeButton) {
+        return;
+    }
+    addResource(typeButton.dataset.resourceType);
+    resourceTypePicker.hidden = true;
+    addResourceButton.setAttribute("aria-expanded", "false");
+});
+
+resourcesList.addEventListener("click", (event) => {
+    const removeButton = event.target.closest("[data-remove-resource]");
+    if (!removeButton) {
+        return;
+    }
+    removeButton.closest(".resource-card")?.remove();
+    updateResourcesState();
+});
+
+resourcesList.addEventListener("change", (event) => {
+    const card = event.target.closest(".resource-card");
+    if (card) {
+        updateResourceConditionalFields(card);
+    }
+});
+
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    await runFullCalculation(calculateFireButton, "Calcola FIRE e PAC");
+});
+
+calculateResourcesButton.addEventListener("click", async () => {
+    await runFullCalculation(calculateResourcesButton, "Ricalcola FIRE e PAC");
+});
+
+async function runFullCalculation(triggerButton, idleLabel) {
     clearErrors();
 
-    if (!form.reportValidity()) {
+    if (!form.reportValidity() || !validateAdditionalResources()) {
         return;
     }
 
     const request = buildRequest();
     calculatePacButton.disabled = true;
-    setLoading(calculateFireButton, true, "Calcola FIRE e PAC");
+    const otherFullButton = triggerButton === calculateFireButton ? calculateResourcesButton : calculateFireButton;
+    otherFullButton.disabled = true;
+    setLoading(triggerButton, true, idleLabel);
     try {
         const result = await calculate(request);
         if (!result.ok) {
-            showApiError(result.body, errorBox);
+            showApiError(result.body, request.additionalResources.length > 0 ? resourceErrorBox : errorBox);
             return;
         }
 
-        lastFireRequest = { ...request };
+        lastFireRequest = structuredClone(request);
         renderFireResults(result.body, request);
         renderPacResults(result.body, request);
+        renderAdditionalResourcesResult(result.body, request);
         renderProjectionCharts(result.body, request);
         calculatePacButton.disabled = false;
         setText("pac-calculation-help", "Modifica i dati PAC e usa questo pulsante per aggiornare soltanto il piano di accumulo.");
@@ -430,12 +639,17 @@ form.addEventListener("submit", async (event) => {
             document.querySelector("#results").scrollIntoView({ behavior: "smooth", block: "start" });
         }
     } catch (error) {
-        showError("Non è stato possibile contattare il calcolatore. Riprova tra poco.");
+        showError(
+            "Non è stato possibile contattare il calcolatore. Riprova tra poco.",
+            false,
+            triggerButton === calculateResourcesButton ? resourceErrorBox : errorBox
+        );
     } finally {
-        setLoading(calculateFireButton, false, "Calcola FIRE e PAC");
+        setLoading(triggerButton, false, idleLabel);
+        otherFullButton.disabled = false;
         calculatePacButton.disabled = lastFireRequest === null;
     }
-});
+}
 
 calculatePacButton.addEventListener("click", async () => {
     clearErrors();
@@ -445,6 +659,7 @@ calculatePacButton.addEventListener("click", async () => {
 
     const request = { ...lastFireRequest, ...buildPacRequest() };
     calculateFireButton.disabled = true;
+    calculateResourcesButton.disabled = true;
     setLoading(calculatePacButton, true, "Ricalcola solo il PAC");
     try {
         const result = await calculate(request);
@@ -463,6 +678,7 @@ calculatePacButton.addEventListener("click", async () => {
     } finally {
         setLoading(calculatePacButton, false, "Ricalcola solo il PAC");
         calculateFireButton.disabled = false;
+        calculateResourcesButton.disabled = false;
     }
 });
 
@@ -483,6 +699,12 @@ resetButton.addEventListener("click", () => {
     pacResultsPlaceholder.hidden = false;
     calculatePacButton.disabled = true;
     setText("pac-calculation-help", "Calcola prima il FIRE per definire il patrimonio da raggiungere.");
+    resourcesList.replaceChildren();
+    resourcesResult.hidden = true;
+    resourcesActions.hidden = true;
+    resourceTypePicker.hidden = true;
+    addResourceButton.setAttribute("aria-expanded", "false");
+    updateResourcesState();
     projections.hidden = true;
     destroyCharts();
     form.querySelector("input, select")?.focus();
@@ -506,7 +728,8 @@ function buildRequest() {
         terminalCapitalToday: value("method") === "FINITE" ? number("terminalCapitalToday") : 0,
         currentCapital: number("currentCapital"),
         annualAccumulationReturnRate: percent("annualAccumulationReturnRate"),
-        annualContributionGrowthRate: percent("annualContributionGrowthRate")
+        annualContributionGrowthRate: percent("annualContributionGrowthRate"),
+        additionalResources: buildAdditionalResources()
     };
 }
 
@@ -516,6 +739,175 @@ function buildPacRequest() {
         annualAccumulationReturnRate: percent("annualAccumulationReturnRate"),
         annualContributionGrowthRate: percent("annualContributionGrowthRate")
     };
+}
+
+function addResource(type) {
+    resourceCounter += 1;
+    const card = document.createElement("article");
+    card.className = "resource-card";
+    card.dataset.resourceType = type;
+    card.dataset.resourceId = String(resourceCounter);
+    card.innerHTML = resourceCardMarkup(type, resourceCounter);
+    resourcesList.append(card);
+    attachParameterHelp(card);
+    updateResourceConditionalFields(card);
+    updateResourcesState();
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    card.querySelector("input, select")?.focus({ preventScroll: true });
+}
+
+function resourceCardMarkup(type, id) {
+    const currentAge = number("currentAge");
+    const fireAge = number("fireAge");
+    const contributionStartValue = currentAge < fireAge ? `value="${currentAge}"` : "";
+    const contributionEndValue = currentAge < fireAge ? `value="${fireAge}"` : "";
+    const commonHeader = (badge, title, description) => `
+        <div class="resource-card-heading">
+            <div><span class="resource-type-badge">${badge}</span><h3>${title}</h3><p>${description}</p></div>
+            <button class="remove-resource-button" type="button" data-remove-resource aria-label="Rimuovi ${title}">Rimuovi</button>
+        </div>`;
+    const nameField = (defaultName) => `
+        <label class="field field-wide" data-help="resourceName">
+            <span>Nome della risorsa</span>
+            <input id="resource-${id}-name" data-resource-field="name" type="text" maxlength="100" value="${defaultName}">
+        </label>`;
+
+    if (type === "EXISTING_INVESTMENT") {
+        return `${commonHeader("Investimento", "Investimento o PAC esistente", "Proietta un capitale separato e gli eventuali versamenti già programmati.")}
+            <div class="resource-field-grid">
+                ${nameField("PAC esistente")}
+                <label class="field" data-help="resourceCurrentCapital"><span>Patrimonio già investito</span><span class="input-prefix"><span>€</span><input data-resource-field="currentCapital" type="number" min="0" step="1000" value="0" required></span></label>
+                <label class="field" data-help="resourceMonthlyContribution"><span>Versamento mensile già programmato</span><span class="input-prefix"><span>€</span><input data-resource-field="initialMonthlyContribution" type="number" min="0" step="10" value="0" required></span></label>
+                <label class="field" data-help="resourceContributionStartAge"><span>Età di inizio dei versamenti</span><input data-resource-field="contributionStartAge" type="number" min="0" step="1" ${contributionStartValue}></label>
+                <label class="field" data-help="resourceContributionEndAge"><span>Età di fine dei versamenti</span><input data-resource-field="contributionEndAge" type="number" min="0" step="1" ${contributionEndValue}></label>
+                <label class="field" data-help="resourceReturnRate"><span>Rendimento annuo della risorsa</span><span class="input-suffix"><input data-resource-field="annualReturnRate" type="number" min="-99.99" step="0.01" value="5" required><span>%</span></span></label>
+                <label class="field" data-help="resourceContributionGrowthRate"><span>Crescita annua dei versamenti</span><span class="input-suffix"><input data-resource-field="annualContributionGrowthRate" type="number" min="-99.99" step="0.01" value="0" required><span>%</span></span></label>
+                <label class="field checkbox-field field-wide" data-help="resourceAvailableAtFire"><span>Disponibile all'ingresso nel FIRE</span><span class="checkbox-control"><input data-resource-field="availableAtFire" type="checkbox" checked><span>Il saldo contribuirà al patrimonio FIRE</span></span></label>
+            </div>`;
+    }
+
+    if (type === "PERIODIC_INCOME") {
+        return `${commonHeader("Rendita", "Rendita periodica", "Modella un'entrata mensile netta, attuale o futura, con eventuale scadenza.")}
+            <div class="resource-field-grid">
+                ${nameField("Rendita periodica")}
+                <label class="field" data-help="resourceMonthlyIncome"><span>Importo mensile netto di oggi</span><span class="input-prefix"><span>€</span><input data-resource-field="monthlyAmountToday" type="number" min="0" step="10" value="0" required></span></label>
+                <label class="field" data-help="resourceIncomeGrowthRate"><span>Crescita annua della rendita</span><span class="input-suffix"><input data-resource-field="annualGrowthRate" type="number" min="-99.99" step="0.01" value="0" required><span>%</span></span></label>
+                <label class="field" data-help="resourceStartAge"><span>Età di inizio</span><input data-resource-field="startAge" type="number" min="0" step="1" value="${number("currentAge")}" required></label>
+                <label class="field" data-help="resourceEndAge"><span>Età di fine</span><input data-resource-field="endAge" type="number" min="0" step="1" placeholder="Senza fine"><small>Lascia vuoto se continua per tutto l'orizzonte.</small></label>
+                <label class="field checkbox-field" data-help="resourceInvestBeforeFire"><span>Investi prima del FIRE</span><span class="checkbox-control"><input data-resource-field="investBeforeFire" type="checkbox" checked><span>Confluisce nel portafoglio di accumulo</span></span></label>
+                <label class="field checkbox-field" data-help="resourceOffsetDuringFire"><span>Usa durante il FIRE</span><span class="checkbox-control"><input data-resource-field="offsetDuringFire" type="checkbox" checked><span>Riduce il prelievo richiesto</span></span></label>
+            </div>`;
+    }
+
+    return `${commonHeader("Capitale futuro", "Capitale futuro una tantum", "Inserisci una somma che diventerà disponibile una sola volta.")}
+        <div class="resource-field-grid">
+            ${nameField("Capitale futuro")}
+            <label class="field" data-help="resourceLumpAmount"><span>Importo</span><span class="input-prefix"><span>€</span><input data-resource-field="amount" type="number" min="0" step="1000" value="0" required></span></label>
+            <label class="field" data-help="resourceAmountBasis"><span>Valore dell'importo</span><select data-resource-field="amountBasis" required><option value="TODAY">Euro di oggi</option><option value="NOMINAL">Euro nominali alla ricezione</option></select></label>
+            <label class="field" data-help="resourceReceiptAge"><span>Età di ricezione</span><input data-resource-field="receiptAge" type="number" min="0" step="1" value="${number("fireAge")}" required></label>
+            <label class="field checkbox-field" data-help="resourceInvestAfterReceipt"><span>Investi dopo la ricezione</span><span class="checkbox-control"><input data-resource-field="investAfterReceipt" type="checkbox" checked><span>Fino all'ingresso nel FIRE</span></span></label>
+            <label class="field field-wide" data-help="resourceReturnAfterReceipt" data-return-after-receipt><span>Rendimento annuo dopo la ricezione</span><span class="input-suffix"><input data-resource-field="annualReturnRateAfterReceipt" type="number" min="-99.99" step="0.01" value="5" required><span>%</span></span></label>
+        </div>`;
+}
+
+function updateResourceConditionalFields(card) {
+    if (card.dataset.resourceType === "FUTURE_LUMP_SUM") {
+        const invest = resourceField(card, "investAfterReceipt").checked;
+        card.querySelector("[data-return-after-receipt]").hidden = !invest;
+        resourceField(card, "annualReturnRateAfterReceipt").disabled = !invest;
+    }
+}
+
+function updateResourcesState() {
+    const hasResources = resourcesList.children.length > 0;
+    resourcesEmpty.hidden = hasResources;
+    if (hasResources) {
+        resourcesActions.hidden = false;
+    }
+}
+
+function buildAdditionalResources() {
+    return [...resourcesList.querySelectorAll(".resource-card")].map((card) => {
+        const type = card.dataset.resourceType;
+        const name = resourceValue(card, "name").trim() || null;
+        if (type === "EXISTING_INVESTMENT") {
+            return { type, name, currentCapital: resourceNumber(card, "currentCapital"), initialMonthlyContribution: resourceNumber(card, "initialMonthlyContribution"), contributionStartAge: resourceNullableNumber(card, "contributionStartAge"), contributionEndAge: resourceNullableNumber(card, "contributionEndAge"), annualReturnRate: resourcePercent(card, "annualReturnRate"), annualContributionGrowthRate: resourcePercent(card, "annualContributionGrowthRate"), availableAtFire: resourceField(card, "availableAtFire").checked };
+        }
+        if (type === "PERIODIC_INCOME") {
+            return { type, name, monthlyAmountToday: resourceNumber(card, "monthlyAmountToday"), annualGrowthRate: resourcePercent(card, "annualGrowthRate"), startAge: resourceNumber(card, "startAge"), endAge: resourceNullableNumber(card, "endAge"), investBeforeFire: resourceField(card, "investBeforeFire").checked, offsetDuringFire: resourceField(card, "offsetDuringFire").checked };
+        }
+        const investAfterReceipt = resourceField(card, "investAfterReceipt").checked;
+        return { type, name, amount: resourceNumber(card, "amount"), amountBasis: resourceValue(card, "amountBasis"), receiptAge: resourceNumber(card, "receiptAge"), investAfterReceipt, annualReturnRateAfterReceipt: investAfterReceipt ? resourcePercent(card, "annualReturnRateAfterReceipt") : 0 };
+    });
+}
+
+function validateAdditionalResources() {
+    for (const card of resourcesList.querySelectorAll(".resource-card")) {
+        for (const control of card.querySelectorAll("input, select")) {
+            control.setCustomValidity("");
+            if (!control.checkValidity()) {
+                control.reportValidity();
+                return false;
+            }
+        }
+        if (card.dataset.resourceType === "EXISTING_INVESTMENT") {
+            const contribution = resourceNumber(card, "initialMonthlyContribution");
+            const start = resourceField(card, "contributionStartAge");
+            const end = resourceField(card, "contributionEndAge");
+            if ((contribution > 0 && (!start.value || !end.value)) || Boolean(start.value) !== Boolean(end.value)) {
+                const invalidControl = !start.value ? start : end;
+                invalidControl.setCustomValidity("Inserisci entrambe le età dei versamenti, oppure lascia entrambe vuote quando il versamento è 0 €.");
+                invalidControl.reportValidity();
+                return false;
+            }
+        }
+        if (card.dataset.resourceType === "PERIODIC_INCOME") {
+            const invest = resourceField(card, "investBeforeFire");
+            const offset = resourceField(card, "offsetDuringFire");
+            if (!invest.checked && !offset.checked) {
+                invest.setCustomValidity("Scegli almeno un utilizzo per la rendita.");
+                invest.reportValidity();
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function renderAdditionalResourcesResult(data, request) {
+    if (request.additionalResources.length === 0) {
+        resourcesResult.hidden = true;
+        resourcesActions.hidden = true;
+        return;
+    }
+    setText("resource-invested-income", money(data.accumulation.totalNominalAdditionalIncomeInvested));
+    setText("resource-existing-balance", money(data.accumulation.availableExistingInvestmentsFinalBalance));
+    setText("resource-lump-balance", money(data.accumulation.availableFutureLumpSumsFinalBalance));
+    setText("resource-first-income", `${money(data.target.firstMonthlyAdditionalIncome)} / mese`);
+    setText("resource-first-net-withdrawal", `${money(data.target.firstMonthlyNetWithdrawal)} / mese`);
+    setText("resource-fire-inflows", money(data.decumulation.totalCapitalInflows));
+    resourcesResult.hidden = false;
+}
+
+function resourceField(card, name) {
+    return card.querySelector(`[data-resource-field="${name}"]`);
+}
+
+function resourceValue(card, name) {
+    return resourceField(card, name).value;
+}
+
+function resourceNumber(card, name) {
+    return Number(resourceValue(card, name));
+}
+
+function resourceNullableNumber(card, name) {
+    const rawValue = resourceValue(card, name);
+    return rawValue === "" ? null : Number(rawValue);
+}
+
+function resourcePercent(card, name) {
+    return resourceNumber(card, name) / 100;
 }
 
 async function calculate(request) {
@@ -577,7 +969,7 @@ function renderPacResults(data, request) {
 function showApiError(problem, target = errorBox) {
     if (Array.isArray(problem.fieldErrors)) {
         for (const error of problem.fieldErrors) {
-            const control = form.elements.namedItem(error.field);
+            const control = findControlForApiField(error.field);
             control?.setAttribute("aria-invalid", "true");
         }
         const items = problem.fieldErrors
@@ -600,13 +992,27 @@ function showError(message, isHtml = false, target = errorBox) {
 }
 
 function clearErrors() {
-    for (const box of [errorBox, pacErrorBox]) {
+    for (const box of [errorBox, pacErrorBox, resourceErrorBox]) {
         box.hidden = true;
         box.textContent = "";
     }
-    for (const control of form.elements) {
+    for (const control of [...form.elements, ...resourcesList.querySelectorAll("input, select")]) {
         control.removeAttribute?.("aria-invalid");
+        control.setCustomValidity?.("");
     }
+}
+
+function findControlForApiField(fieldName) {
+    const directControl = form.elements.namedItem(fieldName);
+    if (directControl) {
+        return directControl;
+    }
+    const resourceMatch = fieldName.match(/^additionalResources\[(\d+)]\.(\w+)$/);
+    if (!resourceMatch) {
+        return null;
+    }
+    const card = resourcesList.querySelectorAll(".resource-card")[Number(resourceMatch[1])];
+    return card ? resourceField(card, resourceMatch[2]) : null;
 }
 
 function validatePacInputs() {
@@ -675,11 +1081,13 @@ function renderProjectionCharts(data) {
 function renderAccumulationChart(data) {
     chartCleanups.accumulation?.();
 
-    const initialCapital = data.accumulation.projection[0]?.closingBalance ?? 0;
+    const initialCapital = data.accumulation.projection[0]?.totalAvailableBalance ?? 0;
     const accumulationData = data.accumulation.projection.map((point) => ({
         age: point.age,
-        balance: point.closingBalance,
-        contributions: initialCapital + point.cumulativeContributions
+        balance: point.totalAvailableBalance ?? point.closingBalance,
+        contributions: (data.accumulation.projection[0]?.closingBalance ?? 0)
+            + point.cumulativeContributions
+            + (point.cumulativeAdditionalIncome ?? 0)
     }));
 
     setText(

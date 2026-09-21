@@ -6,8 +6,8 @@
     <meta name="description" content="Calcola il patrimonio necessario per il FIRE e il PAC mensile per raggiungerlo.">
     <title>Calcolo FIRE Italia</title>
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-2fd4b7f038ca.css">
-    <script src="/app-b26d86b418df.js" defer></script>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css">
+    <script src="/app-6f4d2c9a1e73.js" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -246,6 +246,71 @@
         </div>
     </div>
 
+    <section class="panel additional-resources" id="additional-resources" aria-labelledby="additional-resources-title">
+        <div class="resources-heading">
+            <div>
+                <p class="step-label">Rendite e risorse aggiuntive</p>
+                <h2 id="additional-resources-title">Aggiungi ciò che contribuirà al tuo piano</h2>
+                <p>Inserisci investimenti già attivi, entrate periodiche o capitali futuri. Puoi aggiungerne più di uno.</p>
+            </div>
+            <button class="add-resource-button" id="add-resource-button" type="button" aria-expanded="false"
+                    aria-controls="resource-type-picker">Aggiungi rendita</button>
+        </div>
+
+        <div class="resource-guidance">
+            <strong>Evita il doppio conteggio.</strong>
+            <span>Il patrimonio e i versamenti inseriti qui non devono comparire anche nel PAC principale. Se il rendimento di un investimento comprende già cedole o dividendi reinvestiti, non inserirli di nuovo come rendita.</span>
+        </div>
+
+        <div class="resource-type-picker" id="resource-type-picker" hidden>
+            <p>Che cosa vuoi aggiungere?</p>
+            <div class="resource-type-grid">
+                <button type="button" data-resource-type="EXISTING_INVESTMENT">
+                    <strong>Investimento o PAC esistente</strong>
+                    <span>Un capitale già investito, con eventuali versamenti periodici propri.</span>
+                </button>
+                <button type="button" data-resource-type="PERIODIC_INCOME">
+                    <strong>Rendita periodica</strong>
+                    <span>Affitto, pensione o altra entrata mensile attuale o futura.</span>
+                </button>
+                <button type="button" data-resource-type="FUTURE_LUMP_SUM">
+                    <strong>Capitale futuro</strong>
+                    <span>Una somma ricevuta una sola volta, prima o durante il FIRE.</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="resource-form-error" class="alert" role="alert" tabindex="-1" hidden></div>
+
+        <div class="resources-empty" id="resources-empty">
+            <p>Non hai ancora aggiunto rendite o altre risorse. Senza risorse aggiuntive i risultati restano identici al calcolo attuale.</p>
+        </div>
+        <div class="resources-list" id="additional-resources-list"></div>
+
+        <div class="resources-actions" id="resources-actions" hidden>
+            <button class="primary-button" id="calculate-resources-button" type="button">
+                <span class="button-label">Ricalcola FIRE e PAC</span>
+                <span class="button-loader" aria-hidden="true"></span>
+            </button>
+            <small>Usa questo pulsante dopo aver aggiunto o modificato una risorsa: verranno aggiornati entrambi i calcoli.</small>
+        </div>
+
+        <div class="resources-result" id="additional-resources-result" aria-live="polite" hidden>
+            <div>
+                <p class="step-label">Contributo allo scenario</p>
+                <h3>Come incidono le risorse aggiuntive</h3>
+            </div>
+            <dl>
+                <div data-help="resourceInvestedIncomeResult"><dt>Rendite reinvestite prima del FIRE</dt><dd id="resource-invested-income">—</dd></div>
+                <div data-help="resourceExistingBalanceResult"><dt>Investimenti e PAC disponibili al FIRE</dt><dd id="resource-existing-balance">—</dd></div>
+                <div data-help="resourceLumpBalanceResult"><dt>Capitali futuri disponibili al FIRE</dt><dd id="resource-lump-balance">—</dd></div>
+                <div data-help="resourceFirstIncomeResult"><dt>Rendite nel primo mese FIRE</dt><dd id="resource-first-income">—</dd></div>
+                <div data-help="resourceFirstNetWithdrawalResult"><dt>Prelievo netto nel primo mese FIRE</dt><dd id="resource-first-net-withdrawal">—</dd></div>
+                <div data-help="resourceFireInflowsResult"><dt>Capitali ricevuti durante il FIRE</dt><dd id="resource-fire-inflows">—</dd></div>
+            </dl>
+        </div>
+    </section>
+
     <section class="projections" id="projections" aria-labelledby="projections-title" hidden>
         <div class="projections-heading">
             <div>
@@ -327,8 +392,8 @@
     <section class="disclaimer" aria-labelledby="disclaimer-title">
         <h2 id="disclaimer-title">Prima di usare il risultato</h2>
         <p>
-            Questa simulazione ha finalità educative. Non include fiscalità sui prelievi, volatilità,
-            sequenza reale dei rendimenti o altri redditi. Non costituisce consulenza finanziaria,
+            Questa simulazione ha finalità educative. Le rendite inserite sono considerate al netto delle imposte stimate dall'utente.
+            Non include fiscalità sui prelievi, volatilità o sequenza reale dei rendimenti. Non costituisce consulenza finanziaria,
             fiscale o previdenziale.
         </p>
     </section>
