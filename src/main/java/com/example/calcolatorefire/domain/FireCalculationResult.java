@@ -29,20 +29,25 @@ public record FireCalculationResult(
         double projectedMainPortfolioFinalBalance,
         double projectedInvestedIncomeFinalBalance,
         double projectedAvailableExistingInvestmentsFinalBalance,
+        double projectedAvailableFutureLumpSumsFinalBalance,
         double projectedAccumulationFinalBalance,
         Double finiteTargetProjectedFinalBalance,
         double targetDecumulationFinalBalance,
         double personalDecumulationStartBalance,
         double personalDecumulationFinalBalance,
+        double totalCapitalInflows,
+        double terminalCapitalInflow,
         double totalShortfall,
         Integer depletionMonth,
         List<AccumulationPoint> accumulationProjection,
         List<DecumulationPoint> decumulationProjection,
-        List<ExistingInvestmentResult> existingInvestments
+        List<ExistingInvestmentResult> existingInvestments,
+        List<FutureLumpSumResult> futureLumpSums
 ) {
     public FireCalculationResult {
         accumulationProjection = List.copyOf(accumulationProjection);
         decumulationProjection = List.copyOf(decumulationProjection);
         existingInvestments = List.copyOf(existingInvestments);
+        futureLumpSums = List.copyOf(futureLumpSums);
     }
 }

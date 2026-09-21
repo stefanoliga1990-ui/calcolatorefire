@@ -11,6 +11,7 @@ public record AccumulationPoint(
         double cumulativeContributions,
         double cumulativeAdditionalIncome,
         double availableExistingInvestmentsBalance,
+        double availableFutureLumpSumsBalance,
         double totalAvailableBalance
 ) {
 }

@@ -423,6 +423,8 @@ Il capitale è accreditato al confine `n_l`. Se `n_l = 0`, è disponibile all'in
 
 Se `n_l > N_acc`, il capitale entra direttamente nel portafoglio di decumulo al momento della ricezione e da quel momento usa `r_fm`. In questo caso `investAfterReceipt_l` e `r_la` non modificano il flusso durante il FIRE.
 
+Se `n_l = N_acc + N_fire`, il capitale è ricevuto esattamente al confine finale della simulazione. Viene accreditato dopo il rendimento dell'ultimo mese, può concorrere al capitale finale desiderato e non può finanziare retroattivamente l'ultimo prelievo.
+
 ## 18. Accumulo con risorse aggiuntive
 
 ### 18.1 Investimenti e PAC esistenti
@@ -535,6 +537,12 @@ K_k = Σ K_l(receipt) per k_l = k
 
 `K_k` è disponibile all'inizio del mese, prima del prelievo. I capitali con `n_l <= N_acc` sono già inclusi in `FV_available` e non compaiono in `K_k`.
 
+I capitali ricevuti al confine finale sono separati dai flussi mensili:
+
+```text
+K_terminal = Σ K_l(receipt) per n_l = N_acc + N_fire
+```
+
 ## 20. Target FINITE con flussi variabili
 
 Il target a durata finita viene generalizzato con una ricorrenza all'indietro in termini nominali. Questa forma gestisce rendite variabili e capitali una tantum senza cambiare il timing del prelievo anticipato.
@@ -542,7 +550,7 @@ Il target a durata finita viene generalizzato con una ricorrenza all'indietro in
 Il capitale richiesto alla fine dell'ultimo mese è:
 
 ```text
-Q_N_fire = L_end_nominal
+Q_N_fire = max(0, L_end_nominal − K_terminal)
 ```
 
 Per `k` da `N_fire` a 1:
@@ -690,6 +698,12 @@ return_k = (available_k − actual_withdrawal_k) × r_fm
 B_k = max(0, available_k − actual_withdrawal_k + return_k)
 ```
 
+Al confine finale, dopo il rendimento dell'ultimo mese:
+
+```text
+B_N_fire = B_N_fire + K_terminal
+```
+
 Lo shortfall misura la parte del fabbisogno netto non coperta dopo le rendite. I risultati devono rendere disponibili, per ogni mese, almeno spesa lorda `W_k`, rendite `R_k`, prelievo netto programmato `D_k`, capitale una tantum `K_k`, prelievo effettivo e saldo finale.
 
 L'eventuale eccedenza della rendita rispetto alla spesa resta esclusa dal saldo, come stabilito nella sezione 19.
@@ -810,6 +824,7 @@ Questo saldo riduce il `Gap`. Le cedole non vengono aggiunte come rendita se il 
 - una rendita con inizio all'età FIRE riduce `D_1`;
 - una rendita con fine all'età FIRE non riduce `D_1`;
 - un capitale ricevuto all'età FIRE entra in `FV_available` e non in `K_1`;
+- un capitale ricevuto esattamente alla fine dell'orizzonte entra in `K_terminal` dopo il rendimento dell'ultimo mese;
 - il primo versamento di un PAC che inizia oggi avviene alla fine del primo mese;
 - l'ultimo versamento di un PAC con fine all'età FIRE avviene alla fine del mese `N_acc`;
 - con zero mesi di accumulo, le risorse disponibili al confine iniziale vengono considerate prima di dichiarare lo scenario irraggiungibile.

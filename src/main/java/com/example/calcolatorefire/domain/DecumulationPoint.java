@@ -8,6 +8,7 @@ public record DecumulationPoint(
         double additionalIncome,
         double scheduledWithdrawal,
         double capitalInflow,
+        double terminalCapitalInflow,
         double actualWithdrawal,
         double shortfall,
         double investmentReturn,

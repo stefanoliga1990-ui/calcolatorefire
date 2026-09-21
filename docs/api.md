@@ -117,7 +117,12 @@ Gli investimenti esistenti e le rendite periodiche sono applicati dal motore:
 - le rendite con `offsetDuringFire: true` riducono il prelievo netto e modificano il target `FINITE` o il capitale ponte del metodo `SWR`;
 - un investimento con `availableAtFire: false` viene proiettato e restituito dall'API, ma non riduce il PAC e non entra nel capitale FIRE.
 
-In questa Fase 3 `FUTURE_LUMP_SUM` viene deserializzato e validato, ma non ha ancora effetto sui calcoli. Verrà collegato al motore nella Fase 4.
+I capitali `FUTURE_LUMP_SUM` sono applicati in base al momento di ricezione:
+
+- prima o esattamente all'ingresso nel FIRE entrano nel capitale disponibile e riducono il nuovo PAC richiesto;
+- prima del FIRE maturano `annualReturnRateAfterReceipt` soltanto quando `investAfterReceipt` è `true`;
+- durante il FIRE entrano all'inizio del mese, prima del prelievo, e possono ridurre i target `FINITE` e `SWR`;
+- esattamente alla fine dell'orizzonte entrano dopo il rendimento dell'ultimo mese e possono soddisfare il capitale finale desiderato.
 
 ### Risposta `200 OK`
 
@@ -144,10 +149,12 @@ In `accumulation`:
 - `mainPortfolioFinalBalance` comprende patrimonio principale, nuovo PAC e rendite reinvestite;
 - `investedIncomeFinalBalance` isola nel portafoglio principale la quota costruita dalle rendite;
 - `availableExistingInvestmentsFinalBalance` somma gli investimenti disponibili al FIRE;
+- `availableFutureLumpSumsFinalBalance` somma i capitali una tantum ricevuti entro l'ingresso nel FIRE;
 - `projectedFinalBalance` è il capitale totale disponibile al FIRE;
 - `existingInvestments` mantiene una proiezione distinta per ogni investimento, identificato dalla posizione `resourceIndex` nella lista della richiesta.
+- `futureLumpSums` mantiene provenienza, mese di ricezione, importo nominale alla ricezione, saldo al FIRE ed eventuale mese FIRE di accredito. `fireReceiptMonth` usa valori da `1` a `fireMonths`; il valore `fireMonths + 1` identifica il confine finale.
 
-Ogni voce di `decumulation.projection` espone `grossExpense`, `additionalIncome`, `scheduledWithdrawal` netto, `actualWithdrawal`, `shortfall` e saldo. `capitalInflow` è presente nel contratto ma resta zero fino all'implementazione dei capitali una tantum nella Fase 4.
+Ogni voce di `decumulation.projection` espone `grossExpense`, `additionalIncome`, `scheduledWithdrawal` netto, `capitalInflow`, `actualWithdrawal`, `shortfall` e saldo. `terminalCapitalInflow` distingue un capitale ricevuto al confine finale da quelli disponibili all'inizio di un mese. Il riepilogo `decumulation` espone anche `totalCapitalInflows` e `terminalCapitalInflow`.
 
 Esempio sintetico, con le serie mensili omesse:
 
@@ -167,9 +174,11 @@ Esempio sintetico, con le serie mensili omesse:
     "initialMonthlyContribution": 1905.5163192213,
     "mainPortfolioFinalBalance": 557770.7040214724,
     "availableExistingInvestmentsFinalBalance": 0,
+    "availableFutureLumpSumsFinalBalance": 0,
     "projectedFinalBalance": 557770.7040214724,
     "projection": ["una voce iniziale e una per ogni mese"],
-    "existingInvestments": []
+    "existingInvestments": [],
+    "futureLumpSums": []
   },
   "decumulation": {
     "personalStartBalance": 557770.7040214724,

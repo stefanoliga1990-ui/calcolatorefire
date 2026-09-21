@@ -9,6 +9,7 @@ import com.example.calcolatorefire.domain.DecumulationPoint;
 import com.example.calcolatorefire.domain.ExistingInvestmentPoint;
 import com.example.calcolatorefire.domain.ExistingInvestmentResult;
 import com.example.calcolatorefire.domain.FireCalculationResult;
+import com.example.calcolatorefire.domain.FutureLumpSumResult;
 
 public record FireCalculationResponse(
         int accumulationMonths,
@@ -52,14 +53,18 @@ public record FireCalculationResponse(
                         result.projectedMainPortfolioFinalBalance(),
                         result.projectedInvestedIncomeFinalBalance(),
                         result.projectedAvailableExistingInvestmentsFinalBalance(),
+                        result.projectedAvailableFutureLumpSumsFinalBalance(),
                         result.projectedAccumulationFinalBalance(),
                         result.accumulationProjection().stream().map(AccumulationMonth::from).toList(),
-                        result.existingInvestments().stream().map(ExistingInvestmentProjection::from).toList()
+                        result.existingInvestments().stream().map(ExistingInvestmentProjection::from).toList(),
+                        result.futureLumpSums().stream().map(FutureLumpSumProjection::from).toList()
                 ),
                 new Decumulation(
                         result.targetDecumulationFinalBalance(),
                         result.personalDecumulationStartBalance(),
                         result.personalDecumulationFinalBalance(),
+                        result.totalCapitalInflows(),
+                        result.terminalCapitalInflow(),
                         result.totalShortfall(),
                         result.depletionMonth(),
                         result.decumulationProjection().stream().map(DecumulationMonth::from).toList()
@@ -101,13 +106,16 @@ public record FireCalculationResponse(
             double mainPortfolioFinalBalance,
             double investedIncomeFinalBalance,
             double availableExistingInvestmentsFinalBalance,
+            double availableFutureLumpSumsFinalBalance,
             double projectedFinalBalance,
             List<AccumulationMonth> projection,
-            List<ExistingInvestmentProjection> existingInvestments
+            List<ExistingInvestmentProjection> existingInvestments,
+            List<FutureLumpSumProjection> futureLumpSums
     ) {
         public Accumulation {
             projection = List.copyOf(projection);
             existingInvestments = List.copyOf(existingInvestments);
+            futureLumpSums = List.copyOf(futureLumpSums);
         }
     }
 
@@ -115,6 +123,8 @@ public record FireCalculationResponse(
             double targetFinalBalance,
             double personalStartBalance,
             double personalFinalBalance,
+            double totalCapitalInflows,
+            double terminalCapitalInflow,
             double totalShortfall,
             Integer depletionMonth,
             List<DecumulationMonth> projection
@@ -135,6 +145,7 @@ public record FireCalculationResponse(
             double cumulativeContributions,
             double cumulativeAdditionalIncome,
             double availableExistingInvestmentsBalance,
+            double availableFutureLumpSumsBalance,
             double totalAvailableBalance
     ) {
         static AccumulationMonth from(AccumulationPoint point) {
@@ -149,6 +160,7 @@ public record FireCalculationResponse(
                     point.cumulativeContributions(),
                     point.cumulativeAdditionalIncome(),
                     point.availableExistingInvestmentsBalance(),
+                    point.availableFutureLumpSumsBalance(),
                     point.totalAvailableBalance()
             );
         }
@@ -200,6 +212,30 @@ public record FireCalculationResponse(
         }
     }
 
+    public record FutureLumpSumProjection(
+            int resourceIndex,
+            String name,
+            String amountBasis,
+            int receiptMonth,
+            double receiptAge,
+            double nominalAmountAtReceipt,
+            double balanceAtFire,
+            Integer fireReceiptMonth
+    ) {
+        static FutureLumpSumProjection from(FutureLumpSumResult result) {
+            return new FutureLumpSumProjection(
+                    result.resourceIndex(),
+                    result.name(),
+                    result.amountBasis().name(),
+                    result.receiptMonth(),
+                    result.receiptAge(),
+                    result.nominalAmountAtReceipt(),
+                    result.balanceAtFire(),
+                    result.fireReceiptMonth()
+            );
+        }
+    }
+
     public record DecumulationMonth(
             int month,
             double age,
@@ -208,6 +244,7 @@ public record FireCalculationResponse(
             double additionalIncome,
             double scheduledWithdrawal,
             double capitalInflow,
+            double terminalCapitalInflow,
             double actualWithdrawal,
             double shortfall,
             double investmentReturn,
@@ -222,6 +259,7 @@ public record FireCalculationResponse(
                     point.additionalIncome(),
                     point.scheduledWithdrawal(),
                     point.capitalInflow(),
+                    point.terminalCapitalInflow(),
                     point.actualWithdrawal(),
                     point.shortfall(),
                     point.investmentReturn(),

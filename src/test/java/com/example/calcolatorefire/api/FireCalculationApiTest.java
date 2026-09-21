@@ -183,6 +183,9 @@ class FireCalculationApiTest {
                 .andExpect(jsonPath("$.accumulation.availableExistingInvestmentsFinalBalance")
                         .value(greaterThan(0.0)))
                 .andExpect(jsonPath("$.accumulation.existingInvestments", hasSize(1)))
+                .andExpect(jsonPath("$.accumulation.futureLumpSums", hasSize(1)))
+                .andExpect(jsonPath("$.decumulation.projection[121].capitalInflow")
+                        .value(greaterThan(0.0)))
                 .andExpect(jsonPath("$.decumulation.projection[205].additionalIncome")
                         .value(greaterThan(0.0)));
     }

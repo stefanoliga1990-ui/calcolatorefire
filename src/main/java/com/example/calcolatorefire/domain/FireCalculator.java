@@ -66,11 +66,13 @@ public final class FireCalculator {
         ResourceAccumulation resourceAccumulation = projectAdditionalAccumulation(
                 input,
                 accumulationMonths,
-                monthlyAccumulationReturn
+                monthlyAccumulationReturn,
+                monthlyInflation
         );
         double availableBeforeNewPac = projectedCurrentCapitalAtFire
                 + resourceAccumulation.investedIncomeFinalBalance()
-                + resourceAccumulation.availableExistingInvestmentsFinalBalance();
+                + resourceAccumulation.availableExistingInvestmentsFinalBalance()
+                + resourceAccumulation.availableFutureLumpSumsFinalBalance();
         double capitalGap = Math.max(0.0, selectedTarget - availableBeforeNewPac);
 
         if (accumulationMonths == 0 && capitalGap > MONEY_TOLERANCE) {
@@ -98,7 +100,7 @@ public final class FireCalculator {
 
         Double finiteTargetProjectedFinal = finiteTarget == null
                 ? null
-                : projectRawFinalBalance(finiteTarget, fireCashFlows.netWithdrawals(), monthlyFireReturn, fireMonths);
+                : projectRawFinalBalance(finiteTarget, fireCashFlows, monthlyFireReturn, fireMonths);
 
         DecumulationRun targetRun = projectDecumulation(
                 selectedTarget,
@@ -144,16 +146,20 @@ public final class FireCalculator {
                 accumulation.mainPortfolioFinalBalance(),
                 resourceAccumulation.investedIncomeFinalBalance(),
                 resourceAccumulation.availableExistingInvestmentsFinalBalance(),
+                resourceAccumulation.availableFutureLumpSumsFinalBalance(),
                 accumulation.finalBalance(),
                 finiteTargetProjectedFinal,
                 targetRun.finalBalance(),
                 personalStart,
                 personalRun.finalBalance(),
+                fireCashFlows.totalCapitalInflows(),
+                fireCashFlows.terminalCapitalInflow(),
                 personalRun.totalShortfall(),
                 personalRun.depletionMonth(),
                 accumulation.points(),
                 personalRun.points(),
-                resourceAccumulation.existingInvestments()
+                resourceAccumulation.existingInvestments(),
+                resourceAccumulation.futureLumpSums()
         );
     }
 
@@ -166,14 +172,15 @@ public final class FireCalculator {
             double monthlyFireReturn,
             int fireMonths
     ) {
-        if (!hasIncomeDuringFire(cashFlows)) {
+        if (!hasVariableFireResources(cashFlows)) {
             return finiteTarget(firstWithdrawal, terminalCapitalAtFire, monthlyRealReturn, fireMonths);
         }
 
-        double required = terminalCapitalNominalAtEnd;
+        double required = Math.max(0.0, terminalCapitalNominalAtEnd - cashFlows.terminalCapitalInflow());
         for (int month = fireMonths; month >= 1; month--) {
             required = Math.max(0.0, cashFlows.netWithdrawals()[month]
-                    + required / (1.0 + monthlyFireReturn));
+                    + required / (1.0 + monthlyFireReturn)
+                    - cashFlows.capitalInflows()[month]);
         }
         return required;
     }
@@ -186,17 +193,19 @@ public final class FireCalculator {
             int accumulationMonths,
             int fireMonths
     ) {
-        if (!hasIncomeDuringFire(cashFlows)) {
+        if (!hasBridgeResources(cashFlows)) {
             return baseTarget;
         }
 
         int stableMonth = stableRegimeStartMonth(input, accumulationMonths, fireMonths);
-        double bridge = cashFlows.netWithdrawals()[stableMonth]
+        double bridge = Math.max(0.0, cashFlows.netWithdrawals()[stableMonth]
                 * 12.0
-                / input.annualSafeWithdrawalRate();
+                / input.annualSafeWithdrawalRate()
+                - cashFlows.capitalInflows()[stableMonth]);
         for (int month = stableMonth - 1; month >= 1; month--) {
             bridge = Math.max(0.0, cashFlows.netWithdrawals()[month]
-                    + bridge / (1.0 + monthlyFireReturn));
+                    + bridge / (1.0 + monthlyFireReturn)
+                    - cashFlows.capitalInflows()[month]);
         }
         return Math.min(baseTarget, bridge);
     }
@@ -261,6 +270,7 @@ public final class FireCalculator {
         double primaryBalance = input.currentCapital();
         double cumulativeContributions = 0.0;
         double initialExistingBalance = resources.availableExistingInvestmentsBalances()[0];
+        double initialLumpSumBalance = resources.availableFutureLumpSumsBalances()[0];
         points.add(new AccumulationPoint(
                 0,
                 input.currentAge(),
@@ -272,7 +282,8 @@ public final class FireCalculator {
                 0.0,
                 0.0,
                 initialExistingBalance,
-                primaryBalance + initialExistingBalance
+                initialLumpSumBalance,
+                primaryBalance + initialExistingBalance + initialLumpSumBalance
         ));
 
         for (int month = 1; month <= months; month++) {
@@ -284,6 +295,7 @@ public final class FireCalculator {
             primaryBalance = primaryBalance + primaryBalance * monthlyReturn + contribution;
             double closing = primaryBalance + resources.investedIncomeBalances()[month];
             double existingBalance = resources.availableExistingInvestmentsBalances()[month];
+            double lumpSumBalance = resources.availableFutureLumpSumsBalances()[month];
             points.add(new AccumulationPoint(
                     month,
                     input.currentAge() + month / 12.0,
@@ -295,12 +307,14 @@ public final class FireCalculator {
                     cumulativeContributions,
                     resources.cumulativeIncomeContributions()[month],
                     existingBalance,
-                    closing + existingBalance
+                    lumpSumBalance,
+                    closing + existingBalance + lumpSumBalance
             ));
         }
         double mainPortfolioFinalBalance = primaryBalance + resources.investedIncomeFinalBalance();
         double totalFinalBalance = mainPortfolioFinalBalance
-                + resources.availableExistingInvestmentsFinalBalance();
+                + resources.availableExistingInvestmentsFinalBalance()
+                + resources.availableFutureLumpSumsFinalBalance();
         return new AccumulationRun(
                 List.copyOf(points),
                 totalFinalBalance,
@@ -321,17 +335,20 @@ public final class FireCalculator {
         double totalShortfall = 0.0;
         Integer depletionMonth = null;
         points.add(new DecumulationPoint(
-                0, fireAge, balance, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, balance
+                0, fireAge, balance, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, balance
         ));
 
         for (int month = 1; month <= months; month++) {
             double opening = balance;
+            double capitalInflow = cashFlows.capitalInflows()[month];
+            double available = opening + capitalInflow;
             double scheduledWithdrawal = cashFlows.netWithdrawals()[month];
-            double actualWithdrawal = Math.min(Math.max(opening, 0.0), scheduledWithdrawal);
+            double actualWithdrawal = Math.min(Math.max(available, 0.0), scheduledWithdrawal);
             double shortfall = scheduledWithdrawal - actualWithdrawal;
-            double remaining = opening - actualWithdrawal;
+            double remaining = available - actualWithdrawal;
             double investmentReturn = remaining * monthlyReturn;
-            balance = Math.max(0.0, remaining + investmentReturn);
+            double terminalCapitalInflow = month == months ? cashFlows.terminalCapitalInflow() : 0.0;
+            balance = Math.max(0.0, remaining + investmentReturn + terminalCapitalInflow);
             totalShortfall += shortfall;
             if (depletionMonth == null && shortfall > MONEY_TOLERANCE) {
                 depletionMonth = month;
@@ -343,7 +360,8 @@ public final class FireCalculator {
                     cashFlows.grossExpenses()[month],
                     cashFlows.additionalIncome()[month],
                     scheduledWithdrawal,
-                    0.0,
+                    capitalInflow,
+                    terminalCapitalInflow,
                     actualWithdrawal,
                     shortfall,
                     investmentReturn,
@@ -355,27 +373,31 @@ public final class FireCalculator {
 
     private static double projectRawFinalBalance(
             double startingBalance,
-            double[] withdrawals,
+            FireCashFlows cashFlows,
             double monthlyReturn,
             int months
     ) {
         double balance = startingBalance;
         for (int month = 1; month <= months; month++) {
-            balance = (balance - withdrawals[month]) * (1.0 + monthlyReturn);
+            balance = (balance + cashFlows.capitalInflows()[month] - cashFlows.netWithdrawals()[month])
+                    * (1.0 + monthlyReturn);
         }
-        return balance;
+        return balance + cashFlows.terminalCapitalInflow();
     }
 
     private static ResourceAccumulation projectAdditionalAccumulation(
             FireCalculationInput input,
             int months,
-            double monthlyAccumulationReturn
+            double monthlyAccumulationReturn,
+            double monthlyInflation
     ) {
         double[] incomeContributions = new double[months + 1];
         double[] cumulativeIncomeContributions = new double[months + 1];
         double[] investedIncomeBalances = new double[months + 1];
         double[] availableExistingBalances = new double[months + 1];
+        double[] availableFutureLumpSumsBalances = new double[months + 1];
         List<ExistingInvestmentResult> investmentResults = new ArrayList<>();
+        List<FutureLumpSumResult> lumpSumResults = new ArrayList<>();
         double totalExistingContributions = 0.0;
 
         for (int resourceIndex = 0; resourceIndex < input.additionalResources().size(); resourceIndex++) {
@@ -442,6 +464,49 @@ public final class FireCalculator {
             ));
         }
 
+        for (int resourceIndex = 0; resourceIndex < input.additionalResources().size(); resourceIndex++) {
+            AdditionalResource resource = input.additionalResources().get(resourceIndex);
+            if (!(resource instanceof FutureLumpSum lumpSum)) {
+                continue;
+            }
+
+            int receiptMonth = toMonths(
+                    lumpSum.receiptAge() - input.currentAge(),
+                    CalculationErrorCode.INVALID_RESOURCE_PERIOD
+            );
+            double nominalAmountAtReceipt = lumpSum.amountBasis() == AmountBasis.TODAY
+                    ? lumpSum.amount() * Math.pow(1.0 + monthlyInflation, receiptMonth)
+                    : lumpSum.amount();
+            double balanceAtFire = 0.0;
+            Integer fireReceiptMonth = null;
+
+            if (receiptMonth <= months) {
+                double monthlyReturn = lumpSum.investAfterReceipt()
+                        ? monthlyRate(lumpSum.annualReturnRateAfterReceipt())
+                        : 0.0;
+                for (int month = receiptMonth; month <= months; month++) {
+                    double balance = nominalAmountAtReceipt
+                            * Math.pow(1.0 + monthlyReturn, month - receiptMonth);
+                    availableFutureLumpSumsBalances[month] += balance;
+                }
+                balanceAtFire = nominalAmountAtReceipt
+                        * Math.pow(1.0 + monthlyReturn, months - receiptMonth);
+            } else {
+                fireReceiptMonth = receiptMonth - months + 1;
+            }
+
+            lumpSumResults.add(new FutureLumpSumResult(
+                    resourceIndex,
+                    lumpSum.name(),
+                    lumpSum.amountBasis(),
+                    receiptMonth,
+                    input.currentAge() + receiptMonth / 12.0,
+                    nominalAmountAtReceipt,
+                    balanceAtFire,
+                    fireReceiptMonth
+            ));
+        }
+
         double incomeBalance = 0.0;
         double totalIncomeInvested = 0.0;
         for (int month = 1; month <= months; month++) {
@@ -464,11 +529,14 @@ public final class FireCalculator {
                 cumulativeIncomeContributions,
                 investedIncomeBalances,
                 availableExistingBalances,
+                availableFutureLumpSumsBalances,
                 totalIncomeInvested,
                 totalExistingContributions,
                 incomeBalance,
                 availableExistingBalances[months],
-                List.copyOf(investmentResults)
+                availableFutureLumpSumsBalances[months],
+                List.copyOf(investmentResults),
+                List.copyOf(lumpSumResults)
         );
     }
 
@@ -482,6 +550,9 @@ public final class FireCalculator {
         double[] grossExpenses = new double[fireMonths + 1];
         double[] additionalIncome = new double[fireMonths + 1];
         double[] netWithdrawals = new double[fireMonths + 1];
+        double[] capitalInflows = new double[fireMonths + 1];
+        int fireEndMonth = accumulationMonths + fireMonths;
+        double terminalCapitalInflow = 0.0;
 
         for (int month = 1; month <= fireMonths; month++) {
             int absoluteMonth = accumulationMonths + month - 1;
@@ -496,7 +567,41 @@ public final class FireCalculator {
             additionalIncome[month] = incomeTotal;
             netWithdrawals[month] = Math.max(0.0, grossExpense - incomeTotal);
         }
-        return new FireCashFlows(grossExpenses, additionalIncome, netWithdrawals);
+
+        for (AdditionalResource resource : input.additionalResources()) {
+            if (!(resource instanceof FutureLumpSum lumpSum)) {
+                continue;
+            }
+            int receiptMonth = toMonths(
+                    lumpSum.receiptAge() - input.currentAge(),
+                    CalculationErrorCode.INVALID_RESOURCE_PERIOD
+            );
+            if (receiptMonth <= accumulationMonths) {
+                continue;
+            }
+            double nominalAmount = lumpSum.amountBasis() == AmountBasis.TODAY
+                    ? lumpSum.amount() * Math.pow(1.0 + monthlyInflation, receiptMonth)
+                    : lumpSum.amount();
+            if (receiptMonth < fireEndMonth) {
+                int fireReceiptMonth = receiptMonth - accumulationMonths + 1;
+                capitalInflows[fireReceiptMonth] += nominalAmount;
+            } else if (receiptMonth == fireEndMonth) {
+                terminalCapitalInflow += nominalAmount;
+            }
+        }
+
+        double totalCapitalInflows = terminalCapitalInflow;
+        for (int month = 1; month <= fireMonths; month++) {
+            totalCapitalInflows += capitalInflows[month];
+        }
+        return new FireCashFlows(
+                grossExpenses,
+                additionalIncome,
+                netWithdrawals,
+                capitalInflows,
+                terminalCapitalInflow,
+                totalCapitalInflows
+        );
     }
 
     private static double periodicIncomeAt(
@@ -518,13 +623,17 @@ public final class FireCalculator {
         return income.monthlyAmountToday() * Math.pow(1.0 + monthlyGrowth, absoluteMonth);
     }
 
-    private static boolean hasIncomeDuringFire(FireCashFlows cashFlows) {
+    private static boolean hasBridgeResources(FireCashFlows cashFlows) {
         for (int month = 1; month < cashFlows.additionalIncome().length; month++) {
-            if (cashFlows.additionalIncome()[month] > 0.0) {
+            if (cashFlows.additionalIncome()[month] > 0.0 || cashFlows.capitalInflows()[month] > 0.0) {
                 return true;
             }
         }
         return false;
+    }
+
+    private static boolean hasVariableFireResources(FireCashFlows cashFlows) {
+        return hasBridgeResources(cashFlows) || cashFlows.terminalCapitalInflow() > 0.0;
     }
 
     private static int stableRegimeStartMonth(
@@ -536,25 +645,31 @@ public final class FireCalculator {
         int fireEndMonth = accumulationMonths + fireMonths;
 
         for (AdditionalResource resource : input.additionalResources()) {
-            if (!(resource instanceof PeriodicIncome income) || !income.offsetDuringFire()) {
-                continue;
-            }
-
-            int startMonth = toMonths(
-                    income.startAge() - input.currentAge(),
-                    CalculationErrorCode.INVALID_RESOURCE_PERIOD
-            );
-            if (startMonth >= accumulationMonths && startMonth < fireEndMonth) {
-                stableMonth = Math.max(stableMonth, startMonth - accumulationMonths + 1);
-            }
-
-            if (income.endAge() != null) {
-                int endMonth = toMonths(
-                        income.endAge() - input.currentAge(),
+            if (resource instanceof PeriodicIncome income && income.offsetDuringFire()) {
+                int startMonth = toMonths(
+                        income.startAge() - input.currentAge(),
                         CalculationErrorCode.INVALID_RESOURCE_PERIOD
                 );
-                if (endMonth >= accumulationMonths && endMonth < fireEndMonth) {
-                    stableMonth = Math.max(stableMonth, endMonth - accumulationMonths + 1);
+                if (startMonth >= accumulationMonths && startMonth < fireEndMonth) {
+                    stableMonth = Math.max(stableMonth, startMonth - accumulationMonths + 1);
+                }
+
+                if (income.endAge() != null) {
+                    int endMonth = toMonths(
+                            income.endAge() - input.currentAge(),
+                            CalculationErrorCode.INVALID_RESOURCE_PERIOD
+                    );
+                    if (endMonth >= accumulationMonths && endMonth < fireEndMonth) {
+                        stableMonth = Math.max(stableMonth, endMonth - accumulationMonths + 1);
+                    }
+                }
+            } else if (resource instanceof FutureLumpSum lumpSum) {
+                int receiptMonth = toMonths(
+                        lumpSum.receiptAge() - input.currentAge(),
+                        CalculationErrorCode.INVALID_RESOURCE_PERIOD
+                );
+                if (receiptMonth > accumulationMonths && receiptMonth < fireEndMonth) {
+                    stableMonth = Math.max(stableMonth, receiptMonth - accumulationMonths + 1);
                 }
             }
         }
@@ -640,18 +755,24 @@ public final class FireCalculator {
             double[] cumulativeIncomeContributions,
             double[] investedIncomeBalances,
             double[] availableExistingInvestmentsBalances,
+            double[] availableFutureLumpSumsBalances,
             double totalIncomeInvested,
             double totalExistingInvestmentContributions,
             double investedIncomeFinalBalance,
             double availableExistingInvestmentsFinalBalance,
-            List<ExistingInvestmentResult> existingInvestments
+            double availableFutureLumpSumsFinalBalance,
+            List<ExistingInvestmentResult> existingInvestments,
+            List<FutureLumpSumResult> futureLumpSums
     ) {
     }
 
     private record FireCashFlows(
             double[] grossExpenses,
             double[] additionalIncome,
-            double[] netWithdrawals
+            double[] netWithdrawals,
+            double[] capitalInflows,
+            double terminalCapitalInflow,
+            double totalCapitalInflows
     ) {
     }
 
