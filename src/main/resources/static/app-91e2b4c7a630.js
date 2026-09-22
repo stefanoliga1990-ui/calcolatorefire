@@ -418,8 +418,8 @@ const parameterHelp = {
         formula: totalContributionsFormula
     },
     personalFinalBalance: {
-        title: "Capitale personale a fine FIRE",
-        description: "È il patrimonio nominale residuo al termine della durata FIRE, dopo prelievi e rendimenti. Se il capitale si esaurisce prima, il risultato mostra 0 € e l'avviso indica il primo mese non interamente coperto.",
+        title: "Patrimonio residuo stimato a fine FIRE",
+        description: "È il patrimonio nominale residuo al termine della durata FIRE, dopo prelievi e rendimenti. Può superare il capitale finale desiderato se il patrimonio accumulato all'ingresso nel FIRE supera il target. Se si esaurisce prima, il risultato mostra 0 € e l'avviso indica il primo mese non interamente coperto.",
         formula: personalFinalBalanceFormula
     }
 };
@@ -1331,6 +1331,7 @@ function renderResourceProjectionCharts(data, request) {
         const tooltipId = `${chartName}-tooltip`;
         const panel = document.createElement("figure");
         panel.className = "chart-panel resource-chart-panel";
+        panel.dataset.resourceType = resource.type;
 
         const caption = document.createElement("figcaption");
         const heading = document.createElement("div");
@@ -1383,7 +1384,8 @@ function renderResourceProjectionCharts(data, request) {
             svgId,
             tooltipId,
             data: chart.data,
-            series: chart.series
+            series: chart.series,
+            axisLabel: resource.type === "PERIODIC_INCOME" ? "Euro nominali/mese" : "Euro nominali"
         }));
     }
 }
@@ -1469,7 +1471,7 @@ function renderAccumulationChart(data) {
 
     setText(
         "accumulation-chart-summary",
-        `Da ${money(initialCapital)} a ${money(data.accumulation.projectedFinalBalance)} tra ${data.accumulation.projection[0]?.age ?? 0} e ${data.accumulation.projection.at(-1)?.age ?? 0} anni.`
+        `Da ${money(initialCapital)} a ${money(data.accumulation.projectedFinalBalance)} tra ${data.accumulation.projection[0]?.age ?? 0} e ${data.accumulation.projection.at(-1)?.age ?? 0} anni, in euro nominali.`
     );
 
     chartCleanups.accumulation = createProjectionChart({
@@ -1499,7 +1501,7 @@ function renderDecumulationChart(data) {
 
     setText(
         "decumulation-chart-summary",
-        `Da ${money(data.decumulation.personalStartBalance)} a ${money(data.decumulation.personalFinalBalance)} nei ${data.fireMonths / 12} anni di FIRE.`
+        `Da ${money(data.decumulation.personalStartBalance)} a ${money(data.decumulation.personalFinalBalance)} nei ${data.fireMonths / 12} anni di FIRE, in euro nominali.`
     );
 
     chartCleanups.decumulation = createProjectionChart({
@@ -1514,7 +1516,7 @@ function renderDecumulationChart(data) {
     });
 }
 
-function createProjectionChart({ name, svgId, tooltipId, data, series }) {
+function createProjectionChart({ name, svgId, tooltipId, data, series, axisLabel = "Euro nominali" }) {
     const svg = document.querySelector(`#${svgId}`);
     const tooltip = document.querySelector(`#${tooltipId}`);
     const buttons = [...document.querySelectorAll(`[data-chart="${name}"]`)];
@@ -1537,7 +1539,7 @@ function createProjectionChart({ name, svgId, tooltipId, data, series }) {
         const paddedMaximum = maximumValue * 1.08;
         const xScale = (age) => margin.left + ((age - minimumAge) / ageSpan) * plotWidth;
         const yScale = (amount) => margin.top + plotHeight - (amount / paddedMaximum) * plotHeight;
-        const xTickCount = width < 460 ? 3 : 5;
+        const ageTicks = chartAgeTicks(minimumAge, maximumAge, width < 460 ? 3 : 5);
         const yTickCount = 4;
 
         const horizontalGrid = Array.from({ length: yTickCount + 1 }, (_, index) => {
@@ -1547,12 +1549,10 @@ function createProjectionChart({ name, svgId, tooltipId, data, series }) {
                 <text class="chart-axis-label" x="${margin.left - 9}" y="${y + 4}" text-anchor="end">${compactMoney(amount)}</text>`;
         }).join("");
 
-        const verticalLabels = Array.from({ length: xTickCount }, (_, index) => {
-            const ratio = xTickCount === 1 ? 0 : index / (xTickCount - 1);
-            const age = minimumAge + ageSpan * ratio;
-            const x = margin.left + plotWidth * ratio;
-            const anchor = index === 0 ? "start" : index === xTickCount - 1 ? "end" : "middle";
-            return `<text class="chart-axis-label" x="${x}" y="${height - 24}" text-anchor="${anchor}">${formatAge(age)}</text>`;
+        const verticalLabels = ageTicks.map((age, index) => {
+            const x = xScale(age);
+            const anchor = index === 0 ? "start" : index === ageTicks.length - 1 ? "end" : "middle";
+            return `<text class="chart-axis-label" x="${x}" y="${height - 24}" text-anchor="${anchor}">${age}</text>`;
         }).join("");
 
         const lines = visibleSeries.map((item, index) => {
@@ -1575,7 +1575,7 @@ function createProjectionChart({ name, svgId, tooltipId, data, series }) {
             ${horizontalGrid}
             ${verticalLabels}
             <text class="chart-axis-title" x="${margin.left + plotWidth / 2}" y="${height - 3}" text-anchor="middle">Età (anni)</text>
-            <text class="chart-axis-title" transform="translate(14 ${margin.top + plotHeight / 2}) rotate(-90)" text-anchor="middle">Valore (€)</text>
+            <text class="chart-axis-title" transform="translate(14 ${margin.top + plotHeight / 2}) rotate(-90)" text-anchor="middle">${axisLabel}</text>
             ${lines}
             <line class="chart-hover-guide" y1="${margin.top}" y2="${margin.top + plotHeight}" visibility="hidden"></line>
             ${markers}
@@ -1674,6 +1674,24 @@ function createProjectionChart({ name, svgId, tooltipId, data, series }) {
         toggleHandlers.forEach(({ button, handler }) => button.removeEventListener("click", handler));
         tooltip.hidden = true;
     };
+}
+
+function chartAgeTicks(minimumAge, maximumAge, maximumTicks) {
+    const start = Math.round(minimumAge);
+    const end = Math.round(maximumAge);
+    if (end <= start) {
+        return [start];
+    }
+
+    const preferredStep = (end - start) / (maximumTicks - 1);
+    const step = [1, 2, 5, 10, 20, 25, 50, 100]
+        .find((candidate) => candidate >= preferredStep) ?? Math.ceil(preferredStep / 100) * 100;
+    const ticks = [start];
+    for (let age = Math.ceil((start + 1) / step) * step; age < end; age += step) {
+        ticks.push(age);
+    }
+    ticks.push(end);
+    return ticks;
 }
 
 function destroyCharts() {

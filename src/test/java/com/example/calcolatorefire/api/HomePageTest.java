@@ -36,9 +36,9 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.3\"")))
+                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.4\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
-                .andExpect(content().string(containsString("Calcola il patrimonio necessario per raggiungere il FIRE, e gli investimenti necessari per raggiungerlo")))
+                .andExpect(content().string(containsString("Stima il patrimonio necessario e il PAC mensile per raggiungere il tuo obiettivo FIRE.")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
                 .andExpect(content().string(not(containsString("Pianificazione FIRE, con ipotesi trasparenti"))))
                 .andExpect(content().string(not(containsString("Nessun account"))))
@@ -56,6 +56,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("id=\"swr-field\"")))
                 .andExpect(content().string(containsString("data-help=\"currentAge\"")))
                 .andExpect(content().string(containsString("data-help=\"personalFinalBalance\"")))
+                .andExpect(content().string(containsString("Patrimonio residuo stimato a fine FIRE")))
                 .andExpect(content().string(containsString("id=\"parameter-help-dialog\"")))
                 .andExpect(content().string(containsString(">I dati FIRE<")))
                 .andExpect(content().string(containsString(">I dati PAC<")))
@@ -76,7 +77,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("id=\"resource-input-warnings\"")))
                 .andExpect(content().string(containsString("id=\"additional-resources\"")))
                 .andExpect(content().string(containsString("id=\"add-resource-button\"")))
-                .andExpect(content().string(containsString(">Aggiungi rendita<")))
+                .andExpect(content().string(containsString(">Aggiungi risorsa<")))
                 .andExpect(content().string(containsString("data-resource-type=\"EXISTING_INVESTMENT\"")))
                 .andExpect(content().string(containsString("data-resource-type=\"PERIODIC_INCOME\"")))
                 .andExpect(content().string(containsString("data-resource-type=\"FUTURE_LUMP_SUM\"")))
@@ -91,7 +92,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=5.3\"")))
+                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=5.4\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
