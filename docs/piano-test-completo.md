@@ -419,3 +419,16 @@ tutti i 21 golden riconciliati dal riferimento indipendente.
 
 Esito della suite dopo questi test di confine: 280 test Maven, 0 errori,
 0 fallimenti e 0 ignorati; tutti i 21 golden restano riconciliati.
+
+### Fase 11 — Step 2, motore fiscale isolato
+
+- introdotti 6 test JUnit direttamente collegati ai golden fiscali;
+- coperti default e validazioni di aliquota, bollo e costo fiscale;
+- verificati apporti, rendimenti positivi e negativi, vendita parziale e totale,
+  shortfall, bollo mensile e riconciliazione su dodici mesi;
+- mantenuto il `FireCalculator` invariato: nessun risultato pubblico include
+  ancora la fiscalità.
+
+Esito dopo lo Step 2: 302 test Maven, 0 errori, 0 fallimenti e 0 ignorati;
+7 golden base, 14 golden con risorse e 6 primitive fiscali riconciliati dal
+riferimento indipendente.

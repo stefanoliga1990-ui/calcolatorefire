@@ -1,6 +1,8 @@
 # Calcolo FIRE Italia — specifica della fiscalità semplificata
 
-Stato: Step 1 approvato a livello di analisi; funzionalità non ancora implementata.
+Stato: Step 1 approvato; Step 2 implementato e verificato come motore fiscale
+isolato. La fiscalità non è ancora collegata al calcolo FIRE, all'API o
+all'interfaccia.
 
 Questo documento estende `docs/specifica-matematica.md`. In caso di fiscalità
 attiva, le regole seguenti prevalgono sulle formule prive di imposte soltanto
@@ -350,3 +352,21 @@ Lo Step 1 è completo quando:
 - casi limite e validazioni sono elencati;
 - gli scenari 10.1–10.6 sono verificabili indipendentemente;
 - nessun comportamento dell'applicazione è stato ancora modificato.
+
+## 12. Implementazione isolata dello Step 2
+
+Lo Step 2 introduce nel dominio, senza modificare il `FireCalculator`:
+
+- `FiscalSettings`, con default 26% e 0,20% e validazione dedicata;
+- `FiscalPortfolioState`, che separa saldo, costo fiscale e plusvalenza latente;
+- `FiscalCalculator`, con inizializzazione automatica del costo fiscale,
+  accumulo mensile, vendita fiscalizzata, shortfall e bollo mensile;
+- risultati mensili distinti per accumulo e decumulo;
+- codici di errore fiscali stabili per le integrazioni successive.
+
+I sei scenari golden fiscali sono eseguiti anche come test JUnit. Ulteriori test
+coprono default, override, apporti netti, vendita completa, rendimento negativo,
+limiti degli input e riconciliazione del bollo su dodici mesi.
+
+Il comportamento pubblico dell'applicazione resta invariato fino agli step di
+integrazione con accumulo, decumulo, API e interfaccia.
