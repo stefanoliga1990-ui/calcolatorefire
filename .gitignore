@@ -35,6 +35,7 @@ build/
 # File da non versionare
 Piano_Calcolo_FIRE_Italia*
 Calcolatore_FIRE*
+settings.xml
 
 # File temporanei Codex
 .codex_tmp/
