@@ -96,7 +96,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("id=\"resource-input-warnings\"")))
                 .andExpect(content().string(containsString("id=\"additional-resources\"")))
                 .andExpect(content().string(containsString("id=\"add-resource-button\"")))
-                .andExpect(content().string(containsString(">Aggiungi risorsa<")))
+                .andExpect(content().string(containsString(">Aggiungi rendita<")))
                 .andExpect(content().string(containsString("data-resource-type=\"EXISTING_INVESTMENT\"")))
                 .andExpect(content().string(containsString("data-resource-type=\"PERIODIC_INCOME\"")))
                 .andExpect(content().string(containsString("data-resource-type=\"FUTURE_LUMP_SUM\"")))
@@ -111,7 +111,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=5.4\"")))
+                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=5.5\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
@@ -180,6 +180,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("renderResourceProjectionCharts")))
                 .andExpect(content().string(containsString("resourceChartDefinition")))
                 .andExpect(content().string(containsString("renderResourcePacImpactMessages")))
+                .andExpect(content().string(containsString("scrollToResourceElement")))
                 .andExpect(content().string(containsString("La rendita che hai aggiunto ha contribuito ad abbassare la rata del PAC")))
                 .andExpect(content().string(containsString("torna su e verifica!")))
                 .andExpect(content().string(containsString("renderProjectionCharts")));

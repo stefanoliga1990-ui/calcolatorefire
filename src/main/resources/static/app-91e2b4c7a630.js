@@ -586,6 +586,9 @@ addResourceButton.addEventListener("click", () => {
     }
     resourceTypePicker.hidden = !resourceTypePicker.hidden;
     addResourceButton.setAttribute("aria-expanded", String(!resourceTypePicker.hidden));
+    if (!resourceTypePicker.hidden) {
+        scrollToResourceElement(resourceTypePicker);
+    }
 });
 
 resourceTypePicker.addEventListener("click", (event) => {
@@ -799,8 +802,15 @@ function addResource(type) {
     updateResourceConditionalFields(card);
     updateResourcesState();
     updateResourceWarnings();
-    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    scrollToResourceElement(card);
     card.querySelector("input, select")?.focus({ preventScroll: true });
+}
+
+function scrollToResourceElement(element) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    requestAnimationFrame(() => {
+        element.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "center" });
+    });
 }
 
 function createPacResultLink() {
