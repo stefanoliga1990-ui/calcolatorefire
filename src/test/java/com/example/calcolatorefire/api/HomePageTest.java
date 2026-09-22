@@ -2,9 +2,15 @@ package com.example.calcolatorefire.api;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+
+import javax.imageio.ImageIO;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +41,13 @@ class HomePageTest {
         mockMvc.perform(get("/index.html"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
+                .andExpect(content().string(containsString("href=\"/images/favicon-32x32.png?v=1\"")))
+                .andExpect(content().string(containsString("href=\"/images/apple-touch-icon.png?v=1\"")))
+                .andExpect(content().string(containsString("property=\"og:title\" content=\"Simulatore FIRE\"")))
+                .andExpect(content().string(containsString("property=\"og:image\" content=\"/images/og-simulatore-fire.png?v=1\"")))
+                .andExpect(content().string(containsString("property=\"og:image:width\" content=\"1200\"")))
+                .andExpect(content().string(containsString("property=\"og:image:height\" content=\"630\"")))
+                .andExpect(content().string(containsString("name=\"twitter:card\" content=\"summary_large_image\"")))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
                 .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.7\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
@@ -110,6 +123,30 @@ class HomePageTest {
         mockMvc.perform(get("/images/logo-percorso-indipendenza.png").queryParam("v", "1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("image/png"));
+
+        byte[] faviconBytes = mockMvc.perform(get("/images/favicon-32x32.png").queryParam("v", "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("image/png"))
+                .andReturn().getResponse().getContentAsByteArray();
+        BufferedImage favicon = ImageIO.read(new ByteArrayInputStream(faviconBytes));
+        assertEquals(32, favicon.getWidth());
+        assertEquals(32, favicon.getHeight());
+
+        byte[] appleTouchIconBytes = mockMvc.perform(get("/images/apple-touch-icon.png").queryParam("v", "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("image/png"))
+                .andReturn().getResponse().getContentAsByteArray();
+        BufferedImage appleTouchIcon = ImageIO.read(new ByteArrayInputStream(appleTouchIconBytes));
+        assertEquals(180, appleTouchIcon.getWidth());
+        assertEquals(180, appleTouchIcon.getHeight());
+
+        byte[] openGraphImageBytes = mockMvc.perform(get("/images/og-simulatore-fire.png").queryParam("v", "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("image/png"))
+                .andReturn().getResponse().getContentAsByteArray();
+        BufferedImage openGraphImage = ImageIO.read(new ByteArrayInputStream(openGraphImageBytes));
+        assertEquals(1200, openGraphImage.getWidth());
+        assertEquals(630, openGraphImage.getHeight());
 
         mockMvc.perform(get("/app-91e2b4c7a630.js"))
                 .andExpect(status().isOk())
