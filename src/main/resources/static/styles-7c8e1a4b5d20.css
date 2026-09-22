@@ -335,6 +335,30 @@ h1 {
     gap: 20px 16px;
 }
 
+.resource-pac-impact {
+    margin: 20px 0 0;
+    padding: 14px 16px;
+    border: 1px solid rgba(24, 103, 76, 0.2);
+    border-radius: 12px;
+    color: var(--green-dark);
+    background: rgba(24, 103, 76, 0.08);
+    font-size: 0.88rem;
+    font-weight: 650;
+    line-height: 1.5;
+}
+
+.resource-pac-impact a {
+    color: var(--green);
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.resource-pac-impact a:hover,
+.resource-pac-impact a:focus-visible {
+    color: var(--green-dark);
+}
+
 .checkbox-control {
     min-height: 48px;
     display: flex;

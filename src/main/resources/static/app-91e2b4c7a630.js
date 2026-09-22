@@ -661,6 +661,7 @@ async function runFullCalculation(triggerButton, idleLabel) {
         renderFireResults(result.body, request);
         renderPacResults(result.body, request);
         renderAdditionalResourcesResult(result.body, request);
+        renderResourcePacImpactMessages(result.body, request);
         renderProjectionCharts(result.body, request);
         renderResourceProjectionCharts(result.body, request);
         calculatePacButton.disabled = false;
@@ -784,6 +785,15 @@ function addResource(type) {
     card.dataset.resourceType = type;
     card.dataset.resourceId = String(resourceCounter);
     card.innerHTML = resourceCardMarkup(type, resourceCounter);
+    const pacImpact = document.createElement("p");
+    pacImpact.className = "resource-pac-impact";
+    pacImpact.dataset.resourcePacImpact = "";
+    pacImpact.hidden = true;
+    pacImpact.append(
+        "La rendita che hai aggiunto ha contribuito ad abbassare la rata del PAC per raggiungere il FIRE, ",
+        createPacResultLink()
+    );
+    card.append(pacImpact);
     resourcesList.append(card);
     attachParameterHelp(card);
     updateResourceConditionalFields(card);
@@ -791,6 +801,17 @@ function addResource(type) {
     updateResourceWarnings();
     card.scrollIntoView({ behavior: "smooth", block: "center" });
     card.querySelector("input, select")?.focus({ preventScroll: true });
+}
+
+function createPacResultLink() {
+    const link = document.createElement("a");
+    link.href = "#pac-results-panel";
+    link.textContent = "torna su e verifica!";
+    link.addEventListener("click", (event) => {
+        event.preventDefault();
+        document.querySelector("#pac-results-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return link;
 }
 
 function resourceCardMarkup(type, id) {
@@ -1065,6 +1086,36 @@ function renderAdditionalResourcesResult(data, request) {
     setText("resource-first-net-withdrawal", `${money(data.target.firstMonthlyNetWithdrawal)} / mese`);
     setText("resource-fire-inflows", money(data.decumulation.totalCapitalInflows));
     resourcesResult.hidden = false;
+}
+
+function renderResourcePacImpactMessages(data, request) {
+    const cards = [...resourcesList.querySelectorAll(".resource-card")];
+    cards.forEach((card, resourceIndex) => {
+        const message = card.querySelector("[data-resource-pac-impact]");
+        const resource = request.additionalResources[resourceIndex];
+        message.hidden = !resourceContributesToPac(data, resource, resourceIndex);
+    });
+}
+
+function resourceContributesToPac(data, resource, resourceIndex) {
+    if (!resource || data.target.selectedTarget <= 0) {
+        return false;
+    }
+    if (resource.type === "EXISTING_INVESTMENT") {
+        const result = data.accumulation.existingInvestments
+            .find((item) => item.resourceIndex === resourceIndex);
+        return resource.availableAtFire && (result?.finalBalance ?? 0) > 0;
+    }
+    if (resource.type === "PERIODIC_INCOME") {
+        const result = data.accumulation.periodicIncomes
+            .find((item) => item.resourceIndex === resourceIndex);
+        return resource.investBeforeFire
+            && result?.projection.slice(0, data.accumulationMonths).some((point) => point.monthlyAmount > 0);
+    }
+    const result = data.accumulation.futureLumpSums
+        .find((item) => item.resourceIndex === resourceIndex);
+    return (result?.receiptMonth ?? Number.POSITIVE_INFINITY) <= data.accumulationMonths
+        && (result?.balanceAtFire ?? 0) > 0;
 }
 
 function resourceField(card, name) {
