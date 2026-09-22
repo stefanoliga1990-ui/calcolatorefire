@@ -729,7 +729,7 @@ public final class FireCalculator {
         }
     }
 
-    private static void validate(FireCalculationInput input) {
+    static void validate(FireCalculationInput input) {
         if (input == null) {
             throw new FireCalculationException(CalculationErrorCode.INVALID_AMOUNT, "Gli input sono obbligatori.");
         }

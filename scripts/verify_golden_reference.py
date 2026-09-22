@@ -23,6 +23,7 @@ BASE_GOLDEN = ROOT / "src/test/resources/golden-scenarios.csv"
 RESOURCE_GOLDEN = ROOT / "src/test/resources/golden-additional-resources.json"
 TAX_GOLDEN = ROOT / "src/test/resources/golden-tax-scenarios.json"
 TAX_ACCUMULATION_GOLDEN = ROOT / "src/test/resources/golden-tax-accumulation-scenarios.json"
+TAX_FIRE_GOLDEN = ROOT / "src/test/resources/golden-tax-fire-scenarios.json"
 MONEY_TOLERANCE = 0.01
 RATE_TOLERANCE = 1e-12
 
@@ -638,12 +639,170 @@ def verify_tax_accumulation(errors: list[str]) -> int:
     return len(scenarios)
 
 
+def project_simple_tax_fire_decumulation(
+    starting_balance: float, starting_basis: float, values: dict[str, Any],
+) -> dict[str, float]:
+    balance = starting_balance
+    tax_basis = starting_basis
+    monthly_stamp = 1.0 - math.pow(1.0 - float(values["annualStampDutyRate"]), 1.0 / 12.0)
+    total_tax = 0.0
+    total_stamp = 0.0
+    total_shortfall = 0.0
+    first_gross_sale = 0.0
+    first_tax = 0.0
+    first_net = 0.0
+    months = int(values["fireDurationYears"]) * 12
+
+    for month in range(1, months + 1):
+        taxable_ratio = max(0.0, balance - tax_basis) / balance if balance > 0.0 else 0.0
+        required_sale = (float(values["monthlyExpenseToday"])
+                         / (1.0 - float(values["capitalGainsTaxRate"]) * taxable_ratio))
+        gross_sale = min(balance, required_sale)
+        capital_gains_tax = gross_sale * taxable_ratio * float(values["capitalGainsTaxRate"])
+        net_proceeds = gross_sale - capital_gains_tax
+        shortfall = max(0.0, float(values["monthlyExpenseToday"]) - net_proceeds)
+        if balance == 0.0 or gross_sale >= balance:
+            tax_basis = 0.0
+        else:
+            tax_basis *= 1.0 - gross_sale / balance
+        balance -= gross_sale
+        stamp = balance * monthly_stamp
+        balance -= stamp
+        if balance == 0.0:
+            tax_basis = 0.0
+        total_tax += capital_gains_tax
+        total_stamp += stamp
+        total_shortfall += shortfall
+        if month == 1:
+            first_gross_sale = gross_sale
+            first_tax = capital_gains_tax
+            first_net = net_proceeds
+
+    return {
+        "finalBalance": balance,
+        "finalTaxBasis": tax_basis,
+        "totalCapitalGainsTax": total_tax,
+        "totalStampDuty": total_stamp,
+        "totalShortfall": total_shortfall,
+        "firstGrossSale": first_gross_sale,
+        "firstCapitalGainsTax": first_tax,
+        "firstNetProceeds": first_net,
+    }
+
+
+def solve_simple_tax_fire_target(values: dict[str, Any], basis_ratio: float) -> float:
+    if values["method"] == "SWR":
+        taxable_ratio = max(0.0, 1.0 - basis_ratio)
+        gross_sale = (float(values["monthlyExpenseToday"])
+                      / (1.0 - float(values["capitalGainsTaxRate"]) * taxable_ratio))
+        return gross_sale * 12.0 / float(values["annualSafeWithdrawalRate"])
+
+    def sufficient(balance: float) -> bool:
+        result = project_simple_tax_fire_decumulation(balance, balance * basis_ratio, values)
+        return (result["totalShortfall"] <= 1e-9
+                and result["finalBalance"] >= float(values["terminalCapitalToday"]))
+
+    if sufficient(0.0):
+        return 0.0
+    lower = 0.0
+    upper = 1.0
+    while not sufficient(upper):
+        lower = upper
+        upper *= 2.0
+    for _ in range(200):
+        middle = lower + (upper - lower) / 2.0
+        if sufficient(middle):
+            upper = middle
+        else:
+            lower = middle
+        if upper - lower <= 1e-8:
+            break
+    return upper
+
+
+def calculate_simple_tax_fire(values: dict[str, Any]) -> dict[str, float]:
+    accumulation_months = 12 * (int(values["fireAge"]) - int(values["currentAge"]))
+    monthly_stamp = 1.0 - math.pow(1.0 - float(values["annualStampDutyRate"]), 1.0 / 12.0)
+    opening_balance = float(values["currentCapital"])
+    opening_basis = (opening_balance if values.get("currentTaxBasis") is None
+                     else float(values["currentTaxBasis"]))
+
+    def accumulation(contribution: float) -> tuple[float, float]:
+        balance = opening_balance
+        tax_basis = opening_basis
+        for _ in range(accumulation_months):
+            gross = balance + contribution
+            balance = gross * (1.0 - monthly_stamp)
+            tax_basis += contribution
+        return balance, tax_basis
+
+    def evaluation(contribution: float) -> tuple[float, float, float]:
+        balance, tax_basis = accumulation(contribution)
+        ratio = tax_basis / balance if balance > 0.0 else 1.0
+        return balance, tax_basis, solve_simple_tax_fire_target(values, ratio)
+
+    balance, tax_basis, target = evaluation(0.0)
+    contribution = 0.0
+    if balance < target:
+        lower = 0.0
+        upper = 1.0
+        while True:
+            balance, tax_basis, target = evaluation(upper)
+            if balance >= target:
+                break
+            lower = upper
+            upper *= 2.0
+        for _ in range(200):
+            middle = lower + (upper - lower) / 2.0
+            middle_balance, middle_basis, middle_target = evaluation(middle)
+            if middle_balance >= middle_target:
+                upper = middle
+                balance, tax_basis, target = middle_balance, middle_basis, middle_target
+            else:
+                lower = middle
+            if upper - lower <= 1e-9:
+                break
+        contribution = upper
+
+    ratio = tax_basis / balance if balance > 0.0 else 1.0
+    target_basis = target * ratio
+    target_run = project_simple_tax_fire_decumulation(target, target_basis, values)
+    personal_run = project_simple_tax_fire_decumulation(balance, tax_basis, values)
+    return {
+        "selectedTarget": target,
+        "selectedTargetTaxBasis": target_basis,
+        "initialMonthlyContribution": contribution,
+        "accumulationBalance": balance,
+        "accumulationTaxBasis": tax_basis,
+        "firstGrossSale": target_run["firstGrossSale"],
+        "firstCapitalGainsTax": target_run["firstCapitalGainsTax"],
+        "firstNetProceeds": target_run["firstNetProceeds"],
+        "targetFinalBalance": target_run["finalBalance"],
+        "personalFinalBalance": personal_run["finalBalance"],
+        "targetTotalCapitalGainsTax": target_run["totalCapitalGainsTax"],
+        "targetTotalStampDuty": target_run["totalStampDuty"],
+    }
+
+
+def verify_tax_fire(errors: list[str]) -> int:
+    scenarios = json.loads(TAX_FIRE_GOLDEN.read_text(encoding="utf-8"))
+    for scenario in scenarios:
+        scenario_id = scenario["scenarioId"]
+        result = calculate_simple_tax_fire(scenario["input"])
+        for field, expected in scenario["expected"].items():
+            actual = result[field]
+            if not math.isclose(float(expected), float(actual), rel_tol=0.0, abs_tol=MONEY_TOLERANCE):
+                errors.append(f"{scenario_id}: {field}: expected {expected}, reference {actual}")
+    return len(scenarios)
+
+
 def main() -> int:
     errors: list[str] = []
     base_count = verify_base(errors)
     resource_count = verify_resources(errors)
     tax_count = verify_tax_primitives(errors)
     tax_accumulation_count = verify_tax_accumulation(errors)
+    tax_fire_count = verify_tax_fire(errors)
     if errors:
         print(f"Reference verification failed with {len(errors)} difference(s):", file=sys.stderr)
         for error in errors:
@@ -652,7 +811,8 @@ def main() -> int:
     print(
         f"Reference verification passed: {base_count} base scenarios + "
         f"{resource_count} additional-resource scenarios + {tax_count} tax primitives + "
-        f"{tax_accumulation_count} tax-accumulation scenarios; "
+        f"{tax_accumulation_count} tax-accumulation scenarios + "
+        f"{tax_fire_count} tax-FIRE scenarios; "
         f"tolerance EUR {MONEY_TOLERANCE:.2f}."
     )
     return 0

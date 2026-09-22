@@ -106,6 +106,7 @@ public final class FiscalCalculator {
                 availableTaxBasis,
                 requestedNetAmount,
                 taxableGainRatio,
+                requiredGrossSale,
                 grossSale,
                 capitalGainsTax,
                 netProceeds,

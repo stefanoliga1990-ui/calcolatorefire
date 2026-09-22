@@ -450,3 +450,25 @@ riferimento indipendente.
 Esito dopo lo Step 3: 314 test Maven, 0 errori, 0 fallimenti e 0 ignorati;
 7 golden base, 14 golden con risorse, 6 primitive fiscali e 4 scenari fiscali
 di accumulo riconciliati dal riferimento indipendente.
+
+### Fase 13 — Step 4, target e decumulo fiscalizzati
+
+- introdotto il risolutore numerico congiunto di target FIRE e PAC, alimentato
+  dal costo fiscale prodotto dall'accumulo;
+- implementato il decumulo mensile con vendita lorda, imposta, netto
+  disponibile, shortfall, rendimento, bollo e costo fiscale residuo;
+- coperti target FINITE, capitale terminale, SWR sulla prima vendita lorda e
+  ponte SWR fino al regime stabile;
+- verificati costi fiscali automatici e manuali per patrimonio principale e
+  investimenti esistenti, incluse plusvalenze e minusvalenze latenti;
+- verificati rendite, capitali futuri, investimenti non disponibili e liquidità
+  non investita esente da bollo prima del FIRE;
+- mantenuta entro un centesimo la compatibilità con il motore attuale quando
+  aliquota e bollo sono entrambi zero;
+- aggiunti 5 scenari golden fiscali completi, verificati da JUnit e dal
+  riferimento Python indipendente;
+- mantenuti invariati contratto HTTP e frontend.
+
+Esito dopo lo Step 4: 336 test Maven, 0 errori, 0 fallimenti e 0 ignorati;
+7 golden base, 14 golden con risorse, 6 primitive fiscali, 4 scenari fiscali
+di accumulo e 5 scenari fiscali FIRE riconciliati dal riferimento indipendente.

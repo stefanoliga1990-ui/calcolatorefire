@@ -1,8 +1,8 @@
 # Calcolo FIRE Italia — specifica della fiscalità semplificata
 
 Stato: Step 1 approvato; Step 2 implementato come motore fiscale isolato;
-Step 3 implementato e verificato per l'intera fase di accumulo. La fiscalità
-non è ancora collegata al target FIRE, al decumulo completo, all'API o
+Step 3 implementato per l'accumulo; Step 4 implementato per target, PAC e
+decumulo congiunti. La fiscalità non è ancora collegata all'API o
 all'interfaccia.
 
 Questo documento estende `docs/specifica-matematica.md`. In caso di fiscalità
@@ -122,6 +122,10 @@ F_j = F_(j-1) + contribution_j + netInflows_j
 
 `netInflows_j` comprende rendite nette reinvestite e capitali futuri netti
 investiti nel portafoglio. I rendimenti non aumentano `F_j`.
+
+Un capitale futuro mantenuto come liquidità e non investito non paga il bollo
+prima del FIRE. Quando confluisce nel portafoglio FIRE, saldo e costo fiscale
+aumentano entrambi dell'intero importo netto.
 
 Ogni investimento o PAC esistente mantiene il proprio saldo e costo fiscale
 durante l'accumulo. Se è disponibile all'ingresso nel FIRE, saldo e costo
@@ -415,3 +419,63 @@ Il `FireCalculator`, il contratto HTTP e il frontend restano invariati in
 questo step. Il collegamento al target e al decumulo fiscale avverrà nello step
 successivo, quando il risolutore potrà usare il costo fiscale prodotto
 dall'accumulo.
+
+## 14. Target, PAC e decumulo congiunti — Step 4
+
+Lo Step 4 introduce `FiscalFireCalculator`, un motore di dominio separato dal
+contratto pubblico attuale. Il calcolo usa due ricerche numeriche annidate:
+
+1. per un PAC candidato proietta saldo e costo fiscale disponibili al FIRE;
+2. con il rapporto fiscale risultante cerca il target minimo del metodo scelto;
+3. confronta il patrimonio accumulato con quel target;
+4. ripete la ricerca sul PAC fino a individuare il minimo valore sufficiente.
+
+La ricerca del target e quella del PAC conservano sempre un estremo superiore
+verificato come sufficiente. La precisione monetaria richiesta è `0,01 euro`;
+orizzonti o valori che non possono essere delimitati producono
+`FISCAL_SOLUTION_NOT_FOUND`.
+
+### 14.1 Metodo FINITE
+
+Per ogni target candidato viene simulato l'intero decumulo mensile. Il target è
+accettato soltanto se:
+
+- ogni fabbisogno netto viene coperto senza shortfall;
+- il saldo finale è almeno pari al capitale terminale nominale desiderato;
+- vendite, imposte, rendimenti, bollo e capitali futuri rispettano il timing
+  definito nelle sezioni precedenti.
+
+### 14.2 Metodo SWR
+
+Il target base usa la prima vendita lorda fiscalizzata, non la sola spesa
+netta. In presenza di rendite o capitali ponte, il motore simula le vendite e
+il bollo fino all'inizio del regime stabile e cerca il capitale che, in quel
+mese, soddisfa la riserva SWR. Come nel motore attuale, la proiezione completa
+può comunque evidenziare uno shortfall successivo.
+
+### 14.3 Proiezioni e risorse
+
+La proiezione di decumulo espone mese per mese:
+
+- fabbisogno netto e capitale netto ricevuto;
+- quota imponibile, vendita lorda richiesta ed effettiva;
+- imposta sulla plusvalenza, ricavo netto e shortfall;
+- rendimento, bollo, saldo e costo fiscale residui.
+
+Il costo fiscale degli investimenti esistenti può essere fornito separatamente
+e, se omesso, coincide con il loro valore corrente. Rendite reinvestite e
+capitali futuri netti aumentano il costo fiscale per l'intero importo. Gli
+investimenti non disponibili al FIRE restano esclusi dal saldo e dal costo
+fiscale usati dal risolutore.
+
+### 14.4 Verifiche
+
+Sono coperti FINITE, SWR e ponti SWR, patrimonio in plusvalenza o minusvalenza,
+bollo, capitale terminale, costo fiscale degli investimenti esistenti, rendite,
+capitali futuri investiti e liquidità non investita. Con aliquota e bollo a
+zero, target, PAC e saldi coincidono con il motore attuale entro un centesimo.
+
+Cinque scenari golden completi sono versionati in
+`golden-tax-fire-scenarios.json` e riconciliati sia da JUnit sia dal riferimento
+Python indipendente. API e frontend restano invariati fino allo step di
+integrazione successivo.

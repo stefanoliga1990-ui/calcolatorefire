@@ -14,7 +14,8 @@ public record FiscalAccumulationPlan(
         double monthlyReturnRate,
         List<Double> monthlyContributions,
         List<Double> monthlyNetInflows,
-        boolean availableAtFire
+        boolean availableAtFire,
+        boolean stampDutyApplicable
 ) {
 
     private static final int MAX_ACCUMULATION_MONTHS = CalculationLimits.MAX_AGE * 12;
@@ -53,6 +54,25 @@ public record FiscalAccumulationPlan(
         return monthlyContributions.size();
     }
 
+    public FiscalAccumulationPlan(
+            String name,
+            FiscalPortfolioState initialState,
+            double monthlyReturnRate,
+            List<Double> monthlyContributions,
+            List<Double> monthlyNetInflows,
+            boolean availableAtFire
+    ) {
+        this(
+                name,
+                initialState,
+                monthlyReturnRate,
+                monthlyContributions,
+                monthlyNetInflows,
+                availableAtFire,
+                true
+        );
+    }
+
     public static FiscalAccumulationPlan growingPac(
             String name,
             FiscalPortfolioState initialState,
@@ -89,7 +109,8 @@ public record FiscalAccumulationPlan(
                 monthlyReturnRate,
                 contributions,
                 inflows,
-                availableAtFire
+                availableAtFire,
+                true
         );
     }
 
@@ -132,7 +153,8 @@ public record FiscalAccumulationPlan(
                 monthlyReturnRate,
                 contributions,
                 Collections.nCopies(months, 0.0),
-                availableAtFire
+                availableAtFire,
+                true
         );
     }
 

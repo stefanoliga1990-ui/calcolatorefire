@@ -1,0 +1,152 @@
+[
+  {
+    "scenarioId": "TAX_FIRE_FINITE_ZERO_TAX_ACCUMULATION",
+    "input": {
+      "method": "FINITE",
+      "currentAge": 40,
+      "fireAge": 41,
+      "fireDurationYears": 1,
+      "monthlyExpenseToday": 1000,
+      "terminalCapitalToday": 0,
+      "currentCapital": 0,
+      "currentTaxBasis": null,
+      "annualSafeWithdrawalRate": null,
+      "capitalGainsTaxRate": 0,
+      "annualStampDutyRate": 0
+    },
+    "expected": {
+      "selectedTarget": 12000,
+      "selectedTargetTaxBasis": 12000,
+      "initialMonthlyContribution": 1000,
+      "accumulationBalance": 12000,
+      "accumulationTaxBasis": 12000,
+      "firstGrossSale": 1000,
+      "firstCapitalGainsTax": 0,
+      "firstNetProceeds": 1000,
+      "targetFinalBalance": 0,
+      "personalFinalBalance": 0,
+      "targetTotalCapitalGainsTax": 0,
+      "targetTotalStampDuty": 0
+    }
+  },
+  {
+    "scenarioId": "TAX_FIRE_FINITE_PAC_CHANGES_TAX_RATIO",
+    "input": {
+      "method": "FINITE",
+      "currentAge": 40,
+      "fireAge": 41,
+      "fireDurationYears": 1,
+      "monthlyExpenseToday": 1000,
+      "terminalCapitalToday": 0,
+      "currentCapital": 10000,
+      "currentTaxBasis": 7000,
+      "annualSafeWithdrawalRate": null,
+      "capitalGainsTaxRate": 0.26,
+      "annualStampDutyRate": 0
+    },
+    "expected": {
+      "selectedTarget": 12780,
+      "selectedTargetTaxBasis": 9780,
+      "initialMonthlyContribution": 231.66666666666666,
+      "accumulationBalance": 12780,
+      "accumulationTaxBasis": 9780,
+      "firstGrossSale": 1065,
+      "firstCapitalGainsTax": 65,
+      "firstNetProceeds": 1000,
+      "targetFinalBalance": 0,
+      "personalFinalBalance": 0,
+      "targetTotalCapitalGainsTax": 780,
+      "targetTotalStampDuty": 0
+    }
+  },
+  {
+    "scenarioId": "TAX_FIRE_FINITE_LATENT_GAIN",
+    "input": {
+      "method": "FINITE",
+      "currentAge": 40,
+      "fireAge": 40,
+      "fireDurationYears": 1,
+      "monthlyExpenseToday": 1000,
+      "terminalCapitalToday": 0,
+      "currentCapital": 15000,
+      "currentTaxBasis": 10500,
+      "annualSafeWithdrawalRate": null,
+      "capitalGainsTaxRate": 0.26,
+      "annualStampDutyRate": 0
+    },
+    "expected": {
+      "selectedTarget": 13015.184381778741,
+      "selectedTargetTaxBasis": 9110.629067245118,
+      "initialMonthlyContribution": 0,
+      "accumulationBalance": 15000,
+      "accumulationTaxBasis": 10500,
+      "firstGrossSale": 1084.5986984815618,
+      "firstCapitalGainsTax": 84.5986984815618,
+      "firstNetProceeds": 1000,
+      "targetFinalBalance": 0,
+      "personalFinalBalance": 1984.8156182212588,
+      "targetTotalCapitalGainsTax": 1015.1843817787412,
+      "targetTotalStampDuty": 0
+    }
+  },
+  {
+    "scenarioId": "TAX_FIRE_SWR_LATENT_GAIN",
+    "input": {
+      "method": "SWR",
+      "currentAge": 40,
+      "fireAge": 40,
+      "fireDurationYears": 10,
+      "monthlyExpenseToday": 1000,
+      "terminalCapitalToday": 0,
+      "currentCapital": 400000,
+      "currentTaxBasis": 280000,
+      "annualSafeWithdrawalRate": 0.04,
+      "capitalGainsTaxRate": 0.26,
+      "annualStampDutyRate": 0
+    },
+    "expected": {
+      "selectedTarget": 325379.6095444685,
+      "selectedTargetTaxBasis": 227765.72668112794,
+      "initialMonthlyContribution": 0,
+      "accumulationBalance": 400000,
+      "accumulationTaxBasis": 280000,
+      "firstGrossSale": 1084.5986984815618,
+      "firstCapitalGainsTax": 84.5986984815618,
+      "firstNetProceeds": 1000,
+      "targetFinalBalance": 195227.7657266811,
+      "personalFinalBalance": 269848.1561822126,
+      "targetTotalCapitalGainsTax": 10151.843817787412,
+      "targetTotalStampDuty": 0
+    }
+  },
+  {
+    "scenarioId": "TAX_FIRE_FINITE_STAMP_AND_TERMINAL_CAPITAL",
+    "input": {
+      "method": "FINITE",
+      "currentAge": 40,
+      "fireAge": 40,
+      "fireDurationYears": 1,
+      "monthlyExpenseToday": 0,
+      "terminalCapitalToday": 100000,
+      "currentCapital": 200000,
+      "currentTaxBasis": 200000,
+      "annualSafeWithdrawalRate": null,
+      "capitalGainsTaxRate": 0.26,
+      "annualStampDutyRate": 0.002
+    },
+    "expected": {
+      "selectedTarget": 100200.4008016032,
+      "selectedTargetTaxBasis": 100200.4008016032,
+      "initialMonthlyContribution": 0,
+      "accumulationBalance": 200000,
+      "accumulationTaxBasis": 200000,
+      "firstGrossSale": 0,
+      "firstCapitalGainsTax": 0,
+      "firstNetProceeds": 0,
+      "targetFinalBalance": 100000,
+      "personalFinalBalance": 199600,
+      "targetTotalCapitalGainsTax": 0,
+      "targetTotalStampDuty": 200.4008016032
+    }
+  }
+]

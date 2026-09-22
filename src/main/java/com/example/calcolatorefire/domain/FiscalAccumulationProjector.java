@@ -38,6 +38,9 @@ public final class FiscalAccumulationProjector {
 
         List<FiscalAccumulationProjectionPoint> points = new ArrayList<>(plan.months() + 1);
         FiscalPortfolioState state = plan.initialState();
+        FiscalSettings effectiveSettings = plan.stampDutyApplicable()
+                ? settings
+                : new FiscalSettings(settings.capitalGainsTaxRate(), 0.0);
         points.add(new FiscalAccumulationProjectionPoint(
                 0,
                 state,
@@ -59,7 +62,7 @@ public final class FiscalAccumulationProjector {
                     plan.monthlyReturnRate(),
                     plan.monthlyContributions().get(index),
                     plan.monthlyNetInflows().get(index),
-                    settings
+                    effectiveSettings
             );
             totalContributions += month.contribution();
             totalNetInflows += month.netInflows();
