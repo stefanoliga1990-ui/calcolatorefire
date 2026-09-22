@@ -36,7 +36,7 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.1\"")))
+                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.2\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
                 .andExpect(content().string(containsString("Calcola il patrimonio necessario per raggiungere il FIRE, e gli investimenti necessari per raggiungerlo")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
