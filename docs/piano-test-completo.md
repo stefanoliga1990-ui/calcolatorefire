@@ -366,3 +366,28 @@ Esito complessivo al termine della fase: 243 test Maven invariati, 18 scenari
 browser superati e tutti i 21 golden riconciliati dal riferimento indipendente.
 Nessuna modifica al frontend, al contratto API o al motore è risultata
 necessaria.
+
+### Fase 10 — Stress e stabilità numerica
+
+Classi aggiunte: `FireCalculatorStressCoverageTest`, 16 esecuzioni JUnit, e
+`FireCalculationStressApiTest`, 3 casi MockMvc. La prova browser è documentata
+in `docs/verbale-test-stress-fase-10.md`.
+
+- orizzonte di 140 anni complessivi verificato con FINITE e SWR: 720 mesi di
+  accumulo, 960 mesi di FIRE e presenza del mese zero nelle due proiezioni;
+- serializzazione API delle proiezioni lunghe verificata con 721 e 961 punti;
+- 150 risorse sovrapposte elaborate dal dominio e 90 risorse accettate in una
+  singola richiesta API, con quantità e indici di provenienza conservati;
+- scenario browser con 30 card, dieci per ogni tipologia, calcolato con FINITE
+  e SWR senza valori non finiti, errori di console o perdita dei grafici;
+- importi al centesimo e nell'ordine dei miliardi verificati con entrambi i
+  metodi;
+- tassi immediatamente sopra `-100%` applicati separatamente a rendimento
+  FIRE, rendimento di accumulo, crescita PAC e inflazione con FINITE e SWR;
+- durate non rappresentabili in mesi rifiutate in modo controllato con
+  `INVALID_FIRE_DURATION`.
+
+Esito complessivo al termine della fase: 262 test Maven, 0 errori,
+0 fallimenti, 0 test ignorati; prova browser superata con entrambi i metodi e
+tutti i 21 golden riconciliati dal riferimento indipendente. Nessuna modifica
+al frontend, al contratto API o al motore è risultata necessaria.
