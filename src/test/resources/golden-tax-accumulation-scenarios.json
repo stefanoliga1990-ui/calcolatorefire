@@ -1,0 +1,86 @@
+[
+  {
+    "scenarioId": "TAX_ACC_CONSTANT_PAC",
+    "input": {
+      "balance": 10000,
+      "taxBasis": 10000,
+      "monthlyReturnRate": 0,
+      "annualStampDutyRate": 0,
+      "monthlyContributions": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+      "monthlyNetInflows": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "expected": {
+      "firstMonthClosingBalance": 10100,
+      "finalBalance": 11200,
+      "finalTaxBasis": 11200,
+      "latentGain": 0,
+      "totalContributions": 1200,
+      "totalNetInflows": 0,
+      "totalInvestmentReturns": 0,
+      "totalStampDuty": 0
+    }
+  },
+  {
+    "scenarioId": "TAX_ACC_GROWING_PAC",
+    "input": {
+      "balance": 0,
+      "taxBasis": 0,
+      "monthlyReturnRate": 0,
+      "annualStampDutyRate": 0,
+      "monthlyContributions": [100, 101, 102.01, 103.0301, 104.060401, 105.10100501, 106.1520150601, 107.213535210701, 108.28567056280801, 109.36852726843609, 110.46221254112045, 111.56683466653166],
+      "monthlyNetInflows": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "expected": {
+      "firstMonthClosingBalance": 100,
+      "finalBalance": 1268.2503013196977,
+      "finalTaxBasis": 1268.2503013196977,
+      "latentGain": 0,
+      "totalContributions": 1268.2503013196977,
+      "totalNetInflows": 0,
+      "totalInvestmentReturns": 0,
+      "totalStampDuty": 0
+    }
+  },
+  {
+    "scenarioId": "TAX_ACC_GAIN_INFLOW_AND_STAMP",
+    "input": {
+      "balance": 100000,
+      "taxBasis": 70000,
+      "monthlyReturnRate": 0.005,
+      "annualStampDutyRate": 0.002,
+      "monthlyContributions": [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500],
+      "monthlyNetInflows": [0, 0, 10000, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "expected": {
+      "firstMonthClosingBalance": 100983.1512163655,
+      "finalBalance": 122558.15295678955,
+      "finalTaxBasis": 86000,
+      "latentGain": 36558.15295678955,
+      "totalContributions": 6000,
+      "totalNetInflows": 10000,
+      "totalInvestmentReturns": 6788.443662262068,
+      "totalStampDuty": 230.2907054725429
+    }
+  },
+  {
+    "scenarioId": "TAX_ACC_LATENT_LOSS_AND_STAMP",
+    "input": {
+      "balance": 80000,
+      "taxBasis": 100000,
+      "monthlyReturnRate": 0,
+      "annualStampDutyRate": 0.002,
+      "monthlyContributions": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "monthlyNetInflows": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "expected": {
+      "firstMonthClosingBalance": 79986.65442880435,
+      "finalBalance": 79840,
+      "finalTaxBasis": 100000,
+      "latentGain": 0,
+      "totalContributions": 0,
+      "totalNetInflows": 0,
+      "totalInvestmentReturns": 0,
+      "totalStampDuty": 160
+    }
+  }
+]

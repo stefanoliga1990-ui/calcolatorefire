@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE_GOLDEN = ROOT / "src/test/resources/golden-scenarios.csv"
 RESOURCE_GOLDEN = ROOT / "src/test/resources/golden-additional-resources.json"
 TAX_GOLDEN = ROOT / "src/test/resources/golden-tax-scenarios.json"
+TAX_ACCUMULATION_GOLDEN = ROOT / "src/test/resources/golden-tax-accumulation-scenarios.json"
 MONEY_TOLERANCE = 0.01
 RATE_TOLERANCE = 1e-12
 
@@ -590,11 +591,59 @@ def verify_tax_primitives(errors: list[str]) -> int:
     return len(scenarios)
 
 
+def calculate_tax_accumulation(values: dict[str, Any]) -> dict[str, float]:
+    balance = float(values["balance"])
+    tax_basis = float(values["taxBasis"])
+    monthly_return = float(values["monthlyReturnRate"])
+    annual_stamp_rate = float(values["annualStampDutyRate"])
+    contributions = [float(value) for value in values["monthlyContributions"]]
+    net_inflows = [float(value) for value in values["monthlyNetInflows"]]
+    monthly_stamp_rate = 1.0 - math.pow(1.0 - annual_stamp_rate, 1.0 / 12.0)
+    total_returns = 0.0
+    total_stamp = 0.0
+    first_closing_balance = balance
+
+    for month, (contribution, net_inflow) in enumerate(zip(contributions, net_inflows), start=1):
+        investment_return = balance * monthly_return
+        gross_balance = balance + investment_return + contribution + net_inflow
+        stamp_duty = gross_balance * monthly_stamp_rate
+        balance = max(0.0, gross_balance - stamp_duty)
+        tax_basis += contribution + net_inflow
+        total_returns += investment_return
+        total_stamp += stamp_duty
+        if month == 1:
+            first_closing_balance = balance
+
+    return {
+        "firstMonthClosingBalance": first_closing_balance,
+        "finalBalance": balance,
+        "finalTaxBasis": tax_basis,
+        "latentGain": max(0.0, balance - tax_basis),
+        "totalContributions": sum(contributions),
+        "totalNetInflows": sum(net_inflows),
+        "totalInvestmentReturns": total_returns,
+        "totalStampDuty": total_stamp,
+    }
+
+
+def verify_tax_accumulation(errors: list[str]) -> int:
+    scenarios = json.loads(TAX_ACCUMULATION_GOLDEN.read_text(encoding="utf-8"))
+    for scenario in scenarios:
+        scenario_id = scenario["scenarioId"]
+        result = calculate_tax_accumulation(scenario["input"])
+        for field, expected in scenario["expected"].items():
+            actual = result[field]
+            if not math.isclose(float(expected), float(actual), rel_tol=0.0, abs_tol=MONEY_TOLERANCE):
+                errors.append(f"{scenario_id}: {field}: expected {expected}, reference {actual}")
+    return len(scenarios)
+
+
 def main() -> int:
     errors: list[str] = []
     base_count = verify_base(errors)
     resource_count = verify_resources(errors)
     tax_count = verify_tax_primitives(errors)
+    tax_accumulation_count = verify_tax_accumulation(errors)
     if errors:
         print(f"Reference verification failed with {len(errors)} difference(s):", file=sys.stderr)
         for error in errors:
@@ -602,7 +651,8 @@ def main() -> int:
         return 1
     print(
         f"Reference verification passed: {base_count} base scenarios + "
-        f"{resource_count} additional-resource scenarios + {tax_count} tax primitives; "
+        f"{resource_count} additional-resource scenarios + {tax_count} tax primitives + "
+        f"{tax_accumulation_count} tax-accumulation scenarios; "
         f"tolerance EUR {MONEY_TOLERANCE:.2f}."
     )
     return 0

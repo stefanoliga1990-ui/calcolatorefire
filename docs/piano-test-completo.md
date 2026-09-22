@@ -432,3 +432,21 @@ Esito della suite dopo questi test di confine: 280 test Maven, 0 errori,
 Esito dopo lo Step 2: 302 test Maven, 0 errori, 0 fallimenti e 0 ignorati;
 7 golden base, 14 golden con risorse e 6 primitive fiscali riconciliati dal
 riferimento indipendente.
+
+### Fase 12 — Step 3, accumulo fiscalizzato
+
+- introdotta la proiezione fiscale mensile completa, dal mese zero al FIRE,
+  con saldo e costo fiscale distinti;
+- coperti PAC costante e crescente, apporti netti, rendimenti, bollo e
+  riconciliazione dei totali;
+- modellati separatamente gli investimenti e PAC esistenti, inclusi periodo di
+  versamento proprio e disponibilità al FIRE;
+- verificate plusvalenza e minusvalenza latente, accumulo di zero mesi,
+  immutabilità dei calendari e validazioni dei periodi;
+- aggiunti 4 scenari golden fiscali di accumulo, verificati da JUnit e dal
+  riferimento Python indipendente;
+- mantenuti invariati `FireCalculator`, API e frontend.
+
+Esito dopo lo Step 3: 314 test Maven, 0 errori, 0 fallimenti e 0 ignorati;
+7 golden base, 14 golden con risorse, 6 primitive fiscali e 4 scenari fiscali
+di accumulo riconciliati dal riferimento indipendente.

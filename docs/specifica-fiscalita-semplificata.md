@@ -1,7 +1,8 @@
 # Calcolo FIRE Italia — specifica della fiscalità semplificata
 
-Stato: Step 1 approvato; Step 2 implementato e verificato come motore fiscale
-isolato. La fiscalità non è ancora collegata al calcolo FIRE, all'API o
+Stato: Step 1 approvato; Step 2 implementato come motore fiscale isolato;
+Step 3 implementato e verificato per l'intera fase di accumulo. La fiscalità
+non è ancora collegata al target FIRE, al decumulo completo, all'API o
 all'interfaccia.
 
 Questo documento estende `docs/specifica-matematica.md`. In caso di fiscalità
@@ -368,5 +369,49 @@ I sei scenari golden fiscali sono eseguiti anche come test JUnit. Ulteriori test
 coprono default, override, apporti netti, vendita completa, rendimento negativo,
 limiti degli input e riconciliazione del bollo su dodici mesi.
 
-Il comportamento pubblico dell'applicazione resta invariato fino agli step di
-integrazione con accumulo, decumulo, API e interfaccia.
+Al termine dello Step 2 il comportamento pubblico dell'applicazione restava
+invariato, in attesa degli step di integrazione successivi.
+
+## 13. Integrazione nella fase di accumulo — Step 3
+
+Lo Step 3 collega le primitive mensili dello Step 2 a una proiezione completa,
+dal mese zero fino all'ingresso nel FIRE. Ogni portafoglio mantiene una coppia
+indipendente `saldo / costo fiscale` e produce per ciascun mese:
+
+- saldo e costo fiscale iniziali;
+- rendimento maturato;
+- versamento del PAC;
+- rendite o capitali netti investiti;
+- saldo prima del bollo e bollo applicato;
+- saldo e costo fiscale finali.
+
+`FiscalAccumulationPlan` descrive il calendario mensile. Le factory dedicate
+generano sia il nuovo PAC costante o crescente, sia il PAC di un investimento
+esistente con intervallo iniziale incluso e finale escluso. Gli apporti netti
+permettono di rappresentare rendite reinvestite e capitali futuri ricevuti
+durante l'accumulo.
+
+`FiscalAccumulationProjector` proietta ogni portafoglio separatamente e
+riconcilia versamenti, apporti, rendimenti e bollo. La proiezione aggregata
+somma saldo e costo fiscale al FIRE soltanto per i portafogli marcati come
+disponibili; gli investimenti non disponibili restano tracciati ma esclusi.
+
+Sono coperti esplicitamente:
+
+- PAC costante e crescente;
+- patrimonio iniziale in plusvalenza e in minusvalenza latente;
+- rendite e capitali netti investiti a fine mese;
+- bollo mensile e riconciliazione annuale;
+- PAC esistenti con rendimento, crescita e periodo propri;
+- investimento non disponibile al FIRE;
+- accumulo di zero mesi e calendari non validi.
+
+Quattro nuovi scenari golden sono versionati in
+`golden-tax-accumulation-scenarios.json` e verificati sia da JUnit sia dallo
+script Python indipendente. Al termine dello Step 3 la suite contiene 314 test,
+senza errori, fallimenti o test ignorati.
+
+Il `FireCalculator`, il contratto HTTP e il frontend restano invariati in
+questo step. Il collegamento al target e al decumulo fiscale avverrà nello step
+successivo, quando il risolutore potrà usare il costo fiscale prodotto
+dall'accumulo.
