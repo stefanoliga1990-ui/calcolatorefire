@@ -21,6 +21,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 BASE_GOLDEN = ROOT / "src/test/resources/golden-scenarios.csv"
 RESOURCE_GOLDEN = ROOT / "src/test/resources/golden-additional-resources.json"
+TAX_GOLDEN = ROOT / "src/test/resources/golden-tax-scenarios.json"
 MONEY_TOLERANCE = 0.01
 RATE_TOLERANCE = 1e-12
 
@@ -542,10 +543,58 @@ def verify_resources(errors: list[str]) -> int:
     return len(scenarios)
 
 
+def calculate_tax_primitive(values: dict[str, Any]) -> dict[str, float]:
+    balance = float(values["balance"])
+    tax_basis = float(values["taxBasis"])
+    net_need = float(values["netNeed"])
+    tax_rate = float(values["capitalGainsTaxRate"])
+    annual_stamp_rate = float(values["annualStampDutyRate"])
+
+    taxable_gain_ratio = max(0.0, balance - tax_basis) / balance if balance > 0.0 else 0.0
+    net_sale_factor = 1.0 - tax_rate * taxable_gain_ratio
+    required_sale = net_need / net_sale_factor if net_sale_factor > 0.0 else math.inf
+    gross_sale = min(balance, required_sale)
+    capital_gains_tax = gross_sale * taxable_gain_ratio * tax_rate
+    net_proceeds = gross_sale - capital_gains_tax
+    remaining_tax_basis = (
+        tax_basis * (1.0 - gross_sale / balance) if balance > 0.0 and gross_sale < balance else 0.0
+    )
+    balance_after_sale = balance - gross_sale
+    monthly_stamp_rate = 1.0 - math.pow(1.0 - annual_stamp_rate, 1.0 / 12.0)
+    stamp_duty = balance_after_sale * monthly_stamp_rate
+    closing_balance = max(0.0, balance_after_sale - stamp_duty)
+    if closing_balance == 0.0:
+        remaining_tax_basis = 0.0
+
+    return {
+        "taxableGainRatio": taxable_gain_ratio,
+        "grossSale": gross_sale,
+        "capitalGainsTax": capital_gains_tax,
+        "netProceeds": net_proceeds,
+        "remainingTaxBasis": remaining_tax_basis,
+        "stampDuty": stamp_duty,
+        "closingBalance": closing_balance,
+    }
+
+
+def verify_tax_primitives(errors: list[str]) -> int:
+    scenarios = json.loads(TAX_GOLDEN.read_text(encoding="utf-8"))
+    for scenario in scenarios:
+        scenario_id = scenario["scenarioId"]
+        result = calculate_tax_primitive(scenario["input"])
+        for field, expected in scenario["expected"].items():
+            tolerance = RATE_TOLERANCE if field == "taxableGainRatio" else MONEY_TOLERANCE
+            actual = result[field]
+            if not math.isclose(float(expected), float(actual), rel_tol=0.0, abs_tol=tolerance):
+                errors.append(f"{scenario_id}: {field}: expected {expected}, reference {actual}")
+    return len(scenarios)
+
+
 def main() -> int:
     errors: list[str] = []
     base_count = verify_base(errors)
     resource_count = verify_resources(errors)
+    tax_count = verify_tax_primitives(errors)
     if errors:
         print(f"Reference verification failed with {len(errors)} difference(s):", file=sys.stderr)
         for error in errors:
@@ -553,7 +602,8 @@ def main() -> int:
         return 1
     print(
         f"Reference verification passed: {base_count} base scenarios + "
-        f"{resource_count} additional-resource scenarios; tolerance EUR {MONEY_TOLERANCE:.2f}."
+        f"{resource_count} additional-resource scenarios + {tax_count} tax primitives; "
+        f"tolerance EUR {MONEY_TOLERANCE:.2f}."
     )
     return 0
 

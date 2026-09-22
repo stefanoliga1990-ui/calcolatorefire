@@ -1,6 +1,6 @@
 # Calcolo FIRE Italia — specifica matematica del motore
 
-Stato: convenzioni matematiche dell'MVP approvate; estensione per risorse aggiuntive implementata e verificata sul branch `rendite-aggiuntive`.
+Stato: convenzioni matematiche dell'MVP approvate; estensione per risorse aggiuntive implementata e verificata. La fiscalità semplificata è specificata, ma non ancora implementata, in `docs/specifica-fiscalita-semplificata.md`.
 
 Questa specifica è la fonte primaria del motore Java. Il workbook Excel resta un riferimento funzionale, ma non è un golden master finché le differenze indicate in fondo al documento non vengono corrette.
 
@@ -14,7 +14,7 @@ L'MVP calcola:
 
 L'estensione descritta nelle sezioni 16–24 aggiunge investimenti o PAC esistenti, rendite periodiche e capitali futuri una tantum. In assenza di queste risorse, formule e risultati devono restare identici all'MVP attuale.
 
-Restano esclusi:
+Dal motore attualmente implementato restano esclusi:
 
 - fiscalità sulle vendite e sulle plusvalenze;
 - calcolo automatico delle imposte su affitti, pensioni e altre rendite: gli importi periodici sono inseriti già al netto delle imposte personali stimate dall'utente;
@@ -22,6 +22,11 @@ Restano esclusi:
 - account, database e salvataggio cloud.
 
 I rendimenti inseriti sono nominali, al netto dei costi ricorrenti dell'investimento e prima delle imposte personali. L'interfaccia deve dichiarare esplicitamente che la fiscalità sui prelievi non è inclusa.
+
+L'estensione fiscale futura mantiene questa definizione dei rendimenti e aggiunge
+bollo, costo fiscale e tassazione delle plusvalenze realizzate secondo la
+specifica dedicata. Aliquota e bollo pari a zero devono riprodurre esattamente
+il comportamento descritto in questo documento.
 
 ## 2. Convenzioni temporali
 

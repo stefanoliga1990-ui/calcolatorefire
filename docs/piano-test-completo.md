@@ -9,7 +9,8 @@ Gli input numerici sono continui: la copertura completa viene quindi ottenuta
 con classi di equivalenza, valori di confine, combinazioni a coppie e proprietà
 matematiche, non enumerando ogni valore possibile.
 
-La fonte normativa resta `docs/specifica-matematica.md`. I valori attesi non
+Le fonti normative sono `docs/specifica-matematica.md` e, per la fiscalità,
+`docs/specifica-fiscalita-semplificata.md`. I valori attesi non
 devono mai essere rigenerati dal motore Java. Lo script
 `scripts/verify_golden_reference.py` costituisce il calcolatore indipendente di
 riconciliazione degli scenari golden.
@@ -103,6 +104,14 @@ test puntuali quando combina metodo, timing e valori di confine.
 | 10 | `STRESS-HORIZON` | Orizzonte | lungo ma valido | FINITE, SWR | Dominio/API |
 | 10 | `STRESS-COUNT` | Numero risorse | molte card e molti flussi | FINITE, SWR | Dominio/Browser |
 | 10 | `STRESS-NUMERIC` | Stabilità | importi piccoli/grandi e tassi limite | FINITE, SWR | Dominio |
+| 11 | `TAX-BASIS` | Costo fiscale | uguale, minore e maggiore del patrimonio; default e override | FINITE, SWR | Dominio/API/UI |
+| 11 | `TAX-SALE` | Vendita fiscalizzata | nessun guadagno, guadagno parziale, vendita totale e shortfall | FINITE, SWR | Dominio |
+| 11 | `TAX-STAMP` | Imposta di bollo | zero, default, modificata e riconciliazione su 12 mesi | FINITE, SWR | Dominio |
+| 11 | `TAX-ACC` | Accumulo | versamenti, rendimenti, bollo e costo fiscale residuo | FINITE, SWR | Dominio |
+| 11 | `TAX-RESOURCE` | Risorse aggiuntive | investimento con base propria, rendite nette e capitali netti | FINITE, SWR | Dominio/API |
+| 11 | `TAX-SOLVER` | Soluzione congiunta | convergenza di target e PAC, zero mesi e capitale già sufficiente | FINITE, SWR | Dominio |
+| 11 | `TAX-ZERO` | Compatibilità | aliquota e bollo a zero sui 21 golden esistenti | FINITE, SWR | Riferimento/Dominio |
+| 11 | `TAX-UI` | Interfaccia fiscale | default, collegamento “modificarlo”, reset, output lordo/netto | FINITE, SWR | Browser |
 
 ## Proprietà trasversali obbligatorie
 
@@ -121,6 +130,12 @@ test puntuali quando combina metodo, timing e valori di confine.
 10. Il target SWR con risorse è minore o uguale al target SWR base.
 11. Il target FINITE riconcilia il capitale terminale entro un centesimo.
 12. A parità di altri input, più patrimonio disponibile non aumenta il PAC.
+13. A parità di saldo e fabbisogno, una plusvalenza latente maggiore non riduce
+    la vendita lorda necessaria.
+14. Il costo fiscale non aumenta per effetto dei rendimenti o diminuisce per il
+    bollo; aumenta soltanto con nuovi apporti netti.
+15. Con aliquota e bollo a zero, tutti i risultati coincidono con il motore
+    precedente entro la tolleranza monetaria.
 
 ## Procedura per ogni fase
 

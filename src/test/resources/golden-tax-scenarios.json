@@ -1,0 +1,116 @@
+[
+  {
+    "scenarioId": "TAX_NO_LATENT_GAIN",
+    "input": {
+      "balance": 100000,
+      "taxBasis": 100000,
+      "netNeed": 1000,
+      "capitalGainsTaxRate": 0.26,
+      "annualStampDutyRate": 0
+    },
+    "expected": {
+      "taxableGainRatio": 0,
+      "grossSale": 1000,
+      "capitalGainsTax": 0,
+      "netProceeds": 1000,
+      "remainingTaxBasis": 99000,
+      "stampDuty": 0,
+      "closingBalance": 99000
+    }
+  },
+  {
+    "scenarioId": "TAX_THIRTY_PERCENT_LATENT_GAIN",
+    "input": {
+      "balance": 100000,
+      "taxBasis": 70000,
+      "netNeed": 1000,
+      "capitalGainsTaxRate": 0.26,
+      "annualStampDutyRate": 0
+    },
+    "expected": {
+      "taxableGainRatio": 0.3,
+      "grossSale": 1084.59869848156,
+      "capitalGainsTax": 84.59869848156,
+      "netProceeds": 1000,
+      "remainingTaxBasis": 69240.7809110629,
+      "stampDuty": 0,
+      "closingBalance": 98915.4013015184
+    }
+  },
+  {
+    "scenarioId": "TAX_LATENT_LOSS_NO_CREDIT",
+    "input": {
+      "balance": 80000,
+      "taxBasis": 100000,
+      "netNeed": 1000,
+      "capitalGainsTaxRate": 0.26,
+      "annualStampDutyRate": 0
+    },
+    "expected": {
+      "taxableGainRatio": 0,
+      "grossSale": 1000,
+      "capitalGainsTax": 0,
+      "netProceeds": 1000,
+      "remainingTaxBasis": 98750,
+      "stampDuty": 0,
+      "closingBalance": 79000
+    }
+  },
+  {
+    "scenarioId": "TAX_MONTHLY_EQUIVALENT_STAMP_DUTY",
+    "input": {
+      "balance": 100000,
+      "taxBasis": 100000,
+      "netNeed": 0,
+      "capitalGainsTaxRate": 0.26,
+      "annualStampDutyRate": 0.002
+    },
+    "expected": {
+      "taxableGainRatio": 0,
+      "grossSale": 0,
+      "capitalGainsTax": 0,
+      "netProceeds": 0,
+      "remainingTaxBasis": 100000,
+      "stampDuty": 16.6819639945581,
+      "closingBalance": 99983.31803600544
+    }
+  },
+  {
+    "scenarioId": "TAX_GAIN_AND_STAMP_SAME_MONTH",
+    "input": {
+      "balance": 100000,
+      "taxBasis": 70000,
+      "netNeed": 1000,
+      "capitalGainsTaxRate": 0.26,
+      "annualStampDutyRate": 0.002
+    },
+    "expected": {
+      "taxableGainRatio": 0.3,
+      "grossSale": 1084.59869848156,
+      "capitalGainsTax": 84.59869848156,
+      "netProceeds": 1000,
+      "remainingTaxBasis": 69240.7809110629,
+      "stampDuty": 16.501031630192,
+      "closingBalance": 98898.9002698882
+    }
+  },
+  {
+    "scenarioId": "TAX_ZERO_RATES_LEGACY_COMPATIBILITY",
+    "input": {
+      "balance": 100000,
+      "taxBasis": 70000,
+      "netNeed": 1000,
+      "capitalGainsTaxRate": 0,
+      "annualStampDutyRate": 0
+    },
+    "expected": {
+      "taxableGainRatio": 0.3,
+      "grossSale": 1000,
+      "capitalGainsTax": 0,
+      "netProceeds": 1000,
+      "remainingTaxBasis": 69300,
+      "stampDuty": 0,
+      "closingBalance": 99000
+    }
+  }
+]
