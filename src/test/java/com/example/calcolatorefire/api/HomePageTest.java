@@ -3,6 +3,7 @@ package com.example.calcolatorefire.api;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,10 +45,13 @@ class HomePageTest {
                 .andExpect(content().string(containsString("href=\"/images/favicon-32x32.png?v=1\"")))
                 .andExpect(content().string(containsString("href=\"/images/apple-touch-icon.png?v=1\"")))
                 .andExpect(content().string(containsString("property=\"og:title\" content=\"Simulatore FIRE\"")))
-                .andExpect(content().string(containsString("property=\"og:image\" content=\"/images/og-simulatore-fire.png?v=1\"")))
+                .andExpect(content().string(containsString("property=\"og:url\" content=\"https://simulatorefire.com/\"")))
+                .andExpect(content().string(containsString("property=\"og:image\" content=\"https://simulatorefire.com/images/og-simulatore-fire.jpg?v=2\"")))
+                .andExpect(content().string(containsString("property=\"og:image:secure_url\" content=\"https://simulatorefire.com/images/og-simulatore-fire.jpg?v=2\"")))
                 .andExpect(content().string(containsString("property=\"og:image:width\" content=\"1200\"")))
                 .andExpect(content().string(containsString("property=\"og:image:height\" content=\"630\"")))
                 .andExpect(content().string(containsString("name=\"twitter:card\" content=\"summary_large_image\"")))
+                .andExpect(content().string(containsString("rel=\"canonical\" href=\"https://simulatorefire.com/\"")))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
                 .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.7\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
@@ -140,13 +144,14 @@ class HomePageTest {
         assertEquals(180, appleTouchIcon.getWidth());
         assertEquals(180, appleTouchIcon.getHeight());
 
-        byte[] openGraphImageBytes = mockMvc.perform(get("/images/og-simulatore-fire.png").queryParam("v", "1"))
+        byte[] openGraphImageBytes = mockMvc.perform(get("/images/og-simulatore-fire.jpg").queryParam("v", "2"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith("image/png"))
+                .andExpect(content().contentTypeCompatibleWith("image/jpeg"))
                 .andReturn().getResponse().getContentAsByteArray();
         BufferedImage openGraphImage = ImageIO.read(new ByteArrayInputStream(openGraphImageBytes));
         assertEquals(1200, openGraphImage.getWidth());
         assertEquals(630, openGraphImage.getHeight());
+        assertTrue(openGraphImageBytes.length < 300_000);
 
         mockMvc.perform(get("/app-91e2b4c7a630.js"))
                 .andExpect(status().isOk())
