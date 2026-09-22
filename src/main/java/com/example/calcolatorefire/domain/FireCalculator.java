@@ -66,6 +66,7 @@ public final class FireCalculator {
         ResourceAccumulation resourceAccumulation = projectAdditionalAccumulation(
                 input,
                 accumulationMonths,
+                fireMonths,
                 monthlyAccumulationReturn,
                 monthlyInflation
         );
@@ -159,6 +160,7 @@ public final class FireCalculator {
                 accumulation.points(),
                 personalRun.points(),
                 resourceAccumulation.existingInvestments(),
+                resourceAccumulation.periodicIncomes(),
                 resourceAccumulation.futureLumpSums()
         );
     }
@@ -388,6 +390,7 @@ public final class FireCalculator {
     private static ResourceAccumulation projectAdditionalAccumulation(
             FireCalculationInput input,
             int months,
+            int fireMonths,
             double monthlyAccumulationReturn,
             double monthlyInflation
     ) {
@@ -397,6 +400,7 @@ public final class FireCalculator {
         double[] availableExistingBalances = new double[months + 1];
         double[] availableFutureLumpSumsBalances = new double[months + 1];
         List<ExistingInvestmentResult> investmentResults = new ArrayList<>();
+        List<PeriodicIncomeResult> periodicIncomeResults = new ArrayList<>();
         List<FutureLumpSumResult> lumpSumResults = new ArrayList<>();
         double totalExistingContributions = 0.0;
 
@@ -479,20 +483,36 @@ public final class FireCalculator {
                     : lumpSum.amount();
             double balanceAtFire = 0.0;
             Integer fireReceiptMonth = null;
+            List<FutureLumpSumPoint> points = new ArrayList<>();
 
             if (receiptMonth <= months) {
                 double monthlyReturn = lumpSum.investAfterReceipt()
                         ? monthlyRate(lumpSum.annualReturnRateAfterReceipt())
                         : 0.0;
-                for (int month = receiptMonth; month <= months; month++) {
-                    double balance = nominalAmountAtReceipt
-                            * Math.pow(1.0 + monthlyReturn, month - receiptMonth);
-                    availableFutureLumpSumsBalances[month] += balance;
+                for (int month = 0; month <= months; month++) {
+                    double balance = month < receiptMonth
+                            ? 0.0
+                            : nominalAmountAtReceipt * Math.pow(1.0 + monthlyReturn, month - receiptMonth);
+                    if (month >= receiptMonth) {
+                        availableFutureLumpSumsBalances[month] += balance;
+                    }
+                    points.add(new FutureLumpSumPoint(
+                            month,
+                            input.currentAge() + month / 12.0,
+                            balance
+                    ));
                 }
                 balanceAtFire = nominalAmountAtReceipt
                         * Math.pow(1.0 + monthlyReturn, months - receiptMonth);
             } else {
                 fireReceiptMonth = receiptMonth - months + 1;
+                for (int month = 0; month <= receiptMonth; month++) {
+                    points.add(new FutureLumpSumPoint(
+                            month,
+                            input.currentAge() + month / 12.0,
+                            month == receiptMonth ? nominalAmountAtReceipt : 0.0
+                    ));
+                }
             }
 
             lumpSumResults.add(new FutureLumpSumResult(
@@ -503,7 +523,8 @@ public final class FireCalculator {
                     input.currentAge() + receiptMonth / 12.0,
                     nominalAmountAtReceipt,
                     balanceAtFire,
-                    fireReceiptMonth
+                    fireReceiptMonth,
+                    points
             ));
         }
 
@@ -524,6 +545,29 @@ public final class FireCalculator {
             investedIncomeBalances[month] = incomeBalance;
         }
 
+        int totalScenarioMonths = months + fireMonths;
+        for (int resourceIndex = 0; resourceIndex < input.additionalResources().size(); resourceIndex++) {
+            AdditionalResource resource = input.additionalResources().get(resourceIndex);
+            if (!(resource instanceof PeriodicIncome income)) {
+                continue;
+            }
+            List<PeriodicIncomePoint> points = new ArrayList<>(totalScenarioMonths);
+            for (int absoluteMonth = 0; absoluteMonth < totalScenarioMonths; absoluteMonth++) {
+                points.add(new PeriodicIncomePoint(
+                        absoluteMonth,
+                        input.currentAge() + absoluteMonth / 12.0,
+                        periodicIncomeAt(input, income, absoluteMonth)
+                ));
+            }
+            periodicIncomeResults.add(new PeriodicIncomeResult(
+                    resourceIndex,
+                    income.name(),
+                    income.investBeforeFire(),
+                    income.offsetDuringFire(),
+                    points
+            ));
+        }
+
         return new ResourceAccumulation(
                 incomeContributions,
                 cumulativeIncomeContributions,
@@ -536,6 +580,7 @@ public final class FireCalculator {
                 availableExistingBalances[months],
                 availableFutureLumpSumsBalances[months],
                 List.copyOf(investmentResults),
+                List.copyOf(periodicIncomeResults),
                 List.copyOf(lumpSumResults)
         );
     }
@@ -790,6 +835,7 @@ public final class FireCalculator {
             double availableExistingInvestmentsFinalBalance,
             double availableFutureLumpSumsFinalBalance,
             List<ExistingInvestmentResult> existingInvestments,
+            List<PeriodicIncomeResult> periodicIncomes,
             List<FutureLumpSumResult> futureLumpSums
     ) {
     }

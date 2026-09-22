@@ -160,7 +160,8 @@ In `accumulation`:
 - `availableFutureLumpSumsFinalBalance` somma i capitali una tantum ricevuti entro l'ingresso nel FIRE;
 - `projectedFinalBalance` è il capitale totale disponibile al FIRE;
 - `existingInvestments` mantiene una proiezione distinta per ogni investimento, identificato dalla posizione `resourceIndex` nella lista della richiesta.
-- `futureLumpSums` mantiene provenienza, mese di ricezione, importo nominale alla ricezione, saldo al FIRE ed eventuale mese FIRE di accredito. `fireReceiptMonth` usa valori da `1` a `fireMonths`; il valore `fireMonths + 1` identifica il confine finale.
+- `periodicIncomes` mantiene una proiezione mensile distinta per ogni rendita, dall'età attuale alla fine del FIRE. Ogni punto espone l'importo mensile nominale della singola rendita; fuori dal suo periodo di validità l'importo è zero.
+- `futureLumpSums` mantiene provenienza, mese di ricezione, importo nominale alla ricezione, saldo al FIRE, eventuale mese FIRE di accredito e la proiezione individuale del valore disponibile. `fireReceiptMonth` usa valori da `1` a `fireMonths`; il valore `fireMonths + 1` identifica il confine finale.
 
 Ogni voce di `decumulation.projection` espone `grossExpense`, `additionalIncome`, `scheduledWithdrawal` netto, `capitalInflow`, `actualWithdrawal`, `shortfall` e saldo. `terminalCapitalInflow` distingue un capitale ricevuto al confine finale da quelli disponibili all'inizio di un mese. Il riepilogo `decumulation` espone anche `totalCapitalInflows` e `terminalCapitalInflow`.
 
@@ -186,6 +187,7 @@ Esempio sintetico, con le serie mensili omesse:
     "projectedFinalBalance": 557770.7040214724,
     "projection": ["una voce iniziale e una per ogni mese"],
     "existingInvestments": [],
+    "periodicIncomes": [],
     "futureLumpSums": []
   },
   "decumulation": {

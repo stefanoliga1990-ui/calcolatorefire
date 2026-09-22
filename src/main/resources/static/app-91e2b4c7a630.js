@@ -10,6 +10,8 @@ const fireResultsContent = document.querySelector("#fire-results-content");
 const pacResultsPlaceholder = document.querySelector("#pac-results-placeholder");
 const pacResultsContent = document.querySelector("#pac-results-content");
 const projections = document.querySelector("#projections");
+const resourceProjections = document.querySelector("#resource-projections");
+const resourceChartGrid = document.querySelector("#resource-chart-grid");
 const addResourceButton = document.querySelector("#add-resource-button");
 const resourceTypePicker = document.querySelector("#resource-type-picker");
 const resourcesEmpty = document.querySelector("#resources-empty");
@@ -26,7 +28,7 @@ const MAX_AGE = 130;
 const MAX_ADDITIONAL_RESOURCES = 100;
 const MAX_AMOUNT = 1_000_000_000_000;
 
-let chartCleanups = { accumulation: null, decumulation: null };
+let chartCleanups = { accumulation: null, decumulation: null, resources: [] };
 let renderedMethod = null;
 let lastFireRequest = null;
 let resourceCounter = 0;
@@ -660,6 +662,7 @@ async function runFullCalculation(triggerButton, idleLabel) {
         renderPacResults(result.body, request);
         renderAdditionalResourcesResult(result.body, request);
         renderProjectionCharts(result.body, request);
+        renderResourceProjectionCharts(result.body, request);
         calculatePacButton.disabled = false;
         setText("pac-calculation-help", "Modifica i dati PAC e usa questo pulsante per aggiornare soltanto il piano di accumulo.");
 
@@ -697,6 +700,7 @@ calculatePacButton.addEventListener("click", async () => {
         }
 
         renderPacResults(result.body, request);
+        renderResourceProjectionCharts(result.body, request);
         renderAccumulationChart(result.body, request);
         if (window.matchMedia("(max-width: 920px)").matches) {
             document.querySelector(".pac-results-panel").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -736,6 +740,8 @@ resetButton.addEventListener("click", () => {
     updateInputWarnings();
     updateResourceWarnings();
     projections.hidden = true;
+    resourceProjections.hidden = true;
+    resourceChartGrid.replaceChildren();
     destroyCharts();
     form.querySelector("input, select")?.focus();
 });
@@ -1250,6 +1256,154 @@ function renderProjectionCharts(data) {
     renderDecumulationChart(data);
 }
 
+function renderResourceProjectionCharts(data, request) {
+    destroyResourceCharts();
+    resourceChartGrid.replaceChildren();
+
+    const resources = request.additionalResources ?? [];
+    resourceProjections.hidden = resources.length === 0;
+    if (resources.length === 0) {
+        return;
+    }
+
+    for (let resourceIndex = 0; resourceIndex < resources.length; resourceIndex++) {
+        const resource = resources[resourceIndex];
+        const chart = resourceChartDefinition(data, resource, resourceIndex);
+        if (!chart || chart.data.length === 0) {
+            continue;
+        }
+
+        const chartName = `resource-${resourceIndex}`;
+        const titleId = `${chartName}-title`;
+        const summaryId = `${chartName}-summary`;
+        const svgId = `${chartName}-chart`;
+        const tooltipId = `${chartName}-tooltip`;
+        const panel = document.createElement("figure");
+        panel.className = "chart-panel resource-chart-panel";
+
+        const caption = document.createElement("figcaption");
+        const heading = document.createElement("div");
+        const badge = document.createElement("span");
+        badge.className = "resource-chart-type";
+        badge.textContent = chart.typeLabel;
+        const title = document.createElement("h3");
+        title.id = titleId;
+        title.textContent = chart.title;
+        const summary = document.createElement("p");
+        summary.id = summaryId;
+        summary.textContent = chart.summary;
+        heading.append(badge, title, summary);
+
+        const legend = document.createElement("div");
+        legend.className = "chart-legend";
+        legend.setAttribute("aria-label", `Serie del grafico ${chart.title}`);
+        chart.series.forEach((series) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.dataset.chart = chartName;
+            button.dataset.series = series.key;
+            button.setAttribute("aria-pressed", "true");
+            const swatch = document.createElement("span");
+            swatch.className = `legend-swatch ${series.className}`;
+            swatch.setAttribute("aria-hidden", "true");
+            button.append(swatch, series.label);
+            legend.append(button);
+        });
+        caption.append(heading, legend);
+
+        const wrap = document.createElement("div");
+        wrap.className = "chart-wrap";
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.id = svgId;
+        svg.classList.add("projection-chart");
+        svg.setAttribute("role", "img");
+        svg.setAttribute("aria-labelledby", `${titleId} ${summaryId}`);
+        const tooltip = document.createElement("div");
+        tooltip.id = tooltipId;
+        tooltip.className = "chart-tooltip";
+        tooltip.setAttribute("role", "tooltip");
+        tooltip.hidden = true;
+        wrap.append(svg, tooltip);
+        panel.append(caption, wrap);
+        resourceChartGrid.append(panel);
+
+        chartCleanups.resources.push(createProjectionChart({
+            name: chartName,
+            svgId,
+            tooltipId,
+            data: chart.data,
+            series: chart.series
+        }));
+    }
+}
+
+function resourceChartDefinition(data, resource, resourceIndex) {
+    const title = resource.name || `Risorsa ${resourceIndex + 1}`;
+    if (resource.type === "EXISTING_INVESTMENT") {
+        const result = data.accumulation.existingInvestments
+            .find((item) => item.resourceIndex === resourceIndex);
+        if (!result) {
+            return null;
+        }
+        const points = result.projection.map((point) => ({
+            age: point.age,
+            balance: point.closingBalance,
+            contributions: resource.currentCapital + point.cumulativeContributions
+        }));
+        return {
+            title,
+            typeLabel: "Investimento o PAC esistente",
+            summary: `Da ${money(points[0]?.balance ?? 0)} a ${money(result.finalBalance)} all'ingresso nel FIRE.`,
+            data: points,
+            series: [
+                { key: "balance", label: "Valore della risorsa", className: "series-one" },
+                { key: "contributions", label: "Capitale apportato", className: "series-two" }
+            ]
+        };
+    }
+
+    if (resource.type === "PERIODIC_INCOME") {
+        const result = data.accumulation.periodicIncomes
+            .find((item) => item.resourceIndex === resourceIndex);
+        if (!result) {
+            return null;
+        }
+        const points = result.projection.map((point) => ({
+            age: point.age,
+            income: point.monthlyAmount
+        }));
+        const positiveAmounts = points.map((point) => point.income).filter((amount) => amount > 0);
+        const minimum = positiveAmounts.length > 0 ? Math.min(...positiveAmounts) : 0;
+        const maximum = positiveAmounts.length > 0 ? Math.max(...positiveAmounts) : 0;
+        const range = Math.abs(maximum - minimum) < 0.005
+            ? `${money(maximum)} al mese durante il periodo attivo.`
+            : `Da ${money(minimum)} a ${money(maximum)} al mese durante il periodo attivo.`;
+        return {
+            title,
+            typeLabel: "Rendita periodica",
+            summary: range,
+            data: points,
+            series: [{ key: "income", label: "Rendita mensile", className: "series-one" }]
+        };
+    }
+
+    const result = data.accumulation.futureLumpSums
+        .find((item) => item.resourceIndex === resourceIndex);
+    if (!result) {
+        return null;
+    }
+    return {
+        title,
+        typeLabel: "Capitale futuro",
+        summary: `${money(result.nominalAmountAtReceipt)} disponibili all'età di ${formatAge(result.receiptAge)} anni.`,
+        data: result.projection.map((point) => ({
+            age: point.age,
+            amount: point.availableAmount
+        })),
+        series: [{ key: "amount", label: "Valore disponibile", className: "series-one" }]
+    };
+}
+
 function renderAccumulationChart(data) {
     chartCleanups.accumulation?.();
 
@@ -1474,7 +1628,13 @@ function createProjectionChart({ name, svgId, tooltipId, data, series }) {
 function destroyCharts() {
     chartCleanups.accumulation?.();
     chartCleanups.decumulation?.();
-    chartCleanups = { accumulation: null, decumulation: null };
+    destroyResourceCharts();
+    chartCleanups = { accumulation: null, decumulation: null, resources: [] };
+}
+
+function destroyResourceCharts() {
+    chartCleanups.resources.forEach((cleanup) => cleanup?.());
+    chartCleanups.resources = [];
 }
 
 function compactMoney(valueToFormat) {

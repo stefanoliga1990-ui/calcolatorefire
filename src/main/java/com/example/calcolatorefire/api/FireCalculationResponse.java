@@ -10,6 +10,9 @@ import com.example.calcolatorefire.domain.ExistingInvestmentPoint;
 import com.example.calcolatorefire.domain.ExistingInvestmentResult;
 import com.example.calcolatorefire.domain.FireCalculationResult;
 import com.example.calcolatorefire.domain.FutureLumpSumResult;
+import com.example.calcolatorefire.domain.FutureLumpSumPoint;
+import com.example.calcolatorefire.domain.PeriodicIncomePoint;
+import com.example.calcolatorefire.domain.PeriodicIncomeResult;
 
 public record FireCalculationResponse(
         int accumulationMonths,
@@ -57,6 +60,7 @@ public record FireCalculationResponse(
                         result.projectedAccumulationFinalBalance(),
                         result.accumulationProjection().stream().map(AccumulationMonth::from).toList(),
                         result.existingInvestments().stream().map(ExistingInvestmentProjection::from).toList(),
+                        result.periodicIncomes().stream().map(PeriodicIncomeProjection::from).toList(),
                         result.futureLumpSums().stream().map(FutureLumpSumProjection::from).toList()
                 ),
                 new Decumulation(
@@ -110,11 +114,13 @@ public record FireCalculationResponse(
             double projectedFinalBalance,
             List<AccumulationMonth> projection,
             List<ExistingInvestmentProjection> existingInvestments,
+            List<PeriodicIncomeProjection> periodicIncomes,
             List<FutureLumpSumProjection> futureLumpSums
     ) {
         public Accumulation {
             projection = List.copyOf(projection);
             existingInvestments = List.copyOf(existingInvestments);
+            periodicIncomes = List.copyOf(periodicIncomes);
             futureLumpSums = List.copyOf(futureLumpSums);
         }
     }
@@ -212,6 +218,38 @@ public record FireCalculationResponse(
         }
     }
 
+    public record PeriodicIncomeProjection(
+            int resourceIndex,
+            String name,
+            boolean investBeforeFire,
+            boolean offsetDuringFire,
+            List<PeriodicIncomeMonth> projection
+    ) {
+        public PeriodicIncomeProjection {
+            projection = List.copyOf(projection);
+        }
+
+        static PeriodicIncomeProjection from(PeriodicIncomeResult result) {
+            return new PeriodicIncomeProjection(
+                    result.resourceIndex(),
+                    result.name(),
+                    result.investBeforeFire(),
+                    result.offsetDuringFire(),
+                    result.projection().stream().map(PeriodicIncomeMonth::from).toList()
+            );
+        }
+    }
+
+    public record PeriodicIncomeMonth(
+            int month,
+            double age,
+            double monthlyAmount
+    ) {
+        static PeriodicIncomeMonth from(PeriodicIncomePoint point) {
+            return new PeriodicIncomeMonth(point.month(), point.age(), point.monthlyAmount());
+        }
+    }
+
     public record FutureLumpSumProjection(
             int resourceIndex,
             String name,
@@ -220,8 +258,13 @@ public record FireCalculationResponse(
             double receiptAge,
             double nominalAmountAtReceipt,
             double balanceAtFire,
-            Integer fireReceiptMonth
+            Integer fireReceiptMonth,
+            List<FutureLumpSumMonth> projection
     ) {
+        public FutureLumpSumProjection {
+            projection = List.copyOf(projection);
+        }
+
         static FutureLumpSumProjection from(FutureLumpSumResult result) {
             return new FutureLumpSumProjection(
                     result.resourceIndex(),
@@ -231,8 +274,19 @@ public record FireCalculationResponse(
                     result.receiptAge(),
                     result.nominalAmountAtReceipt(),
                     result.balanceAtFire(),
-                    result.fireReceiptMonth()
+                    result.fireReceiptMonth(),
+                    result.projection().stream().map(FutureLumpSumMonth::from).toList()
             );
+        }
+    }
+
+    public record FutureLumpSumMonth(
+            int month,
+            double age,
+            double availableAmount
+    ) {
+        static FutureLumpSumMonth from(FutureLumpSumPoint point) {
+            return new FutureLumpSumMonth(point.month(), point.age(), point.availableAmount());
         }
     }
 

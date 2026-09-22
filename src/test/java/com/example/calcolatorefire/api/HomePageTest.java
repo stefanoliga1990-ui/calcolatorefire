@@ -36,7 +36,7 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.0\"")))
+                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.1\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
                 .andExpect(content().string(containsString("Calcola il patrimonio necessario per raggiungere il FIRE, e gli investimenti necessari per raggiungerlo")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
@@ -46,6 +46,11 @@ class HomePageTest {
                 .andExpect(content().string(containsString("id=\"fire-form\"")))
                 .andExpect(content().string(containsString("id=\"accumulation-chart\"")))
                 .andExpect(content().string(containsString("id=\"decumulation-chart\"")))
+                .andExpect(content().string(containsString("id=\"resource-projections\"")))
+                .andExpect(content().string(containsString("id=\"resource-chart-grid\"")))
+                .andExpect(content().string(containsString(">PAC e FIRE<")))
+                .andExpect(content().string(containsString(">Fase di accumulo PAC<")))
+                .andExpect(content().string(containsString(">Fase di decumulo FIRE<")))
                 .andExpect(content().string(containsString("id=\"method-description\"")))
                 .andExpect(content().string(containsString("id=\"swr-field\"")))
                 .andExpect(content().string(containsString("data-help=\"currentAge\"")))
@@ -85,7 +90,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=5.0\"")))
+                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=5.1\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
@@ -122,6 +127,8 @@ class HomePageTest {
                 .andExpect(content().string(containsString("updateInputWarnings")))
                 .andExpect(content().string(containsString("updateResourceWarnings")))
                 .andExpect(content().string(containsString("La SWR supera il 6%")))
+                .andExpect(content().string(containsString("renderResourceProjectionCharts")))
+                .andExpect(content().string(containsString("resourceChartDefinition")))
                 .andExpect(content().string(containsString("renderProjectionCharts")));
     }
 }

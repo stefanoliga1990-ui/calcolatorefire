@@ -42,12 +42,14 @@ public record FireCalculationResult(
         List<AccumulationPoint> accumulationProjection,
         List<DecumulationPoint> decumulationProjection,
         List<ExistingInvestmentResult> existingInvestments,
+        List<PeriodicIncomeResult> periodicIncomes,
         List<FutureLumpSumResult> futureLumpSums
 ) {
     public FireCalculationResult {
         accumulationProjection = List.copyOf(accumulationProjection);
         decumulationProjection = List.copyOf(decumulationProjection);
         existingInvestments = List.copyOf(existingInvestments);
+        periodicIncomes = List.copyOf(periodicIncomes);
         futureLumpSums = List.copyOf(futureLumpSums);
     }
 }

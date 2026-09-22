@@ -1,5 +1,7 @@
 package com.example.calcolatorefire.domain;
 
+import java.util.List;
+
 public record FutureLumpSumResult(
         int resourceIndex,
         String name,
@@ -8,6 +10,10 @@ public record FutureLumpSumResult(
         double receiptAge,
         double nominalAmountAtReceipt,
         double balanceAtFire,
-        Integer fireReceiptMonth
+        Integer fireReceiptMonth,
+        List<FutureLumpSumPoint> projection
 ) {
+    public FutureLumpSumResult {
+        projection = List.copyOf(projection);
+    }
 }

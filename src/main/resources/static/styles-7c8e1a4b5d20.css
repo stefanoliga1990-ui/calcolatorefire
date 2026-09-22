@@ -481,6 +481,30 @@ h1 {
     gap: 20px;
 }
 
+.resource-projections {
+    margin-bottom: 32px;
+}
+
+.resource-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.resource-chart-type {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--green);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.resource-chart-panel h3 {
+    overflow-wrap: anywhere;
+}
+
 .chart-panel {
     min-width: 0;
     margin: 0;
@@ -1374,6 +1398,10 @@ footer {
     }
 
     .chart-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resource-chart-grid {
         grid-template-columns: 1fr;
     }
 

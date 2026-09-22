@@ -6,8 +6,8 @@
     <meta name="description" content="Calcola il patrimonio necessario per il FIRE e il PAC mensile per raggiungerlo.">
     <title>Calcolo FIRE Italia</title>
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=5.0">
-    <script src="/app-91e2b4c7a630.js?v=5.0" defer></script>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=5.1">
+    <script src="/app-91e2b4c7a630.js?v=5.1" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -314,11 +314,23 @@
         </div>
     </section>
 
+    <section class="projections resource-projections" id="resource-projections"
+             aria-labelledby="resource-projections-title" hidden>
+        <div class="projections-heading">
+            <div>
+                <p class="step-label">Le proiezioni</p>
+                <h2 id="resource-projections-title">Rendite e risorse aggiuntive</h2>
+            </div>
+            <p>Ogni grafico mostra l'andamento della singola risorsa inclusa nell'ultimo calcolo.</p>
+        </div>
+        <div class="resource-chart-grid" id="resource-chart-grid"></div>
+    </section>
+
     <section class="projections" id="projections" aria-labelledby="projections-title" hidden>
         <div class="projections-heading">
             <div>
                 <p class="step-label">Le proiezioni</p>
-                <h2 id="projections-title">Come evolve il patrimonio nel tempo</h2>
+                <h2 id="projections-title">PAC e FIRE</h2>
             </div>
             <p>Passa sul grafico o toccalo per leggere i valori nei singoli momenti.</p>
         </div>
@@ -327,7 +339,7 @@
             <figure class="chart-panel">
                 <figcaption>
                     <div>
-                        <h3 id="accumulation-chart-title">Fase di accumulo</h3>
+                        <h3 id="accumulation-chart-title">Fase di accumulo PAC</h3>
                         <p id="accumulation-chart-summary">Patrimonio e capitale versato fino all'età FIRE.</p>
                     </div>
                     <div class="chart-legend" aria-label="Serie del grafico di accumulo">
@@ -349,7 +361,7 @@
             <figure class="chart-panel">
                 <figcaption>
                     <div>
-                        <h3 id="decumulation-chart-title">Fase di decumulo</h3>
+                        <h3 id="decumulation-chart-title">Fase di decumulo FIRE</h3>
                         <p id="decumulation-chart-summary">Patrimonio residuo e prelievi cumulati durante il FIRE.</p>
                     </div>
                     <div class="chart-legend" aria-label="Serie del grafico di decumulo">
