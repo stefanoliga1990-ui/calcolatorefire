@@ -14,14 +14,18 @@ formule o il codice di produzione.
 
 Sono state aggiunte le classi:
 
-- `FireCalculatorStressCoverageTest`, con 16 esecuzioni JUnit sul dominio;
+- `FireCalculatorStressCoverageTest`, con 18 esecuzioni JUnit sul dominio;
 - `FireCalculationStressApiTest`, con 3 esecuzioni MockMvc sul contratto API.
+
+Dopo la fase sono stati aggiunti anche 12 test di dominio e 4 test API per i
+nuovi limiti superiori di età, importi, tassi e numero di risorse.
 
 La copertura comprende:
 
-- 60 anni di accumulo e 80 anni di FIRE, pari a 721 e 961 punti mensili
+- 50 anni di accumulo e 60 anni di FIRE, con età finale pari al massimo
+  supportato di 130 anni e 601 e 721 punti mensili
   comprensivi del mese zero, con FINITE e SWR;
-- 150 risorse sovrapposte nel dominio e 90 risorse in una singola richiesta
+- 90 risorse sovrapposte nel dominio e in una singola richiesta
   API, con verifica di quantità, indici di provenienza e serializzazione;
 - importi di un centesimo e scenari nell'ordine dei miliardi di euro;
 - rendimento FIRE, rendimento di accumulo, crescita PAC e inflazione pari a
@@ -62,7 +66,6 @@ soglia prestazionale automatica.
 
 ## Esito complessivo
 
-- 262 test Maven: 0 fallimenti, 0 errori, 0 ignorati;
+- 280 test Maven: 0 fallimenti, 0 errori, 0 ignorati;
 - 21 scenari golden riconciliati dal calcolatore indipendente entro 0,01 euro;
-- nessuna modifica al motore, al contratto API o al frontend necessaria.
-
+- limiti applicati in modo coerente nel dominio, nel contratto API e nel frontend.

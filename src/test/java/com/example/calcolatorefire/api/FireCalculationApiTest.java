@@ -10,6 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Collections;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -246,6 +248,76 @@ class FireCalculationApiTest {
                         .content(withAdditionalResources(resources)))
                 .andExpect(status().isUnprocessableContent())
                 .andExpect(jsonPath("$.code").value("INVALID_RESOURCE_PERIOD"));
+    }
+
+    @Test
+    void rejectsMainFieldsAboveTheirUpperLimits() throws Exception {
+        String request = baseRequest()
+                .replace("\"currentAge\": 36", "\"currentAge\": 131")
+                .replace("\"monthlyExpenseToday\": 1600", "\"monthlyExpenseToday\": 1000000000001")
+                .replace("\"annualFireReturnRate\": 0.05", "\"annualFireReturnRate\": 1.01");
+
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
+                .andExpect(jsonPath("$.fieldErrors[*].field", hasItem("currentAge")))
+                .andExpect(jsonPath("$.fieldErrors[*].field", hasItem("monthlyExpenseToday")))
+                .andExpect(jsonPath("$.fieldErrors[*].field", hasItem("annualFireReturnRate")));
+    }
+
+    @Test
+    void rejectsACombinedHorizonEndingAfterAgeOneHundredAndThirty() throws Exception {
+        String request = baseRequest()
+                .replace("\"fireAge\": 50", "\"fireAge\": 100")
+                .replace("\"fireDurationYears\": 35", "\"fireDurationYears\": 31");
+
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
+                .andExpect(status().isUnprocessableContent())
+                .andExpect(jsonPath("$.code").value("INVALID_FIRE_DURATION"));
+    }
+
+    @Test
+    void rejectsResourceFieldsAboveTheirUpperLimits() throws Exception {
+        String resources = """
+                [{
+                  "type": "FUTURE_LUMP_SUM",
+                  "amount": 1000000000001,
+                  "amountBasis": "TODAY",
+                  "receiptAge": 131,
+                  "investAfterReceipt": true,
+                  "annualReturnRateAfterReceipt": 1.01
+                }]
+                """;
+
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(withAdditionalResources(resources)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
+                .andExpect(jsonPath("$.fieldErrors[*].field", hasItem("additionalResources[0].amount")))
+                .andExpect(jsonPath("$.fieldErrors[*].field", hasItem("additionalResources[0].receiptAge")))
+                .andExpect(jsonPath("$.fieldErrors[*].field",
+                        hasItem("additionalResources[0].annualReturnRateAfterReceipt")));
+    }
+
+    @Test
+    void rejectsMoreThanOneHundredResourcesAtTheApiBoundary() throws Exception {
+        String resource = """
+                {"type":"PERIODIC_INCOME","monthlyAmountToday":0,"annualGrowthRate":0,
+                 "startAge":36,"endAge":null,"investBeforeFire":true,"offsetDuringFire":true}
+                """;
+        String resources = "[" + String.join(",", Collections.nCopies(101, resource)) + "]";
+
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(withAdditionalResources(resources)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
+                .andExpect(jsonPath("$.fieldErrors[*].field", hasItem("additionalResources")));
     }
 
     private static String withAdditionalResources(String resources) {

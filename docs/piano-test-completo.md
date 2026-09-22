@@ -369,25 +369,38 @@ necessaria.
 
 ### Fase 10 — Stress e stabilità numerica
 
-Classi aggiunte: `FireCalculatorStressCoverageTest`, 16 esecuzioni JUnit, e
+Classi aggiunte: `FireCalculatorStressCoverageTest`, 18 esecuzioni JUnit, e
 `FireCalculationStressApiTest`, 3 casi MockMvc. La prova browser è documentata
 in `docs/verbale-test-stress-fase-10.md`.
 
-- orizzonte di 140 anni complessivi verificato con FINITE e SWR: 720 mesi di
-  accumulo, 960 mesi di FIRE e presenza del mese zero nelle due proiezioni;
-- serializzazione API delle proiezioni lunghe verificata con 721 e 961 punti;
-- 150 risorse sovrapposte elaborate dal dominio e 90 risorse accettate in una
-  singola richiesta API, con quantità e indici di provenienza conservati;
+- età finale massima di 130 anni verificata con FINITE e SWR: 600 mesi di
+  accumulo, 720 mesi di FIRE e presenza del mese zero nelle due proiezioni;
+- serializzazione API delle proiezioni lunghe verificata con 601 e 721 punti;
+- 90 risorse sovrapposte elaborate dal dominio e accettate in una singola
+  richiesta API, con quantità e indici di provenienza conservati;
 - scenario browser con 30 card, dieci per ogni tipologia, calcolato con FINITE
   e SWR senza valori non finiti, errori di console o perdita dei grafici;
 - importi al centesimo e nell'ordine dei miliardi verificati con entrambi i
   metodi;
 - tassi immediatamente sopra `-100%` applicati separatamente a rendimento
   FIRE, rendimento di accumulo, crescita PAC e inflazione con FINITE e SWR;
-- durate non rappresentabili in mesi rifiutate in modo controllato con
-  `INVALID_FIRE_DURATION`.
+- età finali oltre 130 anni e più di 100 risorse rifiutate in modo controllato.
 
-Esito complessivo al termine della fase: 262 test Maven, 0 errori,
+Esito complessivo aggiornato dopo l'introduzione dei limiti: 280 test Maven, 0 errori,
 0 fallimenti, 0 test ignorati; prova browser superata con entrambi i metodi e
-tutti i 21 golden riconciliati dal riferimento indipendente. Nessuna modifica
-al frontend, al contratto API o al motore è risultata necessaria.
+tutti i 21 golden riconciliati dal riferimento indipendente.
+
+### Vincoli di input e avvisi successivi alla Fase 10
+
+- aggiunti test di dominio e API per età massima 130, importi massimi pari a
+  `1.000.000.000.000 euro`, tassi massimi del 100% e massimo 100 risorse;
+- mantenuti validi i tassi negativi strettamente maggiori di `-100%`;
+- mantenuta la SWR senza massimo arbitrario, con avvisi non bloccanti sopra il
+  5% e il 6%;
+- aggiunti avvisi frontend per ipotesi estreme, spesa nulla, orizzonte oltre
+  110 anni, risorse nulle e scenari con più di 20 risorse;
+- corretti tutti i campi monetari a `step="1"`, così gli importi non devono più
+  essere multipli di 10, 50 o 1.000 euro.
+
+Esito della suite dopo questi test di confine: 280 test Maven, 0 errori,
+0 fallimenti e 0 ignorati; tutti i 21 golden restano riconciliati.

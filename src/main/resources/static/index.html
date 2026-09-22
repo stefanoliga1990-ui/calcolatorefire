@@ -6,8 +6,8 @@
     <meta name="description" content="Calcola il patrimonio necessario per il FIRE e il PAC mensile per raggiungerlo.">
     <title>Calcolo FIRE Italia</title>
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css">
-    <script src="/app-91e2b4c7a630.js" defer></script>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=5.0">
+    <script src="/app-91e2b4c7a630.js?v=5.0" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -35,24 +35,25 @@
                 </div>
 
                 <div id="form-error" class="alert" role="alert" tabindex="-1" hidden></div>
+                <div id="fire-input-warnings" class="input-warnings" role="status" aria-live="polite" hidden></div>
 
                 <fieldset>
                     <legend>Obiettivo FIRE</legend>
                     <div class="field-grid">
                         <label class="field" data-help="currentAge">
                             <span>Età attuale</span>
-                            <input id="currentAge" name="currentAge" type="number" min="0" step="1" value="36" required>
+                            <input id="currentAge" name="currentAge" type="number" min="0" max="130" step="1" value="36" required>
                             <small>Anni compiuti</small>
                         </label>
                         <label class="field" data-help="fireAge">
                             <span>Età di ingresso nel FIRE</span>
-                            <input id="fireAge" name="fireAge" type="number" min="0" step="1" value="50" required>
+                            <input id="fireAge" name="fireAge" type="number" min="0" max="130" step="1" value="50" required>
                             <small>Deve essere almeno pari all'età attuale</small>
                         </label>
                         <label class="field" data-help="fireDurationYears">
                             <span>Durata del FIRE</span>
                             <span class="input-suffix">
-                                <input id="fireDurationYears" name="fireDurationYears" type="number" min="1" step="1" value="35" required>
+                                <input id="fireDurationYears" name="fireDurationYears" type="number" min="1" max="130" step="1" value="35" required>
                                 <span>anni</span>
                             </span>
                         </label>
@@ -60,7 +61,7 @@
                             <span>Spesa mensile desiderata oggi</span>
                             <span class="input-prefix">
                                 <span>€</span>
-                                <input id="monthlyExpenseToday" name="monthlyExpenseToday" type="number" min="0" step="50" value="1600" required>
+                                <input id="monthlyExpenseToday" name="monthlyExpenseToday" type="number" min="0" max="1000000000000" step="1" value="1600" required>
                             </span>
                         </label>
                         <label class="field field-wide" data-help="method">
@@ -80,14 +81,14 @@
                         <label class="field" data-help="annualInflationRate">
                             <span>Inflazione annua</span>
                             <span class="input-suffix">
-                                <input id="annualInflationRate" name="annualInflationRate" type="number" min="-99.99" step="0.01" value="2" required>
+                                <input id="annualInflationRate" name="annualInflationRate" type="number" min="-99.99" max="100" step="0.01" value="2" required>
                                 <span>%</span>
                             </span>
                         </label>
                         <label class="field" data-help="annualFireReturnRate">
                             <span>Rendimento annuo nel FIRE</span>
                             <span class="input-suffix">
-                                <input id="annualFireReturnRate" name="annualFireReturnRate" type="number" min="-99.99" step="0.01" value="5" required>
+                                <input id="annualFireReturnRate" name="annualFireReturnRate" type="number" min="-99.99" max="100" step="0.01" value="5" required>
                                 <span>%</span>
                             </span>
                             <small>Al netto dei costi, prima delle imposte personali</small>
@@ -104,7 +105,7 @@
                             <span>Capitale finale desiderato, in euro di oggi</span>
                             <span class="input-prefix">
                                 <span>€</span>
-                                <input id="terminalCapitalToday" name="terminalCapitalToday" type="number" min="0" step="1000" value="0" required>
+                                <input id="terminalCapitalToday" name="terminalCapitalToday" type="number" min="0" max="1000000000000" step="1" value="0" required>
                             </span>
                             <small>Inserisci zero se prevedi di consumare il capitale nel periodo scelto.</small>
                         </label>
@@ -127,6 +128,7 @@
                 </div>
 
                 <div id="pac-form-error" class="alert" role="alert" tabindex="-1" hidden></div>
+                <div id="pac-input-warnings" class="input-warnings" role="status" aria-live="polite" hidden></div>
 
                 <fieldset>
                     <legend>Piano di accumulo</legend>
@@ -135,13 +137,13 @@
                             <span>Patrimonio investito oggi</span>
                             <span class="input-prefix">
                                 <span>€</span>
-                                <input id="currentCapital" name="currentCapital" type="number" min="0" step="1000" value="0" required>
+                                <input id="currentCapital" name="currentCapital" type="number" min="0" max="1000000000000" step="1" value="0" required>
                             </span>
                         </label>
                         <label class="field" data-help="annualAccumulationReturnRate">
                             <span>Rendimento annuo in accumulo</span>
                             <span class="input-suffix">
-                                <input id="annualAccumulationReturnRate" name="annualAccumulationReturnRate" type="number" min="-99.99" step="0.01" value="5" required>
+                                <input id="annualAccumulationReturnRate" name="annualAccumulationReturnRate" type="number" min="-99.99" max="100" step="0.01" value="5" required>
                                 <span>%</span>
                             </span>
                             <small>Al netto dei costi, prima delle imposte personali</small>
@@ -149,7 +151,7 @@
                         <label class="field field-wide" data-help="annualContributionGrowthRate">
                             <span>Crescita annua del PAC</span>
                             <span class="input-suffix">
-                                <input id="annualContributionGrowthRate" name="annualContributionGrowthRate" type="number" min="-99.99" step="0.01" value="0" required>
+                                <input id="annualContributionGrowthRate" name="annualContributionGrowthRate" type="number" min="-99.99" max="100" step="0.01" value="0" required>
                                 <span>%</span>
                             </span>
                             <small>Con 0% il versamento resta costante; altrimenti cambia ogni mese.</small>
@@ -281,6 +283,7 @@
         </div>
 
         <div id="resource-form-error" class="alert" role="alert" tabindex="-1" hidden></div>
+        <div id="resource-input-warnings" class="input-warnings" role="status" aria-live="polite" hidden></div>
 
         <div class="resources-empty" id="resources-empty">
             <p>Non hai ancora aggiunto rendite o altre risorse. Senza risorse aggiuntive i risultati restano identici al calcolo attuale.</p>

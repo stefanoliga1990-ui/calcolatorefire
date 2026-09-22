@@ -875,6 +875,27 @@ select[aria-invalid="true"] {
     padding-left: 20px;
 }
 
+.input-warnings {
+    margin-bottom: 22px;
+    padding: 14px 16px;
+    border: 1px solid rgba(176, 116, 15, 0.34);
+    border-radius: 12px;
+    color: #6f4800;
+    background: #fff5dc;
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
+.input-warnings strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.input-warnings ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
 .results-placeholder {
     min-height: 360px;
     display: flex;

@@ -22,36 +22,36 @@ class FireCalculatorStressCoverageTest {
 
     @ParameterizedTest
     @EnumSource(FireMethod.class)
-    void handlesOneHundredAndFortyYearsOfMonthlyProjections(FireMethod method) {
+    void handlesTheMaximumSupportedFinalAge(FireMethod method) {
         List<AdditionalResource> resources = List.of(
-                new ExistingInvestment("PAC lungo", 25_000, 100, 20, 80, 0.04, 0.01, true),
+                new ExistingInvestment("PAC lungo", 25_000, 100, 20, 70, 0.04, 0.01, true),
                 new PeriodicIncome("Rendita lunga", 250, 0.015, 20, null, true, true),
                 new FutureLumpSum("Capitale lontano", 100_000, AmountBasis.TODAY, 120, false, 0)
         );
         FireCalculationResult result = calculator.calculate(input(
-                method, 20, 80, 80, 2_000, 0.02, 0.04,
+                method, 20, 70, 60, 2_000, 0.02, 0.04,
                 500_000, 10_000, 0.05, 0.01, resources));
 
-        assertEquals(720, result.accumulationMonths());
-        assertEquals(960, result.fireMonths());
-        assertEquals(721, result.accumulationProjection().size());
-        assertEquals(961, result.decumulationProjection().size());
-        assertEquals(721, result.existingInvestments().get(0).projection().size());
+        assertEquals(600, result.accumulationMonths());
+        assertEquals(720, result.fireMonths());
+        assertEquals(601, result.accumulationProjection().size());
+        assertEquals(721, result.decumulationProjection().size());
+        assertEquals(601, result.existingInvestments().get(0).projection().size());
         assertFiniteResult(result);
     }
 
     @ParameterizedTest
     @EnumSource(FireMethod.class)
-    void handlesOneHundredAndFiftyOverlappingResources(FireMethod method) {
-        List<AdditionalResource> resources = manyResources(30, 50, 40, 50);
+    void handlesNinetyOverlappingResources(FireMethod method) {
+        List<AdditionalResource> resources = manyResources(30, 50, 40, 30);
         FireCalculationResult result = calculator.calculate(input(
                 method, 30, 50, 40, 2_500, 0.02, 0.04,
                 100_000, 50_000, 0.05, 0.01, resources));
 
-        assertEquals(150, resources.size());
-        assertEquals(50, result.existingInvestments().size());
-        assertEquals(50, result.futureLumpSums().size());
-        assertEquals(149, result.futureLumpSums().get(49).resourceIndex());
+        assertEquals(90, resources.size());
+        assertEquals(30, result.existingInvestments().size());
+        assertEquals(30, result.futureLumpSums().size());
+        assertEquals(89, result.futureLumpSums().get(29).resourceIndex());
         assertTrue(result.totalNominalAdditionalIncomeInvested() > 0);
         assertTrue(result.totalCapitalInflows() > 0);
         assertFiniteResult(result);
@@ -121,10 +121,10 @@ class FireCalculatorStressCoverageTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {178_956_971, Integer.MAX_VALUE})
-    void rejectsHorizonsThatCannotBeRepresentedInMonths(int years) {
+    @ValueSource(ints = {61, 178_956_971, Integer.MAX_VALUE})
+    void rejectsHorizonsBeyondTheSupportedFinalAge(int years) {
         FireCalculationInput input = new FireCalculationInput(
-                FireMethod.FINITE, 0, 1, years, 1_000,
+                FireMethod.FINITE, 20, 70, years, 1_000,
                 0.02, 0.04, null, 0, 0, 0.05, 0, List.of());
 
         FireCalculationException exception = assertThrows(
@@ -132,6 +132,19 @@ class FireCalculatorStressCoverageTest {
                 () -> calculator.calculate(input));
 
         assertEquals(CalculationErrorCode.INVALID_FIRE_DURATION, exception.code());
+    }
+
+    @org.junit.jupiter.api.Test
+    void rejectsMoreThanOneHundredAdditionalResources() {
+        FireCalculationInput input = input(
+                FireMethod.FINITE, 30, 50, 40, 2_500, 0.02, 0.04,
+                100_000, 50_000, 0.05, 0.01, manyResources(30, 50, 40, 34));
+
+        FireCalculationException exception = assertThrows(
+                FireCalculationException.class,
+                () -> calculator.calculate(input));
+
+        assertEquals(CalculationErrorCode.INVALID_RESOURCE, exception.code());
     }
 
     private static List<AdditionalResource> manyResources(

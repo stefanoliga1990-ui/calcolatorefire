@@ -39,8 +39,8 @@ class FireCalculationStressApiTest {
                 {
                   "method": "FINITE",
                   "currentAge": 20,
-                  "fireAge": 80,
-                  "fireDurationYears": 80,
+                  "fireAge": 70,
+                  "fireDurationYears": 60,
                   "monthlyExpenseToday": 2000,
                   "annualInflationRate": 0.02,
                   "annualFireReturnRate": 0.04,
@@ -57,10 +57,10 @@ class FireCalculationStressApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accumulationMonths").value(720))
-                .andExpect(jsonPath("$.fireMonths").value(960))
-                .andExpect(jsonPath("$.accumulation.projection", hasSize(721)))
-                .andExpect(jsonPath("$.decumulation.projection", hasSize(961)));
+                .andExpect(jsonPath("$.accumulationMonths").value(600))
+                .andExpect(jsonPath("$.fireMonths").value(720))
+                .andExpect(jsonPath("$.accumulation.projection", hasSize(601)))
+                .andExpect(jsonPath("$.decumulation.projection", hasSize(721)));
     }
 
     @Test

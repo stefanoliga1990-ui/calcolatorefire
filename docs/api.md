@@ -37,6 +37,14 @@ Valori ammessi per `method`:
 
 Nel metodo `SWR`, aumentare `annualSafeWithdrawalRate` riduce matematicamente il target. La sostenibilità sull'orizzonte scelto va letta nei campi `decumulation.depletionMonth` e `decumulation.totalShortfall`: un `depletionMonth` valorizzato indica il primo mese in cui il prelievo programmato non è interamente coperto.
 
+Vincoli comuni della richiesta:
+
+- età intere comprese tra 0 e 130, con età finale della simulazione non oltre 130;
+- importi compresi tra 0 e `1.000.000.000.000` euro;
+- inflazione, rendimenti e crescite maggiori di `-1` e non superiori a `1`;
+- SWR finita e strettamente positiva, senza un massimo arbitrario;
+- massimo 100 risorse aggiuntive.
+
 ### Risorse aggiuntive
 
 `additionalResources` è una lista facoltativa. Se il campo è omesso, vale `[]`: richieste create prima dell'estensione conservano quindi lo stesso comportamento e gli stessi risultati numerici.
@@ -47,7 +55,7 @@ Ogni elemento usa `type` come discriminante e può avere un `name` facoltativo, 
 - `PERIODIC_INCOME`: rendita periodica attuale o futura;
 - `FUTURE_LUMP_SUM`: capitale futuro ricevuto una sola volta.
 
-Le età sono intere e rappresentano confini mensili. L'età iniziale è inclusa, quella finale è esclusa. Gli importi non possono essere negativi e i tassi devono essere maggiori di `-1`; come nel resto dell'API, `0.05` rappresenta il 5%.
+Le età sono intere e rappresentano confini mensili. L'età iniziale è inclusa, quella finale è esclusa. Si applicano anche alle risorse i limiti comuni su età, importi e tassi; come nel resto dell'API, `0.05` rappresenta il 5%.
 
 #### Investimento o PAC esistente
 

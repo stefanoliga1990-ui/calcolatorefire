@@ -266,18 +266,26 @@ Con risorse aggiuntive si mostrano inoltre almeno:
 
 ## 11. Validazioni
 
-Non vengono imposti limiti commerciali arbitrari. Sono obbligatorie le seguenti condizioni matematiche:
+Oltre alle condizioni matematiche, l'MVP applica limiti tecnici coerenti con
+una pianificazione personale. Servono a impedire proiezioni o importi capaci di
+esaurire le risorse del servizio e non modificano le formule di calcolo.
 
 | Codice | Condizione |
 | --- | --- |
-| `INVALID_AGE_ORDER` | `A_f < A_0` |
-| `INVALID_FIRE_DURATION` | durata FIRE non positiva |
-| `INVALID_RATE` | inflazione, rendimento o crescita PAC minori o uguali a −100% |
+| `INVALID_AGE_ORDER` | età fuori da `0–130` oppure `A_f < A_0` |
+| `INVALID_FIRE_DURATION` | durata FIRE non positiva oppure età finale oltre 130 anni |
+| `INVALID_RATE` | inflazione, rendimento o crescita minori o uguali a −100% oppure maggiori di 100% |
 | `INVALID_SWR` | metodo `SWR` con SWR mancante, non finita o `swr <= 0` |
-| `INVALID_AMOUNT` | importo negativo o non finito |
+| `INVALID_AMOUNT` | importo negativo, non finito oppure maggiore di `1.000.000.000.000 euro` |
+| `INVALID_RESOURCE` | più di 100 risorse aggiuntive |
 | `UNREACHABLE_WITH_ZERO_MONTHS` | nessun mese di accumulo e capitale insufficiente |
 
-Il metodo `FINITE` non richiede una SWR. L'interfaccia mostra solo i parametri e il target del metodo selezionato.
+Il metodo `FINITE` non richiede una SWR. L'interfaccia mostra solo i parametri e il target del metodo selezionato. La SWR non ha un massimo arbitrario: valori elevati restano calcolabili, ma l'interfaccia li segnala come ipotesi rischiose e la proiezione evidenzia l'eventuale esaurimento.
+
+L'interfaccia mostra inoltre avvisi non bloccanti per ipotesi insolite: spesa
+nulla, età inferiore a 18 anni, età finale oltre 110 anni, SWR sopra il 5%,
+inflazione, rendimenti o crescite molto distanti dagli scenari ordinari,
+risorse nulle e più di 20 risorse aggiuntive.
 
 Le validazioni specifiche delle risorse aggiuntive sono definite nella sezione 23.
 
@@ -712,9 +720,10 @@ L'eventuale eccedenza della rendita rispetto alla spesa resta esclusa dal saldo,
 
 Si applicano le validazioni generali della sezione 11. Inoltre:
 
-- importi, patrimoni, versamenti e capitali devono essere finiti e non negativi;
-- tutti i tassi annui di rendimento, crescita e indicizzazione devono essere finiti e maggiori di `−100%`;
-- le età sono intere e trasformabili in mesi senza overflow;
+- importi, patrimoni, versamenti e capitali devono essere finiti, non negativi e non superiori a `1.000.000.000.000 euro`;
+- tutti i tassi annui di rendimento, crescita e indicizzazione devono essere finiti, maggiori di `−100%` e non superiori a `100%`;
+- le età sono intere, comprese tra 0 e 130 e trasformabili in mesi senza overflow;
+- il numero complessivo di risorse aggiuntive non può superare 100;
 - l'inizio di un intervallo periodico deve precedere la fine;
 - i nuovi versamenti di un investimento o PAC non possono proseguire oltre l'ingresso nel FIRE;
 - una rendita può avere fine aperta; se ha una fine esplicita, questa deve essere successiva all'inizio;

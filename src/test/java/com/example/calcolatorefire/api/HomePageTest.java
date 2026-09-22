@@ -36,7 +36,7 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css\"")))
+                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.0\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
                 .andExpect(content().string(containsString("Calcola il patrimonio necessario per raggiungere il FIRE, e gli investimenti necessari per raggiungerlo")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
@@ -62,9 +62,12 @@ class HomePageTest {
                 .andExpect(content().string(containsString("id=\"fire-results-content\" hidden")))
                 .andExpect(content().string(containsString("id=\"pac-results-content\" hidden")))
                 .andExpect(content().string(containsString(">Le proiezioni<")))
-                .andExpect(content().string(containsString("id=\"currentCapital\" name=\"currentCapital\" type=\"number\" min=\"0\" step=\"1000\" value=\"0\"")))
-                .andExpect(content().string(containsString("id=\"annualAccumulationReturnRate\" name=\"annualAccumulationReturnRate\" type=\"number\" min=\"-99.99\" step=\"0.01\" value=\"5\"")))
-                .andExpect(content().string(containsString("id=\"annualContributionGrowthRate\" name=\"annualContributionGrowthRate\" type=\"number\" min=\"-99.99\" step=\"0.01\" value=\"0\"")))
+                .andExpect(content().string(containsString("id=\"currentCapital\" name=\"currentCapital\" type=\"number\" min=\"0\" max=\"1000000000000\" step=\"1\" value=\"0\"")))
+                .andExpect(content().string(containsString("id=\"annualAccumulationReturnRate\" name=\"annualAccumulationReturnRate\" type=\"number\" min=\"-99.99\" max=\"100\" step=\"0.01\" value=\"5\"")))
+                .andExpect(content().string(containsString("id=\"annualContributionGrowthRate\" name=\"annualContributionGrowthRate\" type=\"number\" min=\"-99.99\" max=\"100\" step=\"0.01\" value=\"0\"")))
+                .andExpect(content().string(containsString("id=\"fire-input-warnings\"")))
+                .andExpect(content().string(containsString("id=\"pac-input-warnings\"")))
+                .andExpect(content().string(containsString("id=\"resource-input-warnings\"")))
                 .andExpect(content().string(containsString("id=\"additional-resources\"")))
                 .andExpect(content().string(containsString("id=\"add-resource-button\"")))
                 .andExpect(content().string(containsString(">Aggiungi rendita<")))
@@ -82,7 +85,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js\"")))
+                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=5.0\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
     }
 
@@ -115,6 +118,10 @@ class HomePageTest {
                 .andExpect(content().string(containsString("360 = 720.000")))
                 .andExpect(content().string(containsString("4% = 600.000")))
                 .andExpect(content().string(containsString("primo prelievo non interamente coperto")))
+                .andExpect(content().string(containsString("MAX_ADDITIONAL_RESOURCES = 100")))
+                .andExpect(content().string(containsString("updateInputWarnings")))
+                .andExpect(content().string(containsString("updateResourceWarnings")))
+                .andExpect(content().string(containsString("La SWR supera il 6%")))
                 .andExpect(content().string(containsString("renderProjectionCharts")));
     }
 }

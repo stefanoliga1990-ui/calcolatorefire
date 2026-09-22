@@ -76,11 +76,15 @@ final class AdditionalResourceValidator {
         validateAmount(income.monthlyAmountToday(), label + ": l'importo mensile");
         validateRate(income.annualGrowthRate(), label + ": la crescita annua");
 
-        if (income.startAge() < currentAge) {
-            throw periodError(label + ": la rendita non può iniziare prima dell'età attuale.");
+        if (income.startAge() < currentAge || income.startAge() > CalculationLimits.MAX_AGE) {
+            throw periodError(label + ": l'età iniziale deve essere compresa tra l'età attuale e "
+                    + CalculationLimits.MAX_AGE + " anni.");
         }
-        if (income.endAge() != null && income.endAge() <= income.startAge()) {
-            throw periodError(label + ": l'età finale deve essere successiva all'età iniziale.");
+        if (income.endAge() != null
+                && (income.endAge() <= income.startAge()
+                || income.endAge() > CalculationLimits.MAX_AGE)) {
+            throw periodError(label + ": l'età finale deve essere successiva all'età iniziale e non superare "
+                    + CalculationLimits.MAX_AGE + " anni.");
         }
         if (!income.investBeforeFire() && !income.offsetDuringFire()) {
             throw new FireCalculationException(
@@ -130,19 +134,20 @@ final class AdditionalResourceValidator {
     }
 
     private static void validateAmount(double value, String label) {
-        if (!Double.isFinite(value) || value < 0.0) {
+        if (!Double.isFinite(value) || value < 0.0 || value > CalculationLimits.MAX_AMOUNT) {
             throw new FireCalculationException(
                     CalculationErrorCode.INVALID_AMOUNT,
-                    label + " deve essere un importo non negativo e finito."
+                    label + " deve essere compreso tra 0 e "
+                            + CalculationLimits.MAX_AMOUNT_DECIMAL + " euro."
             );
         }
     }
 
     private static void validateRate(double value, String label) {
-        if (!Double.isFinite(value) || value <= -1.0) {
+        if (!Double.isFinite(value) || value <= -1.0 || value > CalculationLimits.MAX_ANNUAL_RATE) {
             throw new FireCalculationException(
                     CalculationErrorCode.INVALID_RATE,
-                    label + " deve essere maggiore di -100%."
+                    label + " deve essere maggiore di -100% e non superiore a 100%."
             );
         }
     }

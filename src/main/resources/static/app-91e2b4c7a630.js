@@ -18,6 +18,13 @@ const resourcesActions = document.querySelector("#resources-actions");
 const resourcesResult = document.querySelector("#additional-resources-result");
 const calculateResourcesButton = document.querySelector("#calculate-resources-button");
 const resourceErrorBox = document.querySelector("#resource-form-error");
+const fireInputWarnings = document.querySelector("#fire-input-warnings");
+const pacInputWarnings = document.querySelector("#pac-input-warnings");
+const resourceInputWarnings = document.querySelector("#resource-input-warnings");
+
+const MAX_AGE = 130;
+const MAX_ADDITIONAL_RESOURCES = 100;
+const MAX_AMOUNT = 1_000_000_000_000;
 
 let chartCleanups = { accumulation: null, decumulation: null };
 let renderedMethod = null;
@@ -432,6 +439,7 @@ const defaults = Object.fromEntries(new FormData(form).entries());
 const methodSelect = form.elements.namedItem("method");
 methodSelect.addEventListener("change", updateMethodFields);
 updateMethodFields();
+updateInputWarnings();
 
 function attachParameterHelp(root = document) {
     root.querySelectorAll("[data-help]").forEach((container) => {
@@ -566,9 +574,14 @@ function updateMethodFields() {
     document.querySelector("#terminal-capital-field").hidden = isSwr;
     form.elements.namedItem("annualSafeWithdrawalRate").disabled = !isSwr;
     form.elements.namedItem("terminalCapitalToday").disabled = isSwr;
+    updateInputWarnings();
 }
 
 addResourceButton.addEventListener("click", () => {
+    if (resourcesList.children.length >= MAX_ADDITIONAL_RESOURCES) {
+        updateResourceWarnings();
+        return;
+    }
     resourceTypePicker.hidden = !resourceTypePicker.hidden;
     addResourceButton.setAttribute("aria-expanded", String(!resourceTypePicker.hidden));
 });
@@ -576,6 +589,10 @@ addResourceButton.addEventListener("click", () => {
 resourceTypePicker.addEventListener("click", (event) => {
     const typeButton = event.target.closest("[data-resource-type]");
     if (!typeButton) {
+        return;
+    }
+    if (resourcesList.children.length >= MAX_ADDITIONAL_RESOURCES) {
+        updateResourcesState();
         return;
     }
     addResource(typeButton.dataset.resourceType);
@@ -592,6 +609,7 @@ resourcesList.addEventListener("click", async (event) => {
     const wasIncludedInLastCalculation = card?.dataset.includedInLastCalculation === "true";
     card?.remove();
     updateResourcesState();
+    updateResourceWarnings();
     if (wasIncludedInLastCalculation && lastFireRequest !== null) {
         await runFullCalculation(calculateResourcesButton, "Ricalcola FIRE e PAC");
     }
@@ -602,7 +620,11 @@ resourcesList.addEventListener("change", (event) => {
     if (card) {
         updateResourceConditionalFields(card);
     }
+    updateResourceWarnings();
 });
+
+form.addEventListener("input", updateInputWarnings);
+resourcesList.addEventListener("input", updateResourceWarnings);
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -616,7 +638,7 @@ calculateResourcesButton.addEventListener("click", async () => {
 async function runFullCalculation(triggerButton, idleLabel) {
     clearErrors();
 
-    if (!form.reportValidity() || !validateAdditionalResources()) {
+    if (!validateScenarioLimits() || !form.reportValidity() || !validateAdditionalResources()) {
         return;
     }
 
@@ -711,6 +733,8 @@ resetButton.addEventListener("click", () => {
     resourceTypePicker.hidden = true;
     addResourceButton.setAttribute("aria-expanded", "false");
     updateResourcesState();
+    updateInputWarnings();
+    updateResourceWarnings();
     projections.hidden = true;
     destroyCharts();
     form.querySelector("input, select")?.focus();
@@ -758,6 +782,7 @@ function addResource(type) {
     attachParameterHelp(card);
     updateResourceConditionalFields(card);
     updateResourcesState();
+    updateResourceWarnings();
     card.scrollIntoView({ behavior: "smooth", block: "center" });
     card.querySelector("input, select")?.focus({ preventScroll: true });
 }
@@ -782,12 +807,12 @@ function resourceCardMarkup(type, id) {
         return `${commonHeader("Investimento", "Investimento o PAC esistente", "Proietta un capitale separato e gli eventuali versamenti già programmati.")}
             <div class="resource-field-grid">
                 ${nameField("PAC esistente")}
-                <label class="field" data-help="resourceCurrentCapital"><span>Patrimonio già investito</span><span class="input-prefix"><span>€</span><input data-resource-field="currentCapital" type="number" min="0" step="1000" value="0" required></span></label>
-                <label class="field" data-help="resourceMonthlyContribution"><span>Versamento mensile già programmato</span><span class="input-prefix"><span>€</span><input data-resource-field="initialMonthlyContribution" type="number" min="0" step="10" value="0" required></span></label>
-                <label class="field" data-help="resourceContributionStartAge"><span>Età di inizio dei versamenti</span><input data-resource-field="contributionStartAge" type="number" min="0" step="1" ${contributionStartValue}></label>
-                <label class="field" data-help="resourceContributionEndAge"><span>Età di fine dei versamenti</span><input data-resource-field="contributionEndAge" type="number" min="0" step="1" ${contributionEndValue}></label>
-                <label class="field" data-help="resourceReturnRate"><span>Rendimento annuo della risorsa</span><span class="input-suffix"><input data-resource-field="annualReturnRate" type="number" min="-99.99" step="0.01" value="5" required><span>%</span></span></label>
-                <label class="field" data-help="resourceContributionGrowthRate"><span>Crescita annua dei versamenti</span><span class="input-suffix"><input data-resource-field="annualContributionGrowthRate" type="number" min="-99.99" step="0.01" value="0" required><span>%</span></span></label>
+                <label class="field" data-help="resourceCurrentCapital"><span>Patrimonio già investito</span><span class="input-prefix"><span>€</span><input data-resource-field="currentCapital" type="number" min="0" max="${MAX_AMOUNT}" step="1" value="0" required></span></label>
+                <label class="field" data-help="resourceMonthlyContribution"><span>Versamento mensile già programmato</span><span class="input-prefix"><span>€</span><input data-resource-field="initialMonthlyContribution" type="number" min="0" max="${MAX_AMOUNT}" step="1" value="0" required></span></label>
+                <label class="field" data-help="resourceContributionStartAge"><span>Età di inizio dei versamenti</span><input data-resource-field="contributionStartAge" type="number" min="0" max="${MAX_AGE}" step="1" ${contributionStartValue}></label>
+                <label class="field" data-help="resourceContributionEndAge"><span>Età di fine dei versamenti</span><input data-resource-field="contributionEndAge" type="number" min="0" max="${MAX_AGE}" step="1" ${contributionEndValue}></label>
+                <label class="field" data-help="resourceReturnRate"><span>Rendimento annuo della risorsa</span><span class="input-suffix"><input data-resource-field="annualReturnRate" type="number" min="-99.99" max="100" step="0.01" value="5" required><span>%</span></span></label>
+                <label class="field" data-help="resourceContributionGrowthRate"><span>Crescita annua dei versamenti</span><span class="input-suffix"><input data-resource-field="annualContributionGrowthRate" type="number" min="-99.99" max="100" step="0.01" value="0" required><span>%</span></span></label>
                 <label class="field checkbox-field field-wide" data-help="resourceAvailableAtFire"><span>Disponibile all'ingresso nel FIRE</span><span class="checkbox-control"><input data-resource-field="availableAtFire" type="checkbox" checked><span>Il saldo contribuirà al patrimonio FIRE</span></span></label>
             </div>`;
     }
@@ -796,10 +821,10 @@ function resourceCardMarkup(type, id) {
         return `${commonHeader("Rendita", "Rendita periodica", "Modella un'entrata mensile netta, attuale o futura, con eventuale scadenza.")}
             <div class="resource-field-grid">
                 ${nameField("Rendita periodica")}
-                <label class="field" data-help="resourceMonthlyIncome"><span>Importo mensile netto di oggi</span><span class="input-prefix"><span>€</span><input data-resource-field="monthlyAmountToday" type="number" min="0" step="10" value="0" required></span></label>
-                <label class="field" data-help="resourceIncomeGrowthRate"><span>Crescita annua della rendita</span><span class="input-suffix"><input data-resource-field="annualGrowthRate" type="number" min="-99.99" step="0.01" value="0" required><span>%</span></span></label>
-                <label class="field" data-help="resourceStartAge"><span>Età di inizio</span><input data-resource-field="startAge" type="number" min="0" step="1" value="${number("currentAge")}" required></label>
-                <label class="field" data-help="resourceEndAge"><span>Età di fine</span><input data-resource-field="endAge" type="number" min="0" step="1" placeholder="Senza fine"><small>Lascia vuoto se continua per tutto l'orizzonte.</small></label>
+                <label class="field" data-help="resourceMonthlyIncome"><span>Importo mensile netto di oggi</span><span class="input-prefix"><span>€</span><input data-resource-field="monthlyAmountToday" type="number" min="0" max="${MAX_AMOUNT}" step="1" value="0" required></span></label>
+                <label class="field" data-help="resourceIncomeGrowthRate"><span>Crescita annua della rendita</span><span class="input-suffix"><input data-resource-field="annualGrowthRate" type="number" min="-99.99" max="100" step="0.01" value="0" required><span>%</span></span></label>
+                <label class="field" data-help="resourceStartAge"><span>Età di inizio</span><input data-resource-field="startAge" type="number" min="0" max="${MAX_AGE}" step="1" value="${number("currentAge")}" required></label>
+                <label class="field" data-help="resourceEndAge"><span>Età di fine</span><input data-resource-field="endAge" type="number" min="0" max="${MAX_AGE}" step="1" placeholder="Senza fine"><small>Lascia vuoto se continua per tutto l'orizzonte.</small></label>
                 <label class="field checkbox-field" data-help="resourceInvestBeforeFire"><span>Investi prima del FIRE</span><span class="checkbox-control"><input data-resource-field="investBeforeFire" type="checkbox" checked><span>Confluisce nel portafoglio di accumulo</span></span></label>
                 <label class="field checkbox-field" data-help="resourceOffsetDuringFire"><span>Usa durante il FIRE</span><span class="checkbox-control"><input data-resource-field="offsetDuringFire" type="checkbox" checked><span>Riduce il prelievo richiesto</span></span></label>
             </div>`;
@@ -808,11 +833,11 @@ function resourceCardMarkup(type, id) {
     return `${commonHeader("Capitale futuro", "Capitale futuro una tantum", "Inserisci una somma che diventerà disponibile una sola volta.")}
         <div class="resource-field-grid">
             ${nameField("Capitale futuro")}
-            <label class="field" data-help="resourceLumpAmount"><span>Importo</span><span class="input-prefix"><span>€</span><input data-resource-field="amount" type="number" min="0" step="1000" value="0" required></span></label>
+            <label class="field" data-help="resourceLumpAmount"><span>Importo</span><span class="input-prefix"><span>€</span><input data-resource-field="amount" type="number" min="0" max="${MAX_AMOUNT}" step="1" value="0" required></span></label>
             <label class="field" data-help="resourceAmountBasis"><span>Valore dell'importo</span><select data-resource-field="amountBasis" required><option value="TODAY">Euro di oggi</option><option value="NOMINAL">Euro nominali alla ricezione</option></select></label>
-            <label class="field" data-help="resourceReceiptAge"><span>Età di ricezione</span><input data-resource-field="receiptAge" type="number" min="0" step="1" value="${number("fireAge")}" required></label>
+            <label class="field" data-help="resourceReceiptAge"><span>Età di ricezione</span><input data-resource-field="receiptAge" type="number" min="0" max="${MAX_AGE}" step="1" value="${number("fireAge")}" required></label>
             <label class="field checkbox-field" data-help="resourceInvestAfterReceipt"><span>Investi dopo la ricezione</span><span class="checkbox-control"><input data-resource-field="investAfterReceipt" type="checkbox" checked><span>Fino all'ingresso nel FIRE</span></span></label>
-            <label class="field field-wide" data-help="resourceReturnAfterReceipt" data-return-after-receipt><span>Rendimento annuo dopo la ricezione</span><span class="input-suffix"><input data-resource-field="annualReturnRateAfterReceipt" type="number" min="-99.99" step="0.01" value="5" required><span>%</span></span></label>
+            <label class="field field-wide" data-help="resourceReturnAfterReceipt" data-return-after-receipt><span>Rendimento annuo dopo la ricezione</span><span class="input-suffix"><input data-resource-field="annualReturnRateAfterReceipt" type="number" min="-99.99" max="100" step="0.01" value="5" required><span>%</span></span></label>
         </div>`;
 }
 
@@ -825,11 +850,133 @@ function updateResourceConditionalFields(card) {
 }
 
 function updateResourcesState() {
-    const hasResources = resourcesList.children.length > 0;
+    const resourceCount = resourcesList.children.length;
+    const hasResources = resourceCount > 0;
     resourcesEmpty.hidden = hasResources;
+    addResourceButton.disabled = resourceCount >= MAX_ADDITIONAL_RESOURCES;
+    addResourceButton.title = addResourceButton.disabled
+        ? `Puoi inserire al massimo ${MAX_ADDITIONAL_RESOURCES} risorse aggiuntive.`
+        : "";
+    if (addResourceButton.disabled) {
+        resourceTypePicker.hidden = true;
+        addResourceButton.setAttribute("aria-expanded", "false");
+    }
     if (hasResources) {
         resourcesActions.hidden = false;
     }
+}
+
+function updateInputWarnings() {
+    const fireWarnings = [];
+    const currentAge = controlNumber("currentAge");
+    const fireAge = controlNumber("fireAge");
+    const fireDuration = controlNumber("fireDurationYears");
+    const expense = controlNumber("monthlyExpenseToday");
+    const inflation = controlNumber("annualInflationRate");
+    const fireReturn = controlNumber("annualFireReturnRate");
+    const swr = controlNumber("annualSafeWithdrawalRate");
+
+    if (Number.isFinite(currentAge) && currentAge < 18) {
+        fireWarnings.push("Stai costruendo una simulazione per una persona con meno di 18 anni.");
+    }
+    if (expense === 0) {
+        fireWarnings.push("Con una spesa mensile nulla il target FIRE può risultare nullo.");
+    }
+    if (isOutside(inflation, -5, 10)) {
+        fireWarnings.push("L'inflazione inserita è molto distante dagli scenari ordinari di lungo periodo.");
+    }
+    if (isOutside(fireReturn, -20, 15)) {
+        fireWarnings.push("Il rendimento medio nel FIRE è estremo e può produrre risultati poco rappresentativi.");
+    }
+    if (Number.isFinite(fireAge) && Number.isFinite(fireDuration)
+            && fireAge + fireDuration > 110 && fireAge + fireDuration <= MAX_AGE) {
+        fireWarnings.push(`La simulazione copre fino a ${fireAge + fireDuration} anni di età.`);
+    }
+    if (value("method") === "SWR" && Number.isFinite(swr) && swr > 5) {
+        fireWarnings.push(swr > 6
+            ? "La SWR supera il 6%: il rischio che il capitale si esaurisca prima della durata scelta è molto elevato."
+            : "La SWR supera il 5%: controlla con attenzione il mese di eventuale esaurimento del capitale.");
+    }
+    renderInputWarnings(fireInputWarnings, fireWarnings);
+
+    const pacWarnings = [];
+    const accumulationReturn = controlNumber("annualAccumulationReturnRate");
+    const contributionGrowth = controlNumber("annualContributionGrowthRate");
+    if (isOutside(accumulationReturn, -20, 15)) {
+        pacWarnings.push("Il rendimento medio in accumulo è estremo e può produrre risultati poco rappresentativi.");
+    }
+    if (isOutside(contributionGrowth, -20, 20)) {
+        pacWarnings.push("La variazione annua del PAC è molto elevata: verifica che possa essere mantenuta nel tempo.");
+    }
+    renderInputWarnings(pacInputWarnings, pacWarnings);
+}
+
+function updateResourceWarnings() {
+    const cards = [...resourcesList.querySelectorAll(".resource-card")];
+    const warnings = [];
+    if (cards.length >= MAX_ADDITIONAL_RESOURCES) {
+        warnings.push(`Hai raggiunto il limite di ${MAX_ADDITIONAL_RESOURCES} risorse aggiuntive.`);
+    } else if (cards.length > 20) {
+        warnings.push("Un numero elevato di risorse può rendere lo scenario difficile da verificare.");
+    }
+
+    let neutralResources = 0;
+    let unusualReturns = false;
+    let unusualGrowth = false;
+    for (const card of cards) {
+        if (card.dataset.resourceType === "EXISTING_INVESTMENT") {
+            neutralResources += resourceNumber(card, "currentCapital") === 0
+                    && resourceNumber(card, "initialMonthlyContribution") === 0 ? 1 : 0;
+            unusualReturns ||= isOutside(resourceNumber(card, "annualReturnRate"), -20, 15);
+            unusualGrowth ||= isOutside(resourceNumber(card, "annualContributionGrowthRate"), -20, 20);
+        } else if (card.dataset.resourceType === "PERIODIC_INCOME") {
+            neutralResources += resourceNumber(card, "monthlyAmountToday") === 0 ? 1 : 0;
+            unusualGrowth ||= isOutside(resourceNumber(card, "annualGrowthRate"), -20, 20);
+        } else {
+            neutralResources += resourceNumber(card, "amount") === 0 ? 1 : 0;
+            if (resourceField(card, "investAfterReceipt").checked) {
+                unusualReturns ||= isOutside(resourceNumber(card, "annualReturnRateAfterReceipt"), -20, 15);
+            }
+        }
+    }
+    if (neutralResources > 0) {
+        warnings.push(neutralResources === 1
+            ? "Una risorsa ha importo e versamenti pari a zero e non modifica il risultato."
+            : `${neutralResources} risorse hanno importi e versamenti pari a zero e non modificano il risultato.`);
+    }
+    if (unusualReturns) {
+        warnings.push("Almeno una risorsa usa un rendimento medio estremo.");
+    }
+    if (unusualGrowth) {
+        warnings.push("Almeno una risorsa usa una crescita o riduzione annua molto elevata.");
+    }
+    renderInputWarnings(resourceInputWarnings, warnings);
+}
+
+function renderInputWarnings(container, warnings) {
+    container.replaceChildren();
+    container.hidden = warnings.length === 0;
+    if (warnings.length === 0) {
+        return;
+    }
+    const heading = document.createElement("strong");
+    heading.textContent = "Controlla queste ipotesi";
+    const list = document.createElement("ul");
+    for (const warning of warnings) {
+        const item = document.createElement("li");
+        item.textContent = warning;
+        list.append(item);
+    }
+    container.append(heading, list);
+}
+
+function controlNumber(name) {
+    const rawValue = value(name);
+    return rawValue === "" ? Number.NaN : Number(rawValue);
+}
+
+function isOutside(numberValue, minimum, maximum) {
+    return Number.isFinite(numberValue) && (numberValue < minimum || numberValue > maximum);
 }
 
 function markCurrentResourcesAsCalculated() {
@@ -882,6 +1029,19 @@ function validateAdditionalResources() {
                 return false;
             }
         }
+    }
+    return true;
+}
+
+function validateScenarioLimits() {
+    const durationControl = form.elements.namedItem("fireDurationYears");
+    durationControl.setCustomValidity("");
+    const fireAge = controlNumber("fireAge");
+    const duration = controlNumber("fireDurationYears");
+    if (Number.isFinite(fireAge) && Number.isFinite(duration) && fireAge + duration > MAX_AGE) {
+        durationControl.setCustomValidity(`L'età finale della simulazione non può superare ${MAX_AGE} anni.`);
+        durationControl.reportValidity();
+        return false;
     }
     return true;
 }

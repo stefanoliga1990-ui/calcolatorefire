@@ -691,16 +691,36 @@ public final class FireCalculator {
         if (input.method() == null) {
             throw new FireCalculationException(CalculationErrorCode.INVALID_METHOD, "Il metodo è obbligatorio.");
         }
-        if (input.currentAge() < 0 || input.fireAge() < input.currentAge()) {
+        if (input.currentAge() < 0
+                || input.currentAge() > CalculationLimits.MAX_AGE
+                || input.fireAge() < input.currentAge()
+                || input.fireAge() > CalculationLimits.MAX_AGE) {
             throw new FireCalculationException(
                     CalculationErrorCode.INVALID_AGE_ORDER,
-                    "L'età FIRE non può essere inferiore all'età attuale."
+                    "Le età devono essere comprese tra 0 e " + CalculationLimits.MAX_AGE
+                            + " anni e l'età FIRE non può essere inferiore all'età attuale."
             );
         }
         if (input.fireDurationYears() <= 0) {
             throw new FireCalculationException(
                     CalculationErrorCode.INVALID_FIRE_DURATION,
                     "La durata del FIRE deve essere positiva."
+            );
+        }
+        int horizonEndAge;
+        try {
+            horizonEndAge = Math.addExact(input.fireAge(), input.fireDurationYears());
+        } catch (ArithmeticException exception) {
+            throw new FireCalculationException(
+                    CalculationErrorCode.INVALID_FIRE_DURATION,
+                    "L'età finale della simulazione è troppo grande."
+            );
+        }
+        if (horizonEndAge > CalculationLimits.MAX_AGE) {
+            throw new FireCalculationException(
+                    CalculationErrorCode.INVALID_FIRE_DURATION,
+                    "L'età finale della simulazione non può superare "
+                            + CalculationLimits.MAX_AGE + " anni."
             );
         }
 
@@ -720,24 +740,32 @@ public final class FireCalculator {
                     "La SWR deve essere positiva."
             );
         }
+        if (input.additionalResources().size() > CalculationLimits.MAX_ADDITIONAL_RESOURCES) {
+            throw new FireCalculationException(
+                    CalculationErrorCode.INVALID_RESOURCE,
+                    "Non è possibile inserire più di "
+                            + CalculationLimits.MAX_ADDITIONAL_RESOURCES + " risorse aggiuntive."
+            );
+        }
 
         AdditionalResourceValidator.validate(input);
     }
 
     private static void validateAmount(double value, String label) {
-        if (!Double.isFinite(value) || value < 0.0) {
+        if (!Double.isFinite(value) || value < 0.0 || value > CalculationLimits.MAX_AMOUNT) {
             throw new FireCalculationException(
                     CalculationErrorCode.INVALID_AMOUNT,
-                    label + " deve essere un importo non negativo e finito."
+                    label + " deve essere compreso tra 0 e "
+                            + CalculationLimits.MAX_AMOUNT_DECIMAL + " euro."
             );
         }
     }
 
     private static void validateRate(double value, String label) {
-        if (!Double.isFinite(value) || value <= -1.0) {
+        if (!Double.isFinite(value) || value <= -1.0 || value > CalculationLimits.MAX_ANNUAL_RATE) {
             throw new FireCalculationException(
                     CalculationErrorCode.INVALID_RATE,
-                    label + " deve essere maggiore di -100%."
+                    label + " deve essere maggiore di -100% e non superiore a 100%."
             );
         }
     }
