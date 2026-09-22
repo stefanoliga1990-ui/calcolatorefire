@@ -36,13 +36,14 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.5\"")))
+                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=5.7\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
                 .andExpect(content().string(containsString("Stima il patrimonio necessario e il PAC mensile per raggiungere il tuo obiettivo FIRE.")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
                 .andExpect(content().string(not(containsString("Pianificazione FIRE, con ipotesi trasparenti"))))
                 .andExpect(content().string(not(containsString("Nessun account"))))
-                .andExpect(content().string(not(containsString("brand-mark"))))
+                .andExpect(content().string(containsString("class=\"brand-logo\"")))
+                .andExpect(content().string(containsString("src=\"/images/logo-percorso-indipendenza.png?v=1\"")))
                 .andExpect(content().string(containsString("id=\"fire-form\"")))
                 .andExpect(content().string(containsString("id=\"accumulation-chart\"")))
                 .andExpect(content().string(containsString("id=\"decumulation-chart\"")))
@@ -60,6 +61,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("id=\"parameter-help-dialog\"")))
                 .andExpect(content().string(containsString(">I dati FIRE<")))
                 .andExpect(content().string(containsString(">I dati PAC<")))
+                .andExpect(content().string(containsString("class=\"step-label-logo\"")))
                 .andExpect(content().string(containsString(">Il risultato FIRE<")))
                 .andExpect(content().string(containsString(">Il risultato PAC<")))
                 .andExpect(content().string(containsString("id=\"calculate-fire-button\" type=\"submit\"")))
@@ -104,6 +106,10 @@ class HomePageTest {
         mockMvc.perform(get("/styles-7c8e1a4b5d20.css"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
+
+        mockMvc.perform(get("/images/logo-percorso-indipendenza.png").queryParam("v", "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("image/png"));
 
         mockMvc.perform(get("/app-91e2b4c7a630.js"))
                 .andExpect(status().isOk())
