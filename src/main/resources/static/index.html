@@ -25,8 +25,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=1">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=1">
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=6.1">
-    <script src="/app-91e2b4c7a630.js?v=6.2" defer></script>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=7.0">
+    <script src="/app-91e2b4c7a630.js?v=7.0" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -45,14 +45,15 @@
 
     <div class="app-layout">
         <form class="input-stack" id="fire-form" novalidate>
-            <section class="panel form-panel" aria-labelledby="fire-form-title">
+            <section class="panel form-panel wizard-panel" aria-labelledby="fire-form-title">
                 <div class="section-heading">
                     <div>
                         <p class="step-label step-label-with-logo">
                             <img class="step-label-logo" src="/images/logo-percorso-indipendenza.png?v=1" alt="" width="22" height="22">
-                            <span>I dati FIRE</span>
+                            <span>Percorso guidato</span>
                         </p>
-                        <h2 id="fire-form-title">Costruisci lo scenario FIRE</h2>
+                        <h2 id="fire-form-title">Costruisci il tuo scenario</h2>
+                        <p class="wizard-intro">Parti dall'obiettivo FIRE e completa il piano di accumulo un passaggio alla volta.</p>
                     </div>
                     <button class="text-button" id="reset-button" type="button">Ripristina valori</button>
                 </div>
@@ -60,8 +61,24 @@
                 <div id="form-error" class="alert" role="alert" tabindex="-1" hidden></div>
                 <div id="fire-input-warnings" class="input-warnings" role="status" aria-live="polite" hidden></div>
 
-                <fieldset>
-                    <legend>Obiettivo FIRE</legend>
+                <nav class="wizard-progress" aria-label="Avanzamento configurazione">
+                    <ol>
+                        <li aria-current="step"><span>1</span><strong>Età</strong></li>
+                        <li><span>2</span><strong>Metodo</strong></li>
+                        <li><span>3</span><strong>Obiettivo</strong></li>
+                        <li><span>4</span><strong>Ipotesi</strong></li>
+                        <li><span>5</span><strong>Fiscalità</strong></li>
+                        <li><span>6</span><strong>PAC</strong></li>
+                    </ol>
+                </nav>
+
+                <div class="wizard-steps">
+                <section class="wizard-step" data-wizard-step="1" aria-labelledby="wizard-step-1-title">
+                    <div class="wizard-step-heading">
+                        <p>Passaggio 1 di 6 · I dati FIRE</p>
+                        <h3 id="wizard-step-1-title">Quando vuoi entrare nel FIRE?</h3>
+                        <span>Le età determinano il tempo disponibile per accumulare il capitale.</span>
+                    </div>
                     <div class="field-grid">
                         <label class="field" data-help="currentAge">
                             <span>Età attuale</span>
@@ -73,14 +90,46 @@
                             <input id="fireAge" name="fireAge" type="number" min="0" max="130" step="1" value="50" required>
                             <small>Deve essere almeno pari all'età attuale</small>
                         </label>
-                        <label class="field field-wide" data-help="method">
-                            <span>Metodo di calcolo</span>
-                            <select id="method" name="method" aria-describedby="method-description" required>
-                                <option value="FINITE">Durata finita</option>
-                                <option value="SWR">Safe Withdrawal Rate</option>
-                            </select>
-                            <small id="method-description" aria-live="polite">Calcola il capitale per finanziare la spesa mensile per la durata FIRE scelta.</small>
-                        </label>
+                    </div>
+                </section>
+
+                <section class="wizard-step" data-wizard-step="2" aria-labelledby="wizard-step-2-title">
+                    <div class="wizard-step-heading">
+                        <p>Passaggio 2 di 6</p>
+                        <h3 id="wizard-step-2-title">Scegli il metodo di calcolo</h3>
+                        <span>Entrambi stimano il capitale necessario, ma rispondono a esigenze diverse.</span>
+                    </div>
+                    <div class="method-choice-field" data-help="method">
+                        <p>Metodo di calcolo</p>
+                        <div class="method-choice-grid" role="radiogroup" aria-describedby="method-description">
+                            <label class="method-choice-card">
+                                <input type="radio" name="method" value="FINITE" checked required>
+                                <span class="method-choice-copy">
+                                    <strong>Durata finita</strong>
+                                    <small>Finanzia un numero preciso di anni e permette di scegliere il capitale finale desiderato.</small>
+                                    <em>Ideale per un orizzonte definito</em>
+                                </span>
+                            </label>
+                            <label class="method-choice-card">
+                                <input type="radio" name="method" value="SWR" required>
+                                <span class="method-choice-copy">
+                                    <strong>Safe Withdrawal Rate</strong>
+                                    <small>Parte da un tasso di prelievo iniziale e verifica la sostenibilità lungo l'orizzonte scelto.</small>
+                                    <em>Utile come benchmark FIRE</em>
+                                </span>
+                            </label>
+                        </div>
+                        <small id="method-description" class="method-description" aria-live="polite">Calcola il capitale per finanziare la spesa mensile per la durata FIRE scelta.</small>
+                    </div>
+                </section>
+
+                <section class="wizard-step" data-wizard-step="3" aria-labelledby="wizard-step-3-title">
+                    <div class="wizard-step-heading">
+                        <p>Passaggio 3 di 6</p>
+                        <h3 id="wizard-step-3-title">Definisci il tuo obiettivo FIRE</h3>
+                        <span>Indica la spesa desiderata e completa i parametri specifici del metodo scelto.</span>
+                    </div>
+                    <div class="field-grid">
                         <label class="field field-align-label" data-help="fireDurationYears">
                             <span id="fire-duration-label">Durata del FIRE</span>
                             <span class="input-suffix">
@@ -95,27 +144,6 @@
                                 <span>€</span>
                                 <input id="monthlyExpenseToday" name="monthlyExpenseToday" type="number" min="0" max="1000000000000" step="1" value="1600" required>
                             </span>
-                        </label>
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Ipotesi finanziarie</legend>
-                    <div class="field-grid">
-                        <label class="field" data-help="annualInflationRate">
-                            <span>Inflazione annua</span>
-                            <span class="input-suffix">
-                                <input id="annualInflationRate" name="annualInflationRate" type="number" min="-99.99" max="100" step="0.01" value="2" required>
-                                <span>%</span>
-                            </span>
-                        </label>
-                        <label class="field" data-help="annualFireReturnRate">
-                            <span>Rendimento annuo nel FIRE</span>
-                            <span class="input-suffix">
-                                <input id="annualFireReturnRate" name="annualFireReturnRate" type="number" min="-99.99" max="100" step="0.01" value="5" required>
-                                <span>%</span>
-                            </span>
-                            <small>Al netto dei costi, prima delle imposte personali</small>
                         </label>
                         <label class="field" id="swr-field" data-help="annualSafeWithdrawalRate" hidden>
                             <span>Safe Withdrawal Rate</span>
@@ -134,10 +162,39 @@
                             <small>Inserisci zero se prevedi di consumare il capitale nel periodo scelto.</small>
                         </label>
                     </div>
-                </fieldset>
+                </section>
 
-                <fieldset>
-                    <legend>Fiscalità semplificata</legend>
+                <section class="wizard-step" data-wizard-step="4" aria-labelledby="wizard-step-4-title">
+                    <div class="wizard-step-heading">
+                        <p>Passaggio 4 di 6</p>
+                        <h3 id="wizard-step-4-title">Imposta le ipotesi finanziarie</h3>
+                        <span>Usa valori medi coerenti con il tuo scenario di lungo periodo.</span>
+                    </div>
+                    <div class="field-grid">
+                        <label class="field" data-help="annualInflationRate">
+                            <span>Inflazione annua</span>
+                            <span class="input-suffix">
+                                <input id="annualInflationRate" name="annualInflationRate" type="number" min="-99.99" max="100" step="0.01" value="2" required>
+                                <span>%</span>
+                            </span>
+                        </label>
+                        <label class="field" data-help="annualFireReturnRate">
+                            <span>Rendimento annuo nel FIRE</span>
+                            <span class="input-suffix">
+                                <input id="annualFireReturnRate" name="annualFireReturnRate" type="number" min="-99.99" max="100" step="0.01" value="5" required>
+                                <span>%</span>
+                            </span>
+                            <small>Al netto dei costi, prima delle imposte personali</small>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="wizard-step" data-wizard-step="5" aria-labelledby="wizard-step-5-title">
+                    <div class="wizard-step-heading">
+                        <p>Passaggio 5 di 6</p>
+                        <h3 id="wizard-step-5-title">Considera la fiscalità</h3>
+                        <span>I valori iniziali rappresentano la stima ordinaria utilizzata dal modello.</span>
+                    </div>
                     <div class="field-grid">
                         <label class="field" data-help="capitalGainsTaxRate">
                             <span>Aliquota sulle plusvalenze</span>
@@ -157,31 +214,16 @@
                         </label>
                     </div>
                     <p class="fieldset-note">La stima non distingue strumenti agevolati, minusvalenze compensabili o regimi fiscali diversi.</p>
-                </fieldset>
+                </section>
 
-                <button class="primary-button" id="calculate-fire-button" type="submit">
-                    <span class="button-label">Calcola FIRE e PAC</span>
-                    <span class="button-loader" aria-hidden="true"></span>
-                </button>
-
-            </section>
-
-            <section class="panel form-panel" aria-labelledby="pac-form-title">
-                <div class="section-heading">
-                    <div>
-                        <p class="step-label step-label-with-logo">
-                            <img class="step-label-logo" src="/images/logo-percorso-indipendenza.png?v=1" alt="" width="22" height="22">
-                            <span>I dati PAC</span>
-                        </p>
-                        <h2 id="pac-form-title">Pianifica l'accumulo</h2>
+                <section class="wizard-step" data-wizard-step="6" aria-labelledby="pac-form-title">
+                    <div class="wizard-step-heading">
+                        <p>Passaggio 6 di 6 · I dati PAC</p>
+                        <h3 id="pac-form-title">Pianifica l'accumulo</h3>
+                        <span>Inserisci il patrimonio già investito e le ipotesi con cui vuoi raggiungere il target.</span>
                     </div>
-                </div>
-
-                <div id="pac-form-error" class="alert" role="alert" tabindex="-1" hidden></div>
-                <div id="pac-input-warnings" class="input-warnings" role="status" aria-live="polite" hidden></div>
-
-                <fieldset>
-                    <legend>Piano di accumulo</legend>
+                    <div id="pac-form-error" class="alert" role="alert" tabindex="-1" hidden></div>
+                    <div id="pac-input-warnings" class="input-warnings" role="status" aria-live="polite" hidden></div>
                     <div class="field-grid">
                         <label class="field" data-help="currentCapital">
                             <span>Patrimonio investito oggi</span>
@@ -221,13 +263,20 @@
                             <small>È il capitale fiscalmente investito ancora attribuibile al portafoglio, non il suo valore di mercato.</small>
                         </label>
                     </div>
-                </fieldset>
+                    <button class="primary-button wizard-submit" id="calculate-fire-button" type="submit">
+                        <span class="button-label">Calcola il mio scenario</span>
+                        <span class="button-loader" aria-hidden="true"></span>
+                    </button>
+                </section>
+                </div>
 
-                <button class="primary-button" id="calculate-pac-button" type="button" disabled>
+                <div class="wizard-recalculation-actions" hidden>
+                    <button class="primary-button" id="calculate-pac-button" type="button" disabled>
                     <span class="button-label">Aggiorna FIRE e PAC</span>
                     <span class="button-loader" aria-hidden="true"></span>
-                </button>
-                <small class="button-help" id="pac-calculation-help">Calcola prima lo scenario completo per definire il patrimonio da raggiungere.</small>
+                    </button>
+                    <small class="button-help" id="pac-calculation-help">Calcola prima lo scenario completo per definire il patrimonio da raggiungere.</small>
+                </div>
             </section>
         </form>
 

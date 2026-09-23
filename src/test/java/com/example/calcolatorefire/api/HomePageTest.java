@@ -53,7 +53,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("name=\"twitter:card\" content=\"summary_large_image\"")))
                 .andExpect(content().string(containsString("rel=\"canonical\" href=\"https://simulatorefire.com/\"")))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=6.1\"")))
+                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=7.0\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
                 .andExpect(content().string(containsString("Stima il patrimonio necessario e il PAC mensile per raggiungere il tuo obiettivo FIRE.")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
@@ -62,6 +62,14 @@ class HomePageTest {
                 .andExpect(content().string(containsString("class=\"brand-logo\"")))
                 .andExpect(content().string(containsString("src=\"/images/logo-percorso-indipendenza.png?v=1\"")))
                 .andExpect(content().string(containsString("id=\"fire-form\"")))
+                .andExpect(content().string(containsString("class=\"wizard-progress\"")))
+                .andExpect(content().string(containsString("aria-label=\"Avanzamento configurazione\"")))
+                .andExpect(content().string(containsString("data-wizard-step=\"1\"")))
+                .andExpect(content().string(containsString("data-wizard-step=\"2\"")))
+                .andExpect(content().string(containsString("data-wizard-step=\"3\"")))
+                .andExpect(content().string(containsString("data-wizard-step=\"4\"")))
+                .andExpect(content().string(containsString("data-wizard-step=\"5\"")))
+                .andExpect(content().string(containsString("data-wizard-step=\"6\"")))
                 .andExpect(content().string(containsString("id=\"accumulation-chart\"")))
                 .andExpect(content().string(containsString("id=\"decumulation-chart\"")))
                 .andExpect(content().string(containsString("id=\"resource-projections\"")))
@@ -71,6 +79,10 @@ class HomePageTest {
                 .andExpect(content().string(containsString(">Fase di accumulo PAC<")))
                 .andExpect(content().string(containsString(">Fase di decumulo FIRE<")))
                 .andExpect(content().string(containsString("id=\"method-description\"")))
+                .andExpect(content().string(containsString("name=\"method\" value=\"FINITE\" checked required")))
+                .andExpect(content().string(containsString("name=\"method\" value=\"SWR\" required")))
+                .andExpect(content().string(containsString(">Durata finita<")))
+                .andExpect(content().string(containsString(">Safe Withdrawal Rate<")))
                 .andExpect(content().string(containsString("id=\"fire-duration-label\"")))
                 .andExpect(content().string(containsString("id=\"fire-duration-description\"")))
                 .andExpect(content().string(containsString("class=\"field field-align-label\" data-help=\"fireDurationYears\"")))
@@ -80,13 +92,13 @@ class HomePageTest {
                 .andExpect(content().string(containsString("data-help=\"personalFinalBalance\"")))
                 .andExpect(content().string(containsString("Patrimonio residuo stimato a fine FIRE")))
                 .andExpect(content().string(containsString("id=\"parameter-help-dialog\"")))
-                .andExpect(content().string(containsString(">I dati FIRE<")))
-                .andExpect(content().string(containsString(">I dati PAC<")))
+                .andExpect(content().string(containsString("Passaggio 1 di 6")))
+                .andExpect(content().string(containsString("Passaggio 6 di 6")))
                 .andExpect(content().string(containsString("class=\"step-label-logo\"")))
                 .andExpect(content().string(containsString(">Il risultato FIRE<")))
                 .andExpect(content().string(containsString(">Il risultato PAC<")))
                 .andExpect(content().string(containsString("id=\"calculate-fire-button\" type=\"submit\"")))
-                .andExpect(content().string(containsString(">Calcola FIRE e PAC<")))
+                .andExpect(content().string(containsString(">Calcola il mio scenario<")))
                 .andExpect(content().string(containsString("id=\"calculate-pac-button\" type=\"button\" disabled")))
                 .andExpect(content().string(containsString(">Aggiorna FIRE e PAC<")))
                 .andExpect(content().string(containsString("id=\"fire-results-content\" hidden")))
@@ -125,18 +137,26 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=6.2\"")))
+                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=7.0\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
 
         String page = mockMvc.perform(get("/index.html"))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        int methodPosition = page.indexOf("id=\"method\"");
+        int ageStepPosition = page.indexOf("data-wizard-step=\"1\"");
+        int methodPosition = page.indexOf("name=\"method\" value=\"FINITE\"");
         int durationPosition = page.indexOf("id=\"fireDurationYears\"");
         int expensePosition = page.indexOf("id=\"monthlyExpenseToday\"");
+        int assumptionsPosition = page.indexOf("data-wizard-step=\"4\"");
+        int taxationPosition = page.indexOf("data-wizard-step=\"5\"");
+        int pacPosition = page.indexOf("data-wizard-step=\"6\"");
+        assertTrue(ageStepPosition >= 0 && ageStepPosition < methodPosition);
         assertTrue(methodPosition >= 0 && methodPosition < durationPosition);
         assertTrue(methodPosition < expensePosition);
+        assertTrue(expensePosition < assumptionsPosition);
+        assertTrue(assumptionsPosition < taxationPosition);
+        assertTrue(taxationPosition < pacPosition);
     }
 
     @Test

@@ -491,8 +491,11 @@ helpDialog.addEventListener("click", (event) => {
 });
 
 const defaults = Object.fromEntries(new FormData(form).entries());
-const methodSelect = form.elements.namedItem("method");
-methodSelect.addEventListener("change", updateMethodFields);
+form.addEventListener("change", (event) => {
+    if (event.target.name === "method") {
+        updateMethodFields();
+    }
+});
 updateMethodFields();
 setMainTaxBasisMode(false);
 updateInputWarnings();
@@ -715,7 +718,7 @@ resourcesList.addEventListener("input", updateResourceWarnings);
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    await runFullCalculation(calculateFireButton, "Calcola FIRE e PAC");
+    await runFullCalculation(calculateFireButton, "Calcola il mio scenario");
 });
 
 calculateResourcesButton.addEventListener("click", async () => {
