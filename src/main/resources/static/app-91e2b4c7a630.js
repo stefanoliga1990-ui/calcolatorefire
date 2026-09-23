@@ -23,6 +23,12 @@ const resourceErrorBox = document.querySelector("#resource-form-error");
 const fireInputWarnings = document.querySelector("#fire-input-warnings");
 const pacInputWarnings = document.querySelector("#pac-input-warnings");
 const resourceInputWarnings = document.querySelector("#resource-input-warnings");
+const wizardSteps = [...document.querySelectorAll("[data-wizard-step]")];
+const wizardProgressItems = [...document.querySelectorAll("[data-wizard-progress-step]")];
+const wizardBackButton = document.querySelector("#wizard-back-button");
+const wizardNextButton = document.querySelector("#wizard-next-button");
+const wizardStepStatus = document.querySelector("#wizard-step-status");
+const wizardProgress = document.querySelector(".wizard-progress");
 
 const MAX_AGE = 130;
 const MAX_ADDITIONAL_RESOURCES = 100;
@@ -33,6 +39,7 @@ let renderedMethod = null;
 let lastFireRequest = null;
 let resourceCounter = 0;
 let mainTaxBasisManual = false;
+let currentWizardStep = 1;
 
 const currency = new Intl.NumberFormat("it-IT", {
     style: "currency",
@@ -496,9 +503,57 @@ form.addEventListener("change", (event) => {
         updateMethodFields();
     }
 });
+wizardNextButton.addEventListener("click", advanceWizard);
+wizardBackButton.addEventListener("click", () => {
+    clearErrors();
+    showWizardStep(currentWizardStep - 1, { focusHeading: true, scroll: true });
+});
 updateMethodFields();
 setMainTaxBasisMode(false);
 updateInputWarnings();
+showWizardStep(1);
+
+function advanceWizard() {
+    clearErrors();
+    if (!validateWizardStep(currentWizardStep, true)) {
+        return;
+    }
+    showWizardStep(currentWizardStep + 1, { focusHeading: true, scroll: true });
+}
+
+function showWizardStep(stepNumber, { focusHeading = false, scroll = false } = {}) {
+    const boundedStep = Math.min(Math.max(stepNumber, 1), wizardSteps.length);
+    currentWizardStep = boundedStep;
+
+    for (const step of wizardSteps) {
+        step.hidden = Number(step.dataset.wizardStep) !== boundedStep;
+    }
+    for (const item of wizardProgressItems) {
+        const itemStep = Number(item.dataset.wizardProgressStep);
+        item.classList.toggle("is-complete", itemStep < boundedStep);
+        if (itemStep === boundedStep) {
+            item.setAttribute("aria-current", "step");
+        } else {
+            item.removeAttribute("aria-current");
+        }
+    }
+
+    wizardBackButton.hidden = boundedStep === 1;
+    wizardNextButton.hidden = boundedStep === wizardSteps.length;
+    calculateFireButton.hidden = boundedStep !== wizardSteps.length;
+    wizardStepStatus.textContent = `Passaggio ${boundedStep} di ${wizardSteps.length}`;
+
+    const activeStep = wizardSteps[boundedStep - 1];
+    if (focusHeading) {
+        const heading = activeStep.querySelector("h3");
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+    }
+    if (scroll) {
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        wizardProgress.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    }
+}
 
 function attachParameterHelp(root = document) {
     root.querySelectorAll("[data-help]").forEach((container) => {
@@ -718,6 +773,10 @@ resourcesList.addEventListener("input", updateResourceWarnings);
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (currentWizardStep < wizardSteps.length) {
+        advanceWizard();
+        return;
+    }
     await runFullCalculation(calculateFireButton, "Calcola il mio scenario");
 });
 
@@ -728,7 +787,7 @@ calculateResourcesButton.addEventListener("click", async () => {
 async function runFullCalculation(triggerButton, idleLabel) {
     clearErrors();
 
-    if (!validateScenarioLimits() || !form.reportValidity() || !validateAdditionalResources()) {
+    if (!validateAllWizardSteps() || !validateAdditionalResources()) {
         return;
     }
 
@@ -837,10 +896,12 @@ resetButton.addEventListener("click", () => {
     resourceProjections.hidden = true;
     resourceChartGrid.replaceChildren();
     destroyCharts();
+    showWizardStep(1);
     form.querySelector("input, select")?.focus();
 });
 
 editButton.addEventListener("click", () => {
+    showWizardStep(1);
     document.querySelector("#fire-form-title").scrollIntoView({ behavior: "smooth", block: "start" });
     form.querySelector("input, select")?.focus({ preventScroll: true });
 });
@@ -1226,14 +1287,59 @@ function validateAdditionalResources() {
     return true;
 }
 
-function validateScenarioLimits() {
+function validateWizardStep(stepNumber, reportInvalid) {
+    const step = wizardSteps[stepNumber - 1];
+    if (!step) {
+        return true;
+    }
+
+    if (stepNumber === 1) {
+        const currentAgeControl = form.elements.namedItem("currentAge");
+        const fireAgeControl = form.elements.namedItem("fireAge");
+        fireAgeControl.setCustomValidity("");
+        if (currentAgeControl.checkValidity() && fireAgeControl.checkValidity()
+                && Number(fireAgeControl.value) < Number(currentAgeControl.value)) {
+            fireAgeControl.setCustomValidity("L'età di ingresso nel FIRE deve essere almeno pari all'età attuale.");
+        }
+    }
+
+    if (stepNumber === 3) {
+        validateScenarioLimits(false);
+    }
+
+    const controls = [...step.querySelectorAll("input:not(:disabled), select:not(:disabled), textarea:not(:disabled)")];
+    const invalidControl = controls.find((control) => !control.checkValidity());
+    if (!invalidControl) {
+        return true;
+    }
+    if (reportInvalid) {
+        invalidControl.reportValidity();
+        invalidControl.focus({ preventScroll: true });
+    }
+    return false;
+}
+
+function validateAllWizardSteps() {
+    for (let stepNumber = 1; stepNumber <= wizardSteps.length; stepNumber += 1) {
+        if (!validateWizardStep(stepNumber, false)) {
+            showWizardStep(stepNumber, { scroll: true });
+            validateWizardStep(stepNumber, true);
+            return false;
+        }
+    }
+    return true;
+}
+
+function validateScenarioLimits(reportInvalid = true) {
     const durationControl = form.elements.namedItem("fireDurationYears");
     durationControl.setCustomValidity("");
     const fireAge = controlNumber("fireAge");
     const duration = controlNumber("fireDurationYears");
     if (Number.isFinite(fireAge) && Number.isFinite(duration) && fireAge + duration > MAX_AGE) {
         durationControl.setCustomValidity(`L'età finale della simulazione non può superare ${MAX_AGE} anni.`);
-        durationControl.reportValidity();
+        if (reportInvalid) {
+            durationControl.reportValidity();
+        }
         return false;
     }
     return true;

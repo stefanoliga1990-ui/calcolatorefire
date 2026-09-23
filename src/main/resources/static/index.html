@@ -25,8 +25,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=1">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=1">
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=7.0">
-    <script src="/app-91e2b4c7a630.js?v=7.0" defer></script>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=7.1">
+    <script src="/app-91e2b4c7a630.js?v=7.1" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -63,12 +63,12 @@
 
                 <nav class="wizard-progress" aria-label="Avanzamento configurazione">
                     <ol>
-                        <li aria-current="step"><span>1</span><strong>Età</strong></li>
-                        <li><span>2</span><strong>Metodo</strong></li>
-                        <li><span>3</span><strong>Obiettivo</strong></li>
-                        <li><span>4</span><strong>Ipotesi</strong></li>
-                        <li><span>5</span><strong>Fiscalità</strong></li>
-                        <li><span>6</span><strong>PAC</strong></li>
+                        <li data-wizard-progress-step="1" aria-current="step"><span>1</span><strong>Età</strong></li>
+                        <li data-wizard-progress-step="2"><span>2</span><strong>Metodo</strong></li>
+                        <li data-wizard-progress-step="3"><span>3</span><strong>Obiettivo</strong></li>
+                        <li data-wizard-progress-step="4"><span>4</span><strong>Ipotesi</strong></li>
+                        <li data-wizard-progress-step="5"><span>5</span><strong>Fiscalità</strong></li>
+                        <li data-wizard-progress-step="6"><span>6</span><strong>PAC</strong></li>
                     </ol>
                 </nav>
 
@@ -93,15 +93,15 @@
                     </div>
                 </section>
 
-                <section class="wizard-step" data-wizard-step="2" aria-labelledby="wizard-step-2-title">
+                <section class="wizard-step" data-wizard-step="2" aria-labelledby="wizard-step-2-title" hidden>
                     <div class="wizard-step-heading">
                         <p>Passaggio 2 di 6</p>
                         <h3 id="wizard-step-2-title">Scegli il metodo di calcolo</h3>
                         <span>Entrambi stimano il capitale necessario, ma rispondono a esigenze diverse.</span>
                     </div>
                     <div class="method-choice-field" data-help="method">
-                        <p>Metodo di calcolo</p>
-                        <div class="method-choice-grid" role="radiogroup" aria-describedby="method-description">
+                        <p id="method-choice-label">Metodo di calcolo</p>
+                        <div class="method-choice-grid" role="radiogroup" aria-labelledby="method-choice-label" aria-describedby="method-description">
                             <label class="method-choice-card">
                                 <input type="radio" name="method" value="FINITE" checked required>
                                 <span class="method-choice-copy">
@@ -123,7 +123,7 @@
                     </div>
                 </section>
 
-                <section class="wizard-step" data-wizard-step="3" aria-labelledby="wizard-step-3-title">
+                <section class="wizard-step" data-wizard-step="3" aria-labelledby="wizard-step-3-title" hidden>
                     <div class="wizard-step-heading">
                         <p>Passaggio 3 di 6</p>
                         <h3 id="wizard-step-3-title">Definisci il tuo obiettivo FIRE</h3>
@@ -164,7 +164,7 @@
                     </div>
                 </section>
 
-                <section class="wizard-step" data-wizard-step="4" aria-labelledby="wizard-step-4-title">
+                <section class="wizard-step" data-wizard-step="4" aria-labelledby="wizard-step-4-title" hidden>
                     <div class="wizard-step-heading">
                         <p>Passaggio 4 di 6</p>
                         <h3 id="wizard-step-4-title">Imposta le ipotesi finanziarie</h3>
@@ -189,7 +189,7 @@
                     </div>
                 </section>
 
-                <section class="wizard-step" data-wizard-step="5" aria-labelledby="wizard-step-5-title">
+                <section class="wizard-step" data-wizard-step="5" aria-labelledby="wizard-step-5-title" hidden>
                     <div class="wizard-step-heading">
                         <p>Passaggio 5 di 6</p>
                         <h3 id="wizard-step-5-title">Considera la fiscalità</h3>
@@ -216,7 +216,7 @@
                     <p class="fieldset-note">La stima non distingue strumenti agevolati, minusvalenze compensabili o regimi fiscali diversi.</p>
                 </section>
 
-                <section class="wizard-step" data-wizard-step="6" aria-labelledby="pac-form-title">
+                <section class="wizard-step" data-wizard-step="6" aria-labelledby="pac-form-title" hidden>
                     <div class="wizard-step-heading">
                         <p>Passaggio 6 di 6 · I dati PAC</p>
                         <h3 id="pac-form-title">Pianifica l'accumulo</h3>
@@ -263,11 +263,21 @@
                             <small>È il capitale fiscalmente investito ancora attribuibile al portafoglio, non il suo valore di mercato.</small>
                         </label>
                     </div>
-                    <button class="primary-button wizard-submit" id="calculate-fire-button" type="submit">
+                </section>
+                </div>
+
+                <div class="wizard-navigation" aria-label="Navigazione tra i passaggi">
+                    <button class="secondary-button wizard-back" id="wizard-back-button" type="button" hidden>
+                        Indietro
+                    </button>
+                    <p id="wizard-step-status" aria-live="polite">Passaggio 1 di 6</p>
+                    <button class="primary-button wizard-next" id="wizard-next-button" type="button">
+                        Continua
+                    </button>
+                    <button class="primary-button wizard-submit" id="calculate-fire-button" type="submit" hidden>
                         <span class="button-label">Calcola il mio scenario</span>
                         <span class="button-loader" aria-hidden="true"></span>
                     </button>
-                </section>
                 </div>
 
                 <div class="wizard-recalculation-actions" hidden>
