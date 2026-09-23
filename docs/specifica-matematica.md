@@ -1,6 +1,6 @@
 # Calcolo FIRE Italia — specifica matematica del motore
 
-Stato: convenzioni matematiche dell'MVP approvate; estensione per risorse aggiuntive implementata e verificata. La fiscalità semplificata è implementata nel dominio ed esposta dall'API nella sezione `fiscal`; il frontend non è ancora collegato ai nuovi input e risultati. Si veda `docs/specifica-fiscalita-semplificata.md`.
+Stato: convenzioni matematiche dell'MVP approvate; estensione per risorse aggiuntive implementata e verificata. La fiscalità semplificata è implementata nel dominio, esposta dall'API nella sezione `fiscal` e collegata al frontend. Si veda `docs/specifica-fiscalita-semplificata.md`.
 
 Questa specifica è la fonte primaria del motore Java. Il workbook Excel resta un riferimento funzionale, ma non è un golden master finché le differenze indicate in fondo al documento non vengono corrette.
 

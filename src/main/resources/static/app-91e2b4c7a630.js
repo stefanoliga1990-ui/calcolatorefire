@@ -32,6 +32,7 @@ let chartCleanups = { accumulation: null, decumulation: null, resources: [] };
 let renderedMethod = null;
 let lastFireRequest = null;
 let resourceCounter = 0;
+let mainTaxBasisManual = false;
 
 const currency = new Intl.NumberFormat("it-IT", {
     style: "currency",
@@ -52,31 +53,39 @@ const methodDescriptions = {
 const finiteTargetFormula = {
     expressions: [
         "D_k = max(0, W_k − R_k)",
-        "T_N = max(0, L_FIRE − K_terminale)",
-        "T_(k−1) = max(0, D_k − K_k + T_k ÷ (1 + r_f,m))",
-        "T_finite = T_0"
+        "p_k = max(0, B_k − F_k) ÷ B_k",
+        "G_k = D_k ÷ (1 − τ × p_k)",
+        "tax_k = G_k × p_k × τ",
+        "T_finite = minimo B₀ che copre ogni D_k e il capitale finale"
     ],
     symbols: [
         ["T_finite", "target nominale calcolato con il metodo Durata finita"],
         ["W_k", "spesa lorda nominale del mese FIRE k"],
         ["R_k", "rendite periodiche utilizzabili nel mese k"],
         ["D_k", "prelievo netto richiesto al portafoglio nel mese k"],
-        ["K_k", "capitali una tantum disponibili all’inizio del mese k"],
-        ["K_terminale", "capitale una tantum ricevuto al confine finale"],
-        ["r_f,m", "rendimento nominale mensile equivalente durante il FIRE"],
+        ["B_k", "valore del portafoglio nel mese k"],
+        ["F_k", "costo fiscale residuo nel mese k"],
+        ["p_k", "quota imponibile della vendita"],
+        ["G_k", "vendita lorda necessaria per ottenere D_k netti"],
+        ["τ", "aliquota sulle plusvalenze"],
+        ["tax_k", "imposta sulla plusvalenza realizzata"],
         ["L_FIRE", "capitale finale desiderato in valore nominale alla fine del FIRE"]
     ]
 };
 
 const swrTargetFormula = {
     expressions: [
-        "T_SWR,base = W₁ × 12 ÷ SWR",
+        "G₁ = D₁ ÷ (1 − τ × p₁)",
+        "T_SWR,base = G₁ × 12 ÷ SWR",
         "T_SWR = min(T_SWR,base, capitale ponte + riserva del regime stabile)"
     ],
     symbols: [
         ["T_SWR,base", "target calcolato ignorando le risorse aggiuntive"],
         ["T_SWR", "target selezionato dopo rendite e capitali futuri"],
-        ["W₁", "prima spesa mensile lorda nominale all’ingresso nel FIRE"],
+        ["D₁", "fabbisogno netto del primo mese dopo le rendite"],
+        ["G₁", "vendita lorda necessaria per ottenere D₁ dopo l’imposta"],
+        ["τ", "aliquota sulle plusvalenze"],
+        ["p₁", "quota di plusvalenza imponibile nella prima vendita"],
         ["12", "numero di mesi usato per trasformare il prelievo mensile in spesa annua"],
         ["SWR", "tasso annuo di prelievo iniziale, espresso in forma decimale"],
         ["capitale ponte", "capitale necessario prima dell’inizio del regime stabile"],
@@ -107,20 +116,19 @@ const selectedTargetFormulas = {
 
 const contributionFormula = {
     expressions: [
-        "C₁ = Gap ÷ F",
-        "Gap = max(0, T_target − FV_disponibile)",
-        "F = [(1 + r_a,m)^N_acc − (1 + g_m)^N_acc] ÷ (r_a,m − g_m)",
-        "Se r_a,m = g_m:  F = N_acc × (1 + r_a,m)^(N_acc − 1)"
+        "B_j = [B_(j−1) × (1 + r_a,m) + C_j + I_j] × (1 − b_m)",
+        "F_j = F_(j−1) + C_j + I_j",
+        "C₁ = minimo versamento che raggiunge il target fiscale"
     ],
     symbols: [
         ["C₁", "PAC del primo mese, versato a fine mese"],
-        ["Gap", "capitale che i nuovi versamenti devono ancora costruire"],
-        ["F", "fattore di capitalizzazione dei versamenti mensili"],
-        ["T_target", "patrimonio necessario secondo il metodo selezionato: T_finite oppure T_SWR"],
-        ["FV_disponibile", "patrimonio principale e risorse aggiuntive disponibili all’ingresso nel FIRE, prima del nuovo PAC"],
+        ["B_j", "saldo del portafoglio alla fine del mese j"],
+        ["F_j", "costo fiscale alla fine del mese j"],
+        ["C_j", "versamento PAC del mese j"],
+        ["I_j", "altri apporti netti investiti nel mese j"],
+        ["b_m", "tasso mensile equivalente del bollo"],
         ["r_a,m", "rendimento mensile equivalente nella fase di accumulo"],
-        ["g_m", "crescita mensile equivalente del PAC"],
-        ["N_acc", "numero di mesi disponibili per l’accumulo"]
+        ["target fiscale", "target che dipende dal costo fiscale prodotto dall’accumulo"]
     ]
 };
 
@@ -147,22 +155,22 @@ const totalContributionsFormula = {
 
 const personalFinalBalanceFormula = {
     expressions: [
-        "B₀ = max(T_target, B_acc)",
         "D_k = max(0, W_k − R_k)",
-        "A_k = min(B_(k−1) + K_k, D_k)",
-        "B_k = max(0, [B_(k−1) + K_k − A_k] × (1 + r_f,m))",
+        "G_k = D_k ÷ (1 − τ × p_k)",
+        "B_k = max(0, B_(k−1) + K_k − G_k) × (1 + r_f,m) × (1 − b_m)",
         "Capitale_finale = B_N_FIRE"
     ],
     symbols: [
         ["B₀", "capitale personale disponibile all’inizio del FIRE"],
-        ["T_target", "patrimonio necessario secondo il metodo selezionato"],
-        ["B_acc", "patrimonio effettivamente raggiunto al termine dell’accumulo"],
         ["k", "numero progressivo del mese FIRE"],
         ["W_k", "spesa lorda nominale nel mese k"],
         ["R_k", "rendite che riducono il fabbisogno nel mese k"],
         ["D_k", "prelievo netto programmato"],
         ["K_k", "capitali una tantum ricevuti all’inizio del mese k"],
-        ["A_k", "prelievo effettivamente coperto nel mese k"],
+        ["G_k", "vendita lorda necessaria a produrre il fabbisogno netto"],
+        ["p_k", "quota imponibile della vendita"],
+        ["τ", "aliquota sulle plusvalenze"],
+        ["b_m", "tasso mensile equivalente del bollo"],
         ["B_k", "capitale alla fine del mese k"],
         ["r_f,m", "rendimento nominale mensile equivalente durante il FIRE"],
         ["N_FIRE", "numero totale di mesi della durata FIRE"]
@@ -217,6 +225,16 @@ const parameterHelp = {
         reference: "Non esiste un valore universale. Per un controllo prudente confronta 3%, 4% e 5%. Le previsioni di mercato cambiano nel tempo e il portafoglio in decumulo può rendere meno di uno azionario.",
         source: { label: "Previsioni dei rendimenti Vanguard", url: "https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-return-forecasts.html" }
     },
+    capitalGainsTaxRate: {
+        title: "Aliquota sulle plusvalenze",
+        description: "È l'aliquota applicata soltanto alla quota di guadagno compresa nelle vendite del portafoglio. I rendimenti non vengono tassati mentre maturano.",
+        reference: "Il valore iniziale del 26% rappresenta l'aliquota ordinaria usata dalla stima semplificata. Modificalo soltanto se vuoi simulare un'aliquota diversa."
+    },
+    annualStampDutyRate: {
+        title: "Imposta di bollo annuale",
+        description: "È una riduzione stimata del patrimonio investito, applicata ogni mese con un tasso equivalente all'aliquota annuale inserita.",
+        reference: "Il valore iniziale dello 0,20% rappresenta il bollo annuale ordinario usato dalla stima semplificata."
+    },
     annualSafeWithdrawalRate: {
         title: "Safe Withdrawal Rate",
         description: "È la percentuale del patrimonio prelevata nel primo anno. L'importo viene poi adeguato all'inflazione. Una percentuale più alta abbassa il target ma aumenta il rischio di esaurimento.",
@@ -232,6 +250,11 @@ const parameterHelp = {
         title: "Patrimonio investito oggi",
         description: "È il capitale già investito che partecipa al piano di accumulo e sul quale si aggiungeranno i versamenti del PAC.",
         reference: "Inserisci solo il patrimonio realmente destinato al FIRE. Escludi fondo di emergenza, abitazione e somme che prevedi di spendere prima del FIRE."
+    },
+    currentTaxBasis: {
+        title: "Costo fiscale del patrimonio",
+        description: "È la parte del valore corrente fiscalmente attribuibile al capitale investito. La differenza positiva tra patrimonio e costo fiscale rappresenta la plusvalenza latente.",
+        reference: "Se non lo modifichi, coincide automaticamente con l'intero patrimonio corrente. Può essere superiore al valore corrente in presenza di una minusvalenza latente."
     },
     annualAccumulationReturnRate: {
         title: "Rendimento annuo in accumulo",
@@ -253,6 +276,11 @@ const parameterHelp = {
         title: "Patrimonio già investito",
         description: "È il saldo attuale di questo investimento separato dal patrimonio principale.",
         reference: "Non includere qui somme già inserite in Patrimonio investito oggi."
+    },
+    resourceTaxBasis: {
+        title: "Costo fiscale dell'investimento",
+        description: "È il capitale fiscalmente investito ancora attribuibile a questa risorsa e serve a stimare la plusvalenza imponibile nelle vendite future.",
+        reference: "Se non lo modifichi, coincide automaticamente con il patrimonio già investito della risorsa."
     },
     resourceMonthlyContribution: {
         title: "Versamento mensile già programmato",
@@ -402,6 +430,11 @@ const parameterHelp = {
         description: "È la spesa mensile di oggi rivalutata con l'inflazione fino all'età FIRE. Viene prelevata all'inizio del primo mese e alimenta entrambi i metodi.",
         formula: firstWithdrawalFormula
     },
+    firstGrossSale: {
+        title: "Prima vendita mensile dal portafoglio",
+        description: "È il valore lordo delle quote da vendere nel primo mese FIRE per ottenere il fabbisogno netto dopo l'imposta sulla plusvalenza realizzata.",
+        reference: "Non tutto il prelievo è tassato: l'imposta si applica soltanto alla quota di plusvalenza contenuta nella vendita."
+    },
     finiteTarget: {
         title: "Target a durata finita",
         description: "È il capitale necessario per finanziare tutti i prelievi della durata scelta e terminare con il capitale finale desiderato. Usa una rendita anticipata perché il primo prelievo è immediato.",
@@ -421,6 +454,26 @@ const parameterHelp = {
         title: "Patrimonio residuo stimato a fine FIRE",
         description: "È il patrimonio nominale residuo al termine della durata FIRE, dopo prelievi e rendimenti. Può superare il capitale finale desiderato se il patrimonio accumulato all'ingresso nel FIRE supera il target. Se si esaurisce prima, il risultato mostra 0 € e l'avviso indica il primo mese non interamente coperto.",
         formula: personalFinalBalanceFormula
+    },
+    targetTaxBasis: {
+        title: "Costo fiscale del target al FIRE",
+        description: "È il costo fiscale proporzionalmente associato al capitale target all'ingresso nel FIRE. Serve a determinare quanta parte delle vendite future sarà imponibile."
+    },
+    latentGainAtFire: {
+        title: "Plusvalenza latente del target",
+        description: "È la differenza positiva tra il target FIRE e il suo costo fiscale. Non è tassata subito: diventa imponibile in proporzione quando vengono vendute quote."
+    },
+    firstCapitalGainsTax: {
+        title: "Imposta sulla prima vendita",
+        description: "È l'imposta stimata sulla sola plusvalenza realizzata nella prima vendita mensile del FIRE."
+    },
+    totalEstimatedTaxes: {
+        title: "Fiscalità totale stimata",
+        description: "Somma il bollo dell'accumulo e del FIRE e le imposte sulle plusvalenze delle vendite nella proiezione personale. Non rappresenta una dichiarazione fiscale."
+    },
+    accumulationStampDuty: {
+        title: "Bollo stimato in accumulo",
+        description: "È la somma del bollo mensile equivalente stimato sui patrimoni investiti durante la fase di accumulo. La liquidità non investita è esclusa."
     }
 };
 
@@ -441,6 +494,7 @@ const defaults = Object.fromEntries(new FormData(form).entries());
 const methodSelect = form.elements.namedItem("method");
 methodSelect.addEventListener("change", updateMethodFields);
 updateMethodFields();
+setMainTaxBasisMode(false);
 updateInputWarnings();
 
 function attachParameterHelp(root = document) {
@@ -606,6 +660,12 @@ resourceTypePicker.addEventListener("click", (event) => {
 });
 
 resourcesList.addEventListener("click", async (event) => {
+    const taxBasisToggle = event.target.closest('[data-tax-basis-toggle="resource"]');
+    if (taxBasisToggle) {
+        const card = taxBasisToggle.closest(".resource-card");
+        setResourceTaxBasisMode(card, card.dataset.taxBasisManual !== "true");
+        return;
+    }
     const removeButton = event.target.closest("[data-remove-resource]");
     if (!removeButton) {
         return;
@@ -617,6 +677,12 @@ resourcesList.addEventListener("click", async (event) => {
     updateResourceWarnings();
     if (wasIncludedInLastCalculation && lastFireRequest !== null) {
         await runFullCalculation(calculateResourcesButton, "Ricalcola FIRE e PAC");
+    }
+});
+
+form.addEventListener("click", (event) => {
+    if (event.target.closest('[data-tax-basis-toggle="main"]')) {
+        setMainTaxBasisMode(!mainTaxBasisManual);
     }
 });
 
@@ -668,7 +734,7 @@ async function runFullCalculation(triggerButton, idleLabel) {
         renderProjectionCharts(result.body, request);
         renderResourceProjectionCharts(result.body, request);
         calculatePacButton.disabled = false;
-        setText("pac-calculation-help", "Modifica i dati PAC e usa questo pulsante per aggiornare soltanto il piano di accumulo.");
+        setText("pac-calculation-help", "La fiscalità collega target e accumulo: modificando questi dati verranno aggiornati entrambi.");
 
         if (window.matchMedia("(max-width: 920px)").matches) {
             document.querySelector("#results").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -695,7 +761,7 @@ calculatePacButton.addEventListener("click", async () => {
     const request = { ...lastFireRequest, ...buildPacRequest() };
     calculateFireButton.disabled = true;
     calculateResourcesButton.disabled = true;
-    setLoading(calculatePacButton, true, "Ricalcola solo il PAC");
+    setLoading(calculatePacButton, true, "Aggiorna FIRE e PAC");
     try {
         const result = await calculate(request);
         if (!result.ok) {
@@ -703,16 +769,20 @@ calculatePacButton.addEventListener("click", async () => {
             return;
         }
 
+        lastFireRequest = structuredClone(request);
+        renderFireResults(result.body, request);
         renderPacResults(result.body, request);
+        renderAdditionalResourcesResult(result.body, request);
+        renderResourcePacImpactMessages(result.body, request);
         renderResourceProjectionCharts(result.body, request);
-        renderAccumulationChart(result.body, request);
+        renderProjectionCharts(result.body, request);
         if (window.matchMedia("(max-width: 920px)").matches) {
             document.querySelector(".pac-results-panel").scrollIntoView({ behavior: "smooth", block: "start" });
         }
     } catch (error) {
         showError("Non è stato possibile ricalcolare il PAC. Riprova tra poco.", false, pacErrorBox);
     } finally {
-        setLoading(calculatePacButton, false, "Ricalcola solo il PAC");
+        setLoading(calculatePacButton, false, "Aggiorna FIRE e PAC");
         calculateFireButton.disabled = false;
         calculateResourcesButton.disabled = false;
     }
@@ -725,6 +795,7 @@ resetButton.addEventListener("click", () => {
             control.value = value;
         }
     }
+    setMainTaxBasisMode(false);
     updateMethodFields();
     clearErrors();
     renderedMethod = null;
@@ -734,7 +805,7 @@ resetButton.addEventListener("click", () => {
     fireResultsPlaceholder.hidden = false;
     pacResultsPlaceholder.hidden = false;
     calculatePacButton.disabled = true;
-    setText("pac-calculation-help", "Calcola prima il FIRE per definire il patrimonio da raggiungere.");
+    setText("pac-calculation-help", "Calcola prima lo scenario completo per definire il patrimonio da raggiungere.");
     resourcesList.replaceChildren();
     resourcesResult.hidden = true;
     resourcesActions.hidden = true;
@@ -769,6 +840,9 @@ function buildRequest() {
         currentCapital: number("currentCapital"),
         annualAccumulationReturnRate: percent("annualAccumulationReturnRate"),
         annualContributionGrowthRate: percent("annualContributionGrowthRate"),
+        capitalGainsTaxRate: percent("capitalGainsTaxRate"),
+        annualStampDutyRate: percent("annualStampDutyRate"),
+        currentTaxBasis: mainTaxBasisManual ? number("currentTaxBasis") : null,
         additionalResources: buildAdditionalResources()
     };
 }
@@ -777,8 +851,52 @@ function buildPacRequest() {
     return {
         currentCapital: number("currentCapital"),
         annualAccumulationReturnRate: percent("annualAccumulationReturnRate"),
-        annualContributionGrowthRate: percent("annualContributionGrowthRate")
+        annualContributionGrowthRate: percent("annualContributionGrowthRate"),
+        currentTaxBasis: mainTaxBasisManual ? number("currentTaxBasis") : null
     };
+}
+
+function setMainTaxBasisMode(manual) {
+    mainTaxBasisManual = manual;
+    const field = document.querySelector("#current-tax-basis-field");
+    const input = form.elements.namedItem("currentTaxBasis");
+    const toggle = document.querySelector('[data-tax-basis-toggle="main"]');
+    field.hidden = !manual;
+    input.disabled = !manual;
+    input.required = manual;
+    toggle.textContent = manual ? "Usa il valore automatico" : "Modifica";
+    toggle.setAttribute("aria-expanded", String(manual));
+    if (manual) {
+        input.value = number("currentCapital");
+        input.focus();
+    } else {
+        input.value = number("currentCapital");
+        input.removeAttribute("aria-invalid");
+        input.setCustomValidity("");
+    }
+}
+
+function setResourceTaxBasisMode(card, manual) {
+    if (!card || card.dataset.resourceType !== "EXISTING_INVESTMENT") {
+        return;
+    }
+    card.dataset.taxBasisManual = String(manual);
+    const field = card.querySelector("[data-resource-tax-basis-field]");
+    const input = resourceField(card, "taxBasis");
+    const toggle = card.querySelector('[data-tax-basis-toggle="resource"]');
+    field.hidden = !manual;
+    input.disabled = !manual;
+    input.required = manual;
+    toggle.textContent = manual ? "Usa il valore automatico" : "Modifica";
+    toggle.setAttribute("aria-expanded", String(manual));
+    if (manual) {
+        input.value = resourceNumber(card, "currentCapital");
+        input.focus();
+    } else {
+        input.value = resourceNumber(card, "currentCapital");
+        input.removeAttribute("aria-invalid");
+        input.setCustomValidity("");
+    }
 }
 
 function addResource(type) {
@@ -787,6 +905,7 @@ function addResource(type) {
     card.className = "resource-card";
     card.dataset.resourceType = type;
     card.dataset.resourceId = String(resourceCounter);
+    card.dataset.taxBasisManual = "false";
     card.innerHTML = resourceCardMarkup(type, resourceCounter);
     const pacImpact = document.createElement("p");
     pacImpact.className = "resource-pac-impact";
@@ -800,6 +919,9 @@ function addResource(type) {
     resourcesList.append(card);
     attachParameterHelp(card);
     updateResourceConditionalFields(card);
+    if (type === "EXISTING_INVESTMENT") {
+        setResourceTaxBasisMode(card, false);
+    }
     updateResourcesState();
     updateResourceWarnings();
     scrollToResourceElement(card);
@@ -851,6 +973,10 @@ function resourceCardMarkup(type, id) {
                 <label class="field" data-help="resourceReturnRate"><span>Rendimento annuo della risorsa</span><span class="input-suffix"><input data-resource-field="annualReturnRate" type="number" min="-99.99" max="100" step="0.01" value="5" required><span>%</span></span></label>
                 <label class="field" data-help="resourceContributionGrowthRate"><span>Crescita annua dei versamenti</span><span class="input-suffix"><input data-resource-field="annualContributionGrowthRate" type="number" min="-99.99" max="100" step="0.01" value="0" required><span>%</span></span></label>
                 <label class="field checkbox-field field-wide" data-help="resourceAvailableAtFire"><span>Disponibile all'ingresso nel FIRE</span><span class="checkbox-control"><input data-resource-field="availableAtFire" type="checkbox" checked><span>Il saldo contribuirà al patrimonio FIRE</span></span></label>
+            </div>
+            <div class="tax-basis-control" data-resource-tax-basis-control>
+                <p>Il costo fiscale viene inizialmente considerato uguale all'intero patrimonio della risorsa. <button class="inline-action" type="button" data-tax-basis-toggle="resource" aria-expanded="false" aria-controls="resource-${id}-tax-basis-field">Modifica</button></p>
+                <label class="field" id="resource-${id}-tax-basis-field" data-resource-tax-basis-field data-help="resourceTaxBasis" hidden><span>Costo fiscale dell'investimento</span><span class="input-prefix"><span>€</span><input data-resource-field="taxBasis" type="number" min="0" max="${MAX_AMOUNT}" step="1" value="0" disabled></span><small>È il capitale fiscalmente investito ancora attribuibile a questa risorsa.</small></label>
             </div>`;
     }
 
@@ -1027,7 +1153,18 @@ function buildAdditionalResources() {
         const type = card.dataset.resourceType;
         const name = resourceValue(card, "name").trim() || null;
         if (type === "EXISTING_INVESTMENT") {
-            return { type, name, currentCapital: resourceNumber(card, "currentCapital"), initialMonthlyContribution: resourceNumber(card, "initialMonthlyContribution"), contributionStartAge: resourceNullableNumber(card, "contributionStartAge"), contributionEndAge: resourceNullableNumber(card, "contributionEndAge"), annualReturnRate: resourcePercent(card, "annualReturnRate"), annualContributionGrowthRate: resourcePercent(card, "annualContributionGrowthRate"), availableAtFire: resourceField(card, "availableAtFire").checked };
+            return {
+                type,
+                name,
+                currentCapital: resourceNumber(card, "currentCapital"),
+                taxBasis: card.dataset.taxBasisManual === "true" ? resourceNumber(card, "taxBasis") : null,
+                initialMonthlyContribution: resourceNumber(card, "initialMonthlyContribution"),
+                contributionStartAge: resourceNullableNumber(card, "contributionStartAge"),
+                contributionEndAge: resourceNullableNumber(card, "contributionEndAge"),
+                annualReturnRate: resourcePercent(card, "annualReturnRate"),
+                annualContributionGrowthRate: resourcePercent(card, "annualContributionGrowthRate"),
+                availableAtFire: resourceField(card, "availableAtFire").checked
+            };
         }
         if (type === "PERIODIC_INCOME") {
             return { type, name, monthlyAmountToday: resourceNumber(card, "monthlyAmountToday"), annualGrowthRate: resourcePercent(card, "annualGrowthRate"), startAge: resourceNumber(card, "startAge"), endAge: resourceNullableNumber(card, "endAge"), investBeforeFire: resourceField(card, "investBeforeFire").checked, offsetDuringFire: resourceField(card, "offsetDuringFire").checked };
@@ -1089,9 +1226,16 @@ function renderAdditionalResourcesResult(data, request) {
         resourcesActions.hidden = true;
         return;
     }
+    const fiscalPortfolios = data.fiscal.accumulation.portfolios;
+    const existingBalance = fiscalPortfolios
+        .filter((portfolio) => portfolio.sourceType === "EXISTING_INVESTMENT" && portfolio.availableAtFire)
+        .reduce((sum, portfolio) => sum + portfolio.finalBalance, 0);
+    const futureBalance = fiscalPortfolios
+        .filter((portfolio) => portfolio.sourceType === "FUTURE_LUMP_SUM" && portfolio.availableAtFire)
+        .reduce((sum, portfolio) => sum + portfolio.finalBalance, 0);
     setText("resource-invested-income", money(data.accumulation.totalNominalAdditionalIncomeInvested));
-    setText("resource-existing-balance", money(data.accumulation.availableExistingInvestmentsFinalBalance));
-    setText("resource-lump-balance", money(data.accumulation.availableFutureLumpSumsFinalBalance));
+    setText("resource-existing-balance", money(existingBalance));
+    setText("resource-lump-balance", money(futureBalance));
     setText("resource-first-income", `${money(data.target.firstMonthlyAdditionalIncome)} / mese`);
     setText("resource-first-net-withdrawal", `${money(data.target.firstMonthlyNetWithdrawal)} / mese`);
     setText("resource-fire-inflows", money(data.decumulation.totalCapitalInflows));
@@ -1108,12 +1252,11 @@ function renderResourcePacImpactMessages(data, request) {
 }
 
 function resourceContributesToPac(data, resource, resourceIndex) {
-    if (!resource || data.target.selectedTarget <= 0) {
+    if (!resource || data.fiscal.target.selectedTarget <= 0) {
         return false;
     }
     if (resource.type === "EXISTING_INVESTMENT") {
-        const result = data.accumulation.existingInvestments
-            .find((item) => item.resourceIndex === resourceIndex);
+        const result = fiscalResourcePortfolio(data, "EXISTING_INVESTMENT", resourceIndex);
         return resource.availableAtFire && (result?.finalBalance ?? 0) > 0;
     }
     if (resource.type === "PERIODIC_INCOME") {
@@ -1122,10 +1265,16 @@ function resourceContributesToPac(data, resource, resourceIndex) {
         return resource.investBeforeFire
             && result?.projection.slice(0, data.accumulationMonths).some((point) => point.monthlyAmount > 0);
     }
-    const result = data.accumulation.futureLumpSums
+    const legacyResult = data.accumulation.futureLumpSums
         .find((item) => item.resourceIndex === resourceIndex);
-    return (result?.receiptMonth ?? Number.POSITIVE_INFINITY) <= data.accumulationMonths
-        && (result?.balanceAtFire ?? 0) > 0;
+    const fiscalResult = fiscalResourcePortfolio(data, "FUTURE_LUMP_SUM", resourceIndex);
+    return (legacyResult?.receiptMonth ?? Number.POSITIVE_INFINITY) <= data.accumulationMonths
+        && (fiscalResult?.finalBalance ?? 0) > 0;
+}
+
+function fiscalResourcePortfolio(data, sourceType, resourceIndex) {
+    return data.fiscal.accumulation.portfolios
+        .find((portfolio) => portfolio.sourceType === sourceType && portfolio.resourceIndex === resourceIndex);
 }
 
 function resourceField(card, name) {
@@ -1160,22 +1309,28 @@ async function calculate(request) {
 
 function renderFireResults(data, request) {
     const method = request.method;
+    const fiscal = data.fiscal;
     renderedMethod = method;
     setText("result-method", methodLabels[method]);
-    setText("selected-target", money(data.target.selectedTarget));
-    setText("selected-target-today", `${money(data.target.selectedTargetToday)} in euro di oggi`);
-    setText("first-withdrawal", `${money(data.target.firstMonthlyWithdrawal)} / mese`);
+    setText("selected-target", money(fiscal.target.selectedTarget));
+    setText("selected-target-today", `${money(fiscal.target.selectedTargetToday)} in euro di oggi`);
+    setText("first-gross-sale", `${money(fiscal.target.firstRequiredGrossSale)} / mese`);
+    setText("first-sale-details", `${money(fiscal.target.firstNetProceeds)} netti · ${money(fiscal.target.firstCapitalGainsTax)} di imposta`);
     const isSwr = method === "SWR";
     document.querySelector("#finite-target-row").hidden = isSwr;
     document.querySelector("#swr-target-row").hidden = !isSwr;
     if (isSwr) {
-        setText("swr-target", money(data.target.safeWithdrawalRateTarget));
+        setText("swr-target", money(fiscal.target.safeWithdrawalRateTarget));
     } else {
-        setText("finite-target", money(data.target.finiteTarget));
+        setText("finite-target", money(fiscal.target.finiteTarget));
     }
-    setText("personal-final-balance", money(data.decumulation.personalFinalBalance));
+    setText("personal-final-balance", money(fiscal.decumulation.personal.finalBalance));
+    setText("target-tax-basis", money(fiscal.target.taxBasis));
+    setText("target-latent-gain", money(fiscal.target.latentGain));
+    setText("first-capital-gains-tax", money(fiscal.target.firstCapitalGainsTax));
+    setText("total-estimated-taxes", money(fiscal.totals.totalEstimatedTaxes));
 
-    const depletionMonth = data.decumulation.depletionMonth;
+    const depletionMonth = fiscal.decumulation.personal.depletionMonth;
     const fireResultNote = document.querySelector("#fire-result-note");
     fireResultNote.hidden = depletionMonth === null;
     if (depletionMonth !== null) {
@@ -1190,10 +1345,14 @@ function renderFireResults(data, request) {
 }
 
 function renderPacResults(data, request) {
-    const contribution = data.accumulation.initialMonthlyContribution;
-    setText("monthly-contribution", `${money(data.accumulation.initialMonthlyContribution)} / mese`);
+    const fiscal = data.fiscal;
+    const mainPortfolio = fiscal.accumulation.portfolios
+        .find((portfolio) => portfolio.sourceType === "MAIN_PORTFOLIO");
+    const contribution = fiscal.accumulation.initialMonthlyContribution;
+    setText("monthly-contribution", `${money(contribution)} / mese`);
     setText("accumulation-time", `${formatMonths(data.accumulationMonths)} per raggiungere il target`);
-    setText("total-contributions", money(data.accumulation.totalNominalContributions));
+    setText("total-contributions", money(mainPortfolio?.totalContributions ?? 0));
+    setText("accumulation-stamp-duty", money(fiscal.totals.accumulationStampDuty));
 
     const pacNote = contribution === 0
         ? "Il patrimonio che possiedi oggi è già sufficiente nello scenario inserito: il PAC richiesto è zero."
@@ -1256,6 +1415,9 @@ function findControlForApiField(fieldName) {
 
 function validatePacInputs() {
     const names = ["currentCapital", "annualAccumulationReturnRate", "annualContributionGrowthRate"];
+    if (mainTaxBasisManual) {
+        names.push("currentTaxBasis");
+    }
     for (const name of names) {
         const control = form.elements.namedItem(name);
         if (!control.checkValidity()) {
@@ -1403,20 +1565,25 @@ function renderResourceProjectionCharts(data, request) {
 function resourceChartDefinition(data, resource, resourceIndex) {
     const title = resource.name || `Risorsa ${resourceIndex + 1}`;
     if (resource.type === "EXISTING_INVESTMENT") {
-        const result = data.accumulation.existingInvestments
-            .find((item) => item.resourceIndex === resourceIndex);
+        const result = fiscalResourcePortfolio(data, "EXISTING_INVESTMENT", resourceIndex);
         if (!result) {
             return null;
         }
-        const points = result.projection.map((point) => ({
-            age: point.age,
-            balance: point.closingBalance,
-            contributions: resource.currentCapital + point.cumulativeContributions
-        }));
+        let cumulativeContributions = resource.currentCapital;
+        const points = result.projection.map((point, index) => {
+            if (index > 0) {
+                cumulativeContributions += point.contribution;
+            }
+            return {
+                age: point.age,
+                balance: point.closingBalance,
+                contributions: cumulativeContributions
+            };
+        });
         return {
             title,
             typeLabel: "Investimento o PAC esistente",
-            summary: `Da ${money(points[0]?.balance ?? 0)} a ${money(result.finalBalance)} all'ingresso nel FIRE.`,
+            summary: `Da ${money(points[0]?.balance ?? 0)} a ${money(result.finalBalance)} all'ingresso nel FIRE, al netto del bollo stimato.`,
             data: points,
             series: [
                 { key: "balance", label: "Valore della risorsa", className: "series-one" },
@@ -1455,14 +1622,18 @@ function resourceChartDefinition(data, resource, resourceIndex) {
     if (!result) {
         return null;
     }
+    const fiscalResult = fiscalResourcePortfolio(data, "FUTURE_LUMP_SUM", resourceIndex);
+    const projection = fiscalResult
+        ? fiscalResult.projection.map((point) => ({ age: point.age, amount: point.closingBalance }))
+        : result.projection.map((point) => ({ age: point.age, amount: point.availableAmount }));
+    const fiscalSummary = fiscalResult && fiscalResult.stampDutyApplicable
+        ? " Il valore è al netto del bollo stimato."
+        : "";
     return {
         title,
         typeLabel: "Capitale futuro",
-        summary: `${money(result.nominalAmountAtReceipt)} disponibili all'età di ${formatAge(result.receiptAge)} anni.`,
-        data: result.projection.map((point) => ({
-            age: point.age,
-            amount: point.availableAmount
-        })),
+        summary: `${money(result.nominalAmountAtReceipt)} disponibili all'età di ${formatAge(result.receiptAge)} anni.${fiscalSummary}`,
+        data: projection,
         series: [{ key: "amount", label: "Valore disponibile", className: "series-one" }]
     };
 }
@@ -1470,18 +1641,28 @@ function resourceChartDefinition(data, resource, resourceIndex) {
 function renderAccumulationChart(data) {
     chartCleanups.accumulation?.();
 
-    const initialCapital = data.accumulation.projection[0]?.totalAvailableBalance ?? 0;
-    const accumulationData = data.accumulation.projection.map((point) => ({
-        age: point.age,
-        balance: point.totalAvailableBalance ?? point.closingBalance,
-        contributions: (data.accumulation.projection[0]?.closingBalance ?? 0)
-            + point.cumulativeContributions
-            + (point.cumulativeAdditionalIncome ?? 0)
-    }));
+    const portfolios = data.fiscal.accumulation.portfolios
+        .filter((portfolio) => portfolio.availableAtFire);
+    const pointCount = portfolios[0]?.projection.length ?? 0;
+    let cumulativeCapital = portfolios.reduce((sum, portfolio) => sum + portfolio.initialBalance, 0);
+    const accumulationData = Array.from({ length: pointCount }, (_, index) => {
+        if (index > 0) {
+            cumulativeCapital += portfolios.reduce((sum, portfolio) => {
+                const point = portfolio.projection[index];
+                return sum + point.contribution + point.netInflows;
+            }, 0);
+        }
+        return {
+            age: portfolios[0].projection[index].age,
+            balance: portfolios.reduce((sum, portfolio) => sum + portfolio.projection[index].closingBalance, 0),
+            contributions: cumulativeCapital
+        };
+    });
+    const initialCapital = accumulationData[0]?.balance ?? 0;
 
     setText(
         "accumulation-chart-summary",
-        `Da ${money(initialCapital)} a ${money(data.accumulation.projectedFinalBalance)} tra ${data.accumulation.projection[0]?.age ?? 0} e ${data.accumulation.projection.at(-1)?.age ?? 0} anni, in euro nominali.`
+        `Da ${money(initialCapital)} a ${money(data.fiscal.accumulation.availableBalanceAtFire)} tra ${accumulationData[0]?.age ?? 0} e ${accumulationData.at(-1)?.age ?? 0} anni, al netto del bollo stimato.`
     );
 
     chartCleanups.accumulation = createProjectionChart({
@@ -1500,8 +1681,9 @@ function renderDecumulationChart(data) {
     chartCleanups.decumulation?.();
 
     let cumulativeWithdrawals = 0;
-    const decumulationData = data.decumulation.projection.map((point) => {
-        cumulativeWithdrawals += point.actualWithdrawal;
+    const projection = data.fiscal.decumulation.personal.projection;
+    const decumulationData = projection.map((point) => {
+        cumulativeWithdrawals += point.netProceeds;
         return {
             age: point.age,
             balance: point.closingBalance,
@@ -1511,7 +1693,7 @@ function renderDecumulationChart(data) {
 
     setText(
         "decumulation-chart-summary",
-        `Da ${money(data.decumulation.personalStartBalance)} a ${money(data.decumulation.personalFinalBalance)} nei ${data.fireMonths / 12} anni di FIRE, in euro nominali.`
+        `Da ${money(data.fiscal.decumulation.personal.initialBalance)} a ${money(data.fiscal.decumulation.personal.finalBalance)} nei ${data.fireMonths / 12} anni di FIRE, dopo imposte e bollo stimati.`
     );
 
     chartCleanups.decumulation = createProjectionChart({
@@ -1521,7 +1703,7 @@ function renderDecumulationChart(data) {
         data: decumulationData,
         series: [
             { key: "balance", label: "Patrimonio", className: "series-one" },
-            { key: "withdrawals", label: "Prelievi cumulati", className: "series-two" }
+            { key: "withdrawals", label: "Prelievi netti cumulati", className: "series-two" }
         ]
     });
 }

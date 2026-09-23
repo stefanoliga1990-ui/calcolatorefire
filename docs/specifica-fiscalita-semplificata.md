@@ -2,8 +2,8 @@
 
 Stato: Step 1 approvato; Step 2 implementato come motore fiscale isolato;
 Step 3 implementato per l'accumulo; Step 4 implementato per target, PAC e
-decumulo congiunti; Step 5 integrato nel contratto API. Il frontend non usa
-ancora i nuovi input e risultati fiscali.
+decumulo congiunti; Step 5 integrato nel contratto API; Step 6 integrato e
+verificato nel frontend.
 
 Questo documento estende `docs/specifica-matematica.md`. In caso di fiscalità
 attiva, le regole seguenti prevalgono sulle formule prive di imposte soltanto
@@ -512,3 +512,30 @@ irraggiungibile uno scenario.
 Il frontend resta invariato in questo step e continuerà a mostrare i risultati
 precedenti finché gli input e le viste fiscali non saranno collegati nello step
 successivo.
+
+## 16. Integrazione frontend — Step 6
+
+Il frontend invia ora aliquota sulle plusvalenze e imposta di bollo con i
+default approvati, rispettivamente `26%` e `0,20%`. Il costo fiscale del
+patrimonio principale e degli investimenti esistenti resta automatico e pari
+al relativo valore corrente; il collegamento **Modifica** apre il campo in euro
+e consente di sostituire il default. **Usa il valore automatico** ripristina la
+regola predefinita.
+
+Le viste usano la sezione API `fiscal` come fonte autorevole e mostrano:
+
+- target fiscalizzato e relativo costo fiscale;
+- plusvalenza latente all'ingresso nel FIRE;
+- vendita lorda del primo mese, ricavo netto e imposta stimata;
+- fiscalità totale e bollo stimato durante l'accumulo;
+- PAC richiesto, patrimonio residuo e grafici al netto della fiscalità
+  semplificata.
+
+La fiscalità rende interdipendenti target e accumulo: per questo il pulsante
+del riquadro PAC aggiorna entrambi i risultati e le relative proiezioni. Anche
+gli investimenti aggiuntivi inviano l'eventuale costo fiscale manuale e usano
+le rispettive proiezioni fiscali nei riepiloghi e nei grafici.
+
+La verifica reale nel browser ha coperto il valore automatico, l'inserimento
+manuale, un calcolo completo, un investimento aggiuntivo, i grafici e
+l'assenza di errori o warning nella console.

@@ -25,8 +25,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=1">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=1">
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=5.7">
-    <script src="/app-91e2b4c7a630.js?v=5.5" defer></script>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=6.0">
+    <script src="/app-91e2b4c7a630.js?v=6.0" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -135,6 +135,29 @@
                     </div>
                 </fieldset>
 
+                <fieldset>
+                    <legend>Fiscalità semplificata</legend>
+                    <div class="field-grid">
+                        <label class="field" data-help="capitalGainsTaxRate">
+                            <span>Aliquota sulle plusvalenze</span>
+                            <span class="input-suffix">
+                                <input id="capitalGainsTaxRate" name="capitalGainsTaxRate" type="number" min="0" max="99.99" step="0.01" value="26" required>
+                                <span>%</span>
+                            </span>
+                            <small>Il 26% è l'aliquota ordinaria stimata sulla sola plusvalenza realizzata.</small>
+                        </label>
+                        <label class="field" data-help="annualStampDutyRate">
+                            <span>Imposta di bollo annuale</span>
+                            <span class="input-suffix">
+                                <input id="annualStampDutyRate" name="annualStampDutyRate" type="number" min="0" max="99.99" step="0.01" value="0.20" required>
+                                <span>%</span>
+                            </span>
+                            <small>Lo 0,20% è la stima applicata ogni anno al patrimonio investito.</small>
+                        </label>
+                    </div>
+                    <p class="fieldset-note">La stima non distingue strumenti agevolati, minusvalenze compensabili o regimi fiscali diversi.</p>
+                </fieldset>
+
                 <button class="primary-button" id="calculate-fire-button" type="submit">
                     <span class="button-label">Calcola FIRE e PAC</span>
                     <span class="button-loader" aria-hidden="true"></span>
@@ -183,13 +206,27 @@
                             <small>Con 0% il versamento resta costante; altrimenti cambia ogni mese.</small>
                         </label>
                     </div>
+                    <div class="tax-basis-control" data-tax-basis-control="main">
+                        <p>
+                            Il costo fiscale viene inizialmente considerato uguale all'intero patrimonio.
+                            <button class="inline-action" type="button" data-tax-basis-toggle="main" aria-expanded="false" aria-controls="current-tax-basis-field">Modifica</button>
+                        </p>
+                        <label class="field" id="current-tax-basis-field" data-help="currentTaxBasis" hidden>
+                            <span>Costo fiscale del patrimonio</span>
+                            <span class="input-prefix">
+                                <span>€</span>
+                                <input id="currentTaxBasis" name="currentTaxBasis" type="number" min="0" max="1000000000000" step="1" value="0" disabled>
+                            </span>
+                            <small>È il capitale fiscalmente investito ancora attribuibile al portafoglio, non il suo valore di mercato.</small>
+                        </label>
+                    </div>
                 </fieldset>
 
                 <button class="primary-button" id="calculate-pac-button" type="button" disabled>
-                    <span class="button-label">Ricalcola solo il PAC</span>
+                    <span class="button-label">Aggiorna FIRE e PAC</span>
                     <span class="button-loader" aria-hidden="true"></span>
                 </button>
-                <small class="button-help" id="pac-calculation-help">Calcola prima il FIRE per definire il patrimonio da raggiungere.</small>
+                <small class="button-help" id="pac-calculation-help">Calcola prima lo scenario completo per definire il patrimonio da raggiungere.</small>
             </section>
         </form>
 
@@ -215,10 +252,10 @@
                         <span id="selected-target-today">— in euro di oggi</span>
                     </div>
 
-                    <article class="result-card fire-withdrawal-card" data-help="firstMonthlyWithdrawal">
-                        <p>Primo prelievo mensile</p>
-                        <strong id="first-withdrawal">—</strong>
-                        <span>all'inizio del primo mese FIRE</span>
+                    <article class="result-card fire-withdrawal-card" data-help="firstGrossSale">
+                        <p>Prima vendita mensile dal portafoglio</p>
+                        <strong id="first-gross-sale">—</strong>
+                        <span id="first-sale-details">— netti dopo le imposte</span>
                     </article>
 
                     <dl class="result-list">
@@ -233,6 +270,22 @@
                         <div data-help="personalFinalBalance">
                             <dt>Patrimonio residuo stimato a fine FIRE</dt>
                             <dd id="personal-final-balance">—</dd>
+                        </div>
+                        <div data-help="targetTaxBasis">
+                            <dt>Costo fiscale del target al FIRE</dt>
+                            <dd id="target-tax-basis">—</dd>
+                        </div>
+                        <div data-help="latentGainAtFire">
+                            <dt>Plusvalenza latente del target</dt>
+                            <dd id="target-latent-gain">—</dd>
+                        </div>
+                        <div data-help="firstCapitalGainsTax">
+                            <dt>Imposta sulla prima vendita</dt>
+                            <dd id="first-capital-gains-tax">—</dd>
+                        </div>
+                        <div data-help="totalEstimatedTaxes">
+                            <dt>Fiscalità totale stimata</dt>
+                            <dd id="total-estimated-taxes">—</dd>
                         </div>
                     </dl>
 
@@ -265,6 +318,10 @@
                         <div data-help="totalNominalContributions">
                             <dt>Nuovi versamenti nominali</dt>
                             <dd id="total-contributions">—</dd>
+                        </div>
+                        <div data-help="accumulationStampDuty">
+                            <dt>Bollo stimato in accumulo</dt>
+                            <dd id="accumulation-stamp-duty">—</dd>
                         </div>
                     </dl>
 
@@ -399,7 +456,7 @@
                             <span class="legend-swatch series-one" aria-hidden="true"></span>Patrimonio
                         </button>
                         <button type="button" data-chart="decumulation" data-series="withdrawals" aria-pressed="true">
-                            <span class="legend-swatch series-two" aria-hidden="true"></span>Prelievi cumulati
+                            <span class="legend-swatch series-two" aria-hidden="true"></span>Prelievi netti cumulati
                         </button>
                     </div>
                 </figcaption>
@@ -437,9 +494,9 @@
     <section class="disclaimer" aria-labelledby="disclaimer-title">
         <h2 id="disclaimer-title">Prima di usare il risultato</h2>
         <p>
-            Questa simulazione ha finalità educative. Le rendite inserite sono considerate al netto delle imposte stimate dall'utente.
-            Non include fiscalità sui prelievi, volatilità o sequenza reale dei rendimenti. Non costituisce consulenza finanziaria,
-            fiscale o previdenziale.
+            Questa simulazione ha finalità educative. Include una stima fiscale semplificata di bollo e plusvalenze; le rendite
+            inserite sono considerate già al netto delle imposte stimate dall'utente. Non considera tutti i regimi e le agevolazioni
+            fiscali, la volatilità o la sequenza reale dei rendimenti. Non costituisce consulenza finanziaria, fiscale o previdenziale.
         </p>
     </section>
 </main>

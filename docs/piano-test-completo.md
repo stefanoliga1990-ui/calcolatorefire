@@ -492,3 +492,20 @@ di accumulo e 5 scenari fiscali FIRE riconciliati dal riferimento indipendente.
 Esito dopo lo Step 5: 344 test Maven, 0 errori, 0 fallimenti e 0 ignorati;
 7 golden base, 14 golden con risorse, 6 primitive fiscali, 4 scenari fiscali
 di accumulo e 5 scenari fiscali FIRE riconciliati dal riferimento indipendente.
+
+### Fase 15 — Step 6, integrazione frontend fiscale
+
+- aggiunti aliquota sulle plusvalenze e bollo annuale con default e testi
+  esplicativi;
+- aggiunto il costo fiscale automatico o manuale per il patrimonio principale
+  e per ogni investimento esistente;
+- collegata la UI alla sezione `fiscal` per target, PAC, prima vendita,
+  patrimonio residuo, imposte e bollo;
+- aggiornati i grafici con saldi fiscalizzati e prelievi netti cumulati;
+- verificato nel browser reale il flusso automatico/manuale, il calcolo
+  completo, un investimento aggiuntivo e l'assenza di errori console;
+- aggiornati i test della home page per i nuovi controlli e collegamenti JS.
+
+Esito dopo lo Step 6: 344 test Maven, 0 errori, 0 fallimenti e 0 ignorati;
+7 golden base, 14 golden con risorse, 6 primitive fiscali, 4 scenari fiscali
+di accumulo e 5 scenari fiscali FIRE riconciliati dal riferimento indipendente.

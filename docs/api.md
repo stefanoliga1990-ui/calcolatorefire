@@ -157,7 +157,8 @@ La risposta contiene:
 - `accumulation`, con PAC richiesto, risorse disponibili e proiezioni mensili;
 - `decumulation`, con spesa lorda, rendite, prelievi netti, saldo ed eventuale shortfall.
 - `fiscal`, con il calcolo fiscalizzato completo; le sezioni precedenti restano
-  invariate per compatibilità con il frontend esistente.
+  invariate per retrocompatibilità, mentre il frontend usa `fiscal` come fonte
+  autorevole per i risultati mostrati.
 
 La sezione `fiscal` è la fonte autorevole per i risultati che includono bollo e
 imposta sulle plusvalenze:
@@ -239,7 +240,7 @@ Esempio sintetico, con le serie mensili omesse:
 }
 ```
 
-Gli importi non vengono arrotondati dall'API. Il frontend applicherà la formattazione in euro senza usare i valori visualizzati per altri calcoli.
+Gli importi non vengono arrotondati dall'API. Il frontend applica la formattazione in euro senza usare i valori visualizzati per altri calcoli.
 
 ## Errori
 
