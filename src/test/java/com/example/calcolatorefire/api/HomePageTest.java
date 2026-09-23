@@ -53,7 +53,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("name=\"twitter:card\" content=\"summary_large_image\"")))
                 .andExpect(content().string(containsString("rel=\"canonical\" href=\"https://simulatorefire.com/\"")))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=7.4\"")))
+                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=7.7\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
                 .andExpect(content().string(containsString("Stima il patrimonio necessario e il PAC mensile per raggiungere il tuo obiettivo FIRE.")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
@@ -117,6 +117,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString(">Aggiorna FIRE e PAC<")))
                 .andExpect(content().string(containsString("id=\"fire-results-content\" hidden")))
                 .andExpect(content().string(containsString("id=\"pac-results-content\" hidden")))
+                .andExpect(content().string(containsString("class=\"results-actions\"")))
                 .andExpect(content().string(containsString(">Le proiezioni<")))
                 .andExpect(content().string(containsString("id=\"currentCapital\" name=\"currentCapital\" type=\"number\" min=\"0\" max=\"1000000000000\" step=\"1\" value=\"0\"")))
                 .andExpect(content().string(containsString("id=\"annualAccumulationReturnRate\" name=\"annualAccumulationReturnRate\" type=\"number\" min=\"-99.99\" max=\"100\" step=\"0.01\" value=\"5\"")))
@@ -153,7 +154,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=7.4\"")))
+                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=7.7\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
 
         String page = mockMvc.perform(get("/index.html"))
@@ -167,12 +168,19 @@ class HomePageTest {
         int assumptionsPosition = page.indexOf("data-wizard-step=\"4\"");
         int taxationPosition = page.indexOf("data-wizard-step=\"5\"");
         int pacPosition = page.indexOf("data-wizard-step=\"6\"");
+        int fireResultsPosition = page.indexOf("id=\"fire-results-content\"");
+        int pacResultsPosition = page.indexOf("id=\"pac-results-panel\"");
+        int editButtonPosition = page.indexOf("id=\"edit-button\"");
+        int resourcesPosition = page.indexOf("id=\"additional-resources\"");
         assertTrue(ageStepPosition >= 0 && ageStepPosition < methodPosition);
         assertTrue(methodPosition >= 0 && methodPosition < durationPosition);
         assertTrue(methodPosition < expensePosition);
         assertTrue(expensePosition < assumptionsPosition);
         assertTrue(assumptionsPosition < taxationPosition);
         assertTrue(taxationPosition < pacPosition);
+        assertTrue(fireResultsPosition >= 0 && fireResultsPosition < pacResultsPosition);
+        assertTrue(pacResultsPosition < editButtonPosition);
+        assertTrue(editButtonPosition < resourcesPosition);
     }
 
     @Test

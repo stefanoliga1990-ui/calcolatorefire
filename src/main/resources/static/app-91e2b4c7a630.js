@@ -526,7 +526,8 @@ form.addEventListener("change", (event) => {
 wizardNextButton.addEventListener("click", advanceWizard);
 wizardBackButton.addEventListener("click", () => {
     clearErrors();
-    showWizardStep(currentWizardStep - 1, { focusHeading: true, scroll: true });
+    wizardBackButton.blur();
+    showWizardStep(currentWizardStep - 1, { preserveScroll: true });
 });
 wizardCancelEditButton.addEventListener("click", () => {
     restoreLastCalculatedFormState();
@@ -545,10 +546,14 @@ function advanceWizard() {
     if (!validateWizardStep(currentWizardStep, true)) {
         return;
     }
-    showWizardStep(currentWizardStep + 1, { focusHeading: true, scroll: true });
+    wizardNextButton.blur();
+    showWizardStep(currentWizardStep + 1, { preserveScroll: true });
 }
 
-function showWizardStep(stepNumber, { focusHeading = false, scroll = false } = {}) {
+function showWizardStep(stepNumber, { focusHeading = false, scroll = false, preserveScroll = false } = {}) {
+    const previousScrollPosition = preserveScroll
+        ? { left: window.scrollX, top: window.scrollY }
+        : null;
     const boundedStep = Math.min(Math.max(stepNumber, 1), wizardSteps.length);
     currentWizardStep = boundedStep;
 
@@ -580,6 +585,26 @@ function showWizardStep(stepNumber, { focusHeading = false, scroll = false } = {
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         wizardProgress.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
     }
+    if (previousScrollPosition) {
+        restoreScrollPosition(previousScrollPosition);
+    }
+}
+
+function restoreScrollPosition({ left, top }) {
+    const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+    const previousOverflowAnchor = document.body.style.overflowAnchor;
+    document.documentElement.style.scrollBehavior = "auto";
+    document.body.style.overflowAnchor = "none";
+    const restore = () => window.scrollTo(left, top);
+    restore();
+    window.requestAnimationFrame(() => {
+        restore();
+        window.requestAnimationFrame(() => {
+            restore();
+            document.documentElement.style.scrollBehavior = previousScrollBehavior;
+            document.body.style.overflowAnchor = previousOverflowAnchor;
+        });
+    });
 }
 
 function enterEditMode() {

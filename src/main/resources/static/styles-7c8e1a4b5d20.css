@@ -954,6 +954,27 @@ h1 {
     line-height: 1.5;
 }
 
+.results-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    padding: 2px 0 6px;
+}
+
+.results-actions .secondary-button {
+    width: auto;
+    min-width: 220px;
+    border-color: var(--green);
+    color: var(--green-dark);
+    background: white;
+    box-shadow: 0 6px 16px rgba(14, 104, 77, 0.08);
+}
+
+.results-actions .secondary-button:hover {
+    color: var(--green-dark);
+    background: var(--green-pale);
+}
+
 .results-panel {
     color: white;
     background: var(--green-dark);
