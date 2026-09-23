@@ -26,7 +26,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=1">
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=6.0">
-    <script src="/app-91e2b4c7a630.js?v=6.0" defer></script>
+    <script src="/app-91e2b4c7a630.js?v=6.1" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -73,20 +73,6 @@
                             <input id="fireAge" name="fireAge" type="number" min="0" max="130" step="1" value="50" required>
                             <small>Deve essere almeno pari all'età attuale</small>
                         </label>
-                        <label class="field" data-help="fireDurationYears">
-                            <span>Durata del FIRE</span>
-                            <span class="input-suffix">
-                                <input id="fireDurationYears" name="fireDurationYears" type="number" min="1" max="130" step="1" value="35" required>
-                                <span>anni</span>
-                            </span>
-                        </label>
-                        <label class="field" data-help="monthlyExpenseToday">
-                            <span>Spesa mensile desiderata oggi</span>
-                            <span class="input-prefix">
-                                <span>€</span>
-                                <input id="monthlyExpenseToday" name="monthlyExpenseToday" type="number" min="0" max="1000000000000" step="1" value="1600" required>
-                            </span>
-                        </label>
                         <label class="field field-wide" data-help="method">
                             <span>Metodo di calcolo</span>
                             <select id="method" name="method" aria-describedby="method-description" required>
@@ -94,6 +80,21 @@
                                 <option value="SWR">Safe Withdrawal Rate</option>
                             </select>
                             <small id="method-description" aria-live="polite">Calcola il capitale per finanziare la spesa mensile per la durata FIRE scelta.</small>
+                        </label>
+                        <label class="field" data-help="fireDurationYears">
+                            <span id="fire-duration-label">Durata del FIRE</span>
+                            <span class="input-suffix">
+                                <input id="fireDurationYears" name="fireDurationYears" type="number" min="1" max="130" step="1" value="35" required>
+                                <span>anni</span>
+                            </span>
+                            <small id="fire-duration-description" aria-live="polite">Numero di anni che il capitale deve finanziare.</small>
+                        </label>
+                        <label class="field" data-help="monthlyExpenseToday">
+                            <span>Spesa mensile desiderata oggi</span>
+                            <span class="input-prefix">
+                                <span>€</span>
+                                <input id="monthlyExpenseToday" name="monthlyExpenseToday" type="number" min="0" max="1000000000000" step="1" value="1600" required>
+                            </span>
                         </label>
                     </div>
                 </fieldset>

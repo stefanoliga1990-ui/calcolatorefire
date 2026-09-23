@@ -71,6 +71,8 @@ class HomePageTest {
                 .andExpect(content().string(containsString(">Fase di accumulo PAC<")))
                 .andExpect(content().string(containsString(">Fase di decumulo FIRE<")))
                 .andExpect(content().string(containsString("id=\"method-description\"")))
+                .andExpect(content().string(containsString("id=\"fire-duration-label\"")))
+                .andExpect(content().string(containsString("id=\"fire-duration-description\"")))
                 .andExpect(content().string(containsString("id=\"swr-field\"")))
                 .andExpect(content().string(containsString("data-help=\"currentAge\"")))
                 .andExpect(content().string(containsString("data-help=\"personalFinalBalance\"")))
@@ -121,8 +123,18 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=6.0\"")))
+                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=6.1\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
+
+        String page = mockMvc.perform(get("/index.html"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        int methodPosition = page.indexOf("id=\"method\"");
+        int durationPosition = page.indexOf("id=\"fireDurationYears\"");
+        int expensePosition = page.indexOf("id=\"monthlyExpenseToday\"");
+        assertTrue(methodPosition >= 0 && methodPosition < durationPosition);
+        assertTrue(methodPosition < expensePosition);
     }
 
     @Test
@@ -193,6 +205,8 @@ class HomePageTest {
                 .andExpect(content().string(containsString("scrollToResourceElement")))
                 .andExpect(content().string(containsString("setMainTaxBasisMode")))
                 .andExpect(content().string(containsString("setResourceTaxBasisMode")))
+                .andExpect(content().string(containsString("Orizzonte della proiezione FIRE")))
+                .andExpect(content().string(containsString("Non modifica la formula SWR base")))
                 .andExpect(content().string(containsString("capitalGainsTaxRate: percent")))
                 .andExpect(content().string(containsString("annualStampDutyRate: percent")))
                 .andExpect(content().string(containsString("data.fiscal.target.selectedTarget")))

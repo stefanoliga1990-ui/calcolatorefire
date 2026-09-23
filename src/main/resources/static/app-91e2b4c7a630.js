@@ -626,6 +626,12 @@ function appendFormulaHelp(formula) {
 function updateMethodFields() {
     const isSwr = value("method") === "SWR";
     document.querySelector("#method-description").textContent = methodDescriptions[value("method")];
+    document.querySelector("#fire-duration-label").textContent = isSwr
+        ? "Orizzonte della proiezione FIRE"
+        : "Durata del FIRE";
+    document.querySelector("#fire-duration-description").textContent = isSwr
+        ? "Non modifica la formula SWR base: serve a verificare sostenibilità, saldo finale, imposte e rendite future."
+        : "Numero di anni che il capitale deve finanziare.";
     document.querySelector("#swr-field").hidden = !isSwr;
     document.querySelector("#terminal-capital-field").hidden = isSwr;
     form.elements.namedItem("annualSafeWithdrawalRate").disabled = !isSwr;
