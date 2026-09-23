@@ -25,8 +25,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=1">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=1">
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=7.3">
-    <script src="/app-91e2b4c7a630.js?v=7.3" defer></script>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=7.4">
+    <script src="/app-91e2b4c7a630.js?v=7.4" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -427,6 +427,14 @@
             <span>Il patrimonio e i versamenti inseriti qui non devono comparire anche nel PAC principale. Se il rendimento di un investimento comprende già cedole o dividendi reinvestiti, non inserirli di nuovo come rendita.</span>
         </div>
 
+        <div class="resource-sync-status" id="resource-sync-status" aria-live="polite">
+            <div>
+                <strong id="resource-sync-title">Scenario base</strong>
+                <span id="resource-sync-message">Non hai aggiunto rendite: FIRE e PAC usano soltanto i dati principali.</span>
+            </div>
+            <span id="resource-sync-badge">Nessuna rendita</span>
+        </div>
+
         <div class="resource-type-picker" id="resource-type-picker" hidden>
             <p>Che cosa vuoi aggiungere?</p>
             <div class="resource-type-grid">
@@ -458,7 +466,7 @@
                 <span class="button-label">Ricalcola FIRE e PAC</span>
                 <span class="button-loader" aria-hidden="true"></span>
             </button>
-            <small>Usa questo pulsante dopo aver aggiunto o modificato una risorsa: verranno aggiornati entrambi i calcoli.</small>
+            <small id="resources-action-help">Usa questo pulsante dopo aver aggiunto o modificato una risorsa: verranno aggiornati entrambi i calcoli.</small>
         </div>
 
         <div class="resources-result" id="additional-resources-result" aria-live="polite" hidden>

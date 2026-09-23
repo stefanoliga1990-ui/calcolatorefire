@@ -23,6 +23,11 @@ const resourceErrorBox = document.querySelector("#resource-form-error");
 const fireInputWarnings = document.querySelector("#fire-input-warnings");
 const pacInputWarnings = document.querySelector("#pac-input-warnings");
 const resourceInputWarnings = document.querySelector("#resource-input-warnings");
+const resourceSyncStatus = document.querySelector("#resource-sync-status");
+const resourceSyncTitle = document.querySelector("#resource-sync-title");
+const resourceSyncMessage = document.querySelector("#resource-sync-message");
+const resourceSyncBadge = document.querySelector("#resource-sync-badge");
+const resourcesActionHelp = document.querySelector("#resources-action-help");
 const wizardSteps = [...document.querySelectorAll("[data-wizard-step]")];
 const wizardProgressItems = [...document.querySelectorAll("[data-wizard-progress-step]")];
 const wizardBackButton = document.querySelector("#wizard-back-button");
@@ -53,6 +58,7 @@ let mainTaxBasisManual = false;
 let currentWizardStep = 1;
 let isEditMode = false;
 let lastCalculatedFormState = null;
+let lastCalculatedResourcesState = null;
 
 const currency = new Intl.NumberFormat("it-IT", {
     style: "currency",
@@ -530,6 +536,8 @@ wizardCancelEditButton.addEventListener("click", () => {
 updateMethodFields();
 setMainTaxBasisMode(false);
 updateInputWarnings();
+updateResourcesState();
+refreshResourceCalculationState();
 showWizardStep(1);
 
 function advanceWizard() {
@@ -863,6 +871,7 @@ resourcesList.addEventListener("click", async (event) => {
     if (taxBasisToggle) {
         const card = taxBasisToggle.closest(".resource-card");
         setResourceTaxBasisMode(card, card.dataset.taxBasisManual !== "true");
+        refreshResourceCalculationState();
         return;
     }
     const removeButton = event.target.closest("[data-remove-resource]");
@@ -874,6 +883,7 @@ resourcesList.addEventListener("click", async (event) => {
     card?.remove();
     updateResourcesState();
     updateResourceWarnings();
+    refreshResourceCalculationState();
     if (wasIncludedInLastCalculation && lastFireRequest !== null) {
         await runFullCalculation(calculateResourcesButton, "Ricalcola FIRE e PAC");
     }
@@ -892,13 +902,17 @@ resourcesList.addEventListener("change", (event) => {
         updateResourceConditionalFields(card);
     }
     updateResourceWarnings();
+    refreshResourceCalculationState();
 });
 
 form.addEventListener("input", () => {
     updateInputWarnings();
     refreshEditModeState();
 });
-resourcesList.addEventListener("input", updateResourceWarnings);
+resourcesList.addEventListener("input", () => {
+    updateResourceWarnings();
+    refreshResourceCalculationState();
+});
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -935,6 +949,7 @@ async function runFullCalculation(triggerButton, idleLabel) {
         lastFireRequest = structuredClone(request);
         lastCalculatedFormState = captureMainFormState();
         markCurrentResourcesAsCalculated();
+        lastCalculatedResourcesState = captureAdditionalResourcesState();
         renderFireResults(result.body, request);
         renderPacResults(result.body, request);
         renderAdditionalResourcesResult(result.body, request);
@@ -957,6 +972,7 @@ async function runFullCalculation(triggerButton, idleLabel) {
         setLoading(triggerButton, false, finalLabel);
         otherFullButton.disabled = false;
         calculatePacButton.disabled = lastFireRequest === null;
+        refreshResourceCalculationState();
     }
 }
 
@@ -992,6 +1008,7 @@ calculatePacButton.addEventListener("click", async () => {
         setLoading(calculatePacButton, false, "Aggiorna FIRE e PAC");
         calculateFireButton.disabled = false;
         calculateResourcesButton.disabled = false;
+        refreshResourceCalculationState();
     }
 });
 
@@ -1008,6 +1025,7 @@ resetButton.addEventListener("click", () => {
     renderedMethod = null;
     lastFireRequest = null;
     lastCalculatedFormState = null;
+    lastCalculatedResourcesState = null;
     fireResultsContent.hidden = true;
     pacResultsContent.hidden = true;
     fireResultsPlaceholder.hidden = false;
@@ -1022,6 +1040,7 @@ resetButton.addEventListener("click", () => {
     updateResourcesState();
     updateInputWarnings();
     updateResourceWarnings();
+    refreshResourceCalculationState();
     projections.hidden = true;
     resourceProjections.hidden = true;
     resourceChartGrid.replaceChildren();
@@ -1136,6 +1155,7 @@ function addResource(type) {
     }
     updateResourcesState();
     updateResourceWarnings();
+    refreshResourceCalculationState();
     scrollToResourceElement(card);
     card.querySelector("input, select")?.focus({ preventScroll: true });
 }
@@ -1165,7 +1185,7 @@ function resourceCardMarkup(type, id) {
     const contributionEndValue = currentAge < fireAge ? `value="${fireAge}"` : "";
     const commonHeader = (badge, title, description) => `
         <div class="resource-card-heading">
-            <div><span class="resource-type-badge">${badge}</span><h3>${title}</h3><p>${description}</p></div>
+            <div><div class="resource-card-meta"><span class="resource-type-badge">${badge}</span><span class="resource-calculation-status" data-resource-calculation-status>Da calcolare</span></div><h3>${title}</h3><p>${description}</p></div>
             <button class="remove-resource-button" type="button" data-remove-resource aria-label="Rimuovi ${title}">Rimuovi</button>
         </div>`;
     const nameField = (defaultName) => `
@@ -1236,9 +1256,70 @@ function updateResourcesState() {
         resourceTypePicker.hidden = true;
         addResourceButton.setAttribute("aria-expanded", "false");
     }
-    if (hasResources) {
-        resourcesActions.hidden = false;
+}
+
+function captureResourceCardState(card) {
+    return {
+        id: card.dataset.resourceId,
+        type: card.dataset.resourceType,
+        taxBasisManual: card.dataset.taxBasisManual,
+        controls: [...card.querySelectorAll("input, select")].map((control) => ({
+            field: control.dataset.resourceField,
+            type: control.type,
+            value: control.disabled ? null : control.value,
+            checked: control.disabled ? false : Boolean(control.checked),
+            disabled: control.disabled
+        }))
+    };
+}
+
+function captureAdditionalResourcesState() {
+    return [...resourcesList.querySelectorAll(".resource-card")].map(captureResourceCardState);
+}
+
+function refreshResourceCalculationState() {
+    const currentState = captureAdditionalResourcesState();
+    const baselineState = lastCalculatedResourcesState ?? [];
+    const baselineById = new Map(baselineState.map((resource) => [resource.id, resource]));
+    const dirty = lastCalculatedResourcesState === null
+        ? currentState.length > 0
+        : JSON.stringify(currentState) !== JSON.stringify(lastCalculatedResourcesState);
+    const resourceCount = currentState.length;
+
+    resourceSyncStatus.classList.toggle("is-dirty", dirty);
+    if (dirty) {
+        resourceSyncTitle.textContent = "Rendite da applicare allo scenario";
+        resourceSyncMessage.textContent = "Ricalcola per aggiornare insieme FIRE, PAC e grafici con le modifiche indicate.";
+        resourceSyncBadge.textContent = "Da ricalcolare";
+    } else if (resourceCount > 0) {
+        resourceSyncTitle.textContent = "Rendite incluse nei risultati";
+        resourceSyncMessage.textContent = `${resourceCount === 1 ? "La risorsa inserita è inclusa" : "Le risorse inserite sono incluse"} nei calcoli e nelle proiezioni mostrate.`;
+        resourceSyncBadge.textContent = "Risultati aggiornati";
+    } else {
+        resourceSyncTitle.textContent = "Scenario base";
+        resourceSyncMessage.textContent = "Non hai aggiunto rendite: FIRE e PAC usano soltanto i dati principali.";
+        resourceSyncBadge.textContent = "Nessuna rendita";
     }
+
+    for (const card of resourcesList.querySelectorAll(".resource-card")) {
+        const cardState = captureResourceCardState(card);
+        const calculatedState = baselineById.get(card.dataset.resourceId);
+        const status = card.querySelector("[data-resource-calculation-status]");
+        const isNew = !calculatedState;
+        const isChanged = !isNew && JSON.stringify(cardState) !== JSON.stringify(calculatedState);
+        card.classList.toggle("is-calculated", !isNew && !isChanged);
+        card.classList.toggle("is-dirty", isNew || isChanged);
+        status.textContent = isNew ? "Da calcolare" : isChanged ? "Modificata" : "Inclusa nei risultati";
+    }
+
+    resourcesActions.hidden = resourceCount === 0 && !dirty;
+    calculateResourcesButton.disabled = !dirty;
+    calculateResourcesButton.querySelector(".button-label").textContent = dirty
+        ? "Ricalcola FIRE e PAC"
+        : "Risultati aggiornati";
+    resourcesActionHelp.textContent = dirty
+        ? "Il ricalcolo aggiorna insieme i due risultati e le proiezioni delle rendite."
+        : "Modifica una rendita o aggiungine un'altra per aggiornare lo scenario.";
 }
 
 function updateInputWarnings() {
@@ -1488,7 +1569,6 @@ function validateScenarioLimits(reportInvalid = true) {
 function renderAdditionalResourcesResult(data, request) {
     if (request.additionalResources.length === 0) {
         resourcesResult.hidden = true;
-        resourcesActions.hidden = true;
         return;
     }
     const fiscalPortfolios = data.fiscal.accumulation.portfolios;
