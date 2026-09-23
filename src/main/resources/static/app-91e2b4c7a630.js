@@ -626,9 +626,9 @@ function appendFormulaHelp(formula) {
 function updateMethodFields() {
     const isSwr = value("method") === "SWR";
     document.querySelector("#method-description").textContent = methodDescriptions[value("method")];
-    document.querySelector("#fire-duration-label").textContent = isSwr
+    setFieldLabelText("fire-duration-label", isSwr
         ? "Orizzonte della proiezione FIRE"
-        : "Durata del FIRE";
+        : "Durata del FIRE");
     document.querySelector("#fire-duration-description").textContent = isSwr
         ? "Non modifica la formula SWR base: serve a verificare sostenibilità, saldo finale, imposte e rendite future."
         : "Numero di anni che il capitale deve finanziare.";
@@ -637,6 +637,16 @@ function updateMethodFields() {
     form.elements.namedItem("annualSafeWithdrawalRate").disabled = !isSwr;
     form.elements.namedItem("terminalCapitalToday").disabled = isSwr;
     updateInputWarnings();
+}
+
+function setFieldLabelText(id, text) {
+    const label = document.querySelector(`#${id}`);
+    const textNode = [...label.childNodes].find((node) => node.nodeType === Node.TEXT_NODE);
+    if (textNode) {
+        textNode.textContent = text;
+        return;
+    }
+    label.prepend(document.createTextNode(text));
 }
 
 addResourceButton.addEventListener("click", () => {
