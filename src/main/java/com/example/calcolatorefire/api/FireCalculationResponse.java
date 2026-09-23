@@ -9,6 +9,8 @@ import com.example.calcolatorefire.domain.DecumulationPoint;
 import com.example.calcolatorefire.domain.ExistingInvestmentPoint;
 import com.example.calcolatorefire.domain.ExistingInvestmentResult;
 import com.example.calcolatorefire.domain.FireCalculationResult;
+import com.example.calcolatorefire.domain.FireCalculationInput;
+import com.example.calcolatorefire.domain.FiscalFireCalculationResult;
 import com.example.calcolatorefire.domain.FutureLumpSumResult;
 import com.example.calcolatorefire.domain.FutureLumpSumPoint;
 import com.example.calcolatorefire.domain.PeriodicIncomePoint;
@@ -20,10 +22,15 @@ public record FireCalculationResponse(
         Rates rates,
         Target target,
         Accumulation accumulation,
-        Decumulation decumulation
+        Decumulation decumulation,
+        FiscalCalculationResponse fiscal
 ) {
 
-    public static FireCalculationResponse from(FireCalculationResult result) {
+    public static FireCalculationResponse from(
+            FireCalculationResult result,
+            FiscalFireCalculationResult fiscalResult,
+            FireCalculationInput input
+    ) {
         return new FireCalculationResponse(
                 result.accumulationMonths(),
                 result.fireMonths(),
@@ -72,7 +79,8 @@ public record FireCalculationResponse(
                         result.totalShortfall(),
                         result.depletionMonth(),
                         result.decumulationProjection().stream().map(DecumulationMonth::from).toList()
-                )
+                ),
+                FiscalCalculationResponse.from(fiscalResult, input, result)
         );
     }
 

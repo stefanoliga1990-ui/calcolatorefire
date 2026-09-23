@@ -15,7 +15,9 @@ public record FiscalAccumulationPlan(
         List<Double> monthlyContributions,
         List<Double> monthlyNetInflows,
         boolean availableAtFire,
-        boolean stampDutyApplicable
+        boolean stampDutyApplicable,
+        String sourceType,
+        Integer resourceIndex
 ) {
 
     private static final int MAX_ACCUMULATION_MONTHS = CalculationLimits.MAX_AGE * 12;
@@ -31,6 +33,18 @@ public record FiscalAccumulationPlan(
             throw new FireCalculationException(
                     CalculationErrorCode.INVALID_TAX_BASIS,
                     "Lo stato fiscale iniziale del portafoglio è obbligatorio."
+            );
+        }
+        if (sourceType == null || sourceType.isBlank()) {
+            throw new FireCalculationException(
+                    CalculationErrorCode.INVALID_RESOURCE,
+                    "Il tipo di origine del portafoglio fiscale è obbligatorio."
+            );
+        }
+        if (resourceIndex != null && resourceIndex < 0) {
+            throw new FireCalculationException(
+                    CalculationErrorCode.INVALID_RESOURCE,
+                    "L'indice della risorsa fiscale non può essere negativo."
             );
         }
         validateMonthlyRate(monthlyReturnRate, "rendimento mensile");
@@ -69,7 +83,45 @@ public record FiscalAccumulationPlan(
                 monthlyContributions,
                 monthlyNetInflows,
                 availableAtFire,
-                true
+                true,
+                "PORTFOLIO",
+                null
+        );
+    }
+
+    public FiscalAccumulationPlan(
+            String name,
+            FiscalPortfolioState initialState,
+            double monthlyReturnRate,
+            List<Double> monthlyContributions,
+            List<Double> monthlyNetInflows,
+            boolean availableAtFire,
+            boolean stampDutyApplicable
+    ) {
+        this(
+                name,
+                initialState,
+                monthlyReturnRate,
+                monthlyContributions,
+                monthlyNetInflows,
+                availableAtFire,
+                stampDutyApplicable,
+                "PORTFOLIO",
+                null
+        );
+    }
+
+    public FiscalAccumulationPlan withSource(String sourceType, Integer resourceIndex) {
+        return new FiscalAccumulationPlan(
+                name,
+                initialState,
+                monthlyReturnRate,
+                monthlyContributions,
+                monthlyNetInflows,
+                availableAtFire,
+                stampDutyApplicable,
+                sourceType,
+                resourceIndex
         );
     }
 
@@ -110,7 +162,9 @@ public record FiscalAccumulationPlan(
                 contributions,
                 inflows,
                 availableAtFire,
-                true
+                true,
+                "PORTFOLIO",
+                null
         );
     }
 
@@ -154,7 +208,9 @@ public record FiscalAccumulationPlan(
                 contributions,
                 Collections.nCopies(months, 0.0),
                 availableAtFire,
-                true
+                true,
+                "PORTFOLIO",
+                null
         );
     }
 

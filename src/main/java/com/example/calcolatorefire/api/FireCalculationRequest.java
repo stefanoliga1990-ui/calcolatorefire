@@ -1,10 +1,14 @@
 package com.example.calcolatorefire.api;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.calcolatorefire.domain.CalculationLimits;
 import com.example.calcolatorefire.domain.FireCalculationInput;
 import com.example.calcolatorefire.domain.FireMethod;
+import com.example.calcolatorefire.domain.FiscalFireCalculationInput;
+import com.example.calcolatorefire.domain.FiscalSettings;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -72,7 +76,19 @@ public record FireCalculationRequest(
         Double annualContributionGrowthRate,
 
         @Size(max = CalculationLimits.MAX_ADDITIONAL_RESOURCES, message = "Non è possibile inserire più di 100 risorse aggiuntive")
-        List<@NotNull(message = "La risorsa aggiuntiva non può essere nulla") @Valid AdditionalResourceRequest> additionalResources
+        List<@NotNull(message = "La risorsa aggiuntiva non può essere nulla") @Valid AdditionalResourceRequest> additionalResources,
+
+        @DecimalMin(value = "0.0", message = "L'aliquota sulle plusvalenze non può essere negativa")
+        @DecimalMax(value = "1.0", inclusive = false, message = "L'aliquota sulle plusvalenze deve essere inferiore al 100%")
+        Double capitalGainsTaxRate,
+
+        @DecimalMin(value = "0.0", message = "L'imposta di bollo non può essere negativa")
+        @DecimalMax(value = "1.0", inclusive = false, message = "L'imposta di bollo deve essere inferiore al 100%")
+        Double annualStampDutyRate,
+
+        @PositiveOrZero(message = "Il costo fiscale del patrimonio non può essere negativo")
+        @DecimalMax(value = CalculationLimits.MAX_AMOUNT_DECIMAL, message = "Il costo fiscale del patrimonio non può superare 1000000000000 euro")
+        Double currentTaxBasis
 ) {
 
     public FireCalculationInput toDomain() {
@@ -92,6 +108,34 @@ public record FireCalculationRequest(
                 additionalResources == null
                         ? List.of()
                         : additionalResources.stream().map(AdditionalResourceRequest::toDomain).toList()
+        );
+    }
+
+    public FiscalFireCalculationInput toFiscalDomain(FireCalculationInput fireInput) {
+        Map<Integer, Double> investmentTaxBases = new LinkedHashMap<>();
+        if (additionalResources != null) {
+            for (int index = 0; index < additionalResources.size(); index++) {
+                AdditionalResourceRequest resource = additionalResources.get(index);
+                if (resource instanceof ExistingInvestmentRequest investment
+                        && investment.taxBasis() != null) {
+                    investmentTaxBases.put(index, investment.taxBasis());
+                }
+            }
+        }
+        FiscalSettings defaults = FiscalSettings.defaults();
+        FiscalSettings settings = new FiscalSettings(
+                capitalGainsTaxRate == null
+                        ? defaults.capitalGainsTaxRate()
+                        : capitalGainsTaxRate,
+                annualStampDutyRate == null
+                        ? defaults.annualStampDutyRate()
+                        : annualStampDutyRate
+        );
+        return new FiscalFireCalculationInput(
+                fireInput,
+                settings,
+                currentTaxBasis,
+                investmentTaxBases
         );
     }
 }

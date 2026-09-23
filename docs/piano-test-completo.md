@@ -472,3 +472,23 @@ di accumulo riconciliati dal riferimento indipendente.
 Esito dopo lo Step 4: 336 test Maven, 0 errori, 0 fallimenti e 0 ignorati;
 7 golden base, 14 golden con risorse, 6 primitive fiscali, 4 scenari fiscali
 di accumulo e 5 scenari fiscali FIRE riconciliati dal riferimento indipendente.
+
+### Fase 14 — Step 5, contratto API fiscale
+
+- aggiunti gli input fiscali facoltativi con default approvati per aliquota,
+  bollo e costo fiscale del patrimonio principale;
+- aggiunto il costo fiscale facoltativo agli investimenti esistenti, associato
+  tramite l'indice originale della risorsa;
+- esposta la sezione `fiscal` con impostazioni effettive, target, prima vendita,
+  portafogli di accumulo, due proiezioni di decumulo e totali fiscali;
+- mantenuti invariati i campi pubblici precedenti, così il frontend attuale
+  continua a funzionare durante l'integrazione progressiva;
+- coperti default, aliquote zero, base fiscale manuale, plusvalenza, bollo,
+  liquidità non investita e validazioni con 8 casi MockMvc;
+- rieseguiti i test API di compatibilità e stress, incluso lo scenario con
+  importi nell'ordine dei miliardi; gli scarti floating point inferiori a un
+  centesimo sono trattati come tolleranza monetaria e non come shortfall reale.
+
+Esito dopo lo Step 5: 344 test Maven, 0 errori, 0 fallimenti e 0 ignorati;
+7 golden base, 14 golden con risorse, 6 primitive fiscali, 4 scenari fiscali
+di accumulo e 5 scenari fiscali FIRE riconciliati dal riferimento indipendente.

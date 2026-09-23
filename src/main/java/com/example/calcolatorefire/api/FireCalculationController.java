@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.calcolatorefire.application.FireCalculationService;
+import com.example.calcolatorefire.domain.FireCalculationInput;
+import com.example.calcolatorefire.domain.FireCalculationResult;
+import com.example.calcolatorefire.domain.FiscalFireCalculationResult;
 
 import jakarta.validation.Valid;
 
@@ -24,6 +27,9 @@ public class FireCalculationController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public FireCalculationResponse calculate(@Valid @RequestBody FireCalculationRequest request) {
-        return FireCalculationResponse.from(service.calculate(request.toDomain()));
+        FireCalculationInput input = request.toDomain();
+        FireCalculationResult result = service.calculate(input);
+        FiscalFireCalculationResult fiscalResult = service.calculateFiscal(request.toFiscalDomain(input));
+        return FireCalculationResponse.from(result, fiscalResult, input);
     }
 }

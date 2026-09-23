@@ -2,8 +2,8 @@
 
 Stato: Step 1 approvato; Step 2 implementato come motore fiscale isolato;
 Step 3 implementato per l'accumulo; Step 4 implementato per target, PAC e
-decumulo congiunti. La fiscalità non è ancora collegata all'API o
-all'interfaccia.
+decumulo congiunti; Step 5 integrato nel contratto API. Il frontend non usa
+ancora i nuovi input e risultati fiscali.
 
 Questo documento estende `docs/specifica-matematica.md`. In caso di fiscalità
 attiva, le regole seguenti prevalgono sulle formule prive di imposte soltanto
@@ -479,3 +479,36 @@ Cinque scenari golden completi sono versionati in
 `golden-tax-fire-scenarios.json` e riconciliati sia da JUnit sia dal riferimento
 Python indipendente. API e frontend restano invariati fino allo step di
 integrazione successivo.
+
+## 15. Integrazione API — Step 5
+
+Lo Step 5 collega il motore fiscale all'endpoint esistente
+`POST /api/v1/fire/calculations`, senza modificare i campi di risposta già
+consumati dal frontend. Ogni richiesta produce sia il calcolo compatibile
+precedente sia la nuova sezione autorevole `fiscal`.
+
+Gli input facoltativi sono:
+
+- `capitalGainsTaxRate`, default `0.26`;
+- `annualStampDutyRate`, default `0.002`;
+- `currentTaxBasis`, default pari al patrimonio principale corrente;
+- `additionalResources[].taxBasis` per `EXISTING_INVESTMENT`, default pari al
+  patrimonio corrente della risorsa.
+
+La risposta fiscale espone impostazioni effettive, target e prima vendita,
+proiezioni di accumulo per singolo portafoglio, proiezioni di decumulo del
+target e del patrimonio personale e totali di bollo e plusvalenze. I
+portafogli mantengono tipo di origine e indice della risorsa, così il frontend
+può associare i risultati alla card corretta senza dipendere dal nome.
+
+Otto test MockMvc coprono default, compatibilità con aliquote zero, costo
+fiscale manuale, mapping degli investimenti esistenti, totali fiscali,
+liquidità non soggetta a bollo e validazioni. È inoltre verificata la stabilità
+con proiezioni lunghe, molte risorse e importi nell'ordine dei miliardi. Per i
+confronti di copertura dello shortfall il risolutore usa la tolleranza monetaria
+di un centesimo, evitando che residui floating point sub-centesimali rendano
+irraggiungibile uno scenario.
+
+Il frontend resta invariato in questo step e continuerà a mostrare i risultati
+precedenti finché gli input e le viste fiscali non saranno collegati nello step
+successivo.

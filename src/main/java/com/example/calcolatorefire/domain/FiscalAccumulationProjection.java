@@ -4,7 +4,10 @@ import java.util.List;
 
 public record FiscalAccumulationProjection(
         String name,
+        String sourceType,
+        Integer resourceIndex,
         boolean availableAtFire,
+        boolean stampDutyApplicable,
         FiscalPortfolioState initialState,
         FiscalPortfolioState finalState,
         double totalContributions,

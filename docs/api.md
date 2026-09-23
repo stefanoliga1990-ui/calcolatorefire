@@ -24,6 +24,9 @@ I tassi sono numeri decimali: `0.02` rappresenta il 2%.
   "currentCapital": 10000,
   "annualAccumulationReturnRate": 0.07,
   "annualContributionGrowthRate": 0,
+  "capitalGainsTaxRate": 0.26,
+  "annualStampDutyRate": 0.002,
+  "currentTaxBasis": 10000,
   "additionalResources": []
 }
 ```
@@ -45,6 +48,16 @@ Vincoli comuni della richiesta:
 - SWR finita e strettamente positiva, senza un massimo arbitrario;
 - massimo 100 risorse aggiuntive.
 
+I campi fiscali sono facoltativi e usano questi valori predefiniti:
+
+- `capitalGainsTaxRate`: `0.26` (26% sulla sola plusvalenza realizzata);
+- `annualStampDutyRate`: `0.002` (0,20% annuo sul patrimonio investito);
+- `currentTaxBasis`: uguale a `currentCapital` quando omesso.
+
+Il costo fiscale può essere inferiore, uguale o superiore al valore corrente.
+Un valore superiore rappresenta una minusvalenza latente e non genera crediti
+fiscali nel modello semplificato.
+
 ### Risorse aggiuntive
 
 `additionalResources` è una lista facoltativa. Se il campo è omesso, vale `[]`: richieste create prima dell'estensione conservano quindi lo stesso comportamento e gli stessi risultati numerici.
@@ -64,6 +77,7 @@ Le età sono intere e rappresentano confini mensili. L'età iniziale è inclusa,
   "type": "EXISTING_INVESTMENT",
   "name": "PAC già attivo",
   "currentCapital": 25000,
+  "taxBasis": 18000,
   "initialMonthlyContribution": 300,
   "contributionStartAge": 36,
   "contributionEndAge": 50,
@@ -74,6 +88,7 @@ Le età sono intere e rappresentano confini mensili. L'età iniziale è inclusa,
 ```
 
 - `currentCapital` è distinto dal `currentCapital` principale della richiesta e non deve essere conteggiato anche lì;
+- `taxBasis` è facoltativo e, se omesso, coincide con `currentCapital` della risorsa;
 - `initialMonthlyContribution` è il primo versamento futuro, eseguito a fine mese;
 - se `initialMonthlyContribution` è maggiore di zero, entrambe le età dei versamenti sono obbligatorie e devono rispettare `currentAge <= contributionStartAge < contributionEndAge <= fireAge`;
 - se non sono previsti nuovi versamenti, `initialMonthlyContribution` vale zero e le due età possono essere entrambe `null`;
@@ -141,6 +156,30 @@ La risposta contiene:
 - `target`, con il solo target del metodo selezionato;
 - `accumulation`, con PAC richiesto, risorse disponibili e proiezioni mensili;
 - `decumulation`, con spesa lorda, rendite, prelievi netti, saldo ed eventuale shortfall.
+- `fiscal`, con il calcolo fiscalizzato completo; le sezioni precedenti restano
+  invariate per compatibilità con il frontend esistente.
+
+La sezione `fiscal` è la fonte autorevole per i risultati che includono bollo e
+imposta sulle plusvalenze:
+
+- `settings` restituisce aliquota, bollo annuo e bollo mensile equivalente;
+- `target` espone target fiscalizzato, costo fiscale, plusvalenza latente e,
+  per il primo mese FIRE, vendita lorda richiesta, vendita effettiva, imposta e
+  ricavo netto;
+- `accumulation` espone PAC fiscalizzato, saldo e costo fiscale disponibili al
+  FIRE, bollo totale e portafogli distinti per provenienza;
+- `decumulation.target` simula il solo capitale target, mentre
+  `decumulation.personal` usa tutto il patrimonio effettivamente disponibile;
+- `totals` riepiloga imposte sulle plusvalenze e bollo. Le imposte sulle
+  plusvalenze in accumulo sono zero perché il modello non simula vendite in
+  quella fase.
+
+Ogni portafoglio fiscale riporta `sourceType` (`MAIN_PORTFOLIO`,
+`EXISTING_INVESTMENT` o `FUTURE_LUMP_SUM`) e, per le risorse aggiuntive,
+`resourceIndex`. Le proiezioni mensili mantengono saldo, costo fiscale,
+plusvalenza latente, bollo e flussi necessari alla riconciliazione. La
+liquidità futura con `investAfterReceipt: false` ha
+`stampDutyApplicable: false` durante l'accumulo.
 
 In `target`:
 
@@ -224,4 +263,8 @@ La richiesta è formalmente corretta, ma viola una regola del dominio. I codici 
 - `INVALID_RESOURCE`: configurazione della risorsa incompleta o priva di un utilizzo;
 - `INVALID_RESOURCE_PERIOD`: età o intervallo della risorsa incompatibile con lo scenario;
 - `UNREACHABLE_WITH_ZERO_MONTHS`
+- `INVALID_CAPITAL_GAINS_TAX_RATE`
+- `INVALID_STAMP_DUTY_RATE`
+- `INVALID_TAX_BASIS`
+- `FISCAL_SOLUTION_NOT_FOUND`
 

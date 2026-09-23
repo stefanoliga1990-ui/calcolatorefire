@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.function.DoublePredicate;
 
 /**
- * Couples fiscal accumulation, target calculation and decumulation without
- * changing the current public API.
+ * Couples fiscal accumulation, target calculation and decumulation while
+ * keeping the legacy calculator independent.
  */
 public final class FiscalFireCalculator {
 
@@ -256,7 +256,7 @@ public final class FiscalFireCalculator {
                 monthlyContributionGrowth,
                 mainInflows,
                 true
-        ));
+        ).withSource("MAIN_PORTFOLIO", null));
 
         for (int resourceIndex = 0; resourceIndex < input.additionalResources().size(); resourceIndex++) {
             AdditionalResource resource = input.additionalResources().get(resourceIndex);
@@ -280,7 +280,7 @@ public final class FiscalFireCalculator {
                         startMonth,
                         endMonth,
                         investment.availableAtFire()
-                ));
+                ).withSource("EXISTING_INVESTMENT", resourceIndex));
             } else if (resource instanceof FutureLumpSum lumpSum) {
                 int receiptMonth = toMonths(
                         lumpSum.receiptAge() - input.currentAge(),
@@ -306,7 +306,9 @@ public final class FiscalFireCalculator {
                         Collections.nCopies(months, 0.0),
                         inflows,
                         true,
-                        lumpSum.investAfterReceipt()
+                        lumpSum.investAfterReceipt(),
+                        "FUTURE_LUMP_SUM",
+                        resourceIndex
                 ));
             }
         }
@@ -330,7 +332,7 @@ public final class FiscalFireCalculator {
                         monthlyFireReturn,
                         settings
                 );
-                return projection.totalShortfall() <= NUMERIC_TOLERANCE
+                return projection.totalShortfall() <= MONEY_TOLERANCE
                         && projection.finalState().balance() >= terminalCapitalNominalAtEnd;
             });
             return new TargetValues(finiteTarget, null, null, finiteTarget);
@@ -375,7 +377,7 @@ public final class FiscalFireCalculator {
                     monthlyFireReturn,
                     settings
             );
-            if (result.shortfall() > NUMERIC_TOLERANCE) {
+            if (result.shortfall() > MONEY_TOLERANCE) {
                 return false;
             }
             state = result.closingState();

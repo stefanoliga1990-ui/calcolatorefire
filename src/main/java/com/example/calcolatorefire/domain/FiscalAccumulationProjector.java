@@ -88,7 +88,10 @@ public final class FiscalAccumulationProjector {
 
         return new FiscalAccumulationProjection(
                 plan.name(),
+                plan.sourceType(),
+                plan.resourceIndex(),
                 plan.availableAtFire(),
+                plan.stampDutyApplicable(),
                 plan.initialState(),
                 state,
                 totalContributions,

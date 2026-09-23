@@ -2,10 +2,7 @@ package com.example.calcolatorefire.domain;
 
 import java.util.Map;
 
-/**
- * Fiscal inputs kept separate from the current public FIRE contract until the
- * API integration step.
- */
+/** Fiscal inputs kept separate from the legacy calculation input. */
 public record FiscalFireCalculationInput(
         FireCalculationInput fireInput,
         FiscalSettings settings,

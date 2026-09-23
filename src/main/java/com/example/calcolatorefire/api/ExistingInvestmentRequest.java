@@ -19,6 +19,10 @@ public record ExistingInvestmentRequest(
         @DecimalMax(value = CalculationLimits.MAX_AMOUNT_DECIMAL, message = "Il patrimonio attuale della risorsa non può superare 1000000000000 euro")
         Double currentCapital,
 
+        @PositiveOrZero(message = "Il costo fiscale della risorsa non può essere negativo")
+        @DecimalMax(value = CalculationLimits.MAX_AMOUNT_DECIMAL, message = "Il costo fiscale della risorsa non può superare 1000000000000 euro")
+        Double taxBasis,
+
         @NotNull(message = "Il versamento mensile della risorsa è obbligatorio")
         @PositiveOrZero(message = "Il versamento mensile della risorsa non può essere negativo")
         @DecimalMax(value = CalculationLimits.MAX_AMOUNT_DECIMAL, message = "Il versamento mensile della risorsa non può superare 1000000000000 euro")
