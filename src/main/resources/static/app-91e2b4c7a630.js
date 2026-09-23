@@ -29,6 +29,10 @@ const wizardBackButton = document.querySelector("#wizard-back-button");
 const wizardNextButton = document.querySelector("#wizard-next-button");
 const wizardStepStatus = document.querySelector("#wizard-step-status");
 const wizardProgress = document.querySelector(".wizard-progress");
+const scenarioLayout = document.querySelector("#scenario-layout");
+const resultsContainer = document.querySelector("#results");
+const resultsViewTitle = document.querySelector("#results-view-title");
+const additionalResourcesSection = document.querySelector("#additional-resources");
 
 const MAX_AGE = 130;
 const MAX_ADDITIONAL_RESOURCES = 100;
@@ -555,6 +559,27 @@ function showWizardStep(stepNumber, { focusHeading = false, scroll = false } = {
     }
 }
 
+function showResultView() {
+    form.hidden = true;
+    resultsContainer.hidden = false;
+    additionalResourcesSection.hidden = false;
+    scenarioLayout.classList.remove("is-wizard-view");
+    scenarioLayout.classList.add("is-result-view");
+    resultsViewTitle.focus({ preventScroll: true });
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    resultsContainer.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+}
+
+function showWizardView() {
+    form.hidden = false;
+    resultsContainer.hidden = true;
+    additionalResourcesSection.hidden = true;
+    scenarioLayout.classList.remove("is-result-view");
+    scenarioLayout.classList.add("is-wizard-view");
+    projections.hidden = true;
+    resourceProjections.hidden = true;
+}
+
 function attachParameterHelp(root = document) {
     root.querySelectorAll("[data-help]").forEach((container) => {
         if (container.querySelector(":scope .info-button")) {
@@ -813,10 +838,7 @@ async function runFullCalculation(triggerButton, idleLabel) {
         renderResourceProjectionCharts(result.body, request);
         calculatePacButton.disabled = false;
         setText("pac-calculation-help", "La fiscalità collega target e accumulo: modificando questi dati verranno aggiornati entrambi.");
-
-        if (window.matchMedia("(max-width: 920px)").matches) {
-            document.querySelector("#results").scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        showResultView();
     } catch (error) {
         showError(
             "Non è stato possibile contattare il calcolatore. Riprova tra poco.",
@@ -854,9 +876,7 @@ calculatePacButton.addEventListener("click", async () => {
         renderResourcePacImpactMessages(result.body, request);
         renderResourceProjectionCharts(result.body, request);
         renderProjectionCharts(result.body, request);
-        if (window.matchMedia("(max-width: 920px)").matches) {
-            document.querySelector(".pac-results-panel").scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        showResultView();
     } catch (error) {
         showError("Non è stato possibile ricalcolare il PAC. Riprova tra poco.", false, pacErrorBox);
     } finally {
@@ -896,11 +916,13 @@ resetButton.addEventListener("click", () => {
     resourceProjections.hidden = true;
     resourceChartGrid.replaceChildren();
     destroyCharts();
+    showWizardView();
     showWizardStep(1);
     form.querySelector("input, select")?.focus();
 });
 
 editButton.addEventListener("click", () => {
+    showWizardView();
     showWizardStep(1);
     document.querySelector("#fire-form-title").scrollIntoView({ behavior: "smooth", block: "start" });
     form.querySelector("input, select")?.focus({ preventScroll: true });

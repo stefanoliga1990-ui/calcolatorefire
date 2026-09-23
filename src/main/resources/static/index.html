@@ -25,8 +25,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=1">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=1">
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=7.1">
-    <script src="/app-91e2b4c7a630.js?v=7.1" defer></script>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=7.2">
+    <script src="/app-91e2b4c7a630.js?v=7.2" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -43,7 +43,7 @@
         <p>Stima il patrimonio necessario e il PAC mensile per raggiungere il tuo obiettivo FIRE.</p>
     </section>
 
-    <div class="app-layout">
+    <div class="app-layout is-wizard-view" id="scenario-layout">
         <form class="input-stack" id="fire-form" novalidate>
             <section class="panel form-panel wizard-panel" aria-labelledby="fire-form-title">
                 <div class="section-heading">
@@ -290,7 +290,12 @@
             </section>
         </form>
 
-        <div class="result-stack" id="results" aria-live="polite">
+        <div class="result-stack" id="results" aria-live="polite" hidden>
+            <header class="results-overview" aria-labelledby="results-view-title">
+                <p class="step-label">Scenario calcolato</p>
+                <h2 id="results-view-title" tabindex="-1">I risultati del tuo percorso</h2>
+                <p>Confronta il capitale necessario per il FIRE con il piano di accumulo per raggiungerlo.</p>
+            </header>
             <section class="panel results-panel" aria-labelledby="fire-results-title">
                 <div class="results-placeholder" id="fire-results-placeholder">
                     <h2>Qui vedrai il risultato FIRE</h2>
@@ -392,7 +397,7 @@
         </div>
     </div>
 
-    <section class="panel additional-resources" id="additional-resources" aria-labelledby="additional-resources-title">
+    <section class="panel additional-resources" id="additional-resources" aria-labelledby="additional-resources-title" hidden>
         <div class="resources-heading">
             <div>
                 <p class="step-label step-label-with-logo">
