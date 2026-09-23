@@ -2191,6 +2191,10 @@ footer {
         align-items: flex-start;
     }
 
+    .wizard-progress {
+        padding-bottom: 16px;
+    }
+
     .wizard-progress ol {
         min-width: 480px;
     }
