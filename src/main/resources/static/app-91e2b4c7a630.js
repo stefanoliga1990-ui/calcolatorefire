@@ -33,6 +33,13 @@ const scenarioLayout = document.querySelector("#scenario-layout");
 const resultsContainer = document.querySelector("#results");
 const resultsViewTitle = document.querySelector("#results-view-title");
 const additionalResourcesSection = document.querySelector("#additional-resources");
+const wizardPanel = document.querySelector(".wizard-panel");
+const wizardNavigation = document.querySelector(".wizard-navigation");
+const wizardEditBanner = document.querySelector("#wizard-edit-banner");
+const wizardEditTitle = document.querySelector("#wizard-edit-title");
+const wizardEditMessage = document.querySelector("#wizard-edit-message");
+const wizardEditStatus = document.querySelector("#wizard-edit-status");
+const wizardCancelEditButton = document.querySelector("#wizard-cancel-edit-button");
 
 const MAX_AGE = 130;
 const MAX_ADDITIONAL_RESOURCES = 100;
@@ -44,6 +51,8 @@ let lastFireRequest = null;
 let resourceCounter = 0;
 let mainTaxBasisManual = false;
 let currentWizardStep = 1;
+let isEditMode = false;
+let lastCalculatedFormState = null;
 
 const currency = new Intl.NumberFormat("it-IT", {
     style: "currency",
@@ -506,11 +515,17 @@ form.addEventListener("change", (event) => {
     if (event.target.name === "method") {
         updateMethodFields();
     }
+    refreshEditModeState();
 });
 wizardNextButton.addEventListener("click", advanceWizard);
 wizardBackButton.addEventListener("click", () => {
     clearErrors();
     showWizardStep(currentWizardStep - 1, { focusHeading: true, scroll: true });
+});
+wizardCancelEditButton.addEventListener("click", () => {
+    restoreLastCalculatedFormState();
+    clearErrors();
+    showResultView();
 });
 updateMethodFields();
 setMainTaxBasisMode(false);
@@ -559,7 +574,92 @@ function showWizardStep(stepNumber, { focusHeading = false, scroll = false } = {
     }
 }
 
+function enterEditMode() {
+    showWizardView();
+    isEditMode = true;
+    for (const step of wizardSteps) {
+        step.hidden = false;
+    }
+    wizardPanel.classList.add("is-edit-mode");
+    wizardNavigation.classList.add("is-edit-mode");
+    wizardProgress.hidden = true;
+    wizardEditBanner.hidden = false;
+    wizardBackButton.hidden = true;
+    wizardNextButton.hidden = true;
+    wizardStepStatus.hidden = true;
+    wizardCancelEditButton.hidden = false;
+    calculateFireButton.hidden = false;
+    calculateFireButton.querySelector(".button-label").textContent = "Aggiorna i risultati";
+    refreshEditModeState();
+    wizardEditTitle.focus({ preventScroll: true });
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    wizardPanel.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+}
+
+function leaveEditModeUi() {
+    isEditMode = false;
+    wizardPanel.classList.remove("is-edit-mode");
+    wizardNavigation.classList.remove("is-edit-mode");
+    wizardProgress.hidden = false;
+    wizardEditBanner.hidden = true;
+    wizardCancelEditButton.hidden = true;
+    wizardStepStatus.hidden = false;
+    calculateFireButton.querySelector(".button-label").textContent = "Calcola il mio scenario";
+}
+
+function captureMainFormState() {
+    const controls = [...form.elements]
+        .filter((control) => control.name)
+        .map((control) => ({
+            name: control.name,
+            type: control.type,
+            value: control.value,
+            checked: Boolean(control.checked),
+            disabled: control.disabled
+        }));
+    return { controls, mainTaxBasisManual };
+}
+
+function restoreLastCalculatedFormState() {
+    if (!lastCalculatedFormState) {
+        return;
+    }
+    const controls = [...form.elements].filter((control) => control.name);
+    for (let index = 0; index < controls.length; index += 1) {
+        const control = controls[index];
+        const saved = lastCalculatedFormState.controls[index];
+        if (!saved || control.name !== saved.name || control.type !== saved.type) {
+            continue;
+        }
+        if (control.type === "radio" || control.type === "checkbox") {
+            control.checked = saved.checked;
+        } else {
+            control.value = saved.value;
+        }
+    }
+    setMainTaxBasisMode(lastCalculatedFormState.mainTaxBasisManual, {
+        resetValue: false,
+        focus: false
+    });
+    updateMethodFields();
+    updateInputWarnings();
+}
+
+function refreshEditModeState() {
+    if (!isEditMode || !lastCalculatedFormState) {
+        return;
+    }
+    const dirty = JSON.stringify(captureMainFormState()) !== JSON.stringify(lastCalculatedFormState);
+    wizardEditBanner.classList.toggle("is-dirty", dirty);
+    wizardEditMessage.textContent = dirty
+        ? "Hai modificato uno o più dati. Aggiorna i risultati per applicare il nuovo scenario."
+        : "Tutti i dati sono visibili: modifica quelli che desideri e aggiorna i risultati.";
+    wizardEditStatus.textContent = dirty ? "Da ricalcolare" : "Risultati attuali";
+    wizardCancelEditButton.textContent = dirty ? "Annulla modifiche" : "Torna ai risultati";
+}
+
 function showResultView() {
+    leaveEditModeUi();
     form.hidden = true;
     resultsContainer.hidden = false;
     additionalResourcesSection.hidden = false;
@@ -782,6 +882,7 @@ resourcesList.addEventListener("click", async (event) => {
 form.addEventListener("click", (event) => {
     if (event.target.closest('[data-tax-basis-toggle="main"]')) {
         setMainTaxBasisMode(!mainTaxBasisManual);
+        refreshEditModeState();
     }
 });
 
@@ -793,16 +894,19 @@ resourcesList.addEventListener("change", (event) => {
     updateResourceWarnings();
 });
 
-form.addEventListener("input", updateInputWarnings);
+form.addEventListener("input", () => {
+    updateInputWarnings();
+    refreshEditModeState();
+});
 resourcesList.addEventListener("input", updateResourceWarnings);
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (currentWizardStep < wizardSteps.length) {
+    if (!isEditMode && currentWizardStep < wizardSteps.length) {
         advanceWizard();
         return;
     }
-    await runFullCalculation(calculateFireButton, "Calcola il mio scenario");
+    await runFullCalculation(calculateFireButton, isEditMode ? "Aggiorna i risultati" : "Calcola il mio scenario");
 });
 
 calculateResourcesButton.addEventListener("click", async () => {
@@ -829,6 +933,7 @@ async function runFullCalculation(triggerButton, idleLabel) {
         }
 
         lastFireRequest = structuredClone(request);
+        lastCalculatedFormState = captureMainFormState();
         markCurrentResourcesAsCalculated();
         renderFireResults(result.body, request);
         renderPacResults(result.body, request);
@@ -846,7 +951,10 @@ async function runFullCalculation(triggerButton, idleLabel) {
             triggerButton === calculateResourcesButton ? resourceErrorBox : errorBox
         );
     } finally {
-        setLoading(triggerButton, false, idleLabel);
+        const finalLabel = triggerButton === calculateFireButton && !isEditMode
+            ? "Calcola il mio scenario"
+            : idleLabel;
+        setLoading(triggerButton, false, finalLabel);
         otherFullButton.disabled = false;
         calculatePacButton.disabled = lastFireRequest === null;
     }
@@ -870,6 +978,7 @@ calculatePacButton.addEventListener("click", async () => {
         }
 
         lastFireRequest = structuredClone(request);
+        lastCalculatedFormState = captureMainFormState();
         renderFireResults(result.body, request);
         renderPacResults(result.body, request);
         renderAdditionalResourcesResult(result.body, request);
@@ -898,6 +1007,7 @@ resetButton.addEventListener("click", () => {
     clearErrors();
     renderedMethod = null;
     lastFireRequest = null;
+    lastCalculatedFormState = null;
     fireResultsContent.hidden = true;
     pacResultsContent.hidden = true;
     fireResultsPlaceholder.hidden = false;
@@ -916,16 +1026,14 @@ resetButton.addEventListener("click", () => {
     resourceProjections.hidden = true;
     resourceChartGrid.replaceChildren();
     destroyCharts();
+    leaveEditModeUi();
     showWizardView();
     showWizardStep(1);
     form.querySelector("input, select")?.focus();
 });
 
 editButton.addEventListener("click", () => {
-    showWizardView();
-    showWizardStep(1);
-    document.querySelector("#fire-form-title").scrollIntoView({ behavior: "smooth", block: "start" });
-    form.querySelector("input, select")?.focus({ preventScroll: true });
+    enterEditMode();
 });
 
 function buildRequest() {
@@ -958,7 +1066,7 @@ function buildPacRequest() {
     };
 }
 
-function setMainTaxBasisMode(manual) {
+function setMainTaxBasisMode(manual, { resetValue = true, focus = true } = {}) {
     mainTaxBasisManual = manual;
     const field = document.querySelector("#current-tax-basis-field");
     const input = form.elements.namedItem("currentTaxBasis");
@@ -968,11 +1076,13 @@ function setMainTaxBasisMode(manual) {
     input.required = manual;
     toggle.textContent = manual ? "Usa il valore automatico" : "Modifica";
     toggle.setAttribute("aria-expanded", String(manual));
-    if (manual) {
+    if (resetValue) {
         input.value = number("currentCapital");
+    }
+    if (manual && focus) {
         input.focus();
-    } else {
-        input.value = number("currentCapital");
+    }
+    if (!manual) {
         input.removeAttribute("aria-invalid");
         input.setCustomValidity("");
     }
@@ -1344,7 +1454,15 @@ function validateWizardStep(stepNumber, reportInvalid) {
 function validateAllWizardSteps() {
     for (let stepNumber = 1; stepNumber <= wizardSteps.length; stepNumber += 1) {
         if (!validateWizardStep(stepNumber, false)) {
-            showWizardStep(stepNumber, { scroll: true });
+            if (isEditMode) {
+                const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                wizardSteps[stepNumber - 1].scrollIntoView({
+                    behavior: reducedMotion ? "auto" : "smooth",
+                    block: "center"
+                });
+            } else {
+                showWizardStep(stepNumber, { scroll: true });
+            }
             validateWizardStep(stepNumber, true);
             return false;
         }

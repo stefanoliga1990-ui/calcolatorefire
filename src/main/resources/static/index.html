@@ -25,8 +25,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=1">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=1">
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=7.2">
-    <script src="/app-91e2b4c7a630.js?v=7.2" defer></script>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=7.3">
+    <script src="/app-91e2b4c7a630.js?v=7.3" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -71,6 +71,14 @@
                         <li data-wizard-progress-step="6"><span>6</span><strong>PAC</strong></li>
                     </ol>
                 </nav>
+
+                <section class="wizard-edit-banner" id="wizard-edit-banner" aria-labelledby="wizard-edit-title" hidden>
+                    <div>
+                        <h3 id="wizard-edit-title" tabindex="-1">Modifica il tuo scenario</h3>
+                        <p id="wizard-edit-message" aria-live="polite">Tutti i dati sono visibili: modifica quelli che desideri e aggiorna i risultati.</p>
+                    </div>
+                    <span id="wizard-edit-status">Risultati attuali</span>
+                </section>
 
                 <div class="wizard-steps">
                 <section class="wizard-step" data-wizard-step="1" aria-labelledby="wizard-step-1-title">
@@ -269,6 +277,9 @@
                 <div class="wizard-navigation" aria-label="Navigazione tra i passaggi">
                     <button class="secondary-button wizard-back" id="wizard-back-button" type="button" hidden>
                         Indietro
+                    </button>
+                    <button class="secondary-button wizard-cancel-edit" id="wizard-cancel-edit-button" type="button" hidden>
+                        Torna ai risultati
                     </button>
                     <p id="wizard-step-status" aria-live="polite">Passaggio 1 di 6</p>
                     <button class="primary-button wizard-next" id="wizard-next-button" type="button">

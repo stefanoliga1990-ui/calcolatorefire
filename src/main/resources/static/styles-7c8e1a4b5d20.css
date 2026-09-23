@@ -988,6 +988,58 @@ h1 {
     gap: 18px;
 }
 
+.wizard-edit-banner {
+    margin-bottom: 18px;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+    border: 1px solid rgba(14, 104, 77, 0.22);
+    border-radius: 14px;
+    background: var(--green-pale);
+}
+
+.wizard-edit-banner h3 {
+    margin: 0 0 5px;
+    font-size: 1rem;
+}
+
+.wizard-edit-banner p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.84rem;
+    font-weight: 500;
+    line-height: 1.45;
+}
+
+.wizard-edit-banner > span {
+    flex: 0 0 auto;
+    padding: 6px 9px;
+    border-radius: 999px;
+    color: var(--green-dark);
+    background: rgba(255, 255, 255, 0.78);
+    font-size: 0.7rem;
+    font-weight: 800;
+}
+
+.wizard-edit-banner.is-dirty {
+    border-color: rgba(176, 116, 15, 0.34);
+    background: #fff5dc;
+}
+
+.wizard-edit-banner.is-dirty > span {
+    color: #6f4800;
+}
+
+.wizard-panel.is-edit-mode .wizard-steps {
+    gap: 14px;
+}
+
+.wizard-panel.is-edit-mode .wizard-step {
+    background: white;
+}
+
 .wizard-step {
     padding: 22px;
     border: 1px solid var(--line);
@@ -1141,7 +1193,8 @@ h1 {
     margin: 0;
 }
 
-.wizard-navigation .wizard-back {
+.wizard-navigation .wizard-back,
+.wizard-navigation .wizard-cancel-edit {
     grid-column: 1;
     justify-self: start;
     border-color: var(--field-line);
@@ -1149,7 +1202,8 @@ h1 {
     background: white;
 }
 
-.wizard-navigation .wizard-back:hover {
+.wizard-navigation .wizard-back:hover,
+.wizard-navigation .wizard-cancel-edit:hover {
     border-color: var(--green);
     color: var(--green-dark);
     background: var(--green-pale);
@@ -2025,6 +2079,11 @@ footer {
         padding: 18px 16px;
     }
 
+    .wizard-edit-banner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
     .wizard-progress ol {
         min-width: 480px;
     }
@@ -2039,13 +2098,15 @@ footer {
     }
 
     .wizard-navigation .wizard-back,
+    .wizard-navigation .wizard-cancel-edit,
     .wizard-navigation .wizard-next,
     .wizard-navigation .wizard-submit {
         width: 100%;
         grid-row: 2;
     }
 
-    .wizard-navigation .wizard-back {
+    .wizard-navigation .wizard-back,
+    .wizard-navigation .wizard-cancel-edit {
         grid-column: 1;
     }
 
