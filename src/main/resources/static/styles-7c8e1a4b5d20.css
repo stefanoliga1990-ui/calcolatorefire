@@ -7,21 +7,21 @@
 }
 
 :root {
-    --ink: #142621;
-    --ink-soft: #4f625b;
-    --paper: #f6f8f6;
+    --ink: #17282e;
+    --ink-soft: #50636a;
+    --paper: #f5f8f9;
     --surface: #ffffff;
-    --surface-alt: #f9fbf9;
-    --line: #dce5e0;
-    --field-line: #819a8e;
-    --green: #0e684d;
-    --green-dark: #0c3f33;
-    --green-pale: #dff1e9;
+    --surface-alt: #f8fbfc;
+    --line: #d9e5e8;
+    --field-line: #7d969f;
+    --green: #1b667a;
+    --green-dark: #123b4a;
+    --green-pale: #dcecf1;
     --amber: #b15b1a;
     --blue: #2d657b;
     --danger: #a32929;
     --danger-pale: #fff0ed;
-    --shadow: 0 10px 30px rgba(12, 63, 51, 0.055);
+    --shadow: 0 10px 30px rgba(18, 59, 74, 0.055);
     font-family: "Inter", Arial, Helvetica, sans-serif;
     color: var(--ink);
     background: var(--paper);
@@ -63,7 +63,7 @@ select {
 }
 
 .results-panel :where(button, a):focus-visible {
-    outline-color: #a9dfc9;
+    outline-color: #9ed5e2;
 }
 
 .site-header {
@@ -160,7 +160,7 @@ h1 {
 
 .method-badge {
     padding: 8px 12px;
-    border: 1px solid rgba(15, 107, 78, 0.22);
+    border: 1px solid rgba(27, 102, 122, 0.22);
     border-radius: 999px;
     color: var(--green-dark);
     background: rgba(255, 255, 255, 0.55);
@@ -385,7 +385,7 @@ h1 {
 .resource-type-grid button:hover,
 .resource-type-grid button:focus-visible {
     border-color: var(--green);
-    box-shadow: 0 0 0 3px rgba(15, 107, 78, 0.10);
+    box-shadow: 0 0 0 3px rgba(27, 102, 122, 0.10);
 }
 
 .resource-type-grid strong,
@@ -531,10 +531,10 @@ h1 {
 .resource-pac-impact {
     margin: 20px 0 0;
     padding: 14px 16px;
-    border: 1px solid rgba(24, 103, 76, 0.2);
+    border: 1px solid rgba(27, 102, 122, 0.2);
     border-radius: 12px;
     color: var(--green-dark);
-    background: rgba(24, 103, 76, 0.08);
+    background: rgba(27, 102, 122, 0.08);
     font-size: 0.88rem;
     font-weight: 650;
     line-height: 1.5;
@@ -758,7 +758,7 @@ h1 {
 }
 
 .chart-legend button:focus-visible {
-    box-shadow: 0 0 0 3px rgba(14, 104, 77, 0.16);
+    box-shadow: 0 0 0 3px rgba(27, 102, 122, 0.16);
 }
 
 .chart-legend button[aria-pressed="false"] {
@@ -812,7 +812,7 @@ h1 {
 }
 
 .chart-grid-line {
-    stroke: #e6ede9;
+    stroke: #e3ecef;
     stroke-width: 1;
 }
 
@@ -889,7 +889,7 @@ h1 {
     border-radius: 10px;
     color: white;
     background: var(--green-dark);
-    box-shadow: 0 10px 30px rgba(19, 35, 31, 0.18);
+    box-shadow: 0 10px 30px rgba(23, 40, 46, 0.18);
     font-size: 0.76rem;
     line-height: 1.45;
     pointer-events: none;
@@ -967,7 +967,7 @@ h1 {
     border-color: var(--green);
     color: var(--green-dark);
     background: white;
-    box-shadow: 0 6px 16px rgba(14, 104, 77, 0.08);
+    box-shadow: 0 6px 16px rgba(27, 102, 122, 0.08);
 }
 
 .results-actions .secondary-button:hover {
@@ -1065,7 +1065,7 @@ h1 {
     border-color: var(--green);
     color: white;
     background: var(--green);
-    box-shadow: 0 0 0 4px rgba(14, 104, 77, 0.10);
+    box-shadow: 0 0 0 4px rgba(27, 102, 122, 0.10);
 }
 
 .wizard-progress li.is-complete {
@@ -1099,7 +1099,7 @@ h1 {
     justify-content: space-between;
     gap: 18px;
     align-items: center;
-    border: 1px solid rgba(14, 104, 77, 0.22);
+    border: 1px solid rgba(27, 102, 122, 0.22);
     border-radius: 14px;
     background: var(--green-pale);
 }
@@ -1228,8 +1228,8 @@ h1 {
 
 .method-choice-card:has(input:checked) {
     border-color: var(--green);
-    background: rgba(223, 241, 233, 0.42);
-    box-shadow: 0 0 0 3px rgba(14, 104, 77, 0.09);
+    background: rgba(220, 236, 241, 0.42);
+    box-shadow: 0 0 0 3px rgba(27, 102, 122, 0.09);
 }
 
 .method-choice-card:has(input:focus-visible) {
@@ -1454,7 +1454,7 @@ input[type="number"] {
 input:focus,
 select:focus {
     border-color: var(--green);
-    box-shadow: 0 0 0 3px rgba(15, 107, 78, 0.14);
+    box-shadow: 0 0 0 3px rgba(27, 102, 122, 0.14);
 }
 
 input[aria-invalid="true"],
@@ -1498,7 +1498,7 @@ select[aria-invalid="true"] {
 .input-prefix:focus-within,
 .input-suffix:focus-within {
     border-color: var(--green);
-    box-shadow: 0 0 0 3px rgba(15, 107, 78, 0.14);
+    box-shadow: 0 0 0 3px rgba(27, 102, 122, 0.14);
 }
 
 .primary-button,
@@ -1514,7 +1514,7 @@ select[aria-invalid="true"] {
     border: 0;
     color: white;
     background: var(--green);
-    box-shadow: 0 6px 16px rgba(14, 104, 77, 0.13);
+    box-shadow: 0 6px 16px rgba(27, 102, 122, 0.13);
 }
 
 .primary-button:hover {
@@ -1631,7 +1631,7 @@ select[aria-invalid="true"] {
 }
 
 .results-panel .step-label {
-    color: #a9dfc9;
+    color: #9ed5e2;
 }
 
 .results-heading {
@@ -1703,8 +1703,8 @@ select[aria-invalid="true"] {
 }
 
 .accent-card {
-    border-color: rgba(126, 224, 186, 0.35);
-    background: rgba(126, 224, 186, 0.11);
+    border-color: rgba(158, 213, 226, 0.35);
+    background: rgba(158, 213, 226, 0.11);
 }
 
 .result-card strong {
@@ -1746,8 +1746,8 @@ select[aria-invalid="true"] {
     margin: 20px 0;
     padding: 13px 14px;
     border-radius: 10px;
-    color: #e3f8ef;
-    background: rgba(126, 224, 186, 0.10);
+    color: #def3f7;
+    background: rgba(126, 205, 224, 0.10);
     font-size: 0.86rem;
     line-height: 1.45;
 }
@@ -1889,12 +1889,12 @@ select[aria-invalid="true"] {
     border-radius: 18px;
     color: var(--ink);
     background: var(--surface);
-    box-shadow: 0 28px 80px rgba(8, 35, 27, 0.28);
+    box-shadow: 0 28px 80px rgba(9, 33, 42, 0.28);
     overflow: auto;
 }
 
 .help-dialog::backdrop {
-    background: rgba(8, 35, 27, 0.58);
+    background: rgba(9, 33, 42, 0.58);
     backdrop-filter: blur(3px);
 }
 
@@ -1966,7 +1966,7 @@ select[aria-invalid="true"] {
 .help-equations code {
     display: block;
     padding: 11px 12px;
-    border: 1px solid rgba(15, 107, 78, 0.18);
+    border: 1px solid rgba(27, 102, 122, 0.18);
     border-radius: 9px;
     color: var(--green-dark);
     background: var(--green-pale);
@@ -1986,7 +1986,7 @@ select[aria-invalid="true"] {
     grid-template-columns: minmax(76px, 0.28fr) minmax(0, 1fr);
     gap: 12px;
     padding: 8px 0;
-    border-top: 1px solid rgba(19, 35, 31, 0.09);
+    border-top: 1px solid rgba(23, 40, 46, 0.09);
 }
 
 .help-symbols dt,
@@ -2074,7 +2074,7 @@ footer {
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    border-top: 1px solid rgba(19, 35, 31, 0.14);
+    border-top: 1px solid rgba(23, 40, 46, 0.14);
     color: var(--ink-soft);
     font-size: 0.82rem;
 }
