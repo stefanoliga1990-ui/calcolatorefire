@@ -22,6 +22,8 @@ nei sorgenti e rigenerata.
 | --- | --- |
 | `content/guides/guide.schema.json` | Contratto formale del manifesto di una guida. |
 | `content/guides/guide-page.template.html` | Struttura uniforme della pagina pubblica. |
+| `docs/editorial/template-editoriale-guida.md` | Metodo vincolante per progettare e redigere il contenuto. |
+| `content/guides/_template/` | File starter copiabili per manifesto e corpo. |
 | `content/guides/GUIDE-NNNN.json` | Metadati, sintesi, fonti, link interni e CTA di una singola guida. |
 | `content/guides/GUIDE-NNNN.body.html` | Corpo originale della guida in HTML semantico limitato. |
 | `scripts/editorial/generate_guide.py` | Validazione semantica, rendering e aggiornamento della sitemap. |

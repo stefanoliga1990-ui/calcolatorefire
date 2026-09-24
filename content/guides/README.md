@@ -26,5 +26,8 @@ Per citare una fonte vicino a un'affermazione si usa un link HTTPS con l'identif
 Il generatore accetta soltanto un insieme ristretto di tag e attributi semantici, verifica i riferimenti contro backlog
 e registro delle fonti, genera la pagina finale in `src/main/resources/static/guida/` e aggiorna la sitemap.
 
+Prima della redazione usare il [template editoriale](../../docs/editorial/template-editoriale-guida.md). I file starter
+copiabili per manifesto e corpo si trovano nella cartella [`_template`](_template/).
+
 Il comando operativo e tutte le condizioni di blocco sono descritti in
 [`docs/editorial/sistema-generazione-guide.md`](../../docs/editorial/sistema-generazione-guide.md).
