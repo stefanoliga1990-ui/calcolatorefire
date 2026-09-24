@@ -76,7 +76,7 @@ Ogni guida deve:
 - separare chiaramente informazione, esempi e risultati del simulatore;
 - evitare promesse di rendimento e indicazioni finanziarie personalizzate;
 - attribuire la paternità a Stefano Liga secondo il [profilo autore approvato](profilo-autore.md);
-- rispettare template, glossario, stile e checklist che saranno predisposti negli step preliminari successivi.
+- rispettare la [politica editoriale](politica-editoriale.md), il template, il glossario e le checklist del progetto.
 
 Fiscalità e previdenza possono essere trattate solo come informazione generale basata su fonti istituzionali, con data di validità e avvertenza esplicita. In presenza di ambiguità sostanziali, la pubblicazione deve essere bloccata.
 

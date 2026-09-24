@@ -21,7 +21,7 @@ Il profilo non deve attribuire a Stefano Liga qualifiche professionali, iscrizio
 
 Da usare nell'intestazione delle guide e negli elenchi degli articoli:
 
-> Di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia
+> A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia
 
 ## Descrizione breve
 
@@ -67,6 +67,7 @@ Questa struttura segue le indicazioni di Google Search Central per il [markup de
 - Collegare la firma breve alla pagina autore quando questa sarà disponibile.
 - Usare una sola descrizione breve canonica in tutte le guide.
 - Riservare la descrizione estesa alla pagina autore o a contesti che richiedono una biografia completa.
+- Applicare la nota sul processo automatizzato definita nella politica editoriale.
 - Non presentare l'autore come consulente o come autorità fiscale, previdenziale, finanziaria o legale.
 - Non aggiungere foto, link social, titoli di studio, certificazioni o anni di esperienza senza approvazione e riscontro verificabile.
 - Tenere la nota informativa separata dalla descrizione dell'autore: la prima chiarisce i limiti dei contenuti, la seconda identifica chi li cura.
