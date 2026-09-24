@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -37,10 +39,8 @@ class HomePageTest {
     @Test
     void servesTheCalculatorHomePage() throws Exception {
         mockMvc.perform(get("/"))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/index.html"))
                 .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, "it-IT"))
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
                 .andExpect(content().string(containsString("href=\"/images/favicon-32x32.png?v=2\"")))
                 .andExpect(content().string(containsString("href=\"/images/apple-touch-icon.png?v=2\"")))
@@ -157,7 +157,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=7.9\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
 
-        String page = mockMvc.perform(get("/index.html"))
+        String page = mockMvc.perform(get("/"))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -181,6 +181,30 @@ class HomePageTest {
         assertTrue(fireResultsPosition >= 0 && fireResultsPosition < pacResultsPosition);
         assertTrue(pacResultsPosition < editButtonPosition);
         assertTrue(editButtonPosition < resourcesPosition);
+    }
+
+    @Test
+    void redirectsTheStaticIndexToTheCanonicalHome() throws Exception {
+        mockMvc.perform(get("/index.html"))
+                .andExpect(status().isMovedPermanently())
+                .andExpect(header().string(HttpHeaders.LOCATION, "/"));
+    }
+
+    @Test
+    void servesSearchEngineDiscoveryFiles() throws Exception {
+        mockMvc.perform(get("/robots.txt"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("text/plain"))
+                .andExpect(content().string(containsString("User-agent: *")))
+                .andExpect(content().string(containsString("Allow: /")))
+                .andExpect(content().string(containsString(
+                        "Sitemap: https://simulatorefire.com/sitemap.xml")));
+
+        mockMvc.perform(get("/sitemap.xml"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("application/xml"))
+                .andExpect(content().string(containsString(
+                        "<loc>https://simulatorefire.com/</loc>")));
     }
 
     @Test
