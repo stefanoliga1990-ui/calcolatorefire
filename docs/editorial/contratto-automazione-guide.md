@@ -64,7 +64,7 @@ L'automazione deve fermarsi se:
 - una fonte indispensabile non è accessibile o non consente di verificarne data e contenuto;
 - il tema richiede una valutazione professionale individuale invece di informazione generale.
 
-Le regole dettagliate su gerarchia, freschezza, citazione e archiviazione delle fonti saranno definite nella policy delle fonti prima dell'attivazione.
+Gerarchia, freschezza, citazione, registrazione e condizioni di blocco sono definite nella [politica delle fonti](politica-fonti.md).
 
 ## 6. Regole editoriali
 

@@ -94,7 +94,7 @@ Ogni affermazione fattuale rilevante deve poter essere ricondotta a una fonte o 
 - rappresentare con correttezza eventuali divergenze tra fonti autorevoli;
 - evitare citazioni decorative che non sostengono realmente il testo.
 
-Gerarchia, ammissibilità, freschezza e registrazione delle fonti sono disciplinate dalla politica delle fonti. In caso di conflitto, prevale la regola più prudente.
+Gerarchia, ammissibilità, freschezza e registrazione sono disciplinate dalla [politica delle fonti](politica-fonti.md). In caso di conflitto, prevale la regola più prudente.
 
 ## 8. Regole per formule, dati ed esempi
 
@@ -223,7 +223,7 @@ In caso di conflitto prevalgono, nell'ordine:
 1. legge e obblighi applicabili;
 2. contratto dell'automazione;
 3. questa politica editoriale;
-4. politica delle fonti;
+4. [politica delle fonti](politica-fonti.md);
 5. template e checklist operative.
 
 Se due regole allo stesso livello sono incompatibili, l'automazione deve applicare quella che riduce maggiormente il rischio di pubblicare informazioni inesatte o fuorvianti.
