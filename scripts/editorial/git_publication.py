@@ -4,19 +4,22 @@
 from __future__ import annotations
 
 import argparse
+import calendar
 import json
 import os
 import re
+import secrets
 import shutil
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path, PurePosixPath
 from typing import Callable, Sequence
 
 
 RUN_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{5,80}$")
 CONTENT_ID = re.compile(r"^GUIDE-[0-9]{4}$")
+PHASES = ("preflight", "selection", "research", "drafting", "generation", "validation", "commit", "push", "complete")
 
 
 class PublicationStop(RuntimeError):
@@ -83,6 +86,12 @@ def load_policy(root: Path) -> dict:
     }
     if any(policy.get(key) != value for key, value in expected.items()):
         raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", "La politica Git non rispetta i vincoli di sicurezza")
+    if (
+        not isinstance(policy.get("lock_validity_minutes"), int)
+        or not isinstance(policy.get("heartbeat_interval_minutes"), int)
+        or policy["lock_validity_minutes"] < policy["heartbeat_interval_minutes"] * 4
+    ):
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", "Configurazione heartbeat e validità lock non sicura")
     return policy
 
 
@@ -160,35 +169,113 @@ def allowed_paths(root: Path, policy: dict, content_id: str, related_ids: Sequen
     return result
 
 
-def acquire_lock(lock_path: Path, value: dict) -> None:
+def parse_datetime(value: object) -> datetime:
+    if not isinstance(value, str):
+        raise ValueError("timestamp assente")
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        raise ValueError("timestamp privo di fuso orario")
+    return parsed.astimezone(timezone.utc)
+
+
+def read_lock(lock_path: Path) -> dict:
+    try:
+        value = json.loads(lock_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PublicationStop("STOP-STALE-EDITORIAL-LOCK", f"Lock editoriale illeggibile: {exc}") from exc
+    if not isinstance(value, dict):
+        raise PublicationStop("STOP-STALE-EDITORIAL-LOCK", "Lock editoriale non valido")
+    return value
+
+
+def lock_is_stale(lock: dict, policy: dict, reference: datetime | None = None) -> bool:
+    try:
+        heartbeat = parse_datetime(lock.get("heartbeat_at"))
+    except ValueError:
+        return True
+    current = reference or datetime.now(timezone.utc)
+    if heartbeat > current + timedelta(minutes=5):
+        return True
+    return current - heartbeat > timedelta(minutes=policy["lock_validity_minutes"])
+
+
+def acquire_lock(lock_path: Path, value: dict, policy: dict) -> None:
     lock_path.parent.mkdir(parents=True, exist_ok=True)
     try:
         descriptor = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     except FileExistsError as exc:
         try:
-            owner = json.loads(lock_path.read_text(encoding="utf-8")).get("run_id", "sconosciuto")
-        except (OSError, json.JSONDecodeError):
-            owner = "sconosciuto"
-        raise PublicationStop("STOP-ACTIVE-EDITORIAL-LOCK", f"Lock editoriale già presente; proprietario: {owner}") from exc
+            existing = read_lock(lock_path)
+            owner = existing.get("run_id", "sconosciuto")
+            if lock_is_stale(existing, policy):
+                raise PublicationStop("STOP-STALE-EDITORIAL-LOCK", f"Lock editoriale obsoleto del run {owner}; recupero manuale richiesto")
+        except PublicationStop:
+            raise
+        raise PublicationStop("STOP-ACTIVE-EDITORIAL-LOCK", f"Lock editoriale attivo; proprietario: {owner}") from exc
     with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
         json.dump(value, stream, ensure_ascii=False, indent=2)
         stream.write("\n")
 
 
-def assert_lock_owner(lock_path: Path, run_id: str) -> None:
+def assert_lock_owner(
+    lock_path: Path, run_id: str, owner_token: str, policy: dict, *, allow_stale: bool = False,
+) -> dict:
     if not lock_path.exists():
         raise PublicationStop("STOP-STALE-EDITORIAL-LOCK", "Lock editoriale assente")
-    try:
-        lock = json.loads(lock_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise PublicationStop("STOP-STALE-EDITORIAL-LOCK", f"Lock editoriale illeggibile: {exc}") from exc
+    lock = read_lock(lock_path)
     if lock.get("run_id") != run_id:
         raise PublicationStop("STOP-ACTIVE-EDITORIAL-LOCK", f"Il lock appartiene al run {lock.get('run_id', 'sconosciuto')}")
+    if not owner_token or not secrets.compare_digest(str(lock.get("owner_token", "")), owner_token):
+        raise PublicationStop("STOP-ACTIVE-EDITORIAL-LOCK", "Token proprietario del lock non valido")
+    if lock_is_stale(lock, policy) and not allow_stale:
+        raise PublicationStop("STOP-STALE-EDITORIAL-LOCK", "Lock editoriale oltre la validità; recupero manuale richiesto")
+    return lock
 
 
-def release_owned_lock(lock_path: Path, run_id: str) -> None:
-    assert_lock_owner(lock_path, run_id)
+def release_owned_lock(lock_path: Path, run_id: str, owner_token: str, policy: dict, *, allow_stale: bool = False) -> None:
+    assert_lock_owner(lock_path, run_id, owner_token, policy, allow_stale=allow_stale)
     lock_path.unlink()
+
+
+def heartbeat(
+    root: Path, run_id: str, owner_token: str, phase: str | None = None, *,
+    allow_stale: bool = False, allow_phase_skip: bool = False,
+) -> dict:
+    policy = load_policy(root)
+    _, lock_path, _ = repo_paths(root)
+    lock = assert_lock_owner(lock_path, run_id, owner_token, policy, allow_stale=allow_stale)
+    session = load_session(root, run_id)
+    current_phase = session.get("phase", "preflight")
+    if phase is not None:
+        if phase not in PHASES:
+            raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", f"Fase non valida: {phase}")
+        current_index = PHASES.index(current_phase)
+        requested_index = PHASES.index(phase)
+        if requested_index < current_index or (requested_index > current_index + 1 and not allow_phase_skip):
+            raise PublicationStop("STOP-EXECUTION-INTERRUPTED", f"Transizione di fase non valida: {current_phase} -> {phase}")
+        current_phase = phase
+    timestamp = now_utc()
+    lock.update({"heartbeat_at": timestamp, "phase": current_phase})
+    session.update({"heartbeat_at": timestamp, "phase": current_phase})
+    atomic_json_write(lock_path, lock)
+    save_session(root, session)
+    return session
+
+
+def checkpoint(
+    root: Path, run_id: str, owner_token: str, phase: str, source_ids: Sequence[str] = (), checks: Sequence[str] = (),
+) -> dict:
+    for source_id in source_ids:
+        if not re.fullmatch(r"SRC-[0-9]{4}-[0-9]{4}", source_id):
+            raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", f"ID fonte non valido: {source_id}")
+    for check in checks:
+        if not isinstance(check, str) or not check.strip() or len(check) > 160:
+            raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", "Descrizione controllo non valida")
+    session = heartbeat(root, run_id, owner_token, phase)
+    session["source_ids"] = list(dict.fromkeys([*session.get("source_ids", []), *source_ids]))
+    session["checks"] = list(dict.fromkeys([*session.get("checks", []), *(check.strip() for check in checks)]))
+    save_session(root, session)
+    return session
 
 
 def save_session(root: Path, session: dict) -> None:
@@ -199,7 +286,19 @@ def load_session(root: Path, run_id: str) -> dict:
     path = session_path(root, run_id)
     if not path.is_file():
         raise PublicationStop("STOP-EXECUTION-INTERRUPTED", f"Sessione inesistente: {run_id}")
-    return load_json(path)
+    session = load_json(path)
+    required = {
+        "schema_version", "run_id", "content_id", "slug", "status", "phase", "started_at",
+        "heartbeat_at", "finished_at", "source_ids", "checks", "changed_files", "commit_performed",
+        "push_performed", "deployment_checked",
+    }
+    if not required.issubset(session) or session.get("run_id") != run_id:
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", f"Sessione {run_id} incompleta o incoerente")
+    if session.get("phase") not in PHASES or session.get("deployment_checked") is not False:
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", f"Sessione {run_id} con fase o deploy non validi")
+    if not all(isinstance(session.get(field), list) for field in ("source_ids", "checks", "changed_files")):
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", f"Sessione {run_id} con collezioni non valide")
+    return session
 
 
 def start(root: Path, run_id: str, content_id: str, related_ids: Sequence[str] = ()) -> dict:
@@ -220,22 +319,28 @@ def start(root: Path, run_id: str, content_id: str, related_ids: Sequence[str] =
     if existing_path.exists():
         existing = load_session(root, run_id)
         if existing.get("status") == "published":
-            return existing
-        if (
-            existing.get("status") in {"active", "stopped"}
-            and existing.get("content_id") == content_id
-            and existing.get("related_content_ids") == list(related_ids)
-        ):
-            assert_lock_owner(lock_path, run_id)
-            return existing
+            fetch_main(root, policy)
+            if not is_ancestor(root, existing.get("commit_sha", ""), f"refs/remotes/{policy['remote']}/{policy['branch']}"):
+                raise PublicationStop("STOP-ORIGIN-MAIN-ADVANCED", "Il commit del run concluso non appartiene a origin/main")
+            return {**existing, "idempotent_replay": True}
+        if lock_path.exists():
+            existing_lock = read_lock(lock_path)
+            if lock_is_stale(existing_lock, policy):
+                raise PublicationStop("STOP-STALE-EDITORIAL-LOCK", f"Il run {run_id} possiede un lock obsoleto; recupero manuale richiesto")
+            raise PublicationStop("STOP-ACTIVE-EDITORIAL-LOCK", f"Il run {existing_lock.get('run_id', 'sconosciuto')} è ancora attivo")
         raise PublicationStop("STOP-ACTIVE-EDITORIAL-LOCK", f"run-id già utilizzato: {run_id}")
 
     item = catalogue_item(root, content_id)
     if item.get("status") not in {"pilot", "ready", "in_progress"}:
         raise PublicationStop("STOP-NO-ELIGIBLE-GUIDE", f"Stato iniziale non pubblicabile: {item.get('status')}")
 
-    lock_value = {"schema_version": "1.0", "run_id": run_id, "content_id": content_id, "acquired_at": now_utc()}
-    acquire_lock(lock_path, lock_value)
+    timestamp = now_utc()
+    owner_token = secrets.token_urlsafe(24)
+    lock_value = {
+        "schema_version": "1.0", "run_id": run_id, "content_id": content_id,
+        "owner_token": owner_token, "acquired_at": timestamp, "heartbeat_at": timestamp, "phase": "preflight",
+    }
+    acquire_lock(lock_path, lock_value, policy)
     try:
         fetch_main(root, policy)
         local_head = head_sha(root)
@@ -256,19 +361,21 @@ def start(root: Path, run_id: str, content_id: str, related_ids: Sequence[str] =
         permitted = sorted(allowed_paths(root, policy, content_id, related_ids))
         session = {
             "schema_version": "1.0", "run_id": run_id, "content_id": content_id,
-            "related_content_ids": list(related_ids), "status": "active", "started_at": now_utc(),
+            "slug": item["slug"], "related_content_ids": list(related_ids), "status": "active",
+            "phase": "selection", "started_at": timestamp, "heartbeat_at": now_utc(),
             "finished_at": None, "branch": policy["branch"], "base_head": head_sha(root),
             "initial_remote_head": initial_remote, "allowed_paths": permitted,
-            "commit_sha": None, "push_performed": False, "deployment_checked": False,
+            "source_ids": [], "checks": [], "changed_files": [],
+            "commit_sha": None, "commit_performed": False, "push_performed": False, "deployment_checked": False,
             "attempt_count": 0, "stop_code": None, "stop_message": None,
         }
         save_session(root, session)
-        atomic_json_write(lock_path, {**lock_value, "base_head": session["base_head"]})
-        return session
+        atomic_json_write(lock_path, {**lock_value, "base_head": session["base_head"], "phase": "selection", "heartbeat_at": session["heartbeat_at"]})
+        return {**session, "owner_token": owner_token, "idempotent_replay": False}
     except Exception:
         if not (state_dir / "sessions" / f"{run_id}.json").exists() and lock_path.exists():
             try:
-                release_owned_lock(lock_path, run_id)
+                release_owned_lock(lock_path, run_id, owner_token, policy)
             except PublicationStop:
                 pass
         raise
@@ -319,17 +426,21 @@ def is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
     ).returncode == 0
 
 
-def publish(root: Path, run_id: str, validator: Callable[[Path], None] = run_full_validation) -> dict:
+def publish(
+    root: Path, run_id: str, owner_token: str = "", validator: Callable[[Path], None] = run_full_validation,
+    *, manual_recovery: bool = False,
+) -> dict:
     policy = load_policy(root)
     session = load_session(root, run_id)
     if session.get("status") == "published":
         fetch_main(root, policy)
         if not is_ancestor(root, session.get("commit_sha", ""), f"refs/remotes/{policy['remote']}/{policy['branch']}"):
             raise PublicationStop("STOP-ORIGIN-MAIN-ADVANCED", "Il commit della sessione non appartiene più alla storia di origin/main")
-        return session
+        return {**session, "idempotent_replay": True}
 
     _, lock_path, _ = repo_paths(root)
-    assert_lock_owner(lock_path, run_id)
+    assert_lock_owner(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
+    heartbeat(root, run_id, owner_token, allow_stale=manual_recovery)
     if session.get("status") not in {"active", "stopped", "committing", "committed"}:
         raise PublicationStop("STOP-EXECUTION-INTERRUPTED", f"Stato sessione non pubblicabile: {session.get('status')}")
 
@@ -337,6 +448,7 @@ def publish(root: Path, run_id: str, validator: Callable[[Path], None] = run_ful
     session["stop_code"] = None
     session["stop_message"] = None
     save_session(root, session)
+    resumed_after_commit = session.get("status") in {"committing", "committed"}
     try:
         assert_branch(root, policy)
 
@@ -356,17 +468,21 @@ def publish(root: Path, run_id: str, validator: Callable[[Path], None] = run_ful
                 or changed_paths(root)
             ):
                 raise PublicationStop("STOP-EXECUTION-INTERRUPTED-AFTER-COMMIT", "Commit interrotto non riconoscibile in modo sicuro")
-            session.update({"status": "committed", "commit_sha": head_sha(root)})
+            session.update({"status": "committed", "commit_sha": head_sha(root), "commit_performed": True})
             save_session(root, session)
+            resumed_after_commit = True
 
         # Se il commit è già nella storia remota, il push precedente è dimostrato anche se main è poi avanzato.
         if session.get("commit_sha"):
             fetch_main(root, policy)
             tracking_ref = f"refs/remotes/{policy['remote']}/{policy['branch']}"
             if is_ancestor(root, session["commit_sha"], tracking_ref):
-                session.update({"status": "published", "push_performed": True, "finished_at": now_utc()})
+                session.update({
+                    "status": "published", "phase": "complete", "commit_performed": True,
+                    "push_performed": True, "finished_at": now_utc(),
+                })
                 save_session(root, session)
-                release_owned_lock(lock_path, run_id)
+                release_owned_lock(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
                 return session
 
         if session.get("status") == "committed":
@@ -376,6 +492,8 @@ def publish(root: Path, run_id: str, validator: Callable[[Path], None] = run_ful
             if head_sha(root) != session.get("base_head"):
                 raise PublicationStop("STOP-EXECUTION-INTERRUPTED", "HEAD è cambiato rispetto all'avvio")
             paths = assert_publishable_diff(root, policy, session)
+            session["changed_files"] = paths
+            save_session(root, session)
             item = catalogue_item(root, session["content_id"])
             if item.get("status") != "pushed_to_main":
                 raise PublicationStop("STOP-ELIGIBILITY-CHANGED", "Prima del publish la guida deve avere stato pushed_to_main nel backlog")
@@ -389,6 +507,9 @@ def publish(root: Path, run_id: str, validator: Callable[[Path], None] = run_ful
                 if not all((root / path).is_file() and not (root / path).is_symlink() for path in required):
                     raise PublicationStop("STOP-GENERATION-FAILED", f"Sorgenti o pagina generata mancanti per {identifier}")
             validator(root)
+            session = heartbeat(root, run_id, owner_token, "validation", allow_phase_skip=True)
+            session["checks"] = list(dict.fromkeys([*session.get("checks", []), "validazione publication", "test Python", "test Maven"]))
+            save_session(root, session)
             fetch_main(root, policy)
             if remote_tracking_sha(root, policy) != session["initial_remote_head"] or remote_sha(root, policy) != session["initial_remote_head"]:
                 raise PublicationStop("STOP-ORIGIN-MAIN-ADVANCED", "origin/main è avanzato durante l'esecuzione")
@@ -400,11 +521,22 @@ def publish(root: Path, run_id: str, validator: Callable[[Path], None] = run_ful
             title = " ".join(str(item["working_title"]).split()).replace("\n", " ")[:80]
             message = policy["commit_message_template"].format(content_id=session["content_id"], working_title=title)
             session.update({"status": "committing", "staged_paths": paths, "commit_message": message})
+            session["phase"] = "commit"
             save_session(root, session)
+            heartbeat(root, run_id, owner_token, "commit")
             git(root, "commit", "-m", message, code="STOP-COMMIT-FAILED")
-            session.update({"status": "committed", "commit_sha": head_sha(root)})
+            session = load_session(root, run_id)
+            session.update({"status": "committed", "commit_sha": head_sha(root), "commit_performed": True})
             save_session(root, session)
+            resumed_after_commit = False
 
+        if resumed_after_commit and not manual_recovery:
+            raise PublicationStop(
+                "STOP-EXECUTION-INTERRUPTED-AFTER-COMMIT",
+                "Il run contiene un commit locale non confermato: usare il recupero manuale dopo averlo verificato",
+            )
+
+        session = heartbeat(root, run_id, owner_token, "push", allow_stale=manual_recovery)
         fetch_main(root, policy)
         if remote_tracking_sha(root, policy) != session["initial_remote_head"] or remote_sha(root, policy) != session["initial_remote_head"]:
             raise PublicationStop("STOP-ORIGIN-MAIN-ADVANCED", "origin/main è avanzato prima del push")
@@ -412,24 +544,56 @@ def publish(root: Path, run_id: str, validator: Callable[[Path], None] = run_ful
         if remote_sha(root, policy) != session["commit_sha"]:
             raise PublicationStop("STOP-PUSH-REJECTED", "Lo SHA remoto non coincide con il commit pubblicato")
         session.update({"status": "published", "push_performed": True, "finished_at": now_utc()})
+        session["phase"] = "complete"
         save_session(root, session)
-        release_owned_lock(lock_path, run_id)
+        release_owned_lock(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
         return session
     except PublicationStop as error:
         record_stop(root, session, error)
         raise
 
 
-def cancel(root: Path, run_id: str) -> dict:
+def cancel(root: Path, run_id: str, owner_token: str, *, manual_recovery: bool = False) -> dict:
     session = load_session(root, run_id)
+    if session.get("status") == "cancelled":
+        return {**session, "idempotent_replay": True}
+    policy = load_policy(root)
     _, lock_path, _ = repo_paths(root)
-    assert_lock_owner(lock_path, run_id)
+    assert_lock_owner(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
     if session.get("commit_sha") or head_sha(root) != session.get("base_head") or changed_paths(root):
         raise PublicationStop("STOP-EXECUTION-INTERRUPTED", "Annullamento vietato: sono presenti modifiche o un commit locale")
-    session.update({"status": "cancelled", "finished_at": now_utc()})
+    session.update({"status": "cancelled", "phase": "complete", "finished_at": now_utc()})
     save_session(root, session)
-    release_owned_lock(lock_path, run_id)
+    release_owned_lock(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
     return session
+
+
+def status_view(root: Path, run_id: str) -> dict:
+    session = load_session(root, run_id)
+    policy = load_policy(root)
+    _, lock_path, _ = repo_paths(root)
+    if not lock_path.exists():
+        state = "absent"
+    else:
+        lock = read_lock(lock_path)
+        if lock.get("run_id") != run_id:
+            state = "owned_by_another_run"
+        else:
+            state = "stale" if lock_is_stale(lock, policy) else "active"
+    return {**session, "lock_state": state}
+
+
+def daily_run_id(reference: datetime | None = None) -> str:
+    utc = (reference or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    march_last = calendar.monthrange(utc.year, 3)[1]
+    october_last = calendar.monthrange(utc.year, 10)[1]
+    march_sunday = march_last - ((datetime(utc.year, 3, march_last).weekday() + 1) % 7)
+    october_sunday = october_last - ((datetime(utc.year, 10, october_last).weekday() + 1) % 7)
+    daylight_start = datetime(utc.year, 3, march_sunday, 1, tzinfo=timezone.utc)
+    daylight_end = datetime(utc.year, 10, october_sunday, 1, tzinfo=timezone.utc)
+    offset = timedelta(hours=2 if daylight_start <= utc < daylight_end else 1)
+    local = utc + offset
+    return f"editorial-{local:%Y%m%d}"
 
 
 def parse_args() -> argparse.Namespace:
@@ -440,9 +604,27 @@ def parse_args() -> argparse.Namespace:
     start_parser.add_argument("--run-id", required=True)
     start_parser.add_argument("--content-id", required=True)
     start_parser.add_argument("--related-content-id", action="append", default=[])
-    for name in ("publish", "status", "cancel"):
+    heartbeat_parser = commands.add_parser("heartbeat")
+    heartbeat_parser.add_argument("--run-id", required=True)
+    heartbeat_parser.add_argument("--owner-token", required=True)
+    checkpoint_parser = commands.add_parser("checkpoint")
+    checkpoint_parser.add_argument("--run-id", required=True)
+    checkpoint_parser.add_argument("--owner-token", required=True)
+    checkpoint_parser.add_argument("--phase", choices=PHASES[2:6], required=True)
+    checkpoint_parser.add_argument("--source-id", action="append", default=[])
+    checkpoint_parser.add_argument("--check", action="append", default=[])
+    publish_parser = commands.add_parser("publish")
+    publish_parser.add_argument("--run-id", required=True)
+    publish_parser.add_argument("--owner-token", required=True)
+    publish_parser.add_argument("--manual-recovery", action="store_true")
+    cancel_parser = commands.add_parser("cancel")
+    cancel_parser.add_argument("--run-id", required=True)
+    cancel_parser.add_argument("--owner-token", required=True)
+    cancel_parser.add_argument("--manual-recovery", action="store_true")
+    for name in ("status",):
         command = commands.add_parser(name)
         command.add_argument("--run-id", required=True)
+    commands.add_parser("run-id")
     return parser.parse_args()
 
 
@@ -452,12 +634,18 @@ def main() -> int:
     try:
         if args.action == "start":
             result = start(root, args.run_id, args.content_id, args.related_content_id)
+        elif args.action == "heartbeat":
+            result = heartbeat(root, args.run_id, args.owner_token)
+        elif args.action == "checkpoint":
+            result = checkpoint(root, args.run_id, args.owner_token, args.phase, args.source_id, args.check)
         elif args.action == "publish":
-            result = publish(root, args.run_id)
+            result = publish(root, args.run_id, args.owner_token, manual_recovery=args.manual_recovery)
         elif args.action == "cancel":
-            result = cancel(root, args.run_id)
+            result = cancel(root, args.run_id, args.owner_token, manual_recovery=args.manual_recovery)
+        elif args.action == "run-id":
+            result = {"run_id": daily_run_id(), "timezone": "Europe/Rome"}
         else:
-            result = load_session(root, args.run_id)
+            result = status_view(root, args.run_id)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
     except PublicationStop as error:

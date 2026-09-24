@@ -8,6 +8,8 @@
   "fast_forward_only": true,
   "force_push_allowed": false,
   "run_full_validation": true,
+  "lock_validity_minutes": 480,
+  "heartbeat_interval_minutes": 30,
   "maximum_changed_files": 12,
   "shared_paths": [
     "docs/editorial/backlog-editoriale.json",

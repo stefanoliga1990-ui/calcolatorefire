@@ -123,6 +123,9 @@ Ogni guida e ogni esecuzione devono avere un identificatore univoco. Prima di mo
 
 Deve inoltre essere previsto un meccanismo di esclusione che impedisca a due esecuzioni di pubblicare contemporaneamente. Un tentativo duplicato deve terminare senza creare una seconda pagina o un secondo commit equivalente.
 
+Identità giornaliera, token proprietario, heartbeat, checkpoint e recupero manuale dei lock obsoleti sono definiti nel
+[runbook di lock e idempotenza](lock-idempotenza.md).
+
 ## 11. Stato, log ed esito
 
 Il registro editoriale nel repository deve essere aggiornato nello stesso commit della guida. Lo stato `pushed_to_main` è valido soltanto se quel commit risulta raggiungibile da `origin/main`.

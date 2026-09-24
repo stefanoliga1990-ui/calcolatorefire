@@ -57,7 +57,8 @@ STOP_CONDITION_KEYS = {
 }
 GIT_POLICY_KEYS = {
     "$schema", "schema_version", "branch", "remote", "remote_ref", "require_clean_start",
-    "fast_forward_only", "force_push_allowed", "run_full_validation", "maximum_changed_files",
+    "fast_forward_only", "force_push_allowed", "run_full_validation", "lock_validity_minutes",
+    "heartbeat_interval_minutes", "maximum_changed_files",
     "shared_paths", "forbidden_prefixes", "commit_message_template",
 }
 
@@ -513,6 +514,19 @@ def validate_git_publication_policy(root: Path, report: ValidationReport) -> dic
     report.check(policy["fast_forward_only"] is True, "politica Git: sono ammessi solo fast-forward")
     report.check(policy["force_push_allowed"] is False, "politica Git: force push vietato")
     report.check(policy["run_full_validation"] is True, "politica Git: validazione completa obbligatoria")
+    report.check(
+        isinstance(policy["lock_validity_minutes"], int) and 60 <= policy["lock_validity_minutes"] <= 1440,
+        "politica Git: lock_validity_minutes deve essere compreso tra 60 e 1440",
+    )
+    report.check(
+        isinstance(policy["heartbeat_interval_minutes"], int) and 5 <= policy["heartbeat_interval_minutes"] <= 60,
+        "politica Git: heartbeat_interval_minutes deve essere compreso tra 5 e 60",
+    )
+    if isinstance(policy["lock_validity_minutes"], int) and isinstance(policy["heartbeat_interval_minutes"], int):
+        report.check(
+            policy["lock_validity_minutes"] >= policy["heartbeat_interval_minutes"] * 4,
+            "politica Git: validità lock troppo breve rispetto all'heartbeat",
+        )
     report.check(
         isinstance(policy["maximum_changed_files"], int) and 1 <= policy["maximum_changed_files"] <= 20,
         "politica Git: maximum_changed_files deve essere compreso tra 1 e 20",

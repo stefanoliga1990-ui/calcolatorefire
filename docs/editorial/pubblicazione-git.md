@@ -6,6 +6,13 @@ Il processo pubblica una sola guida per esecuzione su `main`, senza force push e
 
 ## Flusso a due fasi
 
+Prima dell'avvio si ricava l'identificatore deterministico della finestra giornaliera. Due tentativi nello stesso giorno
+usano quindi lo stesso ID e non possono creare due pubblicazioni equivalenti:
+
+```powershell
+./scripts/publish-guide.ps1 run-id
+```
+
 ### 1. Avvio prima della ricerca e della scrittura
 
 ```powershell
@@ -13,6 +20,9 @@ Il processo pubblica una sola guida per esecuzione su `main`, senza force push e
 ```
 
 `start` richiede un working tree pulito e il branch `main`, acquisisce un lock atomico, esegue `fetch`, consente soltanto un aggiornamento fast-forward e fotografa lo SHA di `origin/main`. Il `RunId` deve essere univoco e lungo almeno sei caratteri.
+
+L'output contiene un `owner_token` casuale. Il task deve conservarlo in memoria e passarlo ai comandi successivi; non
+deve inserirlo nei contenuti, nei commit o nei log pubblici.
 
 Se una nuova guida deve aggiornare i link interni di guide già pubblicate, queste vanno dichiarate esplicitamente:
 
@@ -27,7 +37,7 @@ Sono ammesse come correlate soltanto guide con stato `pushed_to_main`.
 Prima della pubblicazione, la voce della guida deve avere stato `pushed_to_main` nel backlog. Questo stato descrive il contenuto del commit che diventerà vero quando il push sarà verificato.
 
 ```powershell
-./scripts/publish-guide.ps1 publish -RunId 20260924-guide-0001
+./scripts/publish-guide.ps1 publish -RunId 20260924-guide-0001 -OwnerToken <token-ricevuto-da-start>
 ```
 
 `publish`:
@@ -49,19 +59,52 @@ Consultare lo stato di un'esecuzione non modifica il repository:
 ./scripts/publish-guide.ps1 status -RunId 20260924-guide-0001
 ```
 
+Durante ricerca e redazione il task rinnova il lock almeno ogni 30 minuti:
+
+```powershell
+./scripts/publish-guide.ps1 heartbeat -RunId 20260924-guide-0001 -OwnerToken <token>
+```
+
+Alla conclusione di una fase registra un checkpoint monotono. Gli ID delle fonti e i controlli confluiscono nella
+cronologia strutturata del run:
+
+```powershell
+./scripts/publish-guide.ps1 checkpoint -RunId 20260924-guide-0001 -OwnerToken <token> `
+  -Phase research -SourceId SRC-2026-0001 -Check "fonte primaria verificata"
+```
+
 Annullare un'esecuzione è possibile soltanto se non esistono modifiche e non è stato creato alcun commit:
 
 ```powershell
-./scripts/publish-guide.ps1 cancel -RunId 20260924-guide-0001
+./scripts/publish-guide.ps1 cancel -RunId 20260924-guide-0001 -OwnerToken <token>
 ```
 
 ## Ripetibilità e recupero
 
-- Ripetere `publish` dopo un successo restituisce lo stesso esito senza creare commit o push aggiuntivi.
+- Un secondo `start` mentre il lock è fresco termina con `STOP-ACTIVE-EDITORIAL-LOCK`, senza modifiche.
+- Ripetere `publish` dopo un successo restituisce lo stesso esito senza richiedere il token e senza creare commit o push aggiuntivi.
 - Se il push è riuscito ma il processo si è interrotto prima di aggiornare il log, il comando confronta lo SHA remoto e completa la sessione.
 - Se l'esecuzione si arresta prima del commit, il lock resta attivo: dopo la correzione si può ripetere `publish` con lo stesso `RunId`.
-- Se esiste un commit locale non pubblicato, il comando può riprendere il push soltanto quando HEAD, working tree e remoto coincidono con lo stato registrato.
-- Un lock non va cancellato manualmente senza aver verificato sessione, working tree, HEAD e remoto.
+- Se esiste un commit locale non pubblicato, il retry ordinario si arresta. Dopo la verifica consapevole di HEAD, diff,
+  test e remoto, il recupero va autorizzato esplicitamente con `publish -ManualRecovery`.
+- Un lock è classificato come obsoleto dopo 480 minuti senza heartbeat. Non viene mai rimosso o acquisito nuovamente
+  in automatico.
+- Dopo aver verificato che non esistano modifiche o commit locali, un lock obsoleto può essere chiuso manualmente con
+  `cancel -ManualRecovery`. Se esistono artefatti, il comando rifiuta la rimozione.
+
+## Identità e checkpoint
+
+Le fasi ammesse sono, nell'ordine: `selection`, `research`, `drafting`, `generation`, `validation`, `commit`, `push` e
+`complete`. I checkpoint pubblici accettano le quattro fasi comprese tra ricerca e validazione e non consentono salti o
+regressioni. Ogni sessione conserva almeno:
+
+- ID del run, guida e slug;
+- orari di avvio, heartbeat e fine;
+- fase raggiunta, fonti e controlli registrati;
+- HEAD iniziale, SHA remoto iniziale, file modificati e commit;
+- esiti di commit e push;
+- eventuale codice di arresto;
+- `deployment_checked: false`.
 
 ## Perimetro dei file
 
