@@ -1,0 +1,1254 @@
+{
+  "$schema": "./backlog-editoriale.schema.json",
+  "schema_version": "1.0",
+  "updated_at": "2026-09-24",
+  "selection_policy": {
+    "required_status": "ready",
+    "automation_eligible": true,
+    "dependencies_must_have_status": "pushed_to_main",
+    "order_by": [
+      "priority_ascending",
+      "sequence_ascending"
+    ],
+    "maximum_items_per_run": 1,
+    "when_no_item_matches": "stop_without_changes"
+  },
+  "items": [
+    {
+      "id": "METH-0001",
+      "content_type": "methodology",
+      "status": "planned",
+      "execution_mode": "manual_prerequisite",
+      "automation_eligible": false,
+      "sequence": 0,
+      "priority": "P0",
+      "slug": "/metodologia",
+      "working_title": "Metodologia del simulatore FIRE",
+      "cluster": "metodologia",
+      "parent_id": null,
+      "search_intent": "Capire formule, ipotesi, fiscalità semplificata e limiti del simulatore.",
+      "primary_query": "come funziona il simulatore FIRE",
+      "secondary_queries": [
+        "formule calcolo FIRE",
+        "ipotesi simulatore FIRE",
+        "limiti calcolatore FIRE"
+      ],
+      "reader_outcome": "Il lettore può verificare come vengono prodotti i risultati e decidere se le ipotesi sono adatte al proprio scenario.",
+      "unique_value": "Documentazione diretta e riproducibile del motore realmente utilizzato dal sito.",
+      "simulator_features": [
+        "FINITE",
+        "SWR",
+        "PAC",
+        "fiscalità semplificata",
+        "risorse aggiuntive"
+      ],
+      "source_focus": [
+        "specifica matematica interna",
+        "specifica fiscale interna",
+        "implementazione e test del motore"
+      ],
+      "risk_level": "high",
+      "freshness": "high",
+      "dependencies": [],
+      "notes": "Pagina manuale necessaria prima della prima guida e dell'attivazione dell'automazione."
+    },
+    {
+      "id": "GUIDE-0001",
+      "content_type": "guide",
+      "status": "pilot",
+      "execution_mode": "manual_pilot",
+      "automation_eligible": false,
+      "sequence": 1,
+      "priority": "P0",
+      "slug": "/guida/fire-italia",
+      "working_title": "FIRE in Italia: guida all'indipendenza finanziaria",
+      "cluster": "fondamenti-fire",
+      "parent_id": null,
+      "search_intent": "Comprendere che cos'è il FIRE e come adattarne il percorso al contesto italiano.",
+      "primary_query": "FIRE Italia",
+      "secondary_queries": [
+        "indipendenza finanziaria Italia",
+        "movimento FIRE Italia",
+        "come raggiungere il FIRE"
+      ],
+      "reader_outcome": "Il lettore comprende obiettivo, fasi, variabili, rischi e ruolo del simulatore nel proprio percorso.",
+      "unique_value": "Guida pilastro collegata a un simulatore italiano con ipotesi esplicite, fiscalità e risorse future.",
+      "simulator_features": [
+        "obiettivo FIRE",
+        "PAC",
+        "inflazione",
+        "fiscalità",
+        "risorse aggiuntive"
+      ],
+      "source_focus": [
+        "fonti istituzionali italiane",
+        "letteratura sull'indipendenza finanziaria",
+        "metodologia del simulatore"
+      ],
+      "risk_level": "medium",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001"
+      ],
+      "notes": "Prima guida da produrre manualmente e usare per perfezionare l'intero processo."
+    },
+    {
+      "id": "GUIDE-0002",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 2,
+      "priority": "P1",
+      "slug": "/guida/numero-fire",
+      "working_title": "Numero FIRE: quanto capitale serve per vivere di rendita",
+      "cluster": "calcolo-fire",
+      "parent_id": "GUIDE-0001",
+      "search_intent": "Calcolare il patrimonio necessario a sostenere una spesa desiderata.",
+      "primary_query": "quanto capitale serve per vivere di rendita",
+      "secondary_queries": [
+        "numero FIRE",
+        "calcolo capitale FIRE",
+        "quanti soldi servono per smettere di lavorare"
+      ],
+      "reader_outcome": "Il lettore sa trasformare le proprie spese in un intervallo di capitale e riconosce le ipotesi che lo modificano.",
+      "unique_value": "Confronto tra target a durata finita e target SWR, con inflazione e imposte del simulatore.",
+      "simulator_features": [
+        "target FIRE",
+        "FINITE",
+        "SWR",
+        "spesa mensile"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "letteratura sui prelievi",
+        "fonti italiane su fiscalità e inflazione"
+      ],
+      "risk_level": "medium",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0003",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 3,
+      "priority": "P1",
+      "slug": "/guida/regola-del-4-percento-swr",
+      "working_title": "Regola del 4% e Safe Withdrawal Rate: significato e limiti",
+      "cluster": "calcolo-fire",
+      "parent_id": "GUIDE-0002",
+      "search_intent": "Capire se e come usare la regola del 4% per pianificare i prelievi.",
+      "primary_query": "regola del 4 percento FIRE",
+      "secondary_queries": [
+        "safe withdrawal rate Italia",
+        "SWR FIRE",
+        "prelievo sostenibile patrimonio"
+      ],
+      "reader_outcome": "Il lettore comprende origine, ipotesi, orizzonte e limiti del 4%, senza considerarlo una garanzia.",
+      "unique_value": "Lettura critica dello SWR e confronto con durata FIRE, fiscalità e risorse future.",
+      "simulator_features": [
+        "SWR",
+        "durata FIRE",
+        "target FIRE"
+      ],
+      "source_focus": [
+        "studi originali sui tassi di prelievo",
+        "letteratura successiva",
+        "metodologia del simulatore"
+      ],
+      "risk_level": "high",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": "Non trasformare un tasso storico in promessa di successo futuro."
+    },
+    {
+      "id": "GUIDE-0004",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 4,
+      "priority": "P1",
+      "slug": "/guida/pac-per-raggiungere-il-fire",
+      "working_title": "PAC per raggiungere il FIRE: capitale, tempo e versamenti",
+      "cluster": "accumulo",
+      "parent_id": "GUIDE-0001",
+      "search_intent": "Stimare il versamento periodico necessario per raggiungere il target FIRE.",
+      "primary_query": "PAC per raggiungere il FIRE",
+      "secondary_queries": [
+        "quanto investire al mese FIRE",
+        "piano accumulo indipendenza finanziaria",
+        "calcolo PAC FIRE"
+      ],
+      "reader_outcome": "Il lettore sa quali input determinano il PAC e come interpretarli senza confonderlo con un rendimento garantito.",
+      "unique_value": "Esempi riproducibili con il calcolo mensile e il target del simulatore.",
+      "simulator_features": [
+        "PAC",
+        "capitale attuale",
+        "rendimento in accumulo",
+        "età FIRE"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "educazione finanziaria istituzionale",
+        "formule di accumulo"
+      ],
+      "risk_level": "medium",
+      "freshness": "low",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0005",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 5,
+      "priority": "P1",
+      "slug": "/guida/inflazione-rendimenti-fire",
+      "working_title": "Inflazione e rendimenti nel calcolo FIRE",
+      "cluster": "ipotesi-finanziarie",
+      "parent_id": "GUIDE-0002",
+      "search_intent": "Capire come inflazione e rendimento cambiano capitale necessario e PAC.",
+      "primary_query": "inflazione rendimento FIRE",
+      "secondary_queries": [
+        "inflazione indipendenza finanziaria",
+        "rendimento atteso FIRE",
+        "potere acquisto pensionamento anticipato"
+      ],
+      "reader_outcome": "Il lettore distingue gli effetti delle due variabili e sa provare scenari prudenti.",
+      "unique_value": "Collegamento diretto tra ipotesi modificabili e risultati di accumulo e decumulo.",
+      "simulator_features": [
+        "inflazione",
+        "rendimento FIRE",
+        "rendimento accumulo",
+        "proiezioni"
+      ],
+      "source_focus": [
+        "ISTAT",
+        "Banca d'Italia",
+        "letteratura finanziaria",
+        "metodologia del simulatore"
+      ],
+      "risk_level": "medium",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0006",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 6,
+      "priority": "P1",
+      "slug": "/guida/tassazione-fire-italia",
+      "working_title": "Tassazione e FIRE in Italia: cosa considera il simulatore",
+      "cluster": "fiscalita",
+      "parent_id": "GUIDE-0001",
+      "search_intent": "Comprendere come imposte e bollo incidono su accumulo e prelievi FIRE in Italia.",
+      "primary_query": "tassazione FIRE Italia",
+      "secondary_queries": [
+        "tasse vivere di rendita Italia",
+        "tassazione investimenti FIRE",
+        "FIRE capital gain Italia"
+      ],
+      "reader_outcome": "Il lettore comprende il modello fiscale semplificato e riconosce ciò che richiede una valutazione personale.",
+      "unique_value": "Spiegazione trasparente della fiscalità realmente modellata, inclusi bollo e plusvalenza latente.",
+      "simulator_features": [
+        "imposta sulle plusvalenze",
+        "imposta di bollo",
+        "costo fiscale",
+        "prelievo lordo e netto"
+      ],
+      "source_focus": [
+        "normativa vigente",
+        "Agenzia delle Entrate",
+        "specifica fiscale del simulatore"
+      ],
+      "risk_level": "high",
+      "freshness": "high",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": "Informazione generale, non consulenza fiscale personalizzata."
+    },
+    {
+      "id": "GUIDE-0007",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 7,
+      "priority": "P1",
+      "slug": "/guida/rendite-pensione-capitali-futuri",
+      "working_title": "Rendite, pensione e capitali futuri nel piano FIRE",
+      "cluster": "risorse-aggiuntive",
+      "parent_id": "GUIDE-0001",
+      "search_intent": "Integrare nel piano FIRE risorse diverse dal PAC principale.",
+      "primary_query": "pensione e rendite nel calcolo FIRE",
+      "secondary_queries": [
+        "FIRE con pensione futura",
+        "rendita passiva calcolo FIRE",
+        "capitale futuro indipendenza finanziaria"
+      ],
+      "reader_outcome": "Il lettore sa classificare rendite, pensione, investimenti esistenti e capitali una tantum evitando doppi conteggi.",
+      "unique_value": "Corrispondenza con le tre risorse aggiuntive gestite dal simulatore e con la loro collocazione temporale.",
+      "simulator_features": [
+        "investimento esistente",
+        "rendita periodica",
+        "capitale futuro",
+        "prevenzione doppio conteggio"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "INPS per le pensioni",
+        "fonti pertinenti alla natura della risorsa"
+      ],
+      "risk_level": "high",
+      "freshness": "high",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0008",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 8,
+      "priority": "P1",
+      "slug": "/guida/metodo-finite-o-swr",
+      "working_title": "Metodo FINITE o SWR: quale target FIRE stai calcolando?",
+      "cluster": "calcolo-fire",
+      "parent_id": "GUIDE-0002",
+      "search_intent": "Scegliere tra capitale per durata finita e prelievo percentuale sostenibile.",
+      "primary_query": "calcolo FIRE durata finita o SWR",
+      "secondary_queries": [
+        "metodo FINITE FIRE",
+        "differenza FINITE SWR",
+        "capitale FIRE durata pensionamento"
+      ],
+      "reader_outcome": "Il lettore comprende cosa risponde ciascun metodo e perché i target possono differire.",
+      "unique_value": "Confronto dei due motori disponibili nello stesso simulatore con esempi coerenti.",
+      "simulator_features": [
+        "FINITE",
+        "SWR",
+        "durata FIRE",
+        "capitale terminale"
+      ],
+      "source_focus": [
+        "specifica matematica",
+        "letteratura sui prelievi",
+        "formule finanziarie"
+      ],
+      "risk_level": "medium",
+      "freshness": "low",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0009",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 9,
+      "priority": "P2",
+      "slug": "/guida/calcolare-spese-fire",
+      "working_title": "Come stimare le spese per calcolare il proprio FIRE",
+      "cluster": "fondamenti-fire",
+      "parent_id": "GUIDE-0002",
+      "search_intent": "Definire una spesa mensile realistica da usare nel calcolo FIRE.",
+      "primary_query": "come calcolare spese FIRE",
+      "secondary_queries": [
+        "budget indipendenza finanziaria",
+        "spese mensili vivere di rendita",
+        "quanto mi serve al mese FIRE"
+      ],
+      "reader_outcome": "Il lettore costruisce una stima documentata senza omettere spese irregolari o future.",
+      "unique_value": "Collegamento tra budget in euro di oggi, inflazione e input di spesa del simulatore.",
+      "simulator_features": [
+        "spesa mensile",
+        "inflazione",
+        "target FIRE"
+      ],
+      "source_focus": [
+        "educazione finanziaria istituzionale",
+        "statistiche sui consumi",
+        "metodologia del simulatore"
+      ],
+      "risk_level": "low",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0010",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 10,
+      "priority": "P2",
+      "slug": "/guida/tasso-di-risparmio-fire",
+      "working_title": "Tasso di risparmio e FIRE: quanto incide sul tempo necessario",
+      "cluster": "accumulo",
+      "parent_id": "GUIDE-0004",
+      "search_intent": "Capire la relazione tra quota risparmiata, PAC e anni al FIRE.",
+      "primary_query": "tasso di risparmio FIRE",
+      "secondary_queries": [
+        "quanto risparmiare per FIRE",
+        "risparmio mensile indipendenza finanziaria",
+        "accelerare percorso FIRE"
+      ],
+      "reader_outcome": "Il lettore valuta scenari di risparmio senza adottare percentuali universali o irrealistiche.",
+      "unique_value": "Esempi basati sul PAC richiesto e sulle scadenze impostate nel simulatore.",
+      "simulator_features": [
+        "PAC",
+        "età FIRE",
+        "spesa mensile"
+      ],
+      "source_focus": [
+        "educazione finanziaria",
+        "formule di accumulo",
+        "metodologia del simulatore"
+      ],
+      "risk_level": "low",
+      "freshness": "low",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0011",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 11,
+      "priority": "P2",
+      "slug": "/guida/capitale-investito-pac-esistente",
+      "working_title": "Come inserire capitale investito e PAC esistenti nel calcolo FIRE",
+      "cluster": "risorse-aggiuntive",
+      "parent_id": "GUIDE-0007",
+      "search_intent": "Rappresentare correttamente investimenti già avviati senza contarli due volte.",
+      "primary_query": "capitale già investito calcolo FIRE",
+      "secondary_queries": [
+        "PAC esistente FIRE",
+        "investimenti attuali simulatore FIRE",
+        "patrimonio iniziale FIRE"
+      ],
+      "reader_outcome": "Il lettore distingue capitale principale, investimento aggiuntivo, versamenti e costo fiscale.",
+      "unique_value": "Guida pratica alla risorsa investimento esistente realmente disponibile nell'applicazione.",
+      "simulator_features": [
+        "capitale attuale",
+        "investimento esistente",
+        "PAC esistente",
+        "costo fiscale"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "specifica fiscale",
+        "educazione finanziaria istituzionale"
+      ],
+      "risk_level": "medium",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0012",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 12,
+      "priority": "P2",
+      "slug": "/guida/rischio-sequenza-rendimenti-fire",
+      "working_title": "Rischio di sequenza dei rendimenti nel FIRE",
+      "cluster": "rischi-fire",
+      "parent_id": "GUIDE-0003",
+      "search_intent": "Capire perché l'ordine dei rendimenti conta durante i prelievi.",
+      "primary_query": "rischio sequenza rendimenti FIRE",
+      "secondary_queries": [
+        "sequence of returns risk italiano",
+        "rischio prelievi pensionamento",
+        "crollo mercato inizio FIRE"
+      ],
+      "reader_outcome": "Il lettore comprende un limite delle proiezioni a rendimento costante e non interpreta il risultato come previsione.",
+      "unique_value": "Confronto esplicito tra modello deterministico del sito e variabilità dei rendimenti reali.",
+      "simulator_features": [
+        "decumulo",
+        "rendimento FIRE",
+        "proiezioni"
+      ],
+      "source_focus": [
+        "letteratura accademica",
+        "educazione finanziaria istituzionale",
+        "limiti metodologici del simulatore"
+      ],
+      "risk_level": "high",
+      "freshness": "low",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0013",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 13,
+      "priority": "P2",
+      "slug": "/guida/rendimento-nominale-reale",
+      "working_title": "Rendimento nominale e reale: differenza nel calcolo FIRE",
+      "cluster": "ipotesi-finanziarie",
+      "parent_id": "GUIDE-0005",
+      "search_intent": "Distinguere rendimento dichiarato e crescita del potere d'acquisto.",
+      "primary_query": "rendimento nominale reale FIRE",
+      "secondary_queries": [
+        "rendimento reale inflazione formula",
+        "potere acquisto investimenti",
+        "rendimento netto inflazione"
+      ],
+      "reader_outcome": "Il lettore evita di sottrarre o applicare l'inflazione in modo incoerente negli input.",
+      "unique_value": "Spiegazione coerente con conversioni e flussi nominali del motore.",
+      "simulator_features": [
+        "inflazione",
+        "rendimento accumulo",
+        "rendimento FIRE"
+      ],
+      "source_focus": [
+        "Banca d'Italia",
+        "ISTAT",
+        "formule finanziarie",
+        "metodologia del simulatore"
+      ],
+      "risk_level": "medium",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0014",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 14,
+      "priority": "P2",
+      "slug": "/guida/rendimento-atteso-simulazione-fire",
+      "working_title": "Come scegliere il rendimento atteso in una simulazione FIRE",
+      "cluster": "ipotesi-finanziarie",
+      "parent_id": "GUIDE-0005",
+      "search_intent": "Impostare un rendimento ipotetico senza trasformare dati storici in previsioni.",
+      "primary_query": "rendimento atteso simulazione FIRE",
+      "secondary_queries": [
+        "che rendimento usare calcolatore FIRE",
+        "rendimento medio investimenti FIRE",
+        "ipotesi prudente rendimento FIRE"
+      ],
+      "reader_outcome": "Il lettore sa costruire più scenari e documentare l'ipotesi scelta.",
+      "unique_value": "Metodo prudente basato su intervalli e sensibilità, non su un valore raccomandato.",
+      "simulator_features": [
+        "rendimento accumulo",
+        "rendimento FIRE",
+        "modifica scenario"
+      ],
+      "source_focus": [
+        "dati di mercato istituzionali",
+        "letteratura finanziaria",
+        "limiti del simulatore"
+      ],
+      "risk_level": "high",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": "Non indicare un rendimento universale né suggerire prodotti specifici."
+    },
+    {
+      "id": "GUIDE-0015",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 15,
+      "priority": "P2",
+      "slug": "/guida/plusvalenze-costo-fiscale-fire",
+      "working_title": "Plusvalenze e costo fiscale nel calcolo FIRE",
+      "cluster": "fiscalita",
+      "parent_id": "GUIDE-0006",
+      "search_intent": "Capire perché imposta e prelievo lordo dipendono dalla plusvalenza latente.",
+      "primary_query": "plusvalenze calcolo FIRE",
+      "secondary_queries": [
+        "costo fiscale portafoglio",
+        "capital gain vivere di rendita",
+        "prelievo netto investimenti tasse"
+      ],
+      "reader_outcome": "Il lettore distingue valore del portafoglio, capitale versato, plusvalenza e imposta stimata.",
+      "unique_value": "Spiegazione del costo fiscale proporzionale usato dal motore durante accumulo e decumulo.",
+      "simulator_features": [
+        "costo fiscale",
+        "plusvalenza latente",
+        "imposta sulle plusvalenze",
+        "prelievo lordo e netto"
+      ],
+      "source_focus": [
+        "normativa vigente",
+        "Agenzia delle Entrate",
+        "specifica fiscale del simulatore"
+      ],
+      "risk_level": "high",
+      "freshness": "high",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0016",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 16,
+      "priority": "P2",
+      "slug": "/guida/imposta-bollo-investimenti-fire",
+      "working_title": "Imposta di bollo sugli investimenti e impatto sul FIRE",
+      "cluster": "fiscalita",
+      "parent_id": "GUIDE-0006",
+      "search_intent": "Comprendere come un costo patrimoniale ricorrente incide sulla proiezione.",
+      "primary_query": "imposta di bollo investimenti FIRE",
+      "secondary_queries": [
+        "bollo conto titoli FIRE",
+        "bollo patrimonio vivere di rendita",
+        "costi fiscali simulatore FIRE"
+      ],
+      "reader_outcome": "Il lettore comprende base, frequenza e semplificazione con cui il simulatore applica il bollo.",
+      "unique_value": "Collegamento tra regola corrente e conversione mensile implementata nel motore.",
+      "simulator_features": [
+        "imposta di bollo",
+        "accumulo fiscalizzato",
+        "decumulo fiscalizzato"
+      ],
+      "source_focus": [
+        "normativa vigente",
+        "Agenzia delle Entrate",
+        "specifica fiscale del simulatore"
+      ],
+      "risk_level": "high",
+      "freshness": "high",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0017",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 17,
+      "priority": "P2",
+      "slug": "/guida/capitale-ponte-pensione-fire",
+      "working_title": "Capitale ponte tra FIRE e pensione",
+      "cluster": "risorse-aggiuntive",
+      "parent_id": "GUIDE-0007",
+      "search_intent": "Stimare il capitale necessario prima dell'inizio della pensione o di una rendita stabile.",
+      "primary_query": "capitale ponte pensione FIRE",
+      "secondary_queries": [
+        "FIRE prima della pensione INPS",
+        "pensione futura calcolo FIRE",
+        "bridge retirement Italia"
+      ],
+      "reader_outcome": "Il lettore comprende come una rendita futura può ridurre il fabbisogno senza azzerare i rischi iniziali.",
+      "unique_value": "Spiegazione del capitale ponte e della riserva SWR realmente calcolati dal motore.",
+      "simulator_features": [
+        "rendita futura",
+        "capitale ponte",
+        "riserva SWR",
+        "pensione"
+      ],
+      "source_focus": [
+        "INPS",
+        "normativa previdenziale",
+        "metodologia del simulatore"
+      ],
+      "risk_level": "high",
+      "freshness": "high",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": "Non stimare automaticamente il diritto o l'importo pensionistico individuale."
+    },
+    {
+      "id": "GUIDE-0018",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 18,
+      "priority": "P2",
+      "slug": "/guida/rendite-periodiche-fire",
+      "working_title": "Come considerare rendite periodiche nel piano FIRE",
+      "cluster": "risorse-aggiuntive",
+      "parent_id": "GUIDE-0007",
+      "search_intent": "Inserire una rendita temporanea o permanente nel piano FIRE.",
+      "primary_query": "rendite periodiche calcolo FIRE",
+      "secondary_queries": [
+        "affitto nel calcolo FIRE",
+        "reddito passivo simulatore FIRE",
+        "rendita temporanea indipendenza finanziaria"
+      ],
+      "reader_outcome": "Il lettore distingue importo, decorrenza, durata, rivalutazione e quota reinvestita.",
+      "unique_value": "Guida ai campi e agli effetti della risorsa periodica del simulatore.",
+      "simulator_features": [
+        "rendita periodica",
+        "rivalutazione",
+        "reinvestimento",
+        "durata"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "fonti specifiche per la natura della rendita",
+        "inflazione"
+      ],
+      "risk_level": "medium",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0019",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 19,
+      "priority": "P2",
+      "slug": "/guida/capitale-futuro-una-tantum-fire",
+      "working_title": "Come considerare un capitale futuro una tantum nel FIRE",
+      "cluster": "risorse-aggiuntive",
+      "parent_id": "GUIDE-0007",
+      "search_intent": "Rappresentare un capitale atteso in una data futura senza anticiparlo nel calcolo.",
+      "primary_query": "capitale futuro calcolo FIRE",
+      "secondary_queries": [
+        "TFR nel calcolo FIRE",
+        "eredità futura FIRE",
+        "entrata una tantum indipendenza finanziaria"
+      ],
+      "reader_outcome": "Il lettore sa modellare importo e data senza trattare un evento incerto come garantito.",
+      "unique_value": "Effetto distinto se il capitale arriva prima o dopo l'ingresso nel FIRE.",
+      "simulator_features": [
+        "capitale futuro",
+        "data di ricezione",
+        "rendimento",
+        "accumulo e decumulo"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "fonti pertinenti alla natura del capitale",
+        "inflazione"
+      ],
+      "risk_level": "medium",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": "Gli esempi non devono presumere diritti futuri individuali."
+    },
+    {
+      "id": "GUIDE-0020",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 20,
+      "priority": "P2",
+      "slug": "/guida/capitale-finale-fire",
+      "working_title": "Capitale finale nel FIRE: esaurire o preservare il patrimonio",
+      "cluster": "calcolo-fire",
+      "parent_id": "GUIDE-0008",
+      "search_intent": "Capire come un obiettivo di patrimonio residuo modifica il capitale iniziale richiesto.",
+      "primary_query": "capitale finale FIRE",
+      "secondary_queries": [
+        "preservare patrimonio FIRE",
+        "eredità e indipendenza finanziaria",
+        "capitale residuo pensionamento"
+      ],
+      "reader_outcome": "Il lettore distingue capitale terminale in euro di oggi e risultato nominale della proiezione.",
+      "unique_value": "Spiegazione dell'input capitale finale del metodo FINITE e dei relativi limiti.",
+      "simulator_features": [
+        "capitale terminale",
+        "FINITE",
+        "inflazione",
+        "saldo finale"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "formule finanziarie",
+        "inflazione"
+      ],
+      "risk_level": "medium",
+      "freshness": "low",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0021",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 21,
+      "priority": "P2",
+      "slug": "/guida/aumento-versamenti-pac-fire",
+      "working_title": "Aumentare i versamenti del PAC nel tempo: effetto sul FIRE",
+      "cluster": "accumulo",
+      "parent_id": "GUIDE-0004",
+      "search_intent": "Modellare un PAC che cresce nel tempo con reddito o inflazione.",
+      "primary_query": "aumento PAC nel tempo FIRE",
+      "secondary_queries": [
+        "PAC crescente indipendenza finanziaria",
+        "incrementare versamenti investimento",
+        "crescita contributi FIRE"
+      ],
+      "reader_outcome": "Il lettore comprende l'effetto e i limiti di un tasso di crescita dei versamenti.",
+      "unique_value": "Esempi riproducibili con il parametro di crescita annuale del PAC.",
+      "simulator_features": [
+        "crescita versamenti",
+        "PAC",
+        "accumulo"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "formule di accumulo",
+        "inflazione e redditi"
+      ],
+      "risk_level": "low",
+      "freshness": "low",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0022",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 22,
+      "priority": "P3",
+      "slug": "/guida/durata-fire-longevita",
+      "working_title": "Durata del FIRE e rischio di longevità",
+      "cluster": "rischi-fire",
+      "parent_id": "GUIDE-0008",
+      "search_intent": "Scegliere un orizzonte di decumulo e comprenderne l'incertezza.",
+      "primary_query": "durata FIRE longevità",
+      "secondary_queries": [
+        "quanti anni deve durare capitale FIRE",
+        "rischio longevità pensionamento",
+        "orizzonte prelievi FIRE"
+      ],
+      "reader_outcome": "Il lettore non confonde un orizzonte inserito nel modello con una previsione della propria vita.",
+      "unique_value": "Confronto tra durata finita e SWR nel contesto del simulatore.",
+      "simulator_features": [
+        "durata FIRE",
+        "FINITE",
+        "SWR"
+      ],
+      "source_focus": [
+        "ISTAT",
+        "letteratura sul rischio di longevità",
+        "metodologia del simulatore"
+      ],
+      "risk_level": "high",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0023",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 23,
+      "priority": "P3",
+      "slug": "/guida/tipi-di-fire",
+      "working_title": "Lean, Fat, Barista e Coast FIRE: differenze senza etichette rigide",
+      "cluster": "fondamenti-fire",
+      "parent_id": "GUIDE-0001",
+      "search_intent": "Confrontare le principali varianti del FIRE e capire quali variabili cambiano.",
+      "primary_query": "tipi di FIRE",
+      "secondary_queries": [
+        "Lean FIRE",
+        "Fat FIRE",
+        "Barista FIRE",
+        "Coast FIRE"
+      ],
+      "reader_outcome": "Il lettore usa le varianti come modelli concettuali, non come soglie universali.",
+      "unique_value": "Un'unica guida completa evita pagine sottili create per ogni etichetta.",
+      "simulator_features": [
+        "spesa mensile",
+        "rendite periodiche",
+        "PAC",
+        "età FIRE"
+      ],
+      "source_focus": [
+        "fonti originali o storiche del movimento",
+        "letteratura divulgativa autorevole",
+        "metodologia del simulatore"
+      ],
+      "risk_level": "low",
+      "freshness": "low",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": "Le varianti principali restano in una pagina unica per evitare cannibalizzazione."
+    },
+    {
+      "id": "GUIDE-0024",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 24,
+      "priority": "P3",
+      "slug": "/guida/coast-fire",
+      "working_title": "Coast FIRE: formula, ipotesi e collegamento con il PAC",
+      "cluster": "fondamenti-fire",
+      "parent_id": "GUIDE-0023",
+      "search_intent": "Calcolare il capitale che potrebbe crescere fino al target senza nuovi versamenti.",
+      "primary_query": "Coast FIRE Italia",
+      "secondary_queries": [
+        "formula Coast FIRE",
+        "calcolo Coast FIRE",
+        "quando smettere di versare PAC"
+      ],
+      "reader_outcome": "Il lettore comprende formula e sensibilità a tempo, rendimento e target futuro.",
+      "unique_value": "La guida usa il target del simulatore e chiarisce che il rendimento resta un'ipotesi.",
+      "simulator_features": [
+        "capitale attuale",
+        "target FIRE",
+        "rendimento accumulo",
+        "età FIRE"
+      ],
+      "source_focus": [
+        "formule finanziarie",
+        "metodologia del simulatore",
+        "letteratura FIRE"
+      ],
+      "risk_level": "medium",
+      "freshness": "low",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001",
+        "GUIDE-0023"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0025",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 25,
+      "priority": "P3",
+      "slug": "/guida/accumulo-decumulo-fire",
+      "working_title": "Accumulo e decumulo nel percorso FIRE",
+      "cluster": "calcolo-fire",
+      "parent_id": "GUIDE-0001",
+      "search_intent": "Capire le due fasi del piano e le variabili che cambiano tra loro.",
+      "primary_query": "accumulo decumulo FIRE",
+      "secondary_queries": [
+        "fase accumulo investimenti",
+        "fase decumulo pensionamento",
+        "prelievi patrimonio FIRE"
+      ],
+      "reader_outcome": "Il lettore distingue versamenti, crescita, prelievi, imposte e rendite nelle due fasi.",
+      "unique_value": "Lettura guidata delle due proiezioni prodotte dall'applicazione.",
+      "simulator_features": [
+        "accumulo",
+        "decumulo",
+        "grafici",
+        "fiscalità"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "educazione finanziaria",
+        "letteratura sui prelievi"
+      ],
+      "risk_level": "medium",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0026",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 26,
+      "priority": "P3",
+      "slug": "/guida/analisi-sensibilita-fire",
+      "working_title": "Analisi di sensibilità FIRE: confrontare scenari senza prevedere il futuro",
+      "cluster": "rischi-fire",
+      "parent_id": "GUIDE-0005",
+      "search_intent": "Valutare come cambiano i risultati modificando una variabile alla volta.",
+      "primary_query": "scenari simulazione FIRE",
+      "secondary_queries": [
+        "analisi sensibilità FIRE",
+        "scenario prudente FIRE",
+        "stress test calcolo FIRE"
+      ],
+      "reader_outcome": "Il lettore costruisce scenari confrontabili e individua le ipotesi a maggiore impatto.",
+      "unique_value": "Procedura applicabile direttamente alla funzione di modifica scenario del simulatore.",
+      "simulator_features": [
+        "modifica scenario",
+        "inflazione",
+        "rendimenti",
+        "età FIRE",
+        "PAC"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "principi di analisi di sensibilità",
+        "educazione finanziaria"
+      ],
+      "risk_level": "medium",
+      "freshness": "low",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0027",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 27,
+      "priority": "P3",
+      "slug": "/guida/leggere-risultati-simulatore-fire",
+      "working_title": "Come leggere risultati e grafici del simulatore FIRE",
+      "cluster": "uso-simulatore",
+      "parent_id": "METH-0001",
+      "search_intent": "Interpretare target, PAC, imposte, saldi e proiezioni mostrati dal simulatore.",
+      "primary_query": "come leggere simulatore FIRE",
+      "secondary_queries": [
+        "risultati calcolatore FIRE",
+        "grafico accumulo decumulo",
+        "interpretare numero FIRE"
+      ],
+      "reader_outcome": "Il lettore comprende unità, valori di oggi e nominali, e limiti dei risultati.",
+      "unique_value": "Manuale orientato ai risultati effettivamente mostrati dall'applicazione.",
+      "simulator_features": [
+        "target selezionato",
+        "PAC",
+        "imposte stimate",
+        "grafici",
+        "saldo finale"
+      ],
+      "source_focus": [
+        "interfaccia del simulatore",
+        "metodologia",
+        "test del progetto"
+      ],
+      "risk_level": "low",
+      "freshness": "high",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": "Da aggiornare quando cambiano output o interfaccia; nessuna revisione periodica automatica."
+    },
+    {
+      "id": "GUIDE-0028",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 28,
+      "priority": "P3",
+      "slug": "/guida/errori-calcolo-fire",
+      "working_title": "Errori comuni nel calcolo FIRE e come evitarli",
+      "cluster": "uso-simulatore",
+      "parent_id": "METH-0001",
+      "search_intent": "Evitare input incoerenti e interpretazioni eccessivamente ottimistiche.",
+      "primary_query": "errori calcolo FIRE",
+      "secondary_queries": [
+        "errori simulatore FIRE",
+        "ipotesi sbagliate indipendenza finanziaria",
+        "doppio conteggio patrimonio FIRE"
+      ],
+      "reader_outcome": "Il lettore riconosce doppio conteggio, valori reali/nominali, date errate e rendimenti trattati come certezze.",
+      "unique_value": "Errori derivati dalle validazioni e dalle risorse realmente gestite dal motore.",
+      "simulator_features": [
+        "validazioni",
+        "risorse aggiuntive",
+        "inflazione",
+        "fiscalità",
+        "PAC"
+      ],
+      "source_focus": [
+        "metodologia",
+        "validazioni del progetto",
+        "educazione finanziaria"
+      ],
+      "risk_level": "medium",
+      "freshness": "high",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": null
+    },
+    {
+      "id": "GUIDE-0029",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 29,
+      "priority": "P3",
+      "slug": "/guida/calcolare-eta-fire",
+      "working_title": "Come stimare a quale età potresti raggiungere il FIRE",
+      "cluster": "accumulo",
+      "parent_id": "GUIDE-0004",
+      "search_intent": "Stimare un'età obiettivo collegando capitale, PAC, spese e ipotesi.",
+      "primary_query": "a che età posso andare in FIRE",
+      "secondary_queries": [
+        "quando raggiungo indipendenza finanziaria",
+        "calcolo età FIRE",
+        "anni mancanti al FIRE"
+      ],
+      "reader_outcome": "Il lettore confronta più età senza interpretare la simulazione come una data garantita.",
+      "unique_value": "Una guida generale sostituisce pagine artificiali separate per FIRE a 40, 50 o 60 anni.",
+      "simulator_features": [
+        "età attuale",
+        "età FIRE",
+        "PAC",
+        "target FIRE"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "formule di accumulo",
+        "analisi di sensibilità"
+      ],
+      "risk_level": "medium",
+      "freshness": "low",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": "Non creare in futuro varianti basate soltanto sull'età."
+    },
+    {
+      "id": "GUIDE-0030",
+      "content_type": "guide",
+      "status": "ready",
+      "execution_mode": "automatic",
+      "automation_eligible": true,
+      "sequence": 30,
+      "priority": "P3",
+      "slug": "/guida/fire-coppia-famiglia",
+      "working_title": "Calcolare il FIRE per una coppia o una famiglia",
+      "cluster": "fondamenti-fire",
+      "parent_id": "GUIDE-0001",
+      "search_intent": "Costruire uno scenario familiare evitando incoerenze tra spese, patrimoni e rendite.",
+      "primary_query": "FIRE coppia famiglia",
+      "secondary_queries": [
+        "indipendenza finanziaria famiglia",
+        "numero FIRE coppia",
+        "spese familiari FIRE"
+      ],
+      "reader_outcome": "Il lettore sa aggregare correttamente le variabili comuni e tenere separate decorrenze o risorse individuali.",
+      "unique_value": "Uso prudente dello scenario unico del simulatore con limiti dichiarati per nuclei complessi.",
+      "simulator_features": [
+        "spesa mensile",
+        "capitale attuale",
+        "rendite periodiche",
+        "capitali futuri"
+      ],
+      "source_focus": [
+        "metodologia del simulatore",
+        "statistiche familiari",
+        "educazione finanziaria"
+      ],
+      "risk_level": "medium",
+      "freshness": "medium",
+      "dependencies": [
+        "METH-0001",
+        "GUIDE-0001"
+      ],
+      "notes": "Chiarire che il simulatore non modella posizioni fiscali o previdenziali individuali multiple."
+    }
+  ]
+}
