@@ -21,6 +21,7 @@ class EditorialValidatorTest(unittest.TestCase):
         report = VALIDATOR.ValidationReport()
         backlog = VALIDATOR.validate_backlog(REPO_ROOT, report)
         VALIDATOR.validate_registry(REPO_ROOT, backlog, report)
+        VALIDATOR.validate_stop_conditions(REPO_ROOT, report)
         manifests = VALIDATOR.validate_guide_sources(REPO_ROOT, "development", report)
         VALIDATOR.validate_pages_and_sitemap(REPO_ROOT, manifests, "development", report)
         self.assertEqual([], report.errors)
@@ -70,6 +71,20 @@ class EditorialValidatorTest(unittest.TestCase):
             report = VALIDATOR.ValidationReport()
             VALIDATOR.validate_pages_and_sitemap(root, {}, "development", report)
             self.assertTrue(any("URL diversi" in error for error in report.errors))
+
+    def test_detects_duplicate_stop_code(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            target = root / "docs/editorial"
+            target.mkdir(parents=True)
+            catalogue = json.loads(
+                (REPO_ROOT / "docs/editorial/condizioni-arresto.json").read_text(encoding="utf-8")
+            )
+            catalogue["conditions"][1]["code"] = catalogue["conditions"][0]["code"]
+            (target / "condizioni-arresto.json").write_text(json.dumps(catalogue), encoding="utf-8")
+            report = VALIDATOR.ValidationReport()
+            VALIDATOR.validate_stop_conditions(root, report)
+            self.assertTrue(any("codici duplicati" in error for error in report.errors))
 
 
 if __name__ == "__main__":

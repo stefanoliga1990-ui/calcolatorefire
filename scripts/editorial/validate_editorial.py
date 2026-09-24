@@ -49,6 +49,12 @@ SOURCE_NESTED_KEYS = {
 USAGE_KEYS = {"content_id", "claim", "importance", "verified_at"}
 CONFLICT_KEYS = {"source_id", "status", "resolution"}
 LOCAL_COPY_KEYS = {"path", "sha256", "license_note"}
+STOP_ROOT_KEYS = {"$schema", "schema_version", "updated_at", "default_actions", "conditions"}
+STOP_DEFAULT_KEYS = {"commit_allowed", "push_allowed", "deployment_checked", "log_required"}
+STOP_CONDITION_KEYS = {
+    "code", "order", "phase", "category", "trigger", "outcome", "retry", "notification",
+    "repository_state", "evidence", "recovery",
+}
 
 
 @dataclass
@@ -423,6 +429,71 @@ def validate_registry(root: Path, backlog: dict, report: ValidationReport) -> di
     return registry
 
 
+def validate_stop_conditions(root: Path, report: ValidationReport) -> dict:
+    path = root / "docs/editorial/condizioni-arresto.json"
+    catalogue = load_json(path, report)
+    if not exact_keys(catalogue, STOP_ROOT_KEYS, "condizioni arresto", report):
+        return catalogue
+    report.check(catalogue["$schema"] == "./condizioni-arresto.schema.json", "condizioni arresto: riferimento schema errato")
+    report.check(catalogue["schema_version"] == "1.0", "condizioni arresto: versione schema non supportata")
+    report.check(valid_date(catalogue["updated_at"]), "condizioni arresto: updated_at non valida")
+    defaults = catalogue["default_actions"]
+    if exact_keys(defaults, STOP_DEFAULT_KEYS, "condizioni arresto.default_actions", report):
+        report.check(defaults == {
+            "commit_allowed": False,
+            "push_allowed": False,
+            "deployment_checked": False,
+            "log_required": True,
+        }, "condizioni arresto: azioni predefinite non sicure")
+    conditions = catalogue["conditions"]
+    if not isinstance(conditions, list) or not conditions:
+        report.errors.append("condizioni arresto: conditions deve essere un array non vuoto")
+        return catalogue
+    phases = {"preflight", "selection", "research", "drafting", "generation", "validation", "commit", "pre_push", "push", "execution"}
+    categories = {"normal", "technical", "editorial", "concurrency"}
+    outcomes = {"no_op", "deferred", "failed", "intervention_required"}
+    retries = {"none", "next_schedule", "manual"}
+    states = {"unchanged", "local_artifacts_allowed", "local_commit_present"}
+    codes: list[str] = []
+    orders: list[int] = []
+    for index, condition in enumerate(conditions):
+        context = f"condizioni arresto.conditions[{index}]"
+        if not exact_keys(condition, STOP_CONDITION_KEYS, context, report):
+            continue
+        code = condition["code"]
+        report.check(isinstance(code, str) and re.fullmatch(r"STOP-[A-Z0-9]+(?:-[A-Z0-9]+)*", code) is not None, f"{context}.code non valido")
+        report.check(isinstance(condition["order"], int) and condition["order"] >= 1, f"{context}.order non valido")
+        report.check(condition["phase"] in phases, f"{context}.phase non valida")
+        report.check(condition["category"] in categories, f"{context}.category non valida")
+        report.check(isinstance(condition["trigger"], str) and len(condition["trigger"].strip()) >= 10, f"{context}.trigger troppo breve")
+        report.check(condition["outcome"] in outcomes, f"{context}.outcome non valido")
+        report.check(condition["retry"] in retries, f"{context}.retry non valido")
+        report.check(condition["notification"] in {"none", "failed_runs_only"}, f"{context}.notification non valida")
+        report.check(condition["repository_state"] in states, f"{context}.repository_state non valido")
+        report.check(unique_nonempty_strings(condition["evidence"], 1), f"{context}.evidence non valida")
+        report.check(isinstance(condition["recovery"], str) and len(condition["recovery"].strip()) >= 10, f"{context}.recovery troppo breve")
+        if condition["outcome"] in {"no_op", "deferred"}:
+            report.check(condition["notification"] == "none", f"{context}: arresto ordinario non deve notificare")
+        if condition["outcome"] in {"failed", "intervention_required"}:
+            report.check(condition["notification"] == "failed_runs_only", f"{context}: fallimento deve usare failed_runs_only")
+        if condition["repository_state"] == "local_commit_present":
+            report.check(condition["phase"] in {"pre_push", "push", "execution"}, f"{context}: commit locale dichiarato troppo presto")
+        codes.append(code)
+        orders.append(condition["order"])
+    report.check(len(codes) == len(set(codes)), "condizioni arresto: codici duplicati")
+    report.check(len(orders) == len(set(orders)), "condizioni arresto: order duplicati")
+    report.check(orders == sorted(orders), "condizioni arresto: catalogo non ordinato per order")
+    required_codes = {
+        "STOP-REPOSITORY-NOT-CLEAN", "STOP-ACTIVE-EDITORIAL-LOCK", "STOP-NO-ELIGIBLE-GUIDE",
+        "STOP-SOURCES-INSUFFICIENT", "STOP-SOURCE-CONFLICT", "STOP-HIGH-RISK-CLAIM-UNSUPPORTED",
+        "STOP-EDITORIAL-POLICY-VIOLATION", "STOP-GENERATION-FAILED", "STOP-VALIDATION-FAILED",
+        "STOP-TESTS-FAILED", "STOP-OUT-OF-SCOPE-DIFF", "STOP-ORIGIN-MAIN-ADVANCED",
+        "STOP-PUSH-REJECTED", "STOP-EXECUTION-INTERRUPTED",
+    }
+    report.check(required_codes.issubset(set(codes)), "condizioni arresto: mancano condizioni obbligatorie del contratto")
+    return catalogue
+
+
 def load_generator(root: Path):
     path = root / "scripts/editorial/generate_guide.py"
     spec = importlib.util.spec_from_file_location("editorial_guide_generator", path)
@@ -600,6 +671,7 @@ def main() -> int:
     report = ValidationReport()
     backlog = validate_backlog(root, report)
     validate_registry(root, backlog, report)
+    stop_conditions = validate_stop_conditions(root, report)
     manifests = validate_guide_sources(root, args.mode, report)
     validate_pages_and_sitemap(root, manifests, args.mode, report)
     for warning in report.warnings:
@@ -611,7 +683,8 @@ def main() -> int:
         return 1
     print(
         f"VALIDAZIONE OK: {report.checks} controlli, {len(backlog.get('items', []))} voci backlog, "
-        f"{len(manifests)} guide sorgente, modalita {args.mode}"
+        f"{len(manifests)} guide sorgente, {len(stop_conditions.get('conditions', []))} condizioni di arresto, "
+        f"modalita {args.mode}"
     )
     return 0
 

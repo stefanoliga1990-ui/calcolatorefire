@@ -158,6 +158,11 @@ L'esecuzione deve fermarsi senza pubblicare quando si verifica almeno una delle 
 
 In caso di arresto sono vietati contenuti parziali su `main`. Gli artefatti locali eventualmente prodotti devono restare fuori dalla pubblicazione e il motivo deve essere registrato nell'esito dell'esecuzione.
 
+Codici, classificazione degli esiti, evidenze, retry e comportamento Git sono definiti nel
+[catalogo operativo delle condizioni di arresto](condizioni-arresto.md) e nel relativo
+[registro strutturato](condizioni-arresto.json). Questi dettagli applicano le regole del presente contratto senza
+autorizzare eccezioni ai divieti di commit e push.
+
 ## 13. Criteri di attivazione
 
 La schedulazione può essere creata e attivata soltanto quando:

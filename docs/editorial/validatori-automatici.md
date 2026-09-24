@@ -103,6 +103,10 @@ modifica manuale dell'HTML finale o un output obsoleto provocano quindi un error
 
 Una pagina presente in `static/guida/` senza i corrispondenti sorgenti viene sempre rifiutata.
 
+Il validatore controlla inoltre il [catalogo delle condizioni di arresto](condizioni-arresto.md): schema e versione,
+codici e ordine univoci, classificazione, retry, notifiche, stato Git atteso e presenza di tutte le condizioni minime
+richieste dal contratto.
+
 ## 6. Controlli SEO e delle pagine
 
 Per homepage, metodologia, guide e futura pagina autore vengono controllati:
