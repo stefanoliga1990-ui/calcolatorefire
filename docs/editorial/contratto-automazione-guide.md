@@ -175,7 +175,7 @@ La schedulazione può essere creata e attivata soltanto quando:
 
 1. tutti gli step preliminari editoriali e tecnici sono completati;
 2. [backlog editoriale](backlog-editoriale.json), policy, template, [registro delle fonti](registro-fonti.json), checklist e runbook sono versionati nel repository;
-3. la pagina autore e la pagina metodologia sono disponibili;
+3. la firma autore è presente nelle guide e la pagina metodologia è disponibile;
 4. una prima guida è stata prodotta manualmente con lo stesso processo end-to-end;
 5. il processo manuale è stato corretto e approvato da Stefano Liga;
 6. gli strumenti di validazione sono eseguibili in modo non interattivo;

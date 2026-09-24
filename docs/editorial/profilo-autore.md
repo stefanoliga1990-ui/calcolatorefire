@@ -12,7 +12,7 @@ Ultimo aggiornamento: 24 settembre 2026
 | --- | --- |
 | Nome pubblico | Stefano Liga |
 | Ruolo pubblico | Ideatore e sviluppatore di Calcolo FIRE Italia |
-| URL autore previsto | `/autore/stefano-liga` |
+| Pagina autore dedicata | Non prevista; la firma resta visibile nelle guide e nella metodologia. |
 | Ambiti trattati | Pianificazione FIRE, funzionamento del simulatore, ipotesi di calcolo, metodologia e lettura dei risultati |
 
 Il profilo non deve attribuire a Stefano Liga qualifiche professionali, iscrizioni ad albi, certificazioni o esperienze lavorative che non siano state documentate e approvate esplicitamente.
@@ -29,12 +29,6 @@ Da usare nel box autore in fondo alle guide:
 
 > Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.
 
-## Descrizione estesa
-
-Da usare nella futura pagina autore:
-
-> Stefano Liga ha ideato e sviluppato Calcolo FIRE Italia per rendere più comprensibili i calcoli e le ipotesi alla base di un percorso verso l'indipendenza finanziaria. Cura l'evoluzione del simulatore, la documentazione della metodologia e le guide pubblicate sul sito. Nei contenuti distingue i dati provenienti dalle fonti, le ipotesi del modello e gli esempi illustrativi, indicando i limiti dei risultati e la data di aggiornamento delle informazioni.
-
 ## Nota informativa associata
 
 Questa nota deve restare distinta dalla biografia e comparire nelle guide secondo il template editoriale:
@@ -43,15 +37,14 @@ Questa nota deve restare distinta dalla biografia e comparire nelle guide second
 
 ## Dati strutturati previsti
 
-La futura pagina autore deve usare `ProfilePage` con Stefano Liga come `mainEntity` di tipo `Person`. Ogni guida deve indicare la stessa entità nel campo `author` del proprio markup `Article`, includendo almeno nome e URL della pagina autore.
+Ogni guida deve indicare Stefano Liga nel campo `author` del proprio markup `Article`. Non essendo prevista una pagina autore dedicata, la `Person` non deve contenere un URL di profilo.
 
-La `Person` deve usare gli stessi dati visibili nella pagina:
+La `Person` deve usare gli stessi dati visibili nella guida:
 
 | Proprietà | Valore o regola |
 | --- | --- |
 | `@type` | `Person` |
 | `name` | `Stefano Liga` |
-| `url` | URL assoluto corrispondente a `/autore/stefano-liga` |
 | `jobTitle` | `Ideatore e sviluppatore di Calcolo FIRE Italia` |
 | `description` | Descrizione breve definita in questo documento |
 | `image` | Da aggiungere solo quando sarà disponibile un'immagine autore approvata e pubblica |
@@ -59,14 +52,14 @@ La `Person` deve usare gli stessi dati visibili nella pagina:
 
 I dati strutturati non devono contenere informazioni assenti dal contenuto visibile della pagina.
 
-Questa struttura segue le indicazioni di Google Search Central per il [markup dell'autore negli articoli](https://developers.google.com/search/docs/appearance/structured-data/article) e per le [pagine profilo](https://developers.google.com/search/docs/appearance/structured-data/profile-page).
+Questa struttura segue le indicazioni di Google Search Central per il [markup dell'autore negli articoli](https://developers.google.com/search/docs/appearance/structured-data/article).
 
 ## Regole di utilizzo
 
 - Usare sempre il nome `Stefano Liga` senza varianti o titoli aggiuntivi.
-- Collegare la firma breve alla pagina autore quando questa sarà disponibile.
+- Mostrare la firma breve come testo, senza collegamento a una pagina autore.
 - Usare una sola descrizione breve canonica in tutte le guide.
-- Riservare la descrizione estesa alla pagina autore o a contesti che richiedono una biografia completa.
+- Usare la descrizione breve nel box autore delle guide.
 - Applicare la nota sul processo automatizzato definita nella politica editoriale.
 - Non presentare l'autore come consulente o come autorità fiscale, previdenziale, finanziaria o legale.
 - Non aggiungere foto, link social, titoli di studio, certificazioni o anni di esperienza senza approvazione e riscontro verificabile.

@@ -380,7 +380,7 @@ def validate_unique_metadata(manifest: dict, static_root: Path, output_path: Pat
 def validate_internal_routes(manifest: dict, root: Path) -> None:
     for link in [*manifest["internal_links"], {"url": manifest["cta"]["url"]}]:
         url = link["url"]
-        if url in {"/", "/metodologia", "/autore/stefano-liga"}:
+        if url in {"/", "/metodologia"}:
             continue
         if url.startswith("/guida/"):
             target = root / "src/main/resources/static/guida" / f"{url.rsplit('/', 1)[-1]}.html"
@@ -426,7 +426,6 @@ def render_page(manifest: dict, body: str, sections: list[SectionHeading], sourc
         "author": {
             "@type": "Person",
             "name": "Stefano Liga",
-            "url": f"{SITE_ORIGIN}/autore/stefano-liga",
             "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia",
         },
         "publisher": {

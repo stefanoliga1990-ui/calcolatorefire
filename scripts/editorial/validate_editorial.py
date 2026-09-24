@@ -752,10 +752,6 @@ def validate_pages_and_sitemap(root: Path, manifests: dict[str, dict], mode: str
     robots = (static_root / "robots.txt").read_text(encoding="utf-8")
     report.check("User-agent: *" in robots and "Allow: /" in robots, "robots.txt: scansione generale non consentita")
     report.check(f"Sitemap: {SITE_ORIGIN}/sitemap.xml" in robots, "robots.txt: riferimento sitemap assente o errato")
-    if mode == "publication" and manifests:
-        report.check("/autore/stefano-liga" in routes, "publication: pagina autore richiesta dalle guide ma non pubblicata")
-
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", choices=("development", "publication"), default="development")

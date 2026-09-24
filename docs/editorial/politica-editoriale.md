@@ -58,7 +58,7 @@ Stefano Liga è il responsabile editoriale pubblico delle guide. La firma canoni
 
 > A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia
 
-La firma deve collegarsi alla pagina autore quando disponibile. Non implica che ogni frase sia stata scritta manualmente dall'autore: identifica chi definisce il processo, il perimetro e le regole editoriali del progetto.
+La firma deve essere mostrata come testo, senza collegamento a una pagina autore dedicata. Non implica che ogni frase sia stata scritta manualmente dall'autore: identifica chi definisce il processo, il perimetro e le regole editoriali del progetto.
 
 Poiché ricerca, redazione e pubblicazione possono essere eseguite in modo sostanziale dall'automazione, ogni guida deve mostrare una nota di metodo, vicina alla firma o alla sezione sulle fonti:
 

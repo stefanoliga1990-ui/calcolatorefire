@@ -36,7 +36,7 @@ Applica gli stessi controlli e richiede inoltre:
 
 - l'HTML generato per ogni guida sorgente;
 - corrispondenza byte per byte tra sorgenti e output;
-- pagina autore disponibile quando esiste almeno una guida;
+- firma autore presente nelle guide, senza dipendere da una pagina profilo;
 - tutti i requisiti di pagina, collegamento e sitemap previsti per la pubblicazione.
 
 Questa è la modalità obbligatoria dopo la generazione e prima del commit editoriale.
@@ -109,7 +109,7 @@ richieste dal contratto.
 
 ## 6. Controlli SEO e delle pagine
 
-Per homepage, metodologia, guide e futura pagina autore vengono controllati:
+Per homepage, metodologia e guide vengono controllati:
 
 - lingua italiana dichiarata;
 - un title tra 10 e 65 caratteri;

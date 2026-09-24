@@ -171,6 +171,10 @@
     background: var(--green-pale);
 }
 
+.content-section.summary-card:first-child {
+    padding: 28px 22px 22px;
+}
+
 .summary-card h2,
 .content-notice h3 {
     margin-top: 0;
