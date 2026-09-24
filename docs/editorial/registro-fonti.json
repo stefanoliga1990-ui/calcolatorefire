@@ -3,7 +3,116 @@
   "schema_version": "1.0",
   "updated_at": "2026-09-24",
   "next_id_by_year": {
-    "2026": 1
+    "2026": 3
   },
-  "sources": []
+  "sources": [
+    {
+      "id": "SRC-2026-0001",
+      "status": "approved",
+      "level": "A",
+      "type": "standard_or_specification",
+      "title": "Calcolo FIRE Italia — specifica matematica del motore",
+      "responsible_entity": "Calcolo FIRE Italia",
+      "authors": [
+        "Stefano Liga"
+      ],
+      "url": "https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md",
+      "persistent_identifier": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
+      "dates": {
+        "published": null,
+        "updated": "2026-09-23",
+        "first_accessed_at": "2026-09-24T17:47:02+02:00",
+        "last_accessed_at": "2026-09-24T17:47:02+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-24",
+        "reference_period": "Versione del motore presente sul branch guide-editoriali",
+        "version": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Sezioni 1–24",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-24T17:47:02+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "METH-0001",
+          "claim": "Convenzioni temporali, conversione dei tassi, target FINITE e SWR, PAC, risorse aggiuntive e proiezioni del simulatore.",
+          "importance": "central",
+          "verified_at": "2026-09-24T17:47:02+02:00"
+        }
+      ],
+      "limitations": [
+        "Descrive il comportamento del motore deterministico e non costituisce validazione esterna delle ipotesi finanziarie."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Fonte primaria interna per la pagina metodologia."
+    },
+    {
+      "id": "SRC-2026-0002",
+      "status": "approved",
+      "level": "A",
+      "type": "standard_or_specification",
+      "title": "Calcolo FIRE Italia — specifica della fiscalità semplificata",
+      "responsible_entity": "Calcolo FIRE Italia",
+      "authors": [
+        "Stefano Liga"
+      ],
+      "url": "https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md",
+      "persistent_identifier": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
+      "dates": {
+        "published": null,
+        "updated": "2026-09-23",
+        "first_accessed_at": "2026-09-24T17:47:02+02:00",
+        "last_accessed_at": "2026-09-24T17:47:02+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-24",
+        "reference_period": "Versione del motore presente sul branch guide-editoriali",
+        "version": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Sezioni 1–16",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-24T17:47:02+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "METH-0001",
+          "claim": "Perimetro e formule del modello fiscale semplificato per bollo, costo fiscale e plusvalenze realizzate.",
+          "importance": "central",
+          "verified_at": "2026-09-24T17:47:02+02:00"
+        }
+      ],
+      "limitations": [
+        "Modello fiscale semplificato del simulatore; non rappresenta tutti i regimi, le agevolazioni o le situazioni individuali."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Fonte primaria interna per la sezione fiscale della pagina metodologia."
+    }
+  ]
 }

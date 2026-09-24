@@ -2,7 +2,7 @@
 
 Il registro ufficiale è il file [`registro-fonti.json`](registro-fonti.json). La sua struttura è definita da [`registro-fonti.schema.json`](registro-fonti.schema.json) e le fonti devono rispettare la [politica delle fonti](politica-fonti.md).
 
-Il registro parte intenzionalmente vuoto: le fonti usate per definire le policy interne restano citate nelle policy, mentre qui devono entrare soltanto fonti usate da guide, metodologia o altri contenuti pubblici. La prima guida assegnerà quindi l'identificatore `SRC-2026-0001`.
+Il registro contiene soltanto fonti usate da guide, metodologia o altri contenuti pubblici; le fonti impiegate esclusivamente per definire le policy interne restano citate nelle policy. Gli identificatori `SRC-2026-0001` e `SRC-2026-0002` sono stati assegnati alle specifiche versionate su cui si basa la pagina Metodologia. Il prossimo identificatore disponibile è indicato in `next_id_by_year` nel registro JSON.
 
 ## Identificatori
 

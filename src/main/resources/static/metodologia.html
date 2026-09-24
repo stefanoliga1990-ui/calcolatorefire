@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Formule, convenzioni temporali, fiscalità semplificata e limiti del simulatore FIRE italiano.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Metodologia del simulatore FIRE">
+    <meta property="og:description" content="Come vengono calcolati capitale FIRE, PAC, prelievi, imposte e risorse future.">
+    <meta property="og:url" content="https://simulatorefire.com/metodologia">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Metodologia di Calcolo FIRE Italia">
+    <meta property="article:published_time" content="2026-09-24">
+    <meta property="article:modified_time" content="2026-09-24">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Metodologia del simulatore FIRE">
+    <meta name="twitter:description" content="Formule, ipotesi e limiti dei calcoli FIRE e PAC.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>Metodologia del simulatore FIRE | Calcolo FIRE Italia</title>
+    <link rel="canonical" href="https://simulatorefire.com/metodologia">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=7.9">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.0">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Metodologia del simulatore FIRE",
+      "description": "Formule, convenzioni temporali, fiscalità semplificata e limiti del simulatore FIRE italiano.",
+      "url": "https://simulatorefire.com/metodologia",
+      "mainEntityOfPage": "https://simulatorefire.com/metodologia",
+      "datePublished": "2026-09-24",
+      "dateModified": "2026-09-24",
+      "inLanguage": "it-IT",
+      "author": {
+        "@type": "Person",
+        "name": "Stefano Liga"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Calcolo FIRE Italia",
+        "url": "https://simulatorefire.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+        }
+      },
+      "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Simulatore FIRE",
+          "item": "https://simulatorefire.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Metodologia",
+          "item": "https://simulatorefire.com/metodologia"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li aria-current="page">Metodologia</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">Documentazione del modello</p>
+        <h1>Metodologia del simulatore FIRE</h1>
+        <p class="content-lead">
+            Questa pagina spiega come Calcolo FIRE Italia trasforma età, spese, rendimenti, inflazione,
+            fiscalità e risorse future in un capitale obiettivo e in un PAC mensile. Le formule sono le
+            stesse implementate nel motore di calcolo.
+        </p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga</span>
+            <span>Pubblicata il 24 settembre 2026</span>
+            <span>Aggiornata il 24 settembre 2026</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della metodologia">
+            <strong>In questa pagina</strong>
+            <ol>
+                <li><a href="#perimetro">Cosa calcola</a></li>
+                <li><a href="#tempo">Tempo e ordine degli eventi</a></li>
+                <li><a href="#tassi">Tassi e inflazione</a></li>
+                <li><a href="#target">Capitale FIRE</a></li>
+                <li><a href="#pac">Piano di accumulo</a></li>
+                <li><a href="#risorse">Risorse aggiuntive</a></li>
+                <li><a href="#fiscalita">Fiscalità semplificata</a></li>
+                <li><a href="#proiezioni">Proiezioni e verifiche</a></li>
+                <li><a href="#limiti">Limiti del modello</a></li>
+            </ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul>
+                    <li>Il modello è deterministico: applica mese per mese le ipotesi inserite.</li>
+                    <li>Il capitale FIRE può essere calcolato con durata finita oppure con Safe Withdrawal Rate.</li>
+                    <li>Il PAC è il versamento iniziale necessario a colmare la distanza dal target.</li>
+                    <li>Inflazione e rendimenti restano separati e vengono convertiti in tassi mensili equivalenti.</li>
+                    <li>La fiscalità è una stima semplificata di bollo e plusvalenze realizzate.</li>
+                    <li>Il risultato descrive uno scenario, non una previsione né una garanzia.</li>
+                </ul>
+            </section>
+
+            <section class="content-section" id="perimetro" aria-labelledby="perimetro-title">
+                <h2 id="perimetro-title">1. Cosa calcola il simulatore</h2>
+                <p>Il motore produce tre risultati principali:</p>
+                <ol>
+                    <li>il patrimonio necessario all'ingresso nel FIRE;</li>
+                    <li>il versamento mensile iniziale necessario per raggiungerlo;</li>
+                    <li>le proiezioni mensili delle fasi di accumulo e decumulo.</li>
+                </ol>
+                <p>
+                    Il calcolo può includere patrimonio già investito, PAC esistenti, rendite periodiche e capitali
+                    futuri una tantum. Queste risorse rimangono separate nel motore per evitare di perdere la loro
+                    provenienza e vengono aggregate soltanto quando sono effettivamente disponibili.
+                </p>
+                <div class="content-notice">
+                    <h3>Che cosa significa “deterministico”</h3>
+                    <p>
+                        A parità di input il risultato è sempre lo stesso. Il modello non estrae rendimenti casuali e
+                        non assegna una probabilità di successo: mostra che cosa accadrebbe se i tassi medi e i flussi
+                        indicati si realizzassero esattamente secondo le convenzioni descritte qui.
+                    </p>
+                </div>
+            </section>
+
+            <section class="content-section" id="tempo" aria-labelledby="tempo-title">
+                <h2 id="tempo-title">2. Tempo e ordine degli eventi</h2>
+                <p>Tutti i calcoli usano mesi interi. Le età sono confini di pianificazione, non date di calendario.</p>
+                <pre class="formula"><code>N_acc  = 12 × (età FIRE − età attuale)
+N_fire = 12 × durata FIRE in anni</code></pre>
+                <div class="method-grid">
+                    <section class="method-card">
+                        <h3>Durante l'accumulo</h3>
+                        <p>Il capitale produce il rendimento del mese; il PAC viene aggiunto alla fine del mese.</p>
+                    </section>
+                    <section class="method-card">
+                        <h3>Durante il FIRE</h3>
+                        <p>Il prelievo avviene all'inizio del mese; il capitale rimasto produce poi rendimento.</p>
+                    </section>
+                </div>
+                <p>
+                    Tra 36 e 50 anni il modello considera quindi 168 mesi, indipendentemente dal mese di nascita.
+                    Il primo prelievo avviene subito all'ingresso nel FIRE; il primo versamento del PAC avviene invece
+                    alla fine del primo mese di accumulo.
+                </p>
+            </section>
+
+            <section class="content-section" id="tassi" aria-labelledby="tassi-title">
+                <h2 id="tassi-title">3. Conversione dei tassi e inflazione</h2>
+                <p>
+                    Rendimento, inflazione e crescita dei versamenti sono inseriti come tassi annui effettivi. Il motore
+                    ricava il tasso mensile equivalente, in modo che dodici mesi ricostruiscano il tasso annuo dichiarato.
+                </p>
+                <pre class="formula"><code>x_m = (1 + x_a)^(1/12) − 1</code></pre>
+                <p>Il rendimento reale mensile durante il FIRE è calcolato come rapporto tra rendimento nominale e inflazione:</p>
+                <pre class="formula"><code>r_reale_m = (1 + r_fire_m) / (1 + inflazione_m) − 1</code></pre>
+                <p>
+                    Non viene usata l'approssimazione “rendimento meno inflazione”. Gli importi restano in piena
+                    precisione durante il calcolo e vengono arrotondati soltanto nella visualizzazione.
+                </p>
+
+                <h3>Spesa all'ingresso nel FIRE</h3>
+                <p>La spesa mensile di oggi viene rivalutata per tutti i mesi che precedono il FIRE:</p>
+                <pre class="formula"><code>W_1 = spesa_mensile_oggi × (1 + inflazione_m)^N_acc
+W_k = W_1 × (1 + inflazione_m)^(k − 1)</code></pre>
+                <p>
+                    <code>W_k</code> è il fabbisogno lordo del mese. Eventuali rendite disponibili durante il FIRE
+                    vengono sottratte successivamente, senza produrre un prelievo negativo.
+                </p>
+            </section>
+
+            <section class="content-section" id="target" aria-labelledby="target-title">
+                <h2 id="target-title">4. Come viene calcolato il capitale FIRE</h2>
+                <p>Il simulatore offre due metodi. Rispondono a domande diverse e non sono intercambiabili.</p>
+                <div class="method-grid">
+                    <section class="method-card">
+                        <h3>Durata finita — FINITE</h3>
+                        <p>Calcola il capitale necessario per finanziare un numero definito di mesi e un eventuale capitale finale.</p>
+                    </section>
+                    <section class="method-card">
+                        <h3>Safe Withdrawal Rate — SWR</h3>
+                        <p>Calcola il patrimonio associato a una percentuale iniziale annua di prelievo.</p>
+                    </section>
+                </div>
+
+                <h3>Target a durata finita</h3>
+                <p>
+                    Senza risorse aggiuntive e senza fiscalità, il target usa una rendita anticipata perché il primo
+                    prelievo avviene immediatamente. Se il rendimento reale mensile non è zero:
+                </p>
+                <pre class="formula"><code>T_finite =
+  W_1 × [1 − (1 + r_reale_m)^(-N_fire)] / r_reale_m × (1 + r_reale_m)
+  + L_fire / (1 + r_reale_m)^N_fire</code></pre>
+                <p>
+                    <code>L_fire</code> è il capitale finale desiderato, espresso al valore nominale dell'ingresso nel
+                    FIRE. Se il rendimento reale è zero, il target diventa la somma dei prelievi più il capitale finale.
+                </p>
+                <pre class="formula"><code>T_finite = W_1 × N_fire + L_fire</code></pre>
+
+                <h3>Target Safe Withdrawal Rate</h3>
+                <pre class="formula"><code>T_swr = W_1 × 12 / SWR</code></pre>
+                <p>
+                    La SWR è un benchmark sul primo prelievo annuo. Non è un rendimento e non viene riapplicata ogni anno
+                    al saldo residuo. Una percentuale più alta riduce matematicamente il target, ma aumenta la quota
+                    iniziale prelevata: il simulatore verifica comunque l'intera durata e segnala eventuali ammanchi.
+                </p>
+                <div class="content-notice warning">
+                    <h3>Fiscalità e flussi futuri cambiano la soluzione</h3>
+                    <p>
+                        Quando sono presenti imposte, rendite o capitali futuri, le formule semplici non bastano. Il motore
+                        simula i flussi mese per mese e ricerca il capitale minimo che soddisfa il metodo selezionato.
+                    </p>
+                </div>
+            </section>
+
+            <section class="content-section" id="pac" aria-labelledby="pac-title">
+                <h2 id="pac-title">5. Come viene calcolato il PAC</h2>
+                <p>Prima viene proiettato il patrimonio già investito fino alla data FIRE:</p>
+                <pre class="formula"><code>FV_attuale = capitale_attuale × (1 + rendimento_accumulo_m)^N_acc
+Gap = max(0, target_FIRE − FV_disponibile)</code></pre>
+                <p>
+                    Il capitale disponibile può includere anche investimenti esistenti, rendite reinvestite e capitali
+                    ricevuti prima del FIRE. Il nuovo PAC copre soltanto il divario residuo.
+                </p>
+                <p>Se il versamento cresce ogni mese a un tasso equivalente <code>g_m</code>:</p>
+                <pre class="formula"><code>C_j = C_1 × (1 + g_m)^(j − 1)
+
+F = [(1 + r_m)^N_acc − (1 + g_m)^N_acc] / (r_m − g_m)
+C_1 = Gap / F</code></pre>
+                <p>
+                    Se rendimento e crescita dei versamenti coincidono, il motore usa la forma limite della formula.
+                    Se il capitale disponibile supera già il target, il nuovo PAC richiesto è zero. Se non restano mesi
+                    e il divario è positivo, il risultato è irraggiungibile tramite un PAC mensile.
+                </p>
+            </section>
+
+            <section class="content-section" id="risorse" aria-labelledby="risorse-title">
+                <h2 id="risorse-title">6. Investimenti, rendite e capitali futuri</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Risorsa</th>
+                            <th>Come viene trattata</th>
+                            <th>Rischio da evitare</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Investimento o PAC esistente</td>
+                            <td>È proiettato separatamente con saldo, versamenti, rendimento e disponibilità al FIRE.</td>
+                            <td>Contare lo stesso patrimonio anche nel capitale principale.</td>
+                        </tr>
+                        <tr>
+                            <td>Rendita periodica</td>
+                            <td>Può essere reinvestita prima del FIRE o ridurre il fabbisogno durante il FIRE.</td>
+                            <td>Inserire un importo lordo senza stimare imposte, costi o periodi di inattività.</td>
+                        </tr>
+                        <tr>
+                            <td>Capitale futuro</td>
+                            <td>Entra una sola volta alla data indicata, prima o durante il FIRE.</td>
+                            <td>Usarlo prima che sia disponibile o considerare certo un evento incerto.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>
+                    Le rendite durante il FIRE riducono il prelievo richiesto al portafoglio, ma l'eccedenza rispetto alla
+                    spesa non viene reinvestita automaticamente. Un capitale futuro non può finanziare retroattivamente
+                    mesi precedenti alla sua disponibilità.
+                </p>
+                <pre class="formula"><code>D_k = max(0, spesa_lorda_k − rendite_k)</code></pre>
+                <p>
+                    Nel metodo SWR, una rendita futura può richiedere un capitale ponte fino all'inizio del nuovo regime
+                    di flussi. Il target con risorse non può superare il target calcolato ignorando risorse opzionali.
+                </p>
+            </section>
+
+            <section class="content-section" id="fiscalita" aria-labelledby="fiscalita-title">
+                <h2 id="fiscalita-title">7. Fiscalità semplificata</h2>
+                <p>
+                    Il modello fiscale stima l'imposta sulle plusvalenze realizzate, l'imposta di bollo sul patrimonio
+                    investito e il costo fiscale residuo. I valori precompilati nell'interfaccia sono modificabili.
+                </p>
+                <dl class="definition-grid">
+                    <div>
+                        <dt>Valore di mercato</dt>
+                        <dd>Saldo corrente del portafoglio.</dd>
+                    </div>
+                    <div>
+                        <dt>Costo fiscale</dt>
+                        <dd>Capitale fiscalmente attribuibile alle quote ancora detenute.</dd>
+                    </div>
+                    <div>
+                        <dt>Plusvalenza latente</dt>
+                        <dd>Parte positiva della differenza tra valore e costo fiscale.</dd>
+                    </div>
+                    <div>
+                        <dt>Quota imponibile</dt>
+                        <dd>Rapporto tra plusvalenza latente positiva e valore del portafoglio.</dd>
+                    </div>
+                </dl>
+                <p>Il bollo annuale viene trasformato in una riduzione mensile equivalente:</p>
+                <pre class="formula"><code>bollo_m = 1 − (1 − bollo_annuo)^(1/12)</code></pre>
+                <p>Durante il FIRE il motore stima la vendita lorda necessaria a ottenere il fabbisogno netto:</p>
+                <pre class="formula"><code>quota_imponibile = max(0, valore − costo_fiscale) / valore
+vendita_lorda_richiesta = fabbisogno_netto / (1 − aliquota × quota_imponibile)
+imposta = vendita_lorda × quota_imponibile × aliquota</code></pre>
+                <p>
+                    Con fiscalità attiva, target e PAC vengono risolti insieme: i versamenti determinano il costo fiscale
+                    disponibile al FIRE e questo influenza le imposte sulle vendite future. Il motore ricerca numericamente
+                    la soluzione minima con tolleranza monetaria di un centesimo.
+                </p>
+                <div class="content-notice warning">
+                    <h3>Perimetro fiscale</h3>
+                    <p>
+                        Il modello non gestisce, tra l'altro, titoli di Stato con aliquota agevolata, minusvalenze,
+                        regimi amministrato o dichiarativo, ritenute estere, dividendi, successioni, pensioni o immobili.
+                        Rendite e capitali futuri sono inseriti come importi netti stimati dall'utente.
+                    </p>
+                </div>
+            </section>
+
+            <section class="content-section" id="proiezioni" aria-labelledby="proiezioni-title">
+                <h2 id="proiezioni-title">8. Proiezioni, shortfall e controlli</h2>
+                <p>
+                    La proiezione personale parte dal patrimonio effettivamente disponibile, che può essere superiore al
+                    target minimo. Ogni mese conserva almeno saldo, rendimento, versamenti o prelievi, imposte e risorse.
+                </p>
+                <pre class="formula"><code>capitale_disponibile_k = saldo_(k−1) + capitali_futuri_k
+prelievo_effettivo_k = min(capitale_disponibile_k, prelievo_richiesto_k)
+shortfall_k = prelievo_richiesto_k − prelievo_effettivo_k</code></pre>
+                <p>
+                    Uno shortfall indica la parte del fabbisogno che il portafoglio non riesce a coprire. È particolarmente
+                    importante nel metodo SWR: il target derivato dalla percentuale iniziale non garantisce che il capitale
+                    superi automaticamente tutta la durata scelta.
+                </p>
+                <h3>Controlli di coerenza</h3>
+                <ul>
+                    <li>Formula chiusa e proiezione mensile devono coincidere nei casi equivalenti.</li>
+                    <li>Con aliquota e bollo a zero, il modello fiscale deve riprodurre il modello senza imposte.</li>
+                    <li>Le risorse non disponibili al FIRE non devono ridurre il PAC o il target.</li>
+                    <li>Gli importi non vengono arrotondati durante il calcolo.</li>
+                    <li>Il costo fiscale non può produrre un credito automatico in presenza di minusvalenza latente.</li>
+                </ul>
+            </section>
+
+            <section class="content-section" id="limiti" aria-labelledby="limiti-title">
+                <h2 id="limiti-title">9. Limiti da considerare</h2>
+                <p>Il simulatore non comprende ogni evento possibile. In particolare:</p>
+                <ul>
+                    <li>usa rendimenti medi costanti e non simula volatilità o sequenze di mercato;</li>
+                    <li>non produce probabilità di successo né simulazioni Monte Carlo;</li>
+                    <li>non stima automaticamente imposte personali su pensioni, affitti o altre rendite;</li>
+                    <li>non modella spese impreviste, cambiamenti di vita o modifiche normative future;</li>
+                    <li>non seleziona investimenti e non valuta adeguatezza, rischio o liquidità di prodotti specifici;</li>
+                    <li>non sostituisce un piano finanziario, fiscale, previdenziale o legale personalizzato.</li>
+                </ul>
+                <p>
+                    Per usare il risultato in modo prudente, confronta più scenari, modifica una variabile alla volta e
+                    considera separatamente rischi che il modello non rappresenta. Una cifra molto precisa non rende certe
+                    le ipotesi da cui deriva.
+                </p>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>
+                    Ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia
+                    e le guide educative sul percorso FIRE, con attenzione alle ipotesi, alle fonti e ai limiti dei risultati.
+                </p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Prova le ipotesi nel simulatore</h2>
+                <p>Costruisci uno scenario, confronta i due metodi e modifica gli input per capire quali variabili incidono di più.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Metodologia · Modello deterministico</span>
+</footer>
+</body>
+</html>

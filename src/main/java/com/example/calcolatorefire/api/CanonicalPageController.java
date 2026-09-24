@@ -17,6 +17,7 @@ public class CanonicalPageController {
 
     private static final MediaType HTML_UTF_8 = new MediaType("text", "html", StandardCharsets.UTF_8);
     private final Resource homePage = new ClassPathResource("static/index.html");
+    private final Resource methodologyPage = new ClassPathResource("static/metodologia.html");
 
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
     ResponseEntity<Resource> serveCanonicalHome() {
@@ -30,6 +31,21 @@ public class CanonicalPageController {
     ResponseEntity<Void> redirectIndexToCanonicalHome() {
         return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
                 .location(URI.create("/"))
+                .build();
+    }
+
+    @GetMapping(value = "/metodologia", produces = MediaType.TEXT_HTML_VALUE)
+    ResponseEntity<Resource> serveMethodologyPage() {
+        return ResponseEntity.ok()
+                .contentType(HTML_UTF_8)
+                .header(HttpHeaders.CONTENT_LANGUAGE, "it-IT")
+                .body(methodologyPage);
+    }
+
+    @GetMapping({"/metodologia/", "/metodologia.html"})
+    ResponseEntity<Void> redirectMethodologyAliases() {
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
+                .location(URI.create("/metodologia"))
                 .build();
     }
 }

@@ -60,6 +60,8 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Pianificazione FIRE, con ipotesi trasparenti"))))
                 .andExpect(content().string(not(containsString("Nessun account"))))
                 .andExpect(content().string(containsString("class=\"brand-logo\"")))
+                .andExpect(content().string(containsString("href=\"/metodologia\">Metodologia</a>")))
+                .andExpect(content().string(containsString("Leggi formule, convenzioni e limiti nella metodologia completa")))
                 .andExpect(content().string(containsString("src=\"/images/logo-percorso-indipendenza.png?v=2\"")))
                 .andExpect(content().string(containsString("id=\"fire-form\"")))
                 .andExpect(content().string(containsString("class=\"app-layout is-wizard-view\" id=\"scenario-layout\"")))
@@ -204,7 +206,9 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("application/xml"))
                 .andExpect(content().string(containsString(
-                        "<loc>https://simulatorefire.com/</loc>")));
+                        "<loc>https://simulatorefire.com/</loc>")))
+                .andExpect(content().string(containsString(
+                        "<loc>https://simulatorefire.com/metodologia</loc>")));
     }
 
     @Test
@@ -215,6 +219,11 @@ class HomePageTest {
         mockMvc.perform(get("/styles-7c8e1a4b5d20.css"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
+
+        mockMvc.perform(get("/editorial-2a6c4e8d.css"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("text/css"))
+                .andExpect(content().string(containsString(".content-layout")));
 
         mockMvc.perform(get("/images/logo-percorso-indipendenza.png").queryParam("v", "2"))
                 .andExpect(status().isOk())

@@ -17,7 +17,7 @@
     {
       "id": "METH-0001",
       "content_type": "methodology",
-      "status": "planned",
+      "status": "in_progress",
       "execution_mode": "manual_prerequisite",
       "automation_eligible": false,
       "sequence": 0,
@@ -50,7 +50,7 @@
       "risk_level": "high",
       "freshness": "high",
       "dependencies": [],
-      "notes": "Pagina manuale necessaria prima della prima guida e dell'attivazione dell'automazione."
+      "notes": "Pagina realizzata sul branch guide-editoriali; resta in_progress finché il commit non è presente su origin/main."
     },
     {
       "id": "GUIDE-0001",
