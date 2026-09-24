@@ -154,7 +154,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Patrimonio corrente proiettato"))))
                 .andExpect(content().string(not(containsString("Margine di sicurezza"))))
                 .andExpect(content().string(not(containsString("Shortfall previsto"))))
-                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=7.8\"")))
+                .andExpect(content().string(containsString("src=\"/app-91e2b4c7a630.js?v=7.9\"")))
                 .andExpect(content().string(not(containsString("CONSERVATIVE"))));
 
         String page = mockMvc.perform(get("/index.html"))
