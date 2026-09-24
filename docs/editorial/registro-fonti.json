@@ -1,0 +1,9 @@
+{
+  "$schema": "./registro-fonti.schema.json",
+  "schema_version": "1.0",
+  "updated_at": "2026-09-24",
+  "next_id_by_year": {
+    "2026": 1
+  },
+  "sources": []
+}

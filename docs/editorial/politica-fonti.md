@@ -161,7 +161,7 @@ Se una risposta necessaria manca, la fonte deve essere sostituita, declassata o 
 
 ## 8. Registro delle fonti
 
-Ogni fonte effettivamente usata deve essere inserita nel registro delle fonti con un identificatore stabile nel formato `SRC-AAAA-NNNN`.
+Ogni fonte effettivamente usata deve essere inserita nel [registro strutturato delle fonti](registro-fonti.json) con un identificatore stabile nel formato `SRC-AAAA-NNNN`. Lo [schema JSON](registro-fonti.schema.json) definisce i vincoli formali e le [istruzioni operative](registro-fonti.md) regolano identificatori, stati e aggiornamenti.
 
 La registrazione deve contenere almeno:
 

@@ -163,7 +163,7 @@ In caso di arresto sono vietati contenuti parziali su `main`. Gli artefatti loca
 La schedulazione può essere creata e attivata soltanto quando:
 
 1. tutti gli step preliminari editoriali e tecnici sono completati;
-2. backlog, policy, template, registro delle fonti, checklist e runbook sono versionati nel repository;
+2. backlog, policy, template, [registro delle fonti](registro-fonti.json), checklist e runbook sono versionati nel repository;
 3. la pagina autore e la pagina metodologia sono disponibili;
 4. una prima guida è stata prodotta manualmente con lo stesso processo end-to-end;
 5. il processo manuale è stato corretto e approvato da Stefano Liga;
