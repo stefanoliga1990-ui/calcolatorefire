@@ -40,7 +40,7 @@
 <main id="top">
     <section class="intro" aria-labelledby="page-title">
         <h1 id="page-title">Simulatore FIRE</h1>
-        <p>Stima il patrimonio necessario e il PAC mensile per raggiungere il tuo obiettivo FIRE.</p>
+        <p>Stima il patrimonio necessario per andare in FIRE e il PAC mensile per raggiungerlo.</p>
     </section>
 
     <div class="app-layout is-wizard-view" id="scenario-layout">
@@ -53,7 +53,7 @@
                             <span>Percorso guidato</span>
                         </p>
                         <h2 id="fire-form-title">Costruisci il tuo scenario</h2>
-                        <p class="wizard-intro">Parti dall'obiettivo FIRE e completa il piano di accumulo un passaggio alla volta.</p>
+                        <p class="wizard-intro">Partiamo dall'obiettivo FIRE, nell'ultimo step configuriamo i dati del PAC.</p>
                     </div>
                     <button class="text-button" id="reset-button" type="button">Ripristina valori</button>
                 </div>
@@ -123,7 +123,7 @@
                                 <span class="method-choice-copy">
                                     <strong>Safe Withdrawal Rate</strong>
                                     <small>Parte da un tasso di prelievo iniziale e verifica la sostenibilità lungo l'orizzonte scelto.</small>
-                                    <em>Utile come benchmark FIRE</em>
+                                    <em>Stima un prelievo iniziale sostenibile</em>
                                 </span>
                             </label>
                         </div>
@@ -192,7 +192,7 @@
                                 <input id="annualFireReturnRate" name="annualFireReturnRate" type="number" min="-99.99" max="100" step="0.01" value="5" required>
                                 <span>%</span>
                             </span>
-                            <small>Al netto dei costi, prima delle imposte personali</small>
+                            <small>Inserisci il rendimento dopo i costi di gestione; bollo e imposte sulle plusvalenze sono calcolati separatamente.</small>
                         </label>
                     </div>
                 </section>
@@ -246,7 +246,7 @@
                                 <input id="annualAccumulationReturnRate" name="annualAccumulationReturnRate" type="number" min="-99.99" max="100" step="0.01" value="5" required>
                                 <span>%</span>
                             </span>
-                            <small>Al netto dei costi, prima delle imposte personali</small>
+                            <small>Inserisci il rendimento dopo i costi di gestione; bollo e imposte sulle plusvalenze sono calcolati separatamente.</small>
                         </label>
                         <label class="field field-wide" data-help="annualContributionGrowthRate">
                             <span>Crescita annua del PAC</span>
@@ -563,7 +563,7 @@
             <article>
                 <span>1</span>
                 <h3>Valori mensili</h3>
-                <p>PAC e prelievi sono mensili. Il PAC entra a fine mese; il prelievo avviene a inizio mese.</p>
+                <p>PAC e prelievi sono mensili. Il versamento del PAC viene aggiunto al patrimonio alla fine di ogni mese; il prelievo FIRE viene effettuato all'inizio del mese.</p>
             </article>
             <article>
                 <span>2</span>

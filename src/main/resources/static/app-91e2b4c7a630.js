@@ -73,7 +73,7 @@ const methodLabels = {
 
 const methodDescriptions = {
     FINITE: "Calcola il capitale per finanziare la spesa mensile per la durata FIRE scelta.",
-    SWR: "Calcola il capitale dalla spesa annua e dal tasso di prelievo scelto; la proiezione verifica se copre tutta la durata FIRE."
+    SWR: "Divide la spesa annua per la SWR scelta per stimare il capitale necessario; la proiezione mostra se il patrimonio dura per tutti gli anni indicati."
 };
 
 const finiteTargetFormula = {
