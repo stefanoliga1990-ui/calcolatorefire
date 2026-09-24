@@ -28,6 +28,7 @@ nei sorgenti e rigenerata.
 | `content/guides/GUIDE-NNNN.body.html` | Corpo originale della guida in HTML semantico limitato. |
 | `scripts/editorial/generate_guide.py` | Validazione semantica, rendering e aggiornamento della sitemap. |
 | `scripts/generate-guide.ps1` | Comando PowerShell destinato al processo manuale e all'automazione locale. |
+| `scripts/validate-editorial.ps1` | Validazione complessiva di dati editoriali, output, SEO e sitemap. |
 | `GuidePageController` | Pubblicazione delle pagine all'URL pulito `/guida/<slug>`. |
 
 ## 3. Flusso obbligatorio
@@ -42,7 +43,7 @@ Per una singola guida il processo deve avvenire in quest'ordine:
 6. eseguire prima la modalità `CheckOnly`;
 7. correggere ogni errore: un errore del generatore è bloccante;
 8. eseguire la generazione effettiva;
-9. eseguire test, controlli editoriali e controlli SEO del runbook;
+9. eseguire i [validatori automatici](validatori-automatici.md), i test e i controlli del runbook;
 10. aggiornare lo stato nel backlog soltanto secondo l'esito Git previsto dal contratto.
 
 ## 4. Comandi

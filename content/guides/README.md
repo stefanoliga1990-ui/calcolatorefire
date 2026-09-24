@@ -31,3 +31,5 @@ copiabili per manifesto e corpo si trovano nella cartella [`_template`](_templat
 
 Il comando operativo e tutte le condizioni di blocco sono descritti in
 [`docs/editorial/sistema-generazione-guide.md`](../../docs/editorial/sistema-generazione-guide.md).
+La validazione complessiva prima della pubblicazione è descritta in
+[`docs/editorial/validatori-automatici.md`](../../docs/editorial/validatori-automatici.md).
