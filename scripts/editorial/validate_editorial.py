@@ -55,6 +55,11 @@ STOP_CONDITION_KEYS = {
     "code", "order", "phase", "category", "trigger", "outcome", "retry", "notification",
     "repository_state", "evidence", "recovery",
 }
+GIT_POLICY_KEYS = {
+    "$schema", "schema_version", "branch", "remote", "remote_ref", "require_clean_start",
+    "fast_forward_only", "force_push_allowed", "run_full_validation", "maximum_changed_files",
+    "shared_paths", "forbidden_prefixes", "commit_message_template",
+}
 
 
 @dataclass
@@ -494,6 +499,54 @@ def validate_stop_conditions(root: Path, report: ValidationReport) -> dict:
     return catalogue
 
 
+def validate_git_publication_policy(root: Path, report: ValidationReport) -> dict:
+    path = root / "docs/editorial/git-publication-policy.json"
+    policy = load_json(path, report)
+    if not exact_keys(policy, GIT_POLICY_KEYS, "politica pubblicazione Git", report):
+        return policy
+    report.check(policy["$schema"] == "./git-publication-policy.schema.json", "politica Git: riferimento schema errato")
+    report.check(policy["schema_version"] == "1.0", "politica Git: versione schema non supportata")
+    report.check(policy["branch"] == "main", "politica Git: il branch deve essere main")
+    report.check(policy["remote"] == "origin", "politica Git: il remote deve essere origin")
+    report.check(policy["remote_ref"] == "refs/heads/main", "politica Git: remote_ref deve essere refs/heads/main")
+    report.check(policy["require_clean_start"] is True, "politica Git: avvio pulito obbligatorio")
+    report.check(policy["fast_forward_only"] is True, "politica Git: sono ammessi solo fast-forward")
+    report.check(policy["force_push_allowed"] is False, "politica Git: force push vietato")
+    report.check(policy["run_full_validation"] is True, "politica Git: validazione completa obbligatoria")
+    report.check(
+        isinstance(policy["maximum_changed_files"], int) and 1 <= policy["maximum_changed_files"] <= 20,
+        "politica Git: maximum_changed_files deve essere compreso tra 1 e 20",
+    )
+
+    def safe_paths(value: object, context: str) -> list[str]:
+        report.check(unique_nonempty_strings(value, 1), f"politica Git: {context} deve contenere percorsi unici")
+        paths = value if isinstance(value, list) else []
+        for item in paths:
+            if isinstance(item, str):
+                normalized = item.replace("\\", "/")
+                report.check(
+                    not normalized.startswith("/") and ".." not in normalized.split("/") and normalized == item,
+                    f"politica Git: percorso non sicuro in {context}: {item}",
+                )
+        return paths
+
+    shared = safe_paths(policy["shared_paths"], "shared_paths")
+    forbidden = safe_paths(policy["forbidden_prefixes"], "forbidden_prefixes")
+    required_shared = {
+        "docs/editorial/backlog-editoriale.json", "docs/editorial/registro-fonti.json",
+        "src/main/resources/static/sitemap.xml", "src/main/resources/static/index.html",
+    }
+    required_forbidden = {".github/", ".mvn/", "pom.xml", "src/main/java/", "src/test/", "scripts/"}
+    report.check(required_shared.issubset(set(shared)), "politica Git: shared_paths obbligatori mancanti")
+    report.check(required_forbidden.issubset(set(forbidden)), "politica Git: forbidden_prefixes obbligatori mancanti")
+    template = policy["commit_message_template"]
+    report.check(
+        isinstance(template, str) and "{content_id}" in template and "{working_title}" in template and "\n" not in template,
+        "politica Git: commit_message_template non valido",
+    )
+    return policy
+
+
 def load_generator(root: Path):
     path = root / "scripts/editorial/generate_guide.py"
     spec = importlib.util.spec_from_file_location("editorial_guide_generator", path)
@@ -672,6 +725,7 @@ def main() -> int:
     backlog = validate_backlog(root, report)
     validate_registry(root, backlog, report)
     stop_conditions = validate_stop_conditions(root, report)
+    validate_git_publication_policy(root, report)
     manifests = validate_guide_sources(root, args.mode, report)
     validate_pages_and_sitemap(root, manifests, args.mode, report)
     for warning in report.warnings:

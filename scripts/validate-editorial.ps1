@@ -14,7 +14,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 if ($IncludeTests) {
-    & python -m unittest "$PSScriptRoot/editorial/test_generate_guide.py" "$PSScriptRoot/editorial/test_validate_editorial.py"
+    & python -m unittest "$PSScriptRoot/editorial/test_generate_guide.py" "$PSScriptRoot/editorial/test_validate_editorial.py" "$PSScriptRoot/editorial/test_git_publication.py"
     if ($LASTEXITCODE -ne 0) {
         exit $LASTEXITCODE
     }
