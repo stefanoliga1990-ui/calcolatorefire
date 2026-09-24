@@ -696,6 +696,8 @@ function showResultView() {
     form.hidden = true;
     resultsContainer.hidden = false;
     additionalResourcesSection.hidden = false;
+    projections.hidden = lastFireRequest === null;
+    resourceProjections.hidden = lastFireRequest === null || resourceChartGrid.childElementCount === 0;
     scenarioLayout.classList.remove("is-wizard-view");
     scenarioLayout.classList.add("is-result-view");
     resultsViewTitle.focus({ preventScroll: true });
