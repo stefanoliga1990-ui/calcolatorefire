@@ -272,6 +272,46 @@
     color: var(--ink-soft);
 }
 
+.article-author a {
+    color: var(--green-dark);
+}
+
+.editorial-disclosure {
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 0.88rem;
+}
+
+.related-content,
+.guide-sources {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid var(--line);
+}
+
+.related-content h2,
+.guide-sources h2 {
+    font-size: 1.35rem;
+}
+
+.related-content li + li,
+.guide-sources li + li {
+    margin-top: 12px;
+}
+
+.related-content small,
+.guide-sources small {
+    display: block;
+    margin-top: 3px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+}
+
+.source-citation {
+    font-size: 0.92em;
+    white-space: nowrap;
+}
+
 .content-cta {
     margin-top: 28px;
     padding: 24px;

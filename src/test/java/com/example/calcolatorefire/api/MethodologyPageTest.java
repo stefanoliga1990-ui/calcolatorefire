@@ -54,7 +54,7 @@ class MethodologyPageTest {
                 .andExpect(content().string(containsString("non produce probabilità di successo")))
                 .andExpect(content().string(containsString("href=\"/\">Apri il simulatore FIRE</a>")))
                 .andExpect(content().string(containsString(
-                        "href=\"/editorial-2a6c4e8d.css?v=1.0\"")))
+                        "href=\"/editorial-2a6c4e8d.css?v=1.1\"")))
                 .andExpect(content().string(not(containsString("noindex"))))
                 .andReturn()
                 .getResponse()

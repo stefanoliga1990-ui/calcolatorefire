@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simulatorefire.com/schemas/guide.schema.json",
+  "title": "Manifesto sorgente di una guida di Calcolo FIRE Italia",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "content_id",
+    "slug",
+    "seo",
+    "page",
+    "dates",
+    "summary_points",
+    "source_ids",
+    "internal_links",
+    "cta"
+  ],
+  "properties": {
+    "$schema": { "const": "./guide.schema.json" },
+    "schema_version": { "const": "1.0" },
+    "content_id": { "type": "string", "pattern": "^GUIDE-[0-9]{4}$" },
+    "slug": { "type": "string", "pattern": "^/guida/[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "seo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "description", "og_title", "og_description"],
+      "properties": {
+        "title": { "type": "string", "minLength": 30, "maxLength": 65 },
+        "description": { "type": "string", "minLength": 70, "maxLength": 160 },
+        "og_title": { "type": "string", "minLength": 10, "maxLength": 95 },
+        "og_description": { "type": "string", "minLength": 40, "maxLength": 200 }
+      }
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kicker", "h1", "lead"],
+      "properties": {
+        "kicker": { "type": "string", "minLength": 3, "maxLength": 80 },
+        "h1": { "type": "string", "minLength": 10, "maxLength": 110 },
+        "lead": { "type": "string", "minLength": 50, "maxLength": 500 }
+      }
+    },
+    "dates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["published", "updated"],
+      "properties": {
+        "published": { "type": "string", "format": "date" },
+        "updated": { "type": "string", "format": "date" }
+      }
+    },
+    "summary_points": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 10, "maxLength": 300 }
+    },
+    "source_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^SRC-[0-9]{4}-[0-9]{4}$" }
+    },
+    "internal_links": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["url", "label", "reason"],
+        "properties": {
+          "url": { "type": "string", "pattern": "^/(?:$|[a-z0-9]+(?:[-/][a-z0-9]+)*)$" },
+          "label": { "type": "string", "minLength": 3, "maxLength": 100 },
+          "reason": { "type": "string", "minLength": 10, "maxLength": 240 }
+        }
+      }
+    },
+    "cta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "text", "label", "url"],
+      "properties": {
+        "title": { "type": "string", "minLength": 5, "maxLength": 100 },
+        "text": { "type": "string", "minLength": 20, "maxLength": 300 },
+        "label": { "type": "string", "minLength": 3, "maxLength": 80 },
+        "url": { "type": "string", "pattern": "^/(?:$|[a-z0-9]+(?:[-/][a-z0-9]+)*)$" }
+      }
+    }
+  }
+}
