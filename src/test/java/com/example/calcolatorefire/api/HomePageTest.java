@@ -42,12 +42,12 @@ class HomePageTest {
         mockMvc.perform(get("/index.html"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
-                .andExpect(content().string(containsString("href=\"/images/favicon-32x32.png?v=1\"")))
-                .andExpect(content().string(containsString("href=\"/images/apple-touch-icon.png?v=1\"")))
+                .andExpect(content().string(containsString("href=\"/images/favicon-32x32.png?v=2\"")))
+                .andExpect(content().string(containsString("href=\"/images/apple-touch-icon.png?v=2\"")))
                 .andExpect(content().string(containsString("property=\"og:title\" content=\"Simulatore FIRE\"")))
                 .andExpect(content().string(containsString("property=\"og:url\" content=\"https://simulatorefire.com/\"")))
-                .andExpect(content().string(containsString("property=\"og:image\" content=\"https://simulatorefire.com/images/og-simulatore-fire.jpg?v=2\"")))
-                .andExpect(content().string(containsString("property=\"og:image:secure_url\" content=\"https://simulatorefire.com/images/og-simulatore-fire.jpg?v=2\"")))
+                .andExpect(content().string(containsString("property=\"og:image\" content=\"https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3\"")))
+                .andExpect(content().string(containsString("property=\"og:image:secure_url\" content=\"https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3\"")))
                 .andExpect(content().string(containsString("property=\"og:image:width\" content=\"1200\"")))
                 .andExpect(content().string(containsString("property=\"og:image:height\" content=\"630\"")))
                 .andExpect(content().string(containsString("name=\"twitter:card\" content=\"summary_large_image\"")))
@@ -60,7 +60,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Pianificazione FIRE, con ipotesi trasparenti"))))
                 .andExpect(content().string(not(containsString("Nessun account"))))
                 .andExpect(content().string(containsString("class=\"brand-logo\"")))
-                .andExpect(content().string(containsString("src=\"/images/logo-percorso-indipendenza.png?v=1\"")))
+                .andExpect(content().string(containsString("src=\"/images/logo-percorso-indipendenza.png?v=2\"")))
                 .andExpect(content().string(containsString("id=\"fire-form\"")))
                 .andExpect(content().string(containsString("class=\"app-layout is-wizard-view\" id=\"scenario-layout\"")))
                 .andExpect(content().string(containsString("class=\"wizard-progress\"")))
@@ -192,11 +192,11 @@ class HomePageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/css"));
 
-        mockMvc.perform(get("/images/logo-percorso-indipendenza.png").queryParam("v", "1"))
+        mockMvc.perform(get("/images/logo-percorso-indipendenza.png").queryParam("v", "2"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("image/png"));
 
-        byte[] faviconBytes = mockMvc.perform(get("/images/favicon-32x32.png").queryParam("v", "1"))
+        byte[] faviconBytes = mockMvc.perform(get("/images/favicon-32x32.png").queryParam("v", "2"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("image/png"))
                 .andReturn().getResponse().getContentAsByteArray();
@@ -204,7 +204,7 @@ class HomePageTest {
         assertEquals(32, favicon.getWidth());
         assertEquals(32, favicon.getHeight());
 
-        byte[] appleTouchIconBytes = mockMvc.perform(get("/images/apple-touch-icon.png").queryParam("v", "1"))
+        byte[] appleTouchIconBytes = mockMvc.perform(get("/images/apple-touch-icon.png").queryParam("v", "2"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("image/png"))
                 .andReturn().getResponse().getContentAsByteArray();
@@ -212,7 +212,7 @@ class HomePageTest {
         assertEquals(180, appleTouchIcon.getWidth());
         assertEquals(180, appleTouchIcon.getHeight());
 
-        byte[] openGraphImageBytes = mockMvc.perform(get("/images/og-simulatore-fire.jpg").queryParam("v", "2"))
+        byte[] openGraphImageBytes = mockMvc.perform(get("/images/og-simulatore-fire.jpg").queryParam("v", "3"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("image/jpeg"))
                 .andReturn().getResponse().getContentAsByteArray();
