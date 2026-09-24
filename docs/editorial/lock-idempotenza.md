@@ -63,3 +63,4 @@ La cronologia registra inoltre file modificati, SHA iniziali, commit, push, orar
 
 I comandi completi sono documentati in [Pubblicazione Git sicura e ripetibile](pubblicazione-git.md); timeout e frequenza
 sono vincolati da [git-publication-policy.json](git-publication-policy.json).
+Formato, redazione e consultazione della cronologia sono descritti nel [log delle esecuzioni](log-esecuzioni.md).

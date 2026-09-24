@@ -144,6 +144,9 @@ L'esito finale dell'esecuzione deve riportare almeno:
 
 Il risultato resta consultabile nella cronologia delle esecuzioni. Non è richiesta una notifica per le esecuzioni riuscite o per l'assenza di guide idonee; sono ammesse notifiche soltanto per fallimenti o interventi richiesti.
 
+Campi, persistenza append-only, risultato finale immutabile e regole di redazione sono definiti nel
+[runbook del log delle esecuzioni](log-esecuzioni.md).
+
 ## 12. Condizioni di arresto
 
 L'esecuzione deve fermarsi senza pubblicare quando si verifica almeno una delle seguenti condizioni:

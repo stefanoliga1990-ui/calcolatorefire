@@ -1,6 +1,6 @@
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("run-id", "start", "heartbeat", "checkpoint", "publish", "status", "cancel")]
+    [ValidateSet("run-id", "start", "heartbeat", "checkpoint", "publish", "status", "log", "cancel")]
     [string]$Action,
 
     [string]$RunId,

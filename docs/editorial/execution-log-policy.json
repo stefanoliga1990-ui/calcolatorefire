@@ -1,0 +1,18 @@
+{
+  "$schema": "./execution-log-policy.schema.json",
+  "schema_version": "1.0",
+  "storage_root": ".git/editorial-publication",
+  "audit_directory": "audit",
+  "history_directory": "history",
+  "append_only_audit": true,
+  "immutable_final_result": true,
+  "maximum_message_length": 500,
+  "sensitive_key_fragments": [
+    "authorization",
+    "cookie",
+    "owner_token",
+    "password",
+    "secret",
+    "token"
+  ]
+}

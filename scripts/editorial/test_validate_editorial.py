@@ -23,6 +23,7 @@ class EditorialValidatorTest(unittest.TestCase):
         VALIDATOR.validate_registry(REPO_ROOT, backlog, report)
         VALIDATOR.validate_stop_conditions(REPO_ROOT, report)
         VALIDATOR.validate_git_publication_policy(REPO_ROOT, report)
+        VALIDATOR.validate_execution_log_policy(REPO_ROOT, report)
         manifests = VALIDATOR.validate_guide_sources(REPO_ROOT, "development", report)
         VALIDATOR.validate_pages_and_sitemap(REPO_ROOT, manifests, "development", report)
         self.assertEqual([], report.errors)
@@ -100,6 +101,22 @@ class EditorialValidatorTest(unittest.TestCase):
             report = VALIDATOR.ValidationReport()
             VALIDATOR.validate_git_publication_policy(root, report)
             self.assertTrue(any("force push vietato" in error for error in report.errors))
+
+    def test_rejects_execution_log_policy_without_token_redaction(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            target = root / "docs/editorial"
+            target.mkdir(parents=True)
+            for name in ("execution-log-policy.schema.json", "execution-log.schema.json"):
+                shutil.copy2(REPO_ROOT / "docs/editorial" / name, target)
+            policy = json.loads(
+                (REPO_ROOT / "docs/editorial/execution-log-policy.json").read_text(encoding="utf-8")
+            )
+            policy["sensitive_key_fragments"].remove("token")
+            (target / "execution-log-policy.json").write_text(json.dumps(policy), encoding="utf-8")
+            report = VALIDATOR.ValidationReport()
+            VALIDATOR.validate_execution_log_policy(root, report)
+            self.assertTrue(any("redazioni obbligatorie mancanti" in error for error in report.errors))
 
 
 if __name__ == "__main__":

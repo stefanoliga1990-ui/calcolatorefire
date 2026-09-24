@@ -51,6 +51,15 @@ class GitPublicationTest(unittest.TestCase):
             "forbidden_prefixes": ["scripts/", "pom.xml", "src/main/java/", "src/test/"],
             "commit_message_template": "Pubblica {content_id}: {working_title}",
         }
+        log_policy = {
+            "$schema": "./execution-log-policy.schema.json", "schema_version": "1.0",
+            "storage_root": ".git/editorial-publication", "audit_directory": "audit",
+            "history_directory": "history", "append_only_audit": True,
+            "immutable_final_result": True, "maximum_message_length": 500,
+            "sensitive_key_fragments": [
+                "authorization", "cookie", "owner_token", "password", "secret", "token",
+            ],
+        }
         backlog = {
             "items": [{
                 "id": "GUIDE-0001", "content_type": "guide", "status": "pilot",
@@ -60,6 +69,7 @@ class GitPublicationTest(unittest.TestCase):
         editorial = seed / "docs/editorial"
         editorial.mkdir(parents=True)
         (editorial / "git-publication-policy.json").write_text(json.dumps(policy), encoding="utf-8")
+        (editorial / "execution-log-policy.json").write_text(json.dumps(log_policy), encoding="utf-8")
         (editorial / "backlog-editoriale.json").write_text(json.dumps(backlog), encoding="utf-8")
         (editorial / "registro-fonti.json").write_text("{}\n", encoding="utf-8")
         static = seed / "src/main/resources/static"
@@ -133,6 +143,10 @@ class GitPublicationTest(unittest.TestCase):
         self.assertFalse(session["deployment_checked"])
         self.assertEqual(session["commit_sha"], run_git(self.worker, "ls-remote", "--heads", "origin", "refs/heads/main").split()[0])
         self.assertFalse((self.worker / ".git/editorial-publication/lock.json").exists())
+        history_path = self.worker / ".git/editorial-publication/history/run-0001.json"
+        history = json.loads(history_path.read_text(encoding="utf-8"))
+        self.assertEqual("success", history["outcome"])
+        self.assertNotIn("owner_token", history)
         commit_count = run_git(self.worker, "rev-list", "--count", "HEAD")
 
         repeated = PUBLISHER.publish(self.worker, "run-0001", validator=lambda _: None)
@@ -195,6 +209,25 @@ class GitPublicationTest(unittest.TestCase):
         self.assertEqual("STOP-STALE-EDITORIAL-LOCK", raised.exception.code)
         cancelled = PUBLISHER.cancel(self.worker, "run-0001", self.owner_token, manual_recovery=True)
         self.assertEqual("cancelled", cancelled["status"])
+        final = json.loads(
+            (self.worker / ".git/editorial-publication/history/run-0001.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual("cancelled", final["outcome"])
+
+    def test_audit_log_is_append_only_and_redacts_secrets(self):
+        self.start()
+        first = PUBLISHER.append_audit_event(
+            self.worker, "run-0001", "test", "stopped",
+            message="token=abc123 URL https://user:pass@example.test/path",
+        )
+        second = PUBLISHER.append_audit_event(self.worker, "run-0001", "test", "success")
+        self.assertNotEqual(first, second)
+        self.assertTrue(first.exists())
+        payload = first.read_text(encoding="utf-8")
+        self.assertNotIn("abc123", payload)
+        self.assertNotIn("user:pass", payload)
+        log = PUBLISHER.read_execution_log(self.worker, "run-0001")
+        self.assertEqual(2, len(log["events"]))
 
 
 if __name__ == "__main__":

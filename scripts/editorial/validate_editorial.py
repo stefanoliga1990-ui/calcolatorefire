@@ -61,6 +61,10 @@ GIT_POLICY_KEYS = {
     "heartbeat_interval_minutes", "maximum_changed_files",
     "shared_paths", "forbidden_prefixes", "commit_message_template",
 }
+EXECUTION_LOG_POLICY_KEYS = {
+    "$schema", "schema_version", "storage_root", "audit_directory", "history_directory",
+    "append_only_audit", "immutable_final_result", "maximum_message_length", "sensitive_key_fragments",
+}
 
 
 @dataclass
@@ -561,6 +565,33 @@ def validate_git_publication_policy(root: Path, report: ValidationReport) -> dic
     return policy
 
 
+def validate_execution_log_policy(root: Path, report: ValidationReport) -> dict:
+    path = root / "docs/editorial/execution-log-policy.json"
+    policy = load_json(path, report)
+    if not exact_keys(policy, EXECUTION_LOG_POLICY_KEYS, "politica log esecuzioni", report):
+        return policy
+    expected = {
+        "$schema": "./execution-log-policy.schema.json", "schema_version": "1.0",
+        "storage_root": ".git/editorial-publication", "audit_directory": "audit",
+        "history_directory": "history", "append_only_audit": True, "immutable_final_result": True,
+    }
+    for field_name, expected_value in expected.items():
+        report.check(policy[field_name] == expected_value, f"politica log: {field_name} non valido")
+    report.check(
+        isinstance(policy["maximum_message_length"], int) and 100 <= policy["maximum_message_length"] <= 1000,
+        "politica log: maximum_message_length non valido",
+    )
+    fragments = policy["sensitive_key_fragments"]
+    required = {"authorization", "cookie", "owner_token", "password", "secret", "token"}
+    report.check(unique_nonempty_strings(fragments, 6), "politica log: frammenti sensibili non validi")
+    report.check(required.issubset(set(fragments if isinstance(fragments, list) else [])), "politica log: redazioni obbligatorie mancanti")
+    for schema_name in ("execution-log-policy.schema.json", "execution-log.schema.json"):
+        schema = load_json(root / "docs/editorial" / schema_name, report)
+        report.check(schema.get("additionalProperties") is False, f"{schema_name}: additionalProperties deve essere false")
+        report.check(isinstance(schema.get("required"), list) and bool(schema["required"]), f"{schema_name}: required mancante")
+    return policy
+
+
 def load_generator(root: Path):
     path = root / "scripts/editorial/generate_guide.py"
     spec = importlib.util.spec_from_file_location("editorial_guide_generator", path)
@@ -740,6 +771,7 @@ def main() -> int:
     validate_registry(root, backlog, report)
     stop_conditions = validate_stop_conditions(root, report)
     validate_git_publication_policy(root, report)
+    validate_execution_log_policy(root, report)
     manifests = validate_guide_sources(root, args.mode, report)
     validate_pages_and_sitemap(root, manifests, args.mode, report)
     for warning in report.warnings:

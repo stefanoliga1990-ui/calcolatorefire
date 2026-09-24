@@ -95,6 +95,113 @@ def load_policy(root: Path) -> dict:
     return policy
 
 
+def load_log_policy(root: Path) -> dict:
+    policy = load_json(root / "docs/editorial/execution-log-policy.json")
+    expected = {
+        "storage_root": ".git/editorial-publication", "audit_directory": "audit",
+        "history_directory": "history", "append_only_audit": True, "immutable_final_result": True,
+    }
+    if any(policy.get(key) != value for key, value in expected.items()):
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", "La politica dei log non rispetta i vincoli obbligatori")
+    if not isinstance(policy.get("maximum_message_length"), int):
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", "Limite dei messaggi di log non valido")
+    return policy
+
+
+def redact_text(value: str, maximum: int) -> str:
+    redacted = re.sub(
+        r"(?i)\b(authorization|cookie|owner[_-]?token|password|secret|token)\s*[:=]\s*[^\s,;]+",
+        r"\1=[REDACTED]", value,
+    )
+    redacted = re.sub(r"(?i)(https?://)[^/@\s]+:[^/@\s]+@", r"\1[REDACTED]@", redacted)
+    return redacted[:maximum]
+
+
+def sanitize_log_value(value: object, policy: dict) -> object:
+    fragments = tuple(policy.get("sensitive_key_fragments", []))
+    maximum = policy["maximum_message_length"]
+    if isinstance(value, dict):
+        return {
+            str(key): "[REDACTED]" if any(fragment in str(key).casefold() for fragment in fragments)
+            else sanitize_log_value(item, policy)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [sanitize_log_value(item, policy) for item in value]
+    if isinstance(value, str):
+        return redact_text(value, maximum)
+    if value is None or isinstance(value, (bool, int, float)):
+        return value
+    return redact_text(str(value), maximum)
+
+
+def append_audit_event(
+    root: Path, run_id: str, action: str, result: str, *, phase: str | None = None,
+    content_id: str | None = None, code: str | None = None, message: str | None = None,
+) -> Path:
+    if not RUN_ID.fullmatch(run_id):
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", "run-id non valido per il log")
+    policy = load_log_policy(root)
+    state_dir, _, _ = repo_paths(root)
+    directory = state_dir / policy["audit_directory"] / run_id
+    directory.mkdir(parents=True, exist_ok=True)
+    timestamp = now_utc()
+    event = sanitize_log_value({
+        "schema_version": "1.0", "event_id": secrets.token_hex(12), "timestamp": timestamp,
+        "run_id": run_id, "action": action, "result": result, "phase": phase,
+        "content_id": content_id, "code": code, "message": message,
+    }, policy)
+    filename = f"{datetime.now(timezone.utc):%Y%m%dT%H%M%S%fZ}-{event['event_id']}.json"
+    path = directory / filename
+    descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+        json.dump(event, stream, ensure_ascii=False, indent=2)
+        stream.write("\n")
+    return path
+
+
+def final_result(session: dict) -> dict:
+    fields = (
+        "schema_version", "run_id", "started_at", "finished_at", "status", "outcome", "phase",
+        "content_id", "slug", "source_ids", "checks", "changed_files", "base_head",
+        "initial_remote_head", "commit_sha", "commit_performed", "push_performed",
+        "deployment_checked", "stop_code", "stop_message", "retry", "notification", "recovery",
+    )
+    return {field: session.get(field) for field in fields}
+
+
+def write_final_result(root: Path, session: dict) -> Path:
+    policy = load_log_policy(root)
+    result = sanitize_log_value(final_result(session), policy)
+    state_dir, _, _ = repo_paths(root)
+    path = state_dir / policy["history_directory"] / f"{session['run_id']}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
+    try:
+        descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError as exc:
+        if path.read_text(encoding="utf-8") == serialized:
+            return path
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", "Il risultato finale immutabile esiste con contenuto diverso") from exc
+    with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+        stream.write(serialized)
+    return path
+
+
+def read_execution_log(root: Path, run_id: str) -> dict:
+    policy = load_log_policy(root)
+    state_dir, _, _ = repo_paths(root)
+    audit_dir = state_dir / policy["audit_directory"] / run_id
+    events = [load_json(path) for path in sorted(audit_dir.glob("*.json"))] if audit_dir.exists() else []
+    final_path = state_dir / policy["history_directory"] / f"{run_id}.json"
+    return {
+        "run_id": run_id,
+        "session": load_session(root, run_id) if session_path(root, run_id).exists() else None,
+        "events": events,
+        "final_result": load_json(final_path) if final_path.exists() else None,
+    }
+
+
 def normalize_repo_path(value: str) -> str:
     normalized = value.replace("\\", "/")
     path = PurePosixPath(normalized)
@@ -290,7 +397,7 @@ def load_session(root: Path, run_id: str) -> dict:
     required = {
         "schema_version", "run_id", "content_id", "slug", "status", "phase", "started_at",
         "heartbeat_at", "finished_at", "source_ids", "checks", "changed_files", "commit_performed",
-        "push_performed", "deployment_checked",
+        "push_performed", "deployment_checked", "outcome", "retry", "notification", "recovery",
     }
     if not required.issubset(session) or session.get("run_id") != run_id:
         raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", f"Sessione {run_id} incompleta o incoerente")
@@ -322,6 +429,7 @@ def start(root: Path, run_id: str, content_id: str, related_ids: Sequence[str] =
             fetch_main(root, policy)
             if not is_ancestor(root, existing.get("commit_sha", ""), f"refs/remotes/{policy['remote']}/{policy['branch']}"):
                 raise PublicationStop("STOP-ORIGIN-MAIN-ADVANCED", "Il commit del run concluso non appartiene a origin/main")
+            write_final_result(root, existing)
             return {**existing, "idempotent_replay": True}
         if lock_path.exists():
             existing_lock = read_lock(lock_path)
@@ -367,7 +475,8 @@ def start(root: Path, run_id: str, content_id: str, related_ids: Sequence[str] =
             "initial_remote_head": initial_remote, "allowed_paths": permitted,
             "source_ids": [], "checks": [], "changed_files": [],
             "commit_sha": None, "commit_performed": False, "push_performed": False, "deployment_checked": False,
-            "attempt_count": 0, "stop_code": None, "stop_message": None,
+            "attempt_count": 0, "outcome": None, "stop_code": None, "stop_message": None,
+            "retry": None, "notification": None, "recovery": None,
         }
         save_session(root, session)
         atomic_json_write(lock_path, {**lock_value, "base_head": session["base_head"], "phase": "selection", "heartbeat_at": session["heartbeat_at"]})
@@ -413,9 +522,21 @@ def assert_publishable_diff(root: Path, policy: dict, session: dict) -> list[str
 
 
 def record_stop(root: Path, session: dict, error: PublicationStop) -> None:
+    try:
+        catalogue = load_json(root / "docs/editorial/condizioni-arresto.json")
+        rule = next(
+            (condition for condition in catalogue.get("conditions", []) if condition.get("code") == error.code),
+            None,
+        )
+    except PublicationStop:
+        rule = None
     session["status"] = "committed" if session.get("commit_sha") else "stopped"
     session["stop_code"] = error.code
     session["stop_message"] = str(error)
+    session["outcome"] = rule.get("outcome") if rule else "failed"
+    session["retry"] = rule.get("retry") if rule else "manual"
+    session["notification"] = rule.get("notification") if rule else "failed_runs_only"
+    session["recovery"] = rule.get("recovery") if rule else "Verificare manualmente lo stato prima di proseguire."
     save_session(root, session)
 
 
@@ -436,6 +557,7 @@ def publish(
         fetch_main(root, policy)
         if not is_ancestor(root, session.get("commit_sha", ""), f"refs/remotes/{policy['remote']}/{policy['branch']}"):
             raise PublicationStop("STOP-ORIGIN-MAIN-ADVANCED", "Il commit della sessione non appartiene più alla storia di origin/main")
+        write_final_result(root, session)
         return {**session, "idempotent_replay": True}
 
     _, lock_path, _ = repo_paths(root)
@@ -447,6 +569,10 @@ def publish(
     session["attempt_count"] = int(session.get("attempt_count", 0)) + 1
     session["stop_code"] = None
     session["stop_message"] = None
+    session["outcome"] = None
+    session["retry"] = None
+    session["notification"] = None
+    session["recovery"] = None
     save_session(root, session)
     resumed_after_commit = session.get("status") in {"committing", "committed"}
     try:
@@ -479,9 +605,10 @@ def publish(
             if is_ancestor(root, session["commit_sha"], tracking_ref):
                 session.update({
                     "status": "published", "phase": "complete", "commit_performed": True,
-                    "push_performed": True, "finished_at": now_utc(),
+                    "push_performed": True, "finished_at": now_utc(), "outcome": "success",
                 })
                 save_session(root, session)
+                write_final_result(root, session)
                 release_owned_lock(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
                 return session
 
@@ -543,28 +670,35 @@ def publish(
         git(root, "push", policy["remote"], f"HEAD:{policy['remote_ref']}", code="STOP-PUSH-REJECTED")
         if remote_sha(root, policy) != session["commit_sha"]:
             raise PublicationStop("STOP-PUSH-REJECTED", "Lo SHA remoto non coincide con il commit pubblicato")
-        session.update({"status": "published", "push_performed": True, "finished_at": now_utc()})
+        session.update({"status": "published", "push_performed": True, "finished_at": now_utc(), "outcome": "success"})
         session["phase"] = "complete"
         save_session(root, session)
+        write_final_result(root, session)
         release_owned_lock(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
         return session
     except PublicationStop as error:
-        record_stop(root, session, error)
+        if session.get("status") != "published":
+            record_stop(root, session, error)
         raise
 
 
 def cancel(root: Path, run_id: str, owner_token: str, *, manual_recovery: bool = False) -> dict:
     session = load_session(root, run_id)
     if session.get("status") == "cancelled":
+        write_final_result(root, session)
         return {**session, "idempotent_replay": True}
     policy = load_policy(root)
     _, lock_path, _ = repo_paths(root)
     assert_lock_owner(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
     if session.get("commit_sha") or head_sha(root) != session.get("base_head") or changed_paths(root):
         raise PublicationStop("STOP-EXECUTION-INTERRUPTED", "Annullamento vietato: sono presenti modifiche o un commit locale")
-    session.update({"status": "cancelled", "phase": "complete", "finished_at": now_utc()})
+    session.update({
+        "status": "cancelled", "outcome": "cancelled", "phase": "complete", "finished_at": now_utc(),
+        "retry": None, "notification": None, "recovery": None,
+    })
     save_session(root, session)
     release_owned_lock(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
+    write_final_result(root, session)
     return session
 
 
@@ -621,7 +755,7 @@ def parse_args() -> argparse.Namespace:
     cancel_parser.add_argument("--run-id", required=True)
     cancel_parser.add_argument("--owner-token", required=True)
     cancel_parser.add_argument("--manual-recovery", action="store_true")
-    for name in ("status",):
+    for name in ("status", "log"):
         command = commands.add_parser(name)
         command.add_argument("--run-id", required=True)
     commands.add_parser("run-id")
@@ -644,11 +778,28 @@ def main() -> int:
             result = cancel(root, args.run_id, args.owner_token, manual_recovery=args.manual_recovery)
         elif args.action == "run-id":
             result = {"run_id": daily_run_id(), "timezone": "Europe/Rome"}
+        elif args.action == "log":
+            result = read_execution_log(root, args.run_id)
         else:
             result = status_view(root, args.run_id)
+        if args.action not in {"run-id", "status", "log"}:
+            append_audit_event(
+                root, args.run_id, args.action, "success", phase=result.get("phase"),
+                content_id=result.get("content_id"), message=f"Comando {args.action} completato",
+            )
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
     except PublicationStop as error:
+        run_id = getattr(args, "run_id", None)
+        if run_id:
+            try:
+                session = load_session(root, run_id) if session_path(root, run_id).exists() else {}
+                append_audit_event(
+                    root, run_id, args.action, "stopped", phase=session.get("phase"),
+                    content_id=session.get("content_id"), code=error.code, message=str(error),
+                )
+            except Exception:
+                pass
         print(f"{error.code}: {error}", file=sys.stderr)
         return 1
 
