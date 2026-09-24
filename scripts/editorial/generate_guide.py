@@ -308,8 +308,8 @@ def validate_backlog(manifest: dict, backlog: dict) -> None:
     item = items[0]
     if item.get("content_type") != "guide" or item.get("slug") != manifest["slug"]:
         raise GuideGenerationError("content_id e slug non coincidono con il backlog")
-    if item.get("status") not in {"pilot", "in_progress"}:
-        raise GuideGenerationError("La guida deve essere in stato pilot o in_progress prima della generazione")
+    if item.get("status") not in {"pilot", "in_progress", "pushed_to_main"}:
+        raise GuideGenerationError("La guida deve essere in stato pilot, in_progress o pushed_to_main")
     if item.get("status") == "in_progress" and item.get("execution_mode") != "automatic":
         raise GuideGenerationError("Una guida in_progress deve essere configurata per l'esecuzione automatica")
 

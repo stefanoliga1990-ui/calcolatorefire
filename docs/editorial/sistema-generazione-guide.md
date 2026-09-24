@@ -126,7 +126,7 @@ automaticamente backlog o registro fonti perché tali cambiamenti rappresentano 
 espliciti nello stesso commit.
 
 Il sistema non esegue commit, push, ricerca web, controllo Railway o richiesta di indicizzazione. Queste operazioni
-appartengono alle fasi successive del processo definite nel contratto e nel futuro runbook.
+appartengono alle fasi successive definite nel contratto e nel [runbook operativo](runbook-operativo.md).
 
 ## 9. Verifica del sistema
 

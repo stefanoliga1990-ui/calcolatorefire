@@ -152,7 +152,8 @@ Non inserire nei log credenziali, cookie, token, contenuti riservati o copie int
 - `manual`: nessun nuovo tentativo finché la causa non è stata valutata e corretta consapevolmente.
 
 Un retry non riutilizza automaticamente uno stato `in_progress`, una ricerca parziale o un commit locale. Idempotenza,
-lock e cronologia delle esecuzioni devono determinare il percorso corretto secondo il futuro runbook.
+lock e cronologia delle esecuzioni devono determinare il percorso corretto secondo il
+[runbook operativo](runbook-operativo.md).
 
 ## 9. Validazione del catalogo
 

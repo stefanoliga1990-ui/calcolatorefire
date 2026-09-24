@@ -125,6 +125,16 @@ class GuideGeneratorTest(unittest.TestCase):
         sitemap = (self.root / "src/main/resources/static/sitemap.xml").read_text(encoding="utf-8")
         self.assertNotIn("prova-generatore", sitemap)
 
+    def test_accepts_a_guide_marked_for_the_publication_commit(self):
+        backlog_path = self.root / "docs/editorial/backlog-editoriale.json"
+        backlog = json.loads(backlog_path.read_text(encoding="utf-8"))
+        backlog["items"][0]["status"] = "pushed_to_main"
+        backlog_path.write_text(json.dumps(backlog), encoding="utf-8")
+
+        output = GENERATOR.generate(self.manifest_path, self.body_path, self.root, True)
+
+        self.assertFalse(output.exists())
+
     def test_rejects_declared_source_without_inline_citation(self):
         self.body_path.write_text(self.body.replace(' data-source-id="SRC-2026-0001"', ""), encoding="utf-8")
         with self.assertRaises(GENERATOR.GuideGenerationError):

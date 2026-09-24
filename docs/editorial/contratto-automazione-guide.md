@@ -12,6 +12,9 @@ L'automazione deve pubblicare guide originali e utili sugli argomenti trattati d
 
 Questo documento è la fonte di verità per il comportamento dell'automazione. La schedulazione non deve essere attivata finché tutti i criteri della sezione 13 non sono soddisfatti.
 
+La sequenza eseguibile, i comandi e le procedure di recupero sono consolidati nel
+[runbook operativo delle pubblicazioni editoriali](runbook-operativo.md).
+
 ## 2. Configurazione concordata
 
 | Voce | Regola |
