@@ -1,0 +1,152 @@
+<section class="content-section" id="significato" aria-labelledby="significato-title">
+    <h2 id="significato-title">Che cosa significa FIRE e che cosa non promette</h2>
+    <p>
+        FIRE è l'acronimo di <em>Financial Independence, Retire Early</em>. Il nucleo comune è concentrare risparmio e
+        accumulo nella prima parte della vita per raggiungere prima possibile un grado di indipendenza economica che
+        renda praticabile ridurre o lasciare il lavoro. Questa definizione, e la varietà di motivazioni che può
+        contenerla, è discussa nello studio accademico
+        <a href="https://link.springer.com/article/10.1007/s10551-025-06137-z" data-source-id="SRC-2026-0003">The Ethics of FIRE</a>.
+    </p>
+    <p>
+        Indipendenza finanziaria non significa necessariamente smettere di lavorare. Può voler dire scegliere un lavoro
+        meno remunerativo, ridurre le ore, affrontare una pausa o dedicare più tempo a progetti e persone. Il punto utile
+        è trasformare una preferenza di vita in un piano misurabile, senza assumere che esista una cifra o una strategia
+        valida per tutti.
+    </p>
+</section>
+
+<section class="content-section" id="partenza" aria-labelledby="partenza-title">
+    <h2 id="partenza-title">Il piano parte dalle spese e dagli obiettivi, non dal rendimento</h2>
+    <p>
+        Prima del capitale obiettivo serve una stima credibile del tenore di vita da finanziare. La guida di
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia sulla pianificazione</a>
+        suggerisce di ricostruire entrate e uscite, includere le spese meno frequenti, fissare obiettivi concreti e
+        aggiornare periodicamente il budget. Per il FIRE conviene osservare almeno un anno, distinguendo spese essenziali,
+        discrezionali, straordinarie e quelle che cambieranno dopo l'uscita dal lavoro.
+    </p>
+    <ol>
+        <li>Stima la spesa mensile attuale usando dati reali, non il mese più favorevole.</li>
+        <li>Definisci come potrebbe cambiare casa, famiglia, salute, mobilità e tempo libero.</li>
+        <li>Separa il fondo per imprevisti dal capitale destinato a finanziare il lungo periodo.</li>
+        <li>Stabilisci la data obiettivo e quanto puoi versare con regolarità senza rendere fragile il presente.</li>
+    </ol>
+</section>
+
+<section class="content-section" id="italia" aria-labelledby="italia-title">
+    <h2 id="italia-title">Adattare il FIRE all'Italia richiede pensione e fiscalità separate</h2>
+    <p>
+        Un piano italiano non dovrebbe trattare la pensione come zero né come una cifra certa inventata. Il servizio
+        <a href="https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.la-mia-pensione-futura-simulazione-della-propria-pensione-50033.la-mia-pensione-futura-simulazione-della-propria-pensione.html" data-source-id="SRC-2026-0007">La mia pensione futura dell'INPS</a>,
+        aggiornato al 31 luglio 2025, permette agli utenti coperti di controllare i contributi e stimare importo e data
+        della pensione secondo la normativa vigente. Una stima ufficiale può quindi essere inserita come risorsa futura,
+        mantenendola distinta dal patrimonio già disponibile.
+    </p>
+    <p>
+        Anche le imposte incidono, ma dipendono da strumenti, redditi e situazione individuale. Il simulatore applica
+        soltanto il modello documentato nella
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica della fiscalità semplificata</a>:
+        non calcola una dichiarazione dei redditi e non sostituisce la verifica di un professionista qualificato.
+    </p>
+</section>
+
+<section class="content-section" id="numero-fire" aria-labelledby="numero-fire-title">
+    <h2 id="numero-fire-title">Il capitale obiettivo dipende dal modello scelto</h2>
+    <p>
+        Il simulatore offre due letture. Nel modello <strong>FINITE</strong> il capitale finanzia una durata definita e
+        può essere consumato progressivamente. Nel modello <strong>SWR</strong> il target deriva dalla spesa annua divisa
+        per un tasso di prelievo scelto dall'utente. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica del motore</a>
+        documenta formule, conversioni dei tassi, ordine dei flussi e risorse aggiuntive.
+    </p>
+    <p>
+        Il tasso di prelievo non è un rendimento garantito e non è una raccomandazione. Ridurlo alza il capitale
+        richiesto; aumentarlo lo abbassa ma rende lo scenario più vulnerabile. Nel modello FINITE contano soprattutto
+        durata e rendimento ipotizzato. In entrambi i casi è più informativo confrontare più combinazioni che cercare
+        un solo “numero FIRE”.
+    </p>
+</section>
+
+<section class="content-section" id="inflazione" aria-labelledby="inflazione-title">
+    <h2 id="inflazione-title">L'inflazione collega le spese di oggi alla data FIRE</h2>
+    <p>
+        Gli euro necessari oggi e quelli necessari tra molti anni non hanno lo stesso potere d'acquisto.
+        <a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/" data-source-id="SRC-2026-0005">L'ISTAT definisce la perdita di potere d'acquisto</a>
+        come la riduzione dei beni e servizi acquistabili con lo stesso ammontare di moneta quando i prezzi aumentano.
+        Per questo il simulatore rivaluta la spesa fino alla data FIRE usando il tasso di inflazione inserito.
+    </p>
+    <p>
+        Esempio puramente illustrativo: 2.000 euro mensili di spesa attuale, 15 anni alla data obiettivo e inflazione
+        ipotetica costante del 2% annuo. Nessuno dei valori è una previsione.
+    </p>
+    <pre class="formula"><code>spesa alla data FIRE = 2.000 × (1 + 0,02)^15 = 2.691,74 euro al mese
+target SWR al 4% = 2.691,74 × 12 ÷ 0,04 = 807.522 euro circa</code></pre>
+    <p>
+        L'esempio mostra soltanto come inflazione e tasso di prelievo cambiano il target. Non dimostra che il 2% o il 4%
+        si realizzeranno, né che 807.522 euro siano adeguati per una persona reale. Modificando una sola ipotesi si ottiene
+        un risultato diverso.
+    </p>
+</section>
+
+<section class="content-section" id="accumulo" aria-labelledby="accumulo-title">
+    <h2 id="accumulo-title">Il percorso verso il target combina capitale, PAC e tempo</h2>
+    <p>
+        Dopo aver stimato il target, il problema diventa verificare se capitale iniziale e versamenti periodici possono
+        raggiungerlo entro la data desiderata. Il simulatore proietta il capitale con un rendimento costante scelto
+        dall'utente: è un modello deterministico, utile per la sensibilità delle ipotesi ma incapace di riprodurre
+        oscillazioni, crisi e ordine reale dei rendimenti.
+    </p>
+    <p>
+        Il rendimento non va isolato dal rischio. La
+        <a href="https://www.consob.it/web/investor-education/la-diversificazione" data-source-id="SRC-2026-0006">CONSOB spiega la diversificazione</a>
+        come distribuzione fra investimenti diversi che può contenere, ma non eliminare, il rischio; ricorda inoltre che
+        obiettivo, orizzonte temporale e tolleranza alle oscillazioni devono essere coerenti. Il simulatore non sceglie
+        strumenti né costruisce un portafoglio: il rendimento inserito resta una tua ipotesi da stressare.
+    </p>
+</section>
+
+<section class="content-section" id="procedura" aria-labelledby="procedura-title">
+    <h2 id="procedura-title">Una procedura pratica in sette passaggi</h2>
+    <ol>
+        <li>Ricostruisci le spese e scegli una spesa mensile sostenibile alla data FIRE.</li>
+        <li>Inserisci età, capitale iniziale e data obiettivo senza anticiparla per far tornare i conti.</li>
+        <li>Aggiungi il PAC realmente sostenibile e separa le risorse future per data e importo.</li>
+        <li>Scegli FINITE o SWR in base alla domanda che vuoi esplorare.</li>
+        <li>Esplicita inflazione, rendimento e fiscalità; non usare valori predefiniti come se fossero previsioni.</li>
+        <li>Confronta almeno uno scenario prudente, uno centrale e uno favorevole.</li>
+        <li>Registra le ipotesi e aggiorna il piano quando cambiano dati personali o regole applicabili.</li>
+    </ol>
+    <p>
+        Se uno scenario funziona solo con rendimento elevato, inflazione bassa e nessun imprevisto, il risultato è un
+        segnale di fragilità. Le leve da rivalutare sono tempo, spesa, risparmio, capitale iniziale e margine di sicurezza,
+        non soltanto il rendimento.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Rischi e limiti da mantenere visibili</h2>
+    <ul>
+        <li>I rendimenti reali variano nel tempo e il loro ordine può cambiare la sostenibilità dei prelievi.</li>
+        <li>Le spese personali non coincidono necessariamente con l'inflazione media nazionale.</li>
+        <li>Pensione, imposte e regole possono cambiare prima della data obiettivo.</li>
+        <li>Eventi familiari, sanitari, abitativi o lavorativi possono modificare reddito e spesa.</li>
+        <li>Costi, concentrazione del portafoglio e comportamento dell'investitore non sono risolti da una formula.</li>
+    </ul>
+    <aside class="content-notice warning" aria-labelledby="avvertenza-title">
+        <h3 id="avvertenza-title">Una simulazione non è una previsione</h3>
+        <p>
+            I risultati descrivono che cosa accade se le ipotesi restano valide. Non garantiscono un esito e non indicano
+            quali prodotti acquistare, vendere o dichiarare. Per decisioni fiscali, previdenziali o di investimento usa
+            le fonti ufficiali aggiornate e, quando necessario, un professionista qualificato.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Il risultato utile è un intervallo, non una data perfetta</h2>
+    <p>
+        Un buon piano FIRE italiano rende leggibili le proprie assunzioni: quanto vuoi spendere, quando, con quali
+        risorse e sotto quali rischi. Usa il simulatore per costruire un intervallo di risultati, confronta le formule
+        nella metodologia e conserva margine per ciò che il modello non rappresenta. Il piano diventa credibile quando
+        può essere aggiornato senza nascondere che la realtà sarà diversa dalla proiezione.
+    </p>
+</section>

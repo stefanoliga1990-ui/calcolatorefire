@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "updated_at": "2026-09-24",
   "next_id_by_year": {
-    "2026": 3
+    "2026": 8
   },
   "sources": [
     {
@@ -51,6 +51,12 @@
           "claim": "Convenzioni temporali, conversione dei tassi, target FINITE e SWR, PAC, risorse aggiuntive e proiezioni del simulatore.",
           "importance": "central",
           "verified_at": "2026-09-24T17:47:02+02:00"
+        },
+        {
+          "content_id": "GUIDE-0001",
+          "claim": "Differenza fra target FINITE e SWR, rivalutazione della spesa, proiezione del capitale e limiti deterministici del simulatore.",
+          "importance": "central",
+          "verified_at": "2026-09-24T21:05:22+02:00"
         }
       ],
       "limitations": [
@@ -105,6 +111,12 @@
           "claim": "Perimetro e formule del modello fiscale semplificato per bollo, costo fiscale e plusvalenze realizzate.",
           "importance": "central",
           "verified_at": "2026-09-24T17:47:02+02:00"
+        },
+        {
+          "content_id": "GUIDE-0001",
+          "claim": "Il simulatore usa un modello fiscale semplificato che non rappresenta tutti i regimi e le situazioni individuali.",
+          "importance": "central",
+          "verified_at": "2026-09-24T21:05:22+02:00"
         }
       ],
       "limitations": [
@@ -113,6 +125,270 @@
       "conflicts": [],
       "local_copy": null,
       "notes": "Fonte primaria interna per la sezione fiscale della pagina metodologia."
+    },
+    {
+      "id": "SRC-2026-0003",
+      "status": "approved",
+      "level": "B",
+      "type": "scientific_study",
+      "title": "The Ethics of FIRE",
+      "responsible_entity": "Journal of Business Ethics — Springer Nature",
+      "authors": [
+        "Conrad Heilmann",
+        "Marta Szymanowska"
+      ],
+      "url": "https://link.springer.com/article/10.1007/s10551-025-06137-z",
+      "persistent_identifier": "10.1007/s10551-025-06137-z",
+      "dates": {
+        "published": "2025-09-12",
+        "updated": null,
+        "first_accessed_at": "2026-09-24T21:05:22+02:00",
+        "last_accessed_at": "2026-09-24T21:05:22+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-24",
+        "reference_period": "Definizione concettuale del movimento FIRE",
+        "version": "Volume 205, pagine 829–844",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Abstract; The General FIRE formula",
+        "page": "829–844",
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-24T21:05:22+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0001",
+          "claim": "FIRE combina risparmio anticipato e accumulo con il perseguimento dell'indipendenza finanziaria e la possibilità di ritirarsi prima dal lavoro.",
+          "importance": "central",
+          "verified_at": "2026-09-24T21:05:22+02:00"
+        }
+      ],
+      "limitations": [
+        "Studio filosofico ed economico sul concetto di FIRE; non valida un tasso di prelievo né una strategia di investimento."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Articolo originale open access sottoposto a revisione paritaria."
+    },
+    {
+      "id": "SRC-2026-0004",
+      "status": "approved",
+      "level": "A",
+      "type": "institutional_page",
+      "title": "Pianificazione",
+      "responsible_entity": "Banca d'Italia — L'economia per tutti",
+      "authors": [],
+      "url": "https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/",
+      "persistent_identifier": null,
+      "dates": {
+        "published": null,
+        "updated": null,
+        "first_accessed_at": "2026-09-24T21:05:22+02:00",
+        "last_accessed_at": "2026-09-24T21:05:22+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-24",
+        "reference_period": "Principi generali di pianificazione finanziaria personale",
+        "version": null,
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "A cosa serve la pianificazione finanziaria; La pianificazione finanziaria in cinque passi",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-24T21:05:22+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0001",
+          "claim": "La pianificazione parte dalla ricostruzione di entrate e uscite, da obiettivi concreti e da verifiche periodiche del budget.",
+          "importance": "central",
+          "verified_at": "2026-09-24T21:05:22+02:00"
+        }
+      ],
+      "limitations": [
+        "Contenuto educativo generale; non definisce un piano FIRE né una strategia personalizzata."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Pagina istituzionale di educazione finanziaria."
+    },
+    {
+      "id": "SRC-2026-0005",
+      "status": "approved",
+      "level": "A",
+      "type": "institutional_page",
+      "title": "FAQ — Domande frequenti sui prezzi al consumo",
+      "responsible_entity": "Istituto nazionale di statistica (ISTAT)",
+      "authors": [],
+      "url": "https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/",
+      "persistent_identifier": "ISTAT content ID 16631",
+      "dates": {
+        "published": "2024-02-22",
+        "updated": null,
+        "first_accessed_at": "2026-09-24T21:05:22+02:00",
+        "last_accessed_at": "2026-09-24T21:05:22+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-24",
+        "reference_period": "Definizioni e metodologia generale degli indici dei prezzi al consumo",
+        "version": "Pagina pubblicata il 22 febbraio 2024",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Domande 1–4: inflazione, potere d'acquisto e misurazione",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": "Indici NIC, IPCA e FOI"
+      },
+      "verification": {
+        "checked_at": "2026-09-24T21:05:22+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0001",
+          "claim": "L'aumento dei prezzi riduce la quantità di beni e servizi acquistabile con lo stesso ammontare di moneta.",
+          "importance": "central",
+          "verified_at": "2026-09-24T21:05:22+02:00"
+        }
+      ],
+      "limitations": [
+        "La pagina definisce l'inflazione e gli indici ufficiali, ma non fornisce una previsione da usare automaticamente nelle simulazioni."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Fonte istituzionale primaria per il significato economico dell'inflazione."
+    },
+    {
+      "id": "SRC-2026-0006",
+      "status": "approved",
+      "level": "A",
+      "type": "institutional_page",
+      "title": "La diversificazione",
+      "responsible_entity": "Commissione Nazionale per le Società e la Borsa (CONSOB)",
+      "authors": [],
+      "url": "https://www.consob.it/web/investor-education/la-diversificazione",
+      "persistent_identifier": null,
+      "dates": {
+        "published": null,
+        "updated": null,
+        "first_accessed_at": "2026-09-24T21:05:22+02:00",
+        "last_accessed_at": "2026-09-24T21:05:22+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-24",
+        "reference_period": "Principi generali di rischio e diversificazione",
+        "version": null,
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Che cosa significa diversificare; Diversificare non significa eliminare il rischio; Il legame con il tuo orizzonte temporale",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-24T21:05:22+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0001",
+          "claim": "La diversificazione può contenere ma non eliminare il rischio e va letta insieme a obiettivi, orizzonte temporale e tolleranza alle oscillazioni.",
+          "importance": "central",
+          "verified_at": "2026-09-24T21:05:22+02:00"
+        }
+      ],
+      "limitations": [
+        "Pagina educativa generale; non indica una specifica allocazione di portafoglio."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Il contenuto completo è stato verificato durante la ricerca; il sito può presentare protezioni automatiche in accessi successivi."
+    },
+    {
+      "id": "SRC-2026-0007",
+      "status": "approved",
+      "level": "A",
+      "type": "institutional_page",
+      "title": "La mia pensione futura: simulazione della propria pensione",
+      "responsible_entity": "Istituto Nazionale della Previdenza Sociale (INPS)",
+      "authors": [],
+      "url": "https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.la-mia-pensione-futura-simulazione-della-propria-pensione-50033.la-mia-pensione-futura-simulazione-della-propria-pensione.html",
+      "persistent_identifier": "INPS scheda servizio 50033",
+      "dates": {
+        "published": "2017-04-03",
+        "updated": "2025-07-31",
+        "first_accessed_at": "2026-09-24T21:05:22+02:00",
+        "last_accessed_at": "2026-09-24T21:05:22+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-24",
+        "reference_period": "Servizio basato sulla normativa vigente e sulla posizione contributiva dell'utente",
+        "version": "Aggiornamento del 31 luglio 2025",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Cos'è; Come funziona",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-24T21:05:22+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0001",
+          "claim": "Il servizio INPS permette agli utenti coperti di controllare la contribuzione e simulare importo e data della pensione sulla base della normativa vigente.",
+          "importance": "central",
+          "verified_at": "2026-09-24T21:05:22+02:00"
+        }
+      ],
+      "limitations": [
+        "La stima dipende dalla normativa e dai dati contributivi disponibili e non è una prestazione garantita.",
+        "L'accesso e le funzionalità disponibili dipendono dalla gestione previdenziale dell'utente."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Fonte istituzionale per ottenere una stima previdenziale personale senza inventare importi nel piano FIRE."
     }
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0001",
+  "slug": "/guida/fire-italia",
+  "seo": {
+    "title": "FIRE in Italia: guida all'indipendenza finanziaria",
+    "description": "Capisci come impostare un percorso FIRE in Italia: spese, capitale obiettivo, PAC, inflazione, pensione, fiscalità e limiti della simulazione.",
+    "og_title": "FIRE in Italia: una guida pratica e verificabile",
+    "og_description": "Dalle spese al capitale obiettivo: un metodo prudente per costruire e confrontare scenari di indipendenza finanziaria in Italia."
+  },
+  "page": {
+    "kicker": "Fondamenti FIRE",
+    "h1": "FIRE in Italia: guida all'indipendenza finanziaria",
+    "lead": "Il FIRE è un percorso per rendere il lavoro economicamente facoltativo, non una promessa di pensionamento rapido. Questa guida traduce l'idea nel contesto italiano e mostra come stimare spese, capitale, tempi, pensione e fiscalità con ipotesi esplicite."
+  },
+  "dates": {
+    "published": "2026-09-24",
+    "updated": "2026-09-24"
+  },
+  "summary_points": [
+    "Un piano FIRE parte dalle spese sostenibili e dagli obiettivi di vita, non da un capitale scelto in astratto.",
+    "In Italia vanno considerate separatamente risorse finanziarie, pensione pubblica o complementare e fiscalità personale.",
+    "Inflazione, rendimento, durata e tasso di prelievo sono ipotesi da confrontare in più scenari, non previsioni.",
+    "Il simulatore produce stime deterministiche utili per orientarsi, ma non replica la volatilità reale dei mercati né offre consulenza personale.",
+    "Il piano deve essere aggiornato quando cambiano spese, reddito, patrimonio, famiglia, norme o obiettivi."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0003",
+    "SRC-2026-0004",
+    "SRC-2026-0005",
+    "SRC-2026-0006",
+    "SRC-2026-0007"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Permette di verificare formule, convenzioni temporali, ipotesi fiscali e limiti dei risultati."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Consente di confrontare scenari con spese, capitale, PAC, inflazione e risorse future differenti."
+    }
+  ],
+  "cta": {
+    "title": "Trasforma il tuo obiettivo in scenari confrontabili",
+    "text": "Parti da spese osservate e prova almeno uno scenario prudente, uno centrale e uno favorevole, mantenendo visibili tutte le ipotesi.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
