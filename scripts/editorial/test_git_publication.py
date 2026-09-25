@@ -121,9 +121,13 @@ class GitPublicationTest(unittest.TestCase):
             PUBLISHER.heartbeat(self.worker, "run-0001", "token-errato")
         self.assertEqual("STOP-ACTIVE-EDITORIAL-LOCK", raised.exception.code)
 
-    def test_daily_run_id_uses_rome_calendar_date(self):
+    def test_scheduled_run_id_uses_six_hour_rome_slot(self):
         reference = datetime(2026, 1, 1, 23, 30, tzinfo=timezone.utc)
-        self.assertEqual("editorial-20260102", PUBLISHER.daily_run_id(reference))
+        self.assertEqual("editorial-20260102-00", PUBLISHER.scheduled_run_id(reference))
+        same_slot = datetime(2026, 1, 2, 4, 59, tzinfo=timezone.utc)
+        next_slot = datetime(2026, 1, 2, 5, 0, tzinfo=timezone.utc)
+        self.assertEqual("editorial-20260102-00", PUBLISHER.scheduled_run_id(same_slot))
+        self.assertEqual("editorial-20260102-06", PUBLISHER.scheduled_run_id(next_slot))
 
     def test_publish_rejects_out_of_scope_change(self):
         self.start()

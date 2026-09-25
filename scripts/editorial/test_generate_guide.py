@@ -113,6 +113,8 @@ class GuideGeneratorTest(unittest.TestCase):
         self.assertIn('rel="canonical" href="https://simulatorefire.com/guida/prova-generatore"', page)
         self.assertIn('"@type": "Article"', page)
         self.assertIn("A cura di Stefano Liga", page)
+        self.assertNotIn("Pubblicata il", page)
+        self.assertNotIn("Aggiornata il", page)
         self.assertNotIn("/autore/stefano-liga", page)
         self.assertIn("processo editoriale automatizzato", page)
         self.assertIn("SRC-2026-0001", page)

@@ -79,7 +79,7 @@ Salvo motivate eccezioni, una guida deve includere:
 7. collegamento pertinente al simulatore o alla metodologia;
 8. conclusione operativa che riassume cosa può fare il lettore;
 9. fonti consultate;
-10. firma, nota sul processo automatizzato, data di pubblicazione e data di ultimo aggiornamento.
+10. firma e nota sul processo automatizzato.
 
 La lunghezza deve dipendere dalla complessità dell'argomento. Non esiste un numero minimo o ideale di parole.
 
@@ -180,7 +180,9 @@ In assenza di una dichiarazione esplicita e approvata, le guide non devono conte
 
 ## 14. Date, aggiornamenti e correzioni
 
-Ogni guida deve mostrare la data di prima pubblicazione. La data di ultimo aggiornamento può cambiare solo quando il contenuto è stato modificato in modo sostanziale; non deve essere aggiornata per simulare freschezza.
+Le date di prima pubblicazione e ultimo aggiornamento restano nei metadati tecnici della pagina, nei dati strutturati e
+nella sitemap, ma non vengono mostrate nel contenuto visibile. La data di ultimo aggiornamento può cambiare solo quando
+il contenuto è stato modificato in modo sostanziale; non deve essere aggiornata per simulare freschezza.
 
 Quando viene individuato un errore materiale:
 

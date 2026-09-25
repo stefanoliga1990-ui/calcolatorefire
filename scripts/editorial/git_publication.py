@@ -717,7 +717,7 @@ def status_view(root: Path, run_id: str) -> dict:
     return {**session, "lock_state": state}
 
 
-def daily_run_id(reference: datetime | None = None) -> str:
+def scheduled_run_id(reference: datetime | None = None) -> str:
     utc = (reference or datetime.now(timezone.utc)).astimezone(timezone.utc)
     march_last = calendar.monthrange(utc.year, 3)[1]
     october_last = calendar.monthrange(utc.year, 10)[1]
@@ -727,7 +727,8 @@ def daily_run_id(reference: datetime | None = None) -> str:
     daylight_end = datetime(utc.year, 10, october_sunday, 1, tzinfo=timezone.utc)
     offset = timedelta(hours=2 if daylight_start <= utc < daylight_end else 1)
     local = utc + offset
-    return f"editorial-{local:%Y%m%d}"
+    slot_hour = (local.hour // 6) * 6
+    return f"editorial-{local:%Y%m%d}-{slot_hour:02d}"
 
 
 def parse_args() -> argparse.Namespace:
@@ -777,7 +778,7 @@ def main() -> int:
         elif args.action == "cancel":
             result = cancel(root, args.run_id, args.owner_token, manual_recovery=args.manual_recovery)
         elif args.action == "run-id":
-            result = {"run_id": daily_run_id(), "timezone": "Europe/Rome"}
+            result = {"run_id": scheduled_run_id(), "timezone": "Europe/Rome", "slot_hours": 6}
         elif args.action == "log":
             result = read_execution_log(root, args.run_id)
         else:

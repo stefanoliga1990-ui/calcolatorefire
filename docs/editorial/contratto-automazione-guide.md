@@ -1,10 +1,10 @@
 # Contratto dell'automazione editoriale
 
-Versione: 0.1
+Versione: 0.2
 
-Stato: pre-attivazione
+Stato: attivo
 
-Ultimo aggiornamento: 24 settembre 2026
+Ultimo aggiornamento: 25 settembre 2026
 
 ## 1. Scopo
 
@@ -22,7 +22,7 @@ La sequenza eseguibile, i comandi e le procedure di recupero sono consolidati ne
 | Progetto | Calcolo FIRE Italia |
 | Autore pubblico | Stefano Liga |
 | Modalità | Automatica completa, senza approvazione preventiva |
-| Frequenza | Ogni giorno alle 05:00 |
+| Frequenza | Ogni 6 ore |
 | Fuso orario | Europe/Rome |
 | Quantità massima | Una guida per esecuzione |
 | Destinazione Git | Push diretto su `origin/main` |
@@ -75,7 +75,7 @@ Ogni guida deve:
 
 - rispondere a un intento di ricerca distinto;
 - contenere testo originale, specifico per il pubblico italiano e realmente utile;
-- dichiarare ipotesi, limiti e data di aggiornamento;
+- dichiarare ipotesi e limiti; conservare le date nei metadati tecnici senza mostrarle nel testo della pagina;
 - separare chiaramente informazione, esempi e risultati del simulatore;
 - evitare promesse di rendimento e indicazioni finanziarie personalizzate;
 - attribuire la paternità a Stefano Liga secondo il [profilo autore approvato](profilo-autore.md);

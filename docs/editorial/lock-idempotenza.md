@@ -8,14 +8,15 @@ produca una seconda guida o un secondo commit equivalente. Lo stato operativo è
 
 ## Identità del run
 
-La schedulazione giornaliera usa `editorial-AAAAMMGG`, calcolato sul calendario `Europe/Rome`:
+La schedulazione ogni 6 ore usa `editorial-AAAAMMGG-HH`, calcolato sul calendario `Europe/Rome`; `HH` vale `00`, `06`,
+`12` o `18`:
 
 ```powershell
 ./scripts/publish-guide.ps1 run-id
 ```
 
-Lo stesso giorno restituisce lo stesso identificatore. Un run concluso con successo viene riconosciuto dalla cronologia
-locale e dal fatto che il relativo commit è ancora raggiungibile da `origin/main`.
+La stessa finestra restituisce lo stesso identificatore. Un run concluso con successo viene riconosciuto dalla
+cronologia locale e dal fatto che il relativo commit è ancora raggiungibile da `origin/main`.
 
 ## Acquisizione esclusiva
 
