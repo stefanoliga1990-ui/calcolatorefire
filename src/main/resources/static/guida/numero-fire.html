@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Calcola un capitale obiettivo dalle spese mensili e confronta i metodi FINITE e SWR, con un esempio riproducibile e i limiti per l&#x27;Italia.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Numero FIRE: dal budget al capitale obiettivo">
+    <meta property="og:description" content="Una guida per trasformare la spesa in un target FIRE e leggere correttamente inflazione, tasso di prelievo, fiscalità e durata.">
+    <meta property="og:url" content="https://simulatorefire.com/guida/numero-fire">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Numero FIRE: quanto capitale serve per vivere di rendita">
+    <meta property="article:published_time" content="2026-09-25">
+    <meta property="article:modified_time" content="2026-09-25">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Numero FIRE: dal budget al capitale obiettivo">
+    <meta name="twitter:description" content="Una guida per trasformare la spesa in un target FIRE e leggere correttamente inflazione, tasso di prelievo, fiscalità e durata.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>Numero FIRE: quanto capitale serve per vivere di rendita</title>
+    <link rel="canonical" href="https://simulatorefire.com/guida/numero-fire">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.0">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.2">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Numero FIRE: quanto capitale serve per vivere di rendita",
+  "description": "Calcola un capitale obiettivo dalle spese mensili e confronta i metodi FINITE e SWR, con un esempio riproducibile e i limiti per l'Italia.",
+  "url": "https://simulatorefire.com/guida/numero-fire",
+  "mainEntityOfPage": "https://simulatorefire.com/guida/numero-fire",
+  "datePublished": "2026-09-25",
+  "dateModified": "2026-09-25",
+  "inLanguage": "it-IT",
+  "author": {
+    "@type": "Person",
+    "name": "Stefano Liga",
+    "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calcolo FIRE Italia",
+    "url": "https://simulatorefire.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+    }
+  },
+  "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Simulatore FIRE",
+      "item": "https://simulatorefire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Numero FIRE: quanto capitale serve per vivere di rendita",
+      "item": "https://simulatorefire.com/guida/numero-fire"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/metodologia">Metodologia</a>
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li aria-current="page">Numero FIRE: quanto capitale serve per vivere di rendita</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">Calcolo FIRE</p>
+        <h1>Numero FIRE: quanto capitale serve per vivere di rendita</h1>
+        <p class="content-lead">Quanto patrimonio serve per finanziare una spesa mensile senza reddito da lavoro? Parti dalle spese, portale alla data FIRE e scegli quale domanda vuoi simulare: finanziare una durata definita con FINITE o partire da un tasso di prelievo con SWR. I due target possono differire e nessuno è una garanzia.</p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia</span>
+            <span>Pubblicata il 25 settembre 2026</span>
+            <span>Aggiornata il 25 settembre 2026</span>
+            <span>6 minuti di lettura</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della guida">
+            <strong>In questa guida</strong>
+            <ol><li><a href="#spese">Il primo input è la spesa che il capitale dovrà coprire</a></li><li><a href="#due-metodi">FINITE e SWR rispondono a domande diverse</a></li><li><a href="#esempio">Un esempio: 2.000 euro al mese possono produrre target diversi</a></li><li><a href="#variabili">Le ipotesi che cambiano davvero il capitale obiettivo</a></li><li><a href="#fiscalita">La fiscalità del simulatore modifica il target, ma resta semplificata</a></li><li><a href="#limiti">Il numero FIRE non è una promessa di durata o rendimento</a></li><li><a href="#procedura">Come usare il risultato per decidere cosa verificare</a></li></ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul><li>Il numero FIRE dipende prima di tutto dalla spesa mensile che il patrimonio deve finanziare alla data obiettivo.</li><li>FINITE calcola il capitale per una durata e un capitale finale scelti, usando rendimento e inflazione ipotizzati.</li><li>SWR divide il primo fabbisogno annuo per il tasso di prelievo scelto: il risultato non assicura che il capitale copra tutta la durata.</li><li>Inflazione, rendite future e fiscalità semplificata cambiano il target; confronta scenari coerenti invece di affidarti a una cifra isolata.</li><li>Il simulatore usa rendimenti costanti e non riproduce l&#x27;ordine dei rendimenti reali di mercato.</li></ul>
+            </section>
+
+<section class="content-section" id="spese" aria-labelledby="spese-title">
+    <h2 id="spese-title">Il primo input è la spesa che il capitale dovrà coprire</h2>
+    <p>
+        Il numero FIRE è un capitale obiettivo, non una cifra uguale per tutti. Per stimarlo occorre sapere quale spesa
+        mensile dovrà essere finanziata all'ingresso nel FIRE. La
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">guida di Banca d'Italia alla pianificazione</a>
+        propone di partire da entrate e uscite osservate, includere le spese poco frequenti nel budget e lasciare spazio
+        agli imprevisti. Una spesa omessa rende troppo basso il target anche se la formula è esatta.
+    </p>
+    <p>
+        Il simulatore chiede una spesa mensile in euro di oggi. Se il FIRE inizia fra alcuni anni, rivaluta quell'importo
+        fino alla data scelta con il tasso di inflazione inserito, come documenta la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica del motore</a>.
+        L'<a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/" data-source-id="SRC-2026-0005">ISTAT distingue inflazione e potere d'acquisto</a>:
+        un indice nazionale descrive un paniere medio, mentre la composizione delle spese della singola famiglia può
+        essere diversa. Il tasso inserito nello scenario è quindi un'ipotesi, non la previsione delle tue spese.
+    </p>
+</section>
+
+<section class="content-section" id="due-metodi" aria-labelledby="due-metodi-title">
+    <h2 id="due-metodi-title">FINITE e SWR rispondono a domande diverse</h2>
+    <p>
+        <strong>FINITE</strong> cerca il capitale necessario a finanziare i prelievi mensili per una durata definita e a
+        lasciare l'eventuale capitale finale desiderato. Usa rendimento e inflazione ipotizzati; il primo prelievo è
+        all'inizio del primo mese FIRE. Quando sono attive le imposte semplificate, il motore cerca numericamente un
+        target che copra il fabbisogno netto e il capitale finale, secondo la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale del simulatore</a>.
+    </p>
+    <p>
+        <strong>SWR</strong>, cioè <em>Safe Withdrawal Rate</em>, parte invece da un tasso di prelievo annuo iniziale
+        scelto dall'utente. Senza fiscalità né risorse aggiuntive, il target è la prima spesa mensile alla data FIRE
+        moltiplicata per dodici e divisa per quel tasso. La SWR non è il rendimento del portafoglio e non significa
+        prelevare ogni anno la stessa percentuale del saldo residuo. Il simulatore proietta comunque tutti i mesi della
+        durata scelta e segnala il primo fabbisogno non coperto.
+    </p>
+    <p>
+        Un tasso come il 4% può servire a confrontare scenari, non a certificare che un patrimonio basti in Italia.
+        Lo <a href="https://www.coronation.com/assets/Coroconnect/An%20International%20Perspective%20on%20Safe%20Withdrawal%20Rates%20from%20Retirement%20Savings.pdf" data-source-id="SRC-2026-0008">studio originale di Wade Pfau sui prelievi in 17 mercati</a>
+        mostra quanto i risultati storici dipendano dal mercato e dal periodo osservato. Lo studio usa un orizzonte di
+        30 anni e ipotesi proprie su portafoglio, costi e imposte: non fornisce un tasso personale né una previsione.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Un esempio: 2.000 euro al mese possono produrre target diversi</h2>
+    <p>
+        Considera uno scenario puramente didattico: 40 anni oggi, ingresso nel FIRE a 50, durata FIRE di 30 anni,
+        spesa di 2.000 euro mensili di oggi, inflazione e rendimenti pari a zero, nessuna risorsa aggiuntiva e capitale
+        finale desiderato pari a zero. Per isolare le formule, imposta a zero sia l'aliquota sulle plusvalenze sia il
+        bollo nel simulatore. Questi zeri non descrivono una situazione fiscale reale e non sono previsioni.
+    </p>
+    <pre class="formula"><code>Spesa annua = 2.000 × 12 = 24.000 euro
+FINITE: 2.000 × 12 × 30 = 720.000 euro
+SWR al 4%: 24.000 ÷ 0,04 = 600.000 euro
+SWR al 3%: 24.000 ÷ 0,03 = 800.000 euro</code></pre>
+    <p>
+        Sono tre target per la stessa spesa, ottenuti cambiando il metodo o il tasso. Con rendimento e inflazione pari
+        a zero, 600.000 euro coprono esattamente 300 prelievi mensili da 2.000 euro: il mese 301, all'inizio del
+        ventiseiesimo anno, presenta uno shortfall. Il target FINITE da 720.000 euro copre invece i 360 mesi e
+        termina a zero. Gli importi sono arrotondati all'euro; il calcolo usa le convenzioni della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">metodologia del simulatore</a>.
+        Il confronto illustra la differenza tra i metodi, non indica che uno dei tassi sia adatto a un caso reale.
+    </p>
+</section>
+
+<section class="content-section" id="variabili" aria-labelledby="variabili-title">
+    <h2 id="variabili-title">Le ipotesi che cambiano davvero il capitale obiettivo</h2>
+    <ul>
+        <li><strong>Spesa e data FIRE:</strong> una spesa maggiore alza entrambi i target; più tempo prima del FIRE amplifica l'effetto dell'inflazione ipotizzata.</li>
+        <li><strong>Durata e capitale finale:</strong> modificano FINITE. Nel metodo SWR la durata serve a verificare la proiezione, ma da sola non cambia il target base senza risorse.</li>
+        <li><strong>Rendimento nel FIRE:</strong> modifica il target FINITE e la proiezione. Un rendimento costante nel modello non elimina la volatilità nella realtà.</li>
+        <li><strong>Tasso di prelievo:</strong> nel metodo SWR un tasso più basso aumenta il target, ma non crea una garanzia.</li>
+        <li><strong>Rendite e capitali futuri:</strong> possono ridurre il fabbisogno del portafoglio se importi e date sono coerenti; un capitale già inserito non va contato due volte.</li>
+    </ul>
+    <p>
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica delle risorse aggiuntive</a>
+        distingue patrimonio esistente, flussi periodici e capitali una tantum. Prima di confrontare due risultati,
+        conserva gli stessi input e cambia una variabile per volta: così puoi riconoscere quale ipotesi ha prodotto la
+        differenza.
+    </p>
+</section>
+
+<section class="content-section" id="fiscalita" aria-labelledby="fiscalita-title">
+    <h2 id="fiscalita-title">La fiscalità del simulatore modifica il target, ma resta semplificata</h2>
+    <p>
+        Nella modalità fiscale, il target dipende anche dal costo fiscale del portafoglio: due patrimoni dello stesso
+        valore possono richiedere vendite lorde diverse per produrre la medesima somma spendibile. Il modello considera
+        plusvalenze realizzate nelle vendite e bollo secondo le impostazioni inserite. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale</a>
+        descrive anche le esclusioni, fra cui regimi differenti, redditi da pensione e immobili. La spiegazione riguarda
+        il funzionamento dell'applicazione al 25 settembre 2026; non determina imposte dovute da una persona.
+    </p>
+    <p>
+        L'esempio precedente usa imposte nulle soltanto per rendere visibili le formule base. Per una simulazione
+        personale occorre distinguere il fabbisogno netto spendibile dalla vendita lorda stimata, controllare le
+        impostazioni e verificare separatamente le regole applicabili con fonti ufficiali o un professionista
+        qualificato. Un target calcolato con fiscalità disattivata non è direttamente confrontabile con uno fiscalizzato.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Il numero FIRE non è una promessa di durata o rendimento</h2>
+    <p>
+        Il simulatore usa tassi costanti, mentre i mercati possono alternare guadagni e perdite. L'ordine dei rendimenti
+        durante i prelievi può cambiare l'esito anche se la media finale sembra uguale. Lo
+        <a href="https://www.coronation.com/assets/Coroconnect/An%20International%20Perspective%20on%20Safe%20Withdrawal%20Rates%20from%20Retirement%20Savings.pdf" data-source-id="SRC-2026-0008">studio sui tassi storici di prelievo</a>
+        confronta mercati e periodi diversi proprio per mettere alla prova la trasferibilità di una regola fissa; non
+        valida la proiezione deterministica di questo simulatore.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="numero-avvertenza-title">
+        <h3 id="numero-avvertenza-title">Controlla il mese di esaurimento</h3>
+        <p>
+            Dopo aver scelto SWR, leggi la proiezione completa e l'eventuale avviso di shortfall. Un target ottenuto
+            dividendo la spesa per un tasso non assicura che ogni prelievo successivo sia finanziato. Anche FINITE
+            copre la durata soltanto se si realizzano le ipotesi costanti inserite.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="procedura" aria-labelledby="procedura-title">
+    <h2 id="procedura-title">Come usare il risultato per decidere cosa verificare</h2>
+    <ol>
+        <li>Ricostruisci un budget annuale e converti le uscite poco frequenti in una spesa mensile documentata.</li>
+        <li>Inserisci spesa di oggi, età e durata, poi esplicita inflazione, rendimento e risorse future.</li>
+        <li>Calcola FINITE e SWR separatamente; annota metodo, tasso e impostazioni fiscali insieme al target.</li>
+        <li>Controlla il primo mese eventualmente non coperto e ripeti con ipotesi meno favorevoli.</li>
+        <li>Rivedi la stima quando cambiano spese, tempi, patrimonio o le regole che incidono sul tuo caso.</li>
+    </ol>
+    <p>
+        Il valore pratico non è trovare una cifra definitiva, ma capire quali condizioni rendono il piano fragile.
+        La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia invita a verificare e aggiornare il budget</a>:
+        applica lo stesso principio agli input del FIRE, senza scambiare un risultato del simulatore per consulenza
+        individuale.
+    </p>
+</section>
+
+            <aside class="related-content" aria-labelledby="related-title">
+                <h2 id="related-title">Approfondisci e verifica</h2>
+                <ul><li><a href="/metodologia">Metodologia del simulatore FIRE</a><small>Documenta formule, ordine dei flussi e limiti dei due metodi di calcolo.</small></li><li><a href="/guida/fire-italia">Guida FIRE in Italia</a><small>Inquadra il capitale obiettivo nel percorso complessivo di indipendenza finanziaria.</small></li><li><a href="/">Simulatore FIRE</a><small>Permette di verificare i target e confrontare ipotesi su spesa, inflazione e durata.</small></li></ul>
+            </aside>
+
+            <section class="guide-sources" aria-labelledby="sources-title">
+                <h2 id="sources-title">Fonti consultate</h2>
+                <p>Le fonti sono state consultate integralmente e registrate nel processo editoriale.</p>
+                <ol><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md">Calcolo FIRE Italia — specifica matematica del motore</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0001</small></li><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md">Calcolo FIRE Italia — specifica della fiscalità semplificata</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0002</small></li><li><a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/">Pianificazione</a><small>Banca d&#x27;Italia — L&#x27;economia per tutti · SRC-2026-0004</small></li><li><a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/">FAQ — Domande frequenti sui prezzi al consumo</a><small>Istituto nazionale di statistica (ISTAT) · 22 febbraio 2024 · SRC-2026-0005</small></li><li><a href="https://www.coronation.com/assets/Coroconnect/An%20International%20Perspective%20on%20Safe%20Withdrawal%20Rates%20from%20Retirement%20Savings.pdf">An International Perspective on Safe Withdrawal Rates from Retirement Savings: The Demise of the 4 Percent Rule?</a><small>GRIPS Research Center — Discussion Paper 10-12 · SRC-2026-0008</small></li></ol>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.</p>
+                <p class="editorial-disclosure">Questa guida è stata preparata tramite il processo editoriale automatizzato di Calcolo FIRE Italia, basato sulle fonti citate e sulle regole di qualità del progetto. Stefano Liga ne è il responsabile editoriale.</p>
+            </aside>
+
+            <aside class="content-notice warning" aria-label="Nota informativa">
+                <h2>Nota informativa</h2>
+                <p>I contenuti hanno finalità esclusivamente informative ed educative e non costituiscono consulenza finanziaria, fiscale, previdenziale o legale personalizzata. Prima di prendere decisioni, valuta la tua situazione e, quando necessario, rivolgiti a un professionista qualificato.</p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Confronta i due target con le tue ipotesi</h2>
+                <p>Inserisci una spesa documentata, scegli FINITE e SWR a turno e annota inflazione, rendimento, durata, risorse future e impostazioni fiscali di ogni scenario.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Guida · GUIDE-0002</span>
+</footer>
+</body>
+</html>

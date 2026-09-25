@@ -1,9 +1,9 @@
 {
   "$schema": "./registro-fonti.schema.json",
   "schema_version": "1.0",
-  "updated_at": "2026-09-24",
+  "updated_at": "2026-09-25",
   "next_id_by_year": {
-    "2026": 8
+    "2026": 9
   },
   "sources": [
     {
@@ -22,13 +22,13 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-24T17:47:02+02:00"
+        "last_accessed_at": "2026-09-25T12:41:13+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-24",
-        "reference_period": "Versione del motore presente sul branch guide-editoriali",
+        "as_of": "2026-09-25",
+        "reference_period": "Versione del motore verificata su main",
         "version": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
         "provisional": false
       },
@@ -40,7 +40,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-24T17:47:02+02:00",
+        "checked_at": "2026-09-25T12:41:13+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -57,6 +57,12 @@
           "claim": "Differenza fra target FINITE e SWR, rivalutazione della spesa, proiezione del capitale e limiti deterministici del simulatore.",
           "importance": "central",
           "verified_at": "2026-09-24T21:05:22+02:00"
+        },
+        {
+          "content_id": "GUIDE-0002",
+          "claim": "Target FINITE e SWR, spesa alla data FIRE, ipotesi mensili e segnalazione dello shortfall.",
+          "importance": "central",
+          "verified_at": "2026-09-25T12:41:13+02:00"
         }
       ],
       "limitations": [
@@ -82,13 +88,13 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-24T17:47:02+02:00"
+        "last_accessed_at": "2026-09-25T12:41:13+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-24",
-        "reference_period": "Versione del motore presente sul branch guide-editoriali",
+        "as_of": "2026-09-25",
+        "reference_period": "Versione del motore verificata su main",
         "version": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
         "provisional": false
       },
@@ -100,7 +106,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-24T17:47:02+02:00",
+        "checked_at": "2026-09-25T12:41:13+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -117,6 +123,12 @@
           "claim": "Il simulatore usa un modello fiscale semplificato che non rappresenta tutti i regimi e le situazioni individuali.",
           "importance": "central",
           "verified_at": "2026-09-24T21:05:22+02:00"
+        },
+        {
+          "content_id": "GUIDE-0002",
+          "claim": "Con imposte attive il target dipende dal costo fiscale e il modello non rappresenta tutti i regimi personali.",
+          "importance": "central",
+          "verified_at": "2026-09-25T12:41:13+02:00"
         }
       ],
       "limitations": [
@@ -195,12 +207,12 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-24T21:05:22+02:00"
+        "last_accessed_at": "2026-09-25T12:41:13+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-24",
+        "as_of": "2026-09-25",
         "reference_period": "Principi generali di pianificazione finanziaria personale",
         "version": null,
         "provisional": false
@@ -213,7 +225,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-24T21:05:22+02:00",
+        "checked_at": "2026-09-25T12:41:13+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -224,6 +236,12 @@
           "claim": "La pianificazione parte dalla ricostruzione di entrate e uscite, da obiettivi concreti e da verifiche periodiche del budget.",
           "importance": "central",
           "verified_at": "2026-09-24T21:05:22+02:00"
+        },
+        {
+          "content_id": "GUIDE-0002",
+          "claim": "La stima della spesa parte dal budget osservato e include uscite poco frequenti e imprevisti.",
+          "importance": "central",
+          "verified_at": "2026-09-25T12:41:13+02:00"
         }
       ],
       "limitations": [
@@ -247,12 +265,12 @@
         "published": "2024-02-22",
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-24T21:05:22+02:00"
+        "last_accessed_at": "2026-09-25T12:41:13+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-24",
+        "as_of": "2026-09-25",
         "reference_period": "Definizioni e metodologia generale degli indici dei prezzi al consumo",
         "version": "Pagina pubblicata il 22 febbraio 2024",
         "provisional": false
@@ -265,7 +283,7 @@
         "dataset_or_series": "Indici NIC, IPCA e FOI"
       },
       "verification": {
-        "checked_at": "2026-09-24T21:05:22+02:00",
+        "checked_at": "2026-09-25T12:41:13+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -276,6 +294,12 @@
           "claim": "L'aumento dei prezzi riduce la quantità di beni e servizi acquistabile con lo stesso ammontare di moneta.",
           "importance": "central",
           "verified_at": "2026-09-24T21:05:22+02:00"
+        },
+        {
+          "content_id": "GUIDE-0002",
+          "claim": "L'inflazione riduce il potere d'acquisto e l'indice nazionale non replica necessariamente il paniere della singola famiglia.",
+          "importance": "central",
+          "verified_at": "2026-09-25T12:41:13+02:00"
         }
       ],
       "limitations": [
@@ -389,6 +413,62 @@
       "conflicts": [],
       "local_copy": null,
       "notes": "Fonte istituzionale per ottenere una stima previdenziale personale senza inventare importi nel piano FIRE."
+    },
+    {
+      "id": "SRC-2026-0008",
+      "status": "approved",
+      "level": "B",
+      "type": "scientific_study",
+      "title": "An International Perspective on Safe Withdrawal Rates from Retirement Savings: The Demise of the 4 Percent Rule?",
+      "responsible_entity": "GRIPS Research Center — Discussion Paper 10-12",
+      "authors": [
+        "Wade D. Pfau"
+      ],
+      "url": "https://www.coronation.com/assets/Coroconnect/An%20International%20Perspective%20on%20Safe%20Withdrawal%20Rates%20from%20Retirement%20Savings.pdf",
+      "persistent_identifier": "RePEc:ngi:dpaper:10-12",
+      "dates": {
+        "published": null,
+        "updated": null,
+        "first_accessed_at": "2026-09-25T12:41:13+02:00",
+        "last_accessed_at": "2026-09-25T12:41:13+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-25",
+        "reference_period": "Dati di mercato 1900–2008 in 17 paesi sviluppati; pensionamenti simulati 1900–1979 su 30 anni",
+        "version": "Versione rivista, ottobre 2010",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Sezioni 1–4: metodo, dati, risultati e limiti",
+        "page": "2–10",
+        "table_or_figure": "Tabella 3, pagina 14",
+        "dataset_or_series": "Dimson, Marsh e Staunton 1900–2008"
+      },
+      "verification": {
+        "checked_at": "2026-09-25T12:41:13+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0002",
+          "claim": "Un tasso di prelievo derivato da un campione storico non è una garanzia trasferibile a ogni mercato, orizzonte o portafoglio.",
+          "importance": "central",
+          "verified_at": "2026-09-25T12:41:13+02:00"
+        }
+      ],
+      "limitations": [
+        "Studio storico con 17 paesi e dati fino al 2008: non è una previsione dei rendimenti futuri.",
+        "Le simulazioni principali ipotizzano 30 anni, allocazione scelta con conoscenza ex post, ribilanciamento annuale, nessun costo amministrativo e nessuna imposta.",
+        "Il PDF originale è stato consultato integralmente da una copia pubblica; il record istituzionale GRIPS è identificato da RePEc:ngi:dpaper:10-12."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "La differenza fra risultati statunitensi e internazionali riflette campioni e mercati diversi; non autorizza a fissare un tasso universale per l'Italia."
     }
   ]
 }

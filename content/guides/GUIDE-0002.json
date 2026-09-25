@@ -1,0 +1,58 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0002",
+  "slug": "/guida/numero-fire",
+  "seo": {
+    "title": "Numero FIRE: quanto capitale serve per vivere di rendita",
+    "description": "Calcola un capitale obiettivo dalle spese mensili e confronta i metodi FINITE e SWR, con un esempio riproducibile e i limiti per l'Italia.",
+    "og_title": "Numero FIRE: dal budget al capitale obiettivo",
+    "og_description": "Una guida per trasformare la spesa in un target FIRE e leggere correttamente inflazione, tasso di prelievo, fiscalità e durata."
+  },
+  "page": {
+    "kicker": "Calcolo FIRE",
+    "h1": "Numero FIRE: quanto capitale serve per vivere di rendita",
+    "lead": "Quanto patrimonio serve per finanziare una spesa mensile senza reddito da lavoro? Parti dalle spese, portale alla data FIRE e scegli quale domanda vuoi simulare: finanziare una durata definita con FINITE o partire da un tasso di prelievo con SWR. I due target possono differire e nessuno è una garanzia."
+  },
+  "dates": {
+    "published": "2026-09-25",
+    "updated": "2026-09-25"
+  },
+  "summary_points": [
+    "Il numero FIRE dipende prima di tutto dalla spesa mensile che il patrimonio deve finanziare alla data obiettivo.",
+    "FINITE calcola il capitale per una durata e un capitale finale scelti, usando rendimento e inflazione ipotizzati.",
+    "SWR divide il primo fabbisogno annuo per il tasso di prelievo scelto: il risultato non assicura che il capitale copra tutta la durata.",
+    "Inflazione, rendite future e fiscalità semplificata cambiano il target; confronta scenari coerenti invece di affidarti a una cifra isolata.",
+    "Il simulatore usa rendimenti costanti e non riproduce l'ordine dei rendimenti reali di mercato."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0004",
+    "SRC-2026-0005",
+    "SRC-2026-0008"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Documenta formule, ordine dei flussi e limiti dei due metodi di calcolo."
+    },
+    {
+      "url": "/guida/fire-italia",
+      "label": "Guida FIRE in Italia",
+      "reason": "Inquadra il capitale obiettivo nel percorso complessivo di indipendenza finanziaria."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Permette di verificare i target e confrontare ipotesi su spesa, inflazione e durata."
+    }
+  ],
+  "cta": {
+    "title": "Confronta i due target con le tue ipotesi",
+    "text": "Inserisci una spesa documentata, scegli FINITE e SWR a turno e annota inflazione, rendimento, durata, risorse future e impostazioni fiscali di ogni scenario.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
