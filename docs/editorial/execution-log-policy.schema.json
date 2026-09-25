@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simulatorefire.com/schemas/execution-log-policy.schema.json",
+  "title": "Politica dei log delle esecuzioni editoriali",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema", "schema_version", "storage_root", "audit_directory", "history_directory",
+    "append_only_audit", "immutable_final_result", "maximum_message_length", "sensitive_key_fragments"
+  ],
+  "properties": {
+    "$schema": { "const": "./execution-log-policy.schema.json" },
+    "schema_version": { "const": "1.0" },
+    "storage_root": { "const": ".git/editorial-publication" },
+    "audit_directory": { "const": "audit" },
+    "history_directory": { "const": "history" },
+    "append_only_audit": { "const": true },
+    "immutable_final_result": { "const": true },
+    "maximum_message_length": { "type": "integer", "minimum": 100, "maximum": 1000 },
+    "sensitive_key_fragments": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 3, "pattern": "^[a-z_]+$" }
+    }
+  }
+}

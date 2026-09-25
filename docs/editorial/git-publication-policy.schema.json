@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simulatorefire.com/schemas/git-publication-policy.schema.json",
+  "title": "Politica di pubblicazione Git delle guide",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema", "schema_version", "branch", "remote", "remote_ref", "require_clean_start",
+    "fast_forward_only", "force_push_allowed", "run_full_validation", "lock_validity_minutes",
+    "heartbeat_interval_minutes", "maximum_changed_files",
+    "shared_paths", "forbidden_prefixes", "commit_message_template"
+  ],
+  "properties": {
+    "$schema": { "const": "./git-publication-policy.schema.json" },
+    "schema_version": { "const": "1.0" },
+    "branch": { "const": "main" },
+    "remote": { "const": "origin" },
+    "remote_ref": { "const": "refs/heads/main" },
+    "require_clean_start": { "const": true },
+    "fast_forward_only": { "const": true },
+    "force_push_allowed": { "const": false },
+    "run_full_validation": { "const": true },
+    "lock_validity_minutes": { "type": "integer", "minimum": 60, "maximum": 1440 },
+    "heartbeat_interval_minutes": { "type": "integer", "minimum": 5, "maximum": 60 },
+    "maximum_changed_files": { "type": "integer", "minimum": 5, "maximum": 20 },
+    "shared_paths": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "forbidden_prefixes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "commit_message_template": {
+      "const": "Pubblica {content_id}: {working_title}"
+    }
+  }
+}

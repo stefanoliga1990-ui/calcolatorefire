@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simulatorefire.com/schemas/execution-log.schema.json",
+  "title": "Risultato finale di una esecuzione editoriale",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "run_id", "started_at", "finished_at", "status", "outcome", "phase",
+    "content_id", "slug", "source_ids", "checks", "changed_files", "base_head",
+    "initial_remote_head", "commit_sha", "commit_performed", "push_performed",
+    "deployment_checked", "stop_code", "stop_message", "retry", "notification", "recovery"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "run_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{5,80}$" },
+    "started_at": { "type": "string", "format": "date-time" },
+    "finished_at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["published", "cancelled", "no_op"] },
+    "outcome": { "enum": ["success", "no_op", "cancelled"] },
+    "phase": { "const": "complete" },
+    "content_id": { "type": ["string", "null"] },
+    "slug": { "type": ["string", "null"] },
+    "source_ids": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+    "checks": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+    "changed_files": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+    "base_head": { "type": ["string", "null"] },
+    "initial_remote_head": { "type": ["string", "null"] },
+    "commit_sha": { "type": ["string", "null"] },
+    "commit_performed": { "type": "boolean" },
+    "push_performed": { "type": "boolean" },
+    "deployment_checked": { "const": false },
+    "stop_code": { "type": ["string", "null"] },
+    "stop_message": { "type": ["string", "null"] },
+    "retry": { "type": ["string", "null"] },
+    "notification": { "type": ["string", "null"] },
+    "recovery": { "type": ["string", "null"] }
+  }
+}

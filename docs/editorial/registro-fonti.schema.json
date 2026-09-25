@@ -1,0 +1,500 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simulatorefire.com/schemas/registro-fonti.schema.json",
+  "title": "Registro delle fonti di Calcolo FIRE Italia",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "updated_at",
+    "next_id_by_year",
+    "sources"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "./registro-fonti.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "next_id_by_year": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[0-9]{4}$": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9999
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "status",
+        "level",
+        "type",
+        "title",
+        "responsible_entity",
+        "authors",
+        "url",
+        "persistent_identifier",
+        "dates",
+        "applicability",
+        "locator",
+        "verification",
+        "usages",
+        "limitations",
+        "conflicts",
+        "local_copy",
+        "notes"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^SRC-[0-9]{4}-[0-9]{4}$"
+        },
+        "status": {
+          "enum": [
+            "approved",
+            "superseded",
+            "unavailable",
+            "rejected"
+          ]
+        },
+        "level": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ]
+        },
+        "type": {
+          "enum": [
+            "normative_act",
+            "administrative_practice",
+            "institutional_page",
+            "official_dataset",
+            "scientific_study",
+            "standard_or_specification",
+            "book_or_manual",
+            "technical_analysis",
+            "journalistic_content",
+            "commercial_document",
+            "other"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "responsible_entity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "persistent_identifier": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "dates": {
+          "$ref": "#/$defs/dates"
+        },
+        "applicability": {
+          "$ref": "#/$defs/applicability"
+        },
+        "locator": {
+          "$ref": "#/$defs/locator"
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        },
+        "usages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/usage"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/conflict"
+          }
+        },
+        "local_copy": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/localCopy"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "approved"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "level": {
+                "enum": [
+                  "A",
+                  "B",
+                  "C"
+                ]
+              },
+              "usages": {
+                "minItems": 1
+              },
+              "verification": {
+                "properties": {
+                  "full_content_accessed": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "level": {
+                "const": "C"
+              }
+            },
+            "required": [
+              "level"
+            ]
+          },
+          "then": {
+            "properties": {
+              "usages": {
+                "items": {
+                  "properties": {
+                    "importance": {
+                      "const": "context"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "level": {
+                "const": "D"
+              }
+            },
+            "required": [
+              "level"
+            ]
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "const": "rejected"
+              },
+              "usages": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "dates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "published",
+        "updated",
+        "first_accessed_at",
+        "last_accessed_at"
+      ],
+      "properties": {
+        "published": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "updated": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "first_accessed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "last_accessed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "valid_from",
+        "valid_to",
+        "as_of",
+        "reference_period",
+        "version",
+        "provisional"
+      ],
+      "properties": {
+        "valid_from": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "valid_to": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "as_of": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "reference_period": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provisional": {
+          "type": "boolean"
+        }
+      }
+    },
+    "locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "article",
+        "section",
+        "page",
+        "table_or_figure",
+        "dataset_or_series"
+      ],
+      "properties": {
+        "article": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "section": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "page": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "table_or_figure": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dataset_or_series": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checked_at",
+        "checked_by",
+        "full_content_accessed",
+        "original_source_checked"
+      ],
+      "properties": {
+        "checked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "checked_by": {
+          "enum": [
+            "automation",
+            "Stefano Liga"
+          ]
+        },
+        "full_content_accessed": {
+          "type": "boolean"
+        },
+        "original_source_checked": {
+          "type": "boolean"
+        }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "content_id",
+        "claim",
+        "importance",
+        "verified_at"
+      ],
+      "properties": {
+        "content_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "importance": {
+          "enum": [
+            "central",
+            "context"
+          ]
+        },
+        "verified_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "status",
+        "resolution"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "pattern": "^SRC-[0-9]{4}-[0-9]{4}$"
+        },
+        "status": {
+          "enum": [
+            "resolved",
+            "unresolved"
+          ]
+        },
+        "resolution": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "localCopy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "license_note"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "license_note": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

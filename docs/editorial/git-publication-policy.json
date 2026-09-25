@@ -1,0 +1,32 @@
+{
+  "$schema": "./git-publication-policy.schema.json",
+  "schema_version": "1.0",
+  "branch": "main",
+  "remote": "origin",
+  "remote_ref": "refs/heads/main",
+  "require_clean_start": true,
+  "fast_forward_only": true,
+  "force_push_allowed": false,
+  "run_full_validation": true,
+  "lock_validity_minutes": 480,
+  "heartbeat_interval_minutes": 30,
+  "maximum_changed_files": 12,
+  "shared_paths": [
+    "docs/editorial/backlog-editoriale.json",
+    "docs/editorial/registro-fonti.json",
+    "src/main/resources/static/sitemap.xml",
+    "src/main/resources/static/index.html"
+  ],
+  "forbidden_prefixes": [
+    ".github/",
+    ".mvn/",
+    "pom.xml",
+    "src/main/java/",
+    "src/test/",
+    "scripts/",
+    "docs/editorial/contratto-automazione-guide.md",
+    "docs/editorial/politica-editoriale.md",
+    "docs/editorial/politica-fonti.md"
+  ],
+  "commit_message_template": "Pubblica {content_id}: {working_title}"
+}

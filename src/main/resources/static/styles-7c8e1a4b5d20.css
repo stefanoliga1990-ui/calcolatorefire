@@ -76,6 +76,12 @@ select {
     background: var(--surface);
 }
 
+.site-header nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .brand {
     display: inline-flex;
     align-items: center;

@@ -1,0 +1,47 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-NNNN",
+  "slug": "/guida/slug-approvato-nel-backlog",
+  "seo": {
+    "title": "[INSERIRE title SEO unico]",
+    "description": "[INSERIRE meta description originale che anticipa la risposta della guida]",
+    "og_title": "[INSERIRE titolo per la condivisione]",
+    "og_description": "[INSERIRE descrizione per la condivisione]"
+  },
+  "page": {
+    "kicker": "[INSERIRE cluster o tipologia della guida]",
+    "h1": "[INSERIRE H1 descrittivo]",
+    "lead": "[INSERIRE domanda affrontata, perimetro e utilità concreta della guida]"
+  },
+  "dates": {
+    "published": "AAAA-MM-GG",
+    "updated": "AAAA-MM-GG"
+  },
+  "summary_points": [
+    "[INSERIRE prima conclusione autonoma]",
+    "[INSERIRE seconda conclusione autonoma]",
+    "[INSERIRE terza conclusione autonoma]"
+  ],
+  "source_ids": [
+    "SRC-AAAA-NNNN"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "[INSERIRE perché la metodologia aiuta a verificare questa guida]"
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "[INSERIRE quale scenario il lettore può verificare]"
+    }
+  ],
+  "cta": {
+    "title": "[INSERIRE invito coerente con la guida]",
+    "text": "[INSERIRE azione concreta e prudente che il lettore può svolgere]",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
