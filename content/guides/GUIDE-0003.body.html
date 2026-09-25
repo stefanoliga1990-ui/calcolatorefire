@@ -1,0 +1,135 @@
+<section class="content-section" id="significato" aria-labelledby="significato-title">
+    <h2 id="significato-title">Il 4% fissa il primo prelievo, non il rendimento</h2>
+    <p>
+        <em>Safe Withdrawal Rate</em> (SWR) significa tasso di prelievo iniziale usato come riferimento per il
+        portafoglio all'ingresso nel FIRE. Nella regola storica del 4%, il primo prelievo annuo equivale al 4% del
+        capitale iniziale. Negli anni successivi cambia l'<strong>importo in euro</strong> per tenere conto
+        dell'inflazione: non si prende ogni anno il 4% del saldo residuo. Lo spiega
+        <a href="https://bf1c3983-d466-4887-b1ca-323d0679309d.filesusr.com/ugd/698bc0_eb967f46809448a680ea05ca3b38712c.pdf" data-source-id="SRC-2026-0009">l'articolo originale di William Bengen sui prelievi storici</a>.
+    </p>
+    <p>
+        Il 4% non rappresenta il rendimento annuo che il portafoglio deve produrre. Se il patrimonio scende, un
+        prelievo indicizzato ai prezzi può pesare sempre di più sul saldo. La parola «safe» descrive l'esito nei
+        periodi e nei portafogli esaminati da uno studio, non una proprietà permanente del numero.
+    </p>
+</section>
+
+<section class="content-section" id="origine" aria-labelledby="origine-title">
+    <h2 id="origine-title">La regola nasce da periodi storici statunitensi</h2>
+    <p>
+        Bengen confrontò sequenze storiche di rendimenti e inflazione negli Stati Uniti, usando portafogli di azioni
+        e titoli del Tesoro. Nel suo campione, con un prelievo iniziale del 4% e successivi importi corretti per
+        inflazione, la durata osservata non scendeva sotto circa 33 anni. L'orizzonte di riferimento era almeno
+        trent'anni, con ipotesi precise su allocazione, ribilanciamento e momento del prelievo, riportate nelle
+        <a href="https://bf1c3983-d466-4887-b1ca-323d0679309d.filesusr.com/ugd/698bc0_eb967f46809448a680ea05ca3b38712c.pdf" data-source-id="SRC-2026-0009">figure 1 e 2 e nell'appendice dello studio</a>.
+    </p>
+    <p>
+        Un'analisi successiva di
+        <a href="https://www.coronation.com/assets/Coroconnect/An%20International%20Perspective%20on%20Safe%20Withdrawal%20Rates%20from%20Retirement%20Savings.pdf" data-source-id="SRC-2026-0008">Wade Pfau su 17 mercati sviluppati</a>
+        trovò risultati diversi usando dati dal 1900 al 2008 e pensionamenti simulati su trent'anni. Le due
+        ricerche non misurano la stessa identica situazione: cambiano mercati, periodi e alcune ipotesi. Il
+        confronto serve a capire perché il risultato statunitense non diventa automaticamente un tasso valido per
+        un portafoglio e un piano di spesa in Italia.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Un esempio separa il calcolo iniziale dalla durata</h2>
+    <p>
+        Immagina, solo per capire la formula, di entrare oggi nel FIRE con un fabbisogno di 1.800 euro al mese
+        da finanziare interamente con il portafoglio: 21.600 euro nel primo anno. Con SWR del 4%, senza risorse
+        aggiuntive e con aliquota e bollo del simulatore posti a zero per isolare il calcolo, il target base è
+        540.000 euro. Se nell'anno successivo i prezzi aumentassero per ipotesi del 2%, l'importo annuale
+        diventerebbe 22.032 euro. Il 2% è un'ipotesi didattica, non una previsione; gli importi sono arrotondati
+        all'euro.
+    </p>
+    <pre class="formula"><code>Primo fabbisogno annuo = 1.800 × 12 = 21.600 euro
+Target SWR = 21.600 ÷ 0,04 = 540.000 euro
+Prelievo del secondo anno nell'esempio = 21.600 × 1,02 = 22.032 euro</code></pre>
+    <p>
+        La formula del target è quella della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica del simulatore, sezioni 7 e 21</a>.
+        Il calcolo non dimostra che 540.000 euro finanzino un periodo scelto: per rispondere a quella domanda
+        servono la durata, l'andamento del capitale e i fabbisogni successivi.
+    </p>
+</section>
+
+<section class="content-section" id="sequenza" aria-labelledby="sequenza-title">
+    <h2 id="sequenza-title">L'ordine dei rendimenti può cambiare l'esito</h2>
+    <p>
+        Anche con la stessa coppia di rendimenti, una perdita all'inizio del decumulo lascia meno capitale su cui
+        beneficiare di una ripresa successiva. Per esempio, da 100.000 euro e con un prelievo di 4.000 euro
+        all'inizio di ciascuno dei due anni, senza inflazione, costi o imposte, un rendimento del −20% seguito dal
+        +25% lascia 91.000 euro. Con i rendimenti invertiti il saldo finale è 92.800 euro. Il rendimento composto
+        dei due anni, senza prelievi, è zero in entrambi i casi; la differenza nasce dall'ordine dei flussi.
+    </p>
+    <pre class="formula"><code>Perdita prima: (100.000 − 4.000) × 0,80 = 76.800 euro
+Poi ripresa: (76.800 − 4.000) × 1,25 = 91.000 euro
+Ripresa prima: (100.000 − 4.000) × 1,25 = 120.000 euro
+Poi perdita: (120.000 − 4.000) × 0,80 = 92.800 euro</code></pre>
+    <p>
+        Questo è un calcolo proprio e controllabile, non uno scenario probabile. Illustra il rischio che
+        <a href="https://bf1c3983-d466-4887-b1ca-323d0679309d.filesusr.com/ugd/698bc0_eb967f46809448a680ea05ca3b38712c.pdf" data-source-id="SRC-2026-0009">Bengen evidenzia confrontando gli eventi di mercato con le medie</a>.
+        Non include la complessità di un portafoglio reale.
+    </p>
+</section>
+
+<section class="content-section" id="simulatore" aria-labelledby="simulatore-title">
+    <h2 id="simulatore-title">Nel simulatore il target SWR è il punto di partenza</h2>
+    <p>
+        Nel metodo SWR di Calcolo FIRE Italia imposti il tasso iniziale, la spesa e la durata FIRE. Senza
+        risorse aggiuntive e senza fiscalità, il target base divide il primo fabbisogno annuo per la SWR. La
+        proiezione mensile verifica poi i prelievi lungo la durata scelta e segnala il primo mese con fabbisogno
+        non coperto. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica del motore, sezioni 7, 9 e 21</a>
+        distingue il target dalla verifica successiva.
+    </p>
+    <p>
+        Con la fiscalità semplificata attiva, il target SWR usa la prima vendita lorda stimata per ottenere il
+        fabbisogno netto; entrano in gioco il costo fiscale e il bollo modellati dall'applicazione. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 1 e 7</a>
+        ne descrive anche le esclusioni. Questa è una convenzione del simulatore, non il calcolo delle imposte
+        effettive di una persona.
+    </p>
+    <p>
+        Il motore usa rendimenti costanti nelle proiezioni. Non riproduce le successioni variabili di mercato
+        analizzate dagli studi storici. Se confronti un tasso con un altro, mantieni uguali spesa, durata,
+        rendimento, inflazione e impostazioni fiscali; poi leggi target, saldo finale e avvisi di shortfall.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Il 4% non incorpora tutte le condizioni di un piano italiano</h2>
+    <ul>
+        <li><strong>Orizzonte:</strong> trent'anni negli studi non descrivono automaticamente un FIRE più lungo o più breve.</li>
+        <li><strong>Mercato e portafoglio:</strong> risultati storici di azioni e obbligazioni dipendono da paese, periodo e composizione.</li>
+        <li><strong>Spese:</strong> un prelievo indicizzato presuppone un fabbisogno definito; spese straordinarie possono cambiarlo.</li>
+        <li><strong>Costi e imposte:</strong> le simulazioni storiche citate non riproducono la fiscalità italiana individuale; il modello dell'applicazione è semplificato.</li>
+        <li><strong>Risorse future:</strong> rendite o capitali disponibili in date diverse modificano i flussi e richiedono ipotesi esplicite.</li>
+    </ul>
+    <p>
+        Lo <a href="https://www.coronation.com/assets/Coroconnect/An%20International%20Perspective%20on%20Safe%20Withdrawal%20Rates%20from%20Retirement%20Savings.pdf" data-source-id="SRC-2026-0008">studio internazionale di Pfau, sezioni 2–4</a>
+        esclude costi amministrativi e imposte e, in parte dell'analisi, assume di conoscere in anticipo
+        l'allocazione più favorevole. Sono limiti che impediscono di leggere le sue percentuali come una
+        previsione personale.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="swr-avvertenza-title">
+        <h3 id="swr-avvertenza-title">Controlla sempre la proiezione</h3>
+        <p>
+            Un tasso più alto abbassa aritmeticamente il target iniziale, ma lascia meno margine ai prelievi.
+            Uno shortfall nella durata scelta indica che lo scenario deterministico non copre tutti i fabbisogni.
+            Anche uno scenario senza shortfall dipende dalle ipotesi inserite.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Usa la SWR come ipotesi da verificare</h2>
+    <p>
+        Parti da una stima documentata delle spese, calcola il primo prelievo e scegli una durata coerente con la
+        domanda che vuoi esplorare. Nel simulatore prova più tassi senza cambiare contemporaneamente gli altri
+        input, osserva eventuali shortfall e confronta il risultato con il metodo FINITE. Per capire come si
+        costruisce il capitale obiettivo dalla spesa, leggi la guida al numero FIRE; per verificare formule e
+        convenzioni, consulta la metodologia. Nessun singolo tasso sostituisce la valutazione delle tue condizioni.
+    </p>
+</section>

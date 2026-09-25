@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "updated_at": "2026-09-25",
   "next_id_by_year": {
-    "2026": 9
+    "2026": 10
   },
   "sources": [
     {
@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-25T12:41:13+02:00"
+        "last_accessed_at": "2026-09-25T19:13:38+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -40,7 +40,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-25T12:41:13+02:00",
+        "checked_at": "2026-09-25T19:13:38+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -63,6 +63,12 @@
           "claim": "Target FINITE e SWR, spesa alla data FIRE, ipotesi mensili e segnalazione dello shortfall.",
           "importance": "central",
           "verified_at": "2026-09-25T12:41:13+02:00"
+        },
+        {
+          "content_id": "GUIDE-0003",
+          "claim": "Nel metodo SWR il primo fabbisogno annuo diviso per il tasso scelto determina il target base; la proiezione mensile può segnalare uno shortfall.",
+          "importance": "central",
+          "verified_at": "2026-09-25T19:13:38+02:00"
         }
       ],
       "limitations": [
@@ -88,7 +94,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-25T12:41:13+02:00"
+        "last_accessed_at": "2026-09-25T19:13:38+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -106,7 +112,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-25T12:41:13+02:00",
+        "checked_at": "2026-09-25T19:13:38+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -129,6 +135,12 @@
           "claim": "Con imposte attive il target dipende dal costo fiscale e il modello non rappresenta tutti i regimi personali.",
           "importance": "central",
           "verified_at": "2026-09-25T12:41:13+02:00"
+        },
+        {
+          "content_id": "GUIDE-0003",
+          "claim": "Con fiscalità attiva il target SWR usa la prima vendita lorda per coprire il fabbisogno netto; il modello resta una semplificazione.",
+          "importance": "central",
+          "verified_at": "2026-09-25T19:13:38+02:00"
         }
       ],
       "limitations": [
@@ -430,7 +442,7 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-25T12:41:13+02:00",
-        "last_accessed_at": "2026-09-25T12:41:13+02:00"
+        "last_accessed_at": "2026-09-25T19:13:38+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -448,7 +460,7 @@
         "dataset_or_series": "Dimson, Marsh e Staunton 1900–2008"
       },
       "verification": {
-        "checked_at": "2026-09-25T12:41:13+02:00",
+        "checked_at": "2026-09-25T19:13:38+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -459,6 +471,12 @@
           "claim": "Un tasso di prelievo derivato da un campione storico non è una garanzia trasferibile a ogni mercato, orizzonte o portafoglio.",
           "importance": "central",
           "verified_at": "2026-09-25T12:41:13+02:00"
+        },
+        {
+          "content_id": "GUIDE-0003",
+          "claim": "I risultati storici del 4% differiscono tra Stati Uniti e altri mercati; lo studio considera 17 paesi, 30 anni e ipotesi favorevoli che non fondano una garanzia per l'Italia.",
+          "importance": "central",
+          "verified_at": "2026-09-25T19:13:38+02:00"
         }
       ],
       "limitations": [
@@ -466,9 +484,77 @@
         "Le simulazioni principali ipotizzano 30 anni, allocazione scelta con conoscenza ex post, ribilanciamento annuale, nessun costo amministrativo e nessuna imposta.",
         "Il PDF originale è stato consultato integralmente da una copia pubblica; il record istituzionale GRIPS è identificato da RePEc:ngi:dpaper:10-12."
       ],
-      "conflicts": [],
+      "conflicts": [
+        {
+          "source_id": "SRC-2026-0009",
+          "status": "resolved",
+          "resolution": "Bengen studia coorti e portafogli statunitensi; Pfau amplia mercati e periodi. I risultati non sono direttamente contraddittori e non definiscono un tasso garantito in Italia."
+        }
+      ],
       "local_copy": null,
       "notes": "La differenza fra risultati statunitensi e internazionali riflette campioni e mercati diversi; non autorizza a fissare un tasso universale per l'Italia."
+    },
+    {
+      "id": "SRC-2026-0009",
+      "status": "approved",
+      "level": "A",
+      "type": "scientific_study",
+      "title": "Determining Withdrawal Rates Using Historical Data",
+      "responsible_entity": "Journal of Financial Planning",
+      "authors": [
+        "William P. Bengen"
+      ],
+      "url": "https://bf1c3983-d466-4887-b1ca-323d0679309d.filesusr.com/ugd/698bc0_eb967f46809448a680ea05ca3b38712c.pdf",
+      "persistent_identifier": null,
+      "dates": {
+        "published": null,
+        "updated": null,
+        "first_accessed_at": "2026-09-25T19:13:38+02:00",
+        "last_accessed_at": "2026-09-25T19:13:38+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-25",
+        "reference_period": "Portafogli storici statunitensi con inizio dei prelievi dal 1926 al 1976",
+        "version": "Journal of Financial Planning, volume 7, numero 4, ottobre 1994, pagine 171–180",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "The Portfolio Scenarios; Strategies and Applications; Conclusion; Appendix",
+        "page": "171–180",
+        "table_or_figure": "Figure 1(a)–1(d); Figura 2",
+        "dataset_or_series": "Ibbotson Associates Stocks, Bonds, Bills and Inflation: 1992 Yearbook"
+      },
+      "verification": {
+        "checked_at": "2026-09-25T19:13:38+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0003",
+          "claim": "Il 4% è il prelievo iniziale del portafoglio, poi l'importo annuo viene corretto per inflazione; nei portafogli storici statunitensi esaminati la durata minima osservata era circa 33 anni.",
+          "importance": "central",
+          "verified_at": "2026-09-25T19:13:38+02:00"
+        }
+      ],
+      "limitations": [
+        "Campione storico statunitense e allocazioni specifiche di azioni e Treasury: il risultato non è una previsione né una garanzia trasferibile all'Italia.",
+        "Lo studio ipotizza conti fiscalmente differiti, ribilanciamento e prelievi a fine anno; il simulatore usa prelievi mensili all'inizio del mese.",
+        "Il PDF sul sito dell'autore è una scansione; il testo completo è stato verificato anche tramite una copia OCR dell'articolo originale."
+      ],
+      "conflicts": [
+        {
+          "source_id": "SRC-2026-0008",
+          "status": "resolved",
+          "resolution": "La differenza rispetto a Pfau dipende da mercati, coorti e metodo. La guida limita il risultato del 4% al campione di Bengen."
+        }
+      ],
+      "local_copy": null,
+      "notes": "Articolo originale collegato dall'archivio personale dell'autore; nessuna raccomandazione di allocazione del 1994 è ripresa come consiglio attuale."
     }
   ]
 }

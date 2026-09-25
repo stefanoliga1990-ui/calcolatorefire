@@ -44,6 +44,11 @@
       "reason": "Inquadra il capitale obiettivo nel percorso complessivo di indipendenza finanziaria."
     },
     {
+      "url": "/guida/regola-del-4-percento-swr",
+      "label": "Regola del 4% e SWR",
+      "reason": "Approfondisce origine, significato e limiti del tasso di prelievo citato in questa guida."
+    },
+    {
       "url": "/",
       "label": "Simulatore FIRE",
       "reason": "Permette di verificare i target e confrontare ipotesi su spesa, inflazione e durata."

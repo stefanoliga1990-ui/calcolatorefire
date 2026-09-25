@@ -1,0 +1,57 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0003",
+  "slug": "/guida/regola-del-4-percento-swr",
+  "seo": {
+    "title": "Regola del 4% e SWR: significato e limiti per il FIRE",
+    "description": "Scopri come funziona il prelievo iniziale del 4%, perché non è una garanzia e come leggere il target SWR nel simulatore FIRE.",
+    "og_title": "Regola del 4% e SWR: come leggere il tasso di prelievo",
+    "og_description": "Origine della regola, esempio riproducibile, rischio di sequenza e limiti per un piano FIRE in Italia."
+  },
+  "page": {
+    "kicker": "Prelievi nel FIRE",
+    "h1": "Regola del 4% e Safe Withdrawal Rate: significato e limiti",
+    "lead": "La regola del 4% può aiutare a impostare un primo prelievo, ma non dice quanto durerà il tuo patrimonio in Italia. Nasce da simulazioni storiche su portafogli statunitensi: il 4% si applica al capitale iniziale, poi l'importo del prelievo cambia con l'inflazione. Qui trovi il calcolo, i limiti della ricerca e il modo di leggere il risultato SWR nel simulatore."
+  },
+  "dates": {
+    "published": "2026-09-25",
+    "updated": "2026-09-25"
+  },
+  "summary_points": [
+    "Il 4% è un tasso di prelievo iniziale sul capitale all'ingresso nel FIRE, non il rendimento previsto del portafoglio.",
+    "Nella regola storica l'importo del primo anno viene rivalutato con l'inflazione; non si ricalcola ogni anno il 4% del saldo.",
+    "Il risultato di Bengen dipende da dati e portafogli statunitensi e non garantisce trent'anni di prelievi in Italia.",
+    "Nel simulatore SWR determina un target iniziale; la proiezione e l'eventuale shortfall vanno letti separatamente.",
+    "Durata, ordine dei rendimenti, spese, costi, fiscalità e risorse future possono modificare l'esito."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0008",
+    "SRC-2026-0009"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Permette di verificare formule SWR, ordine dei prelievi e limiti della proiezione."
+    },
+    {
+      "url": "/guida/numero-fire",
+      "label": "Guida al numero FIRE",
+      "reason": "Spiega come stimare il capitale obiettivo dalle spese e confrontare FINITE con SWR."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Consente di confrontare tassi, durata e ipotesi senza trattare un risultato come garanzia."
+    }
+  ],
+  "cta": {
+    "title": "Metti alla prova il tasso scelto",
+    "text": "Inserisci spesa, durata e ipotesi esplicite; confronta più tassi SWR e controlla la proiezione mensile e l'eventuale shortfall.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
