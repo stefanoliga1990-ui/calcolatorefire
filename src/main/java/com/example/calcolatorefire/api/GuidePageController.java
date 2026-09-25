@@ -20,6 +20,22 @@ public class GuidePageController {
     private static final MediaType HTML_UTF_8 = new MediaType("text", "html", StandardCharsets.UTF_8);
     private static final Pattern VALID_SLUG = Pattern.compile("[a-z0-9]+(?:-[a-z0-9]+)*");
 
+    @GetMapping(value = "/guide", produces = MediaType.TEXT_HTML_VALUE)
+    ResponseEntity<Resource> serveGuideIndex() {
+        Resource index = new ClassPathResource("static/guide.html");
+        return ResponseEntity.ok()
+                .contentType(HTML_UTF_8)
+                .header(HttpHeaders.CONTENT_LANGUAGE, "it-IT")
+                .body(index);
+    }
+
+    @GetMapping({"/guide/", "/guide.html"})
+    ResponseEntity<Void> redirectGuideIndexAliases() {
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
+                .location(URI.create("/guide"))
+                .build();
+    }
+
     @GetMapping(value = "/guida/{slug:[a-z0-9-]+}", produces = MediaType.TEXT_HTML_VALUE)
     ResponseEntity<Resource> serveCanonicalGuide(@PathVariable String slug) {
         if (!guideExists(slug)) {

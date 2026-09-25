@@ -60,7 +60,7 @@ class HomePageTest {
                 .andExpect(content().string(not(containsString("Pianificazione FIRE, con ipotesi trasparenti"))))
                 .andExpect(content().string(not(containsString("Nessun account"))))
                 .andExpect(content().string(containsString("class=\"brand-logo\"")))
-                .andExpect(content().string(containsString("href=\"/guida/fire-italia\">Guida FIRE</a>")))
+                .andExpect(content().string(containsString("href=\"/guide\">Guide</a>")))
                 .andExpect(content().string(containsString("href=\"/metodologia\">Metodologia</a>")))
                 .andExpect(content().string(containsString("Leggi la guida completa al FIRE in Italia")))
                 .andExpect(content().string(containsString("Leggi formule, convenzioni e limiti nella metodologia completa")))

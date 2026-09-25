@@ -26,6 +26,10 @@ class GuideGeneratorTest(unittest.TestCase):
         (self.root / "content/guides/guide-page.template.html").write_text(
             template.read_text(encoding="utf-8"), encoding="utf-8"
         )
+        index_template = MODULE_PATH.parents[2] / "content/guides/guide-index.template.html"
+        (self.root / "content/guides/guide-index.template.html").write_text(
+            index_template.read_text(encoding="utf-8"), encoding="utf-8"
+        )
         (self.root / "src/main/resources/static/sitemap.xml").write_text(
             '<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -108,6 +112,7 @@ class GuideGeneratorTest(unittest.TestCase):
         GENERATOR.generate(self.manifest_path, self.body_path, self.root, False)
         page = output.read_text(encoding="utf-8")
         sitemap = (self.root / "src/main/resources/static/sitemap.xml").read_text(encoding="utf-8")
+        guide_index = (self.root / "src/main/resources/static/guide.html").read_text(encoding="utf-8")
         self.assertEqual(first_render, page)
         self.assertIn("<h1>Guida di prova al sistema FIRE</h1>", page)
         self.assertIn('rel="canonical" href="https://simulatorefire.com/guida/prova-generatore"', page)
@@ -120,10 +125,15 @@ class GuideGeneratorTest(unittest.TestCase):
         self.assertIn("SRC-2026-0001", page)
         self.assertEqual(1, page.count("<h1>"))
         self.assertEqual(1, sitemap.count("https://simulatorefire.com/guida/prova-generatore"))
+        self.assertEqual(1, sitemap.count("https://simulatorefire.com/guide"))
+        self.assertIn("<h1>Guide FIRE e indipendenza finanziaria</h1>", guide_index)
+        self.assertIn('href="/guida/prova-generatore"', guide_index)
+        self.assertIn("1 guide disponibili", guide_index)
 
     def test_check_only_does_not_write_files(self):
         output = GENERATOR.generate(self.manifest_path, self.body_path, self.root, True)
         self.assertFalse(output.exists())
+        self.assertFalse((self.root / "src/main/resources/static/guide.html").exists())
         sitemap = (self.root / "src/main/resources/static/sitemap.xml").read_text(encoding="utf-8")
         self.assertNotIn("prova-generatore", sitemap)
 

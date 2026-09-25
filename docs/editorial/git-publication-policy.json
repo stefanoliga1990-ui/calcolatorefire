@@ -15,7 +15,8 @@
     "docs/editorial/backlog-editoriale.json",
     "docs/editorial/registro-fonti.json",
     "src/main/resources/static/sitemap.xml",
-    "src/main/resources/static/index.html"
+    "src/main/resources/static/index.html",
+    "src/main/resources/static/guide.html"
   ],
   "forbidden_prefixes": [
     ".github/",

@@ -38,6 +38,24 @@ class GuidePageControllerTest {
     }
 
     @Test
+    void servesTheGuideIndexAndRedirectsItsAliases() throws Exception {
+        mockMvc.perform(get("/guide"))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, "it-IT"))
+                .andExpect(content().contentTypeCompatibleWith("text/html"))
+                .andExpect(content().string(containsString("<h1>Guide FIRE e indipendenza finanziaria</h1>")))
+                .andExpect(content().string(containsString("href=\"/guida/fire-italia\"")));
+
+        mockMvc.perform(get("/guide/"))
+                .andExpect(status().isMovedPermanently())
+                .andExpect(header().string(HttpHeaders.LOCATION, "/guide"));
+
+        mockMvc.perform(get("/guide.html"))
+                .andExpect(status().isMovedPermanently())
+                .andExpect(header().string(HttpHeaders.LOCATION, "/guide"));
+    }
+
+    @Test
     void redirectsAliasesToTheCanonicalRoute() throws Exception {
         mockMvc.perform(get("/guida/test-generatore/"))
                 .andExpect(status().isMovedPermanently())

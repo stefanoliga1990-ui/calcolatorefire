@@ -441,7 +441,8 @@ def render_page(manifest: dict, body: str, sections: list[SectionHeading], sourc
         "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Simulatore FIRE", "item": f"{SITE_ORIGIN}/"},
-            {"@type": "ListItem", "position": 2, "name": manifest["page"]["h1"], "item": canonical_url},
+            {"@type": "ListItem", "position": 2, "name": "Guide", "item": f"{SITE_ORIGIN}/guide"},
+            {"@type": "ListItem", "position": 3, "name": manifest["page"]["h1"], "item": canonical_url},
         ],
     }
     plain_body = re.sub(r"<[^>]+>", " ", body)
@@ -487,17 +488,93 @@ def render_page(manifest: dict, body: str, sections: list[SectionHeading], sourc
     return rendered.rstrip() + "\n"
 
 
+def render_guide_index(root: Path, backlog: dict) -> tuple[str, str, int]:
+    catalogue = {
+        item.get("id"): item
+        for item in backlog.get("items", [])
+        if isinstance(item, dict) and item.get("content_type") == "guide"
+    }
+    entries: list[tuple[int, dict]] = []
+    for manifest_path in sorted((root / "content/guides").glob("GUIDE-[0-9][0-9][0-9][0-9].json")):
+        manifest = load_json(manifest_path)
+        item = catalogue.get(manifest.get("content_id"))
+        if not item or item.get("status") not in {"pilot", "in_progress", "pushed_to_main"}:
+            continue
+        validate_manifest(manifest)
+        entries.append((int(item.get("sequence", 9999)), manifest))
+    entries.sort(key=lambda entry: (entry[0], entry[1]["content_id"]))
+    if not entries:
+        raise GuideGenerationError("L'indice guide richiede almeno una guida pubblicabile")
+
+    cards = []
+    list_items = []
+    for position, (_, manifest) in enumerate(entries, start=1):
+        url = f"{SITE_ORIGIN}{manifest['slug']}"
+        cards.append(
+            '<article class="guide-card">'
+            f'<p class="content-kicker">{escape(manifest["page"]["kicker"])}</p>'
+            f'<h2><a href="{escape(manifest["slug"])}">{escape(manifest["page"]["h1"])}</a></h2>'
+            f'<p>{escape(manifest["seo"]["description"])}</p>'
+            f'<a class="guide-card-link" href="{escape(manifest["slug"])}">Leggi la guida</a>'
+            '</article>'
+        )
+        list_items.append({
+            "@type": "ListItem", "position": position, "url": url,
+            "name": manifest["page"]["h1"],
+        })
+
+    canonical_url = f"{SITE_ORIGIN}/guide"
+    collection = {
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "name": "Guide FIRE e indipendenza finanziaria",
+        "description": "Guide pratiche sul percorso FIRE e sull'uso consapevole del simulatore.",
+        "url": canonical_url, "inLanguage": "it-IT",
+        "mainEntity": {"@type": "ItemList", "numberOfItems": len(entries), "itemListElement": list_items},
+    }
+    breadcrumb = {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Simulatore FIRE", "item": f"{SITE_ORIGIN}/"},
+            {"@type": "ListItem", "position": 2, "name": "Guide", "item": canonical_url},
+        ],
+    }
+    template = (root / "content/guides/guide-index.template.html").read_text(encoding="utf-8")
+    rendered = Template(template).substitute({
+        "guide_count": str(len(entries)),
+        "guide_cards": "".join(cards),
+        "collection_json_ld": json.dumps(collection, ensure_ascii=False, indent=2).replace("</", "<\\/"),
+        "breadcrumb_json_ld": json.dumps(breadcrumb, ensure_ascii=False, indent=2).replace("</", "<\\/"),
+    })
+    for block in re.findall(r'<script type="application/ld\+json">([\s\S]*?)</script>', rendered):
+        json.loads(block)
+    last_modified = max(manifest["dates"]["updated"] for _, manifest in entries)
+    return rendered.rstrip() + "\n", last_modified, len(entries)
+
+
 def update_sitemap(sitemap_path: Path, canonical_url: str, last_modified: str, check_only: bool) -> bool:
     xml = sitemap_path.read_text(encoding="utf-8")
     ElementTree.fromstring(xml)
-    if f"<loc>{canonical_url}</loc>" in xml:
-        return False
     block = (
         "    <url>\n"
         f"        <loc>{canonical_url}</loc>\n"
         f"        <lastmod>{last_modified}</lastmod>\n"
         "    </url>\n"
     )
+    pattern = re.compile(
+        r"    <url>\r?\n"
+        rf"        <loc>{re.escape(canonical_url)}</loc>\r?\n"
+        r"(?:        <lastmod>[^<]+</lastmod>\r?\n)?"
+        r"    </url>\r?\n"
+    )
+    existing = pattern.search(xml)
+    if existing:
+        updated = xml[:existing.start()] + block + xml[existing.end():]
+        if updated == xml:
+            return False
+        ElementTree.fromstring(updated)
+        if not check_only:
+            atomic_write(sitemap_path, updated)
+        return True
     if "</urlset>" not in xml:
         raise GuideGenerationError("sitemap.xml non contiene la chiusura urlset")
     updated = xml.replace("</urlset>", block + "</urlset>")
@@ -534,15 +611,24 @@ def generate(manifest_path: Path, body_path: Path, root: Path, check_only: bool)
     template_path = root / "content/guides/guide-page.template.html"
     template = template_path.read_text(encoding="utf-8")
     rendered = render_page(manifest, body, sections, sources, template)
+    guide_index, guide_index_lastmod, guide_count = render_guide_index(root, backlog)
     sitemap = root / "src/main/resources/static/sitemap.xml"
     sitemap_changed = update_sitemap(
         sitemap, f"{SITE_ORIGIN}{manifest['slug']}", manifest["dates"]["updated"], check_only
     )
+    guide_index_sitemap_changed = update_sitemap(
+        sitemap, f"{SITE_ORIGIN}/guide", guide_index_lastmod, check_only
+    )
     if not check_only:
         atomic_write(output, rendered)
+        atomic_write(root / "src/main/resources/static/guide.html", guide_index)
     action = "VALIDA" if check_only else "GENERA"
     sitemap_note = "da aggiornare" if sitemap_changed else "gia presente"
-    print(f"{action} {manifest['content_id']} -> {output.relative_to(root)}; sitemap {sitemap_note}")
+    index_note = "da aggiornare" if guide_index_sitemap_changed else "allineata"
+    print(
+        f"{action} {manifest['content_id']} -> {output.relative_to(root)}; "
+        f"indice {guide_count} guide, {index_note}; sitemap {sitemap_note}"
+    )
     return output
 
 

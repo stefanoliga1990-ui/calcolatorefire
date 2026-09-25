@@ -169,20 +169,22 @@ Eseguire prima il controllo senza scritture:
 
 Qualsiasi errore è bloccante. Correggere manifesto, corpo, backlog o registro; non modificare l'HTML finale.
 
-Solo dopo un `CheckOnly` riuscito generare pagina e sitemap:
+Solo dopo un `CheckOnly` riuscito generare pagina, indice delle guide e sitemap:
 
 ```powershell
 ./scripts/generate-guide.ps1 -Manifest content/guides/<GUIDE-NNNN>.json
 ```
 
-Se sono state dichiarate guide correlate, aggiornarne i sorgenti e rigenerarle esplicitamente. Aggiornare la home solo
-quando il nuovo collegamento è utile e resta nel perimetro della singola pubblicazione.
+Il generatore ricostruisce automaticamente `/guide` a partire dalle guide pubblicabili, quindi ogni nuova guida deve
+comparire nell'indice senza modifiche manuali. Se sono state dichiarate guide correlate, aggiornarne i sorgenti e
+rigenerarle esplicitamente. Aggiornare la home solo quando il nuovo collegamento è utile e resta nel perimetro della
+singola pubblicazione.
 
 Registrare il checkpoint:
 
 ```powershell
 ./scripts/publish-guide.ps1 checkpoint -RunId <run-id> -OwnerToken <owner-token> `
-  -Phase generation -Check @("CheckOnly superato", "pagina generata", "sitemap aggiornata")
+  -Phase generation -Check @("CheckOnly superato", "pagina generata", "indice guide aggiornato", "sitemap aggiornata")
 ```
 
 ### Fase 6 — Validazione e revisione del diff

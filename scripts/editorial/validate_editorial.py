@@ -553,6 +553,7 @@ def validate_git_publication_policy(root: Path, report: ValidationReport) -> dic
     required_shared = {
         "docs/editorial/backlog-editoriale.json", "docs/editorial/registro-fonti.json",
         "src/main/resources/static/sitemap.xml", "src/main/resources/static/index.html",
+        "src/main/resources/static/guide.html",
     }
     required_forbidden = {".github/", ".mvn/", "pom.xml", "src/main/java/", "src/test/", "scripts/"}
     report.check(required_shared.issubset(set(shared)), "politica Git: shared_paths obbligatori mancanti")
@@ -636,6 +637,16 @@ def validate_guide_sources(root: Path, mode: str, report: ValidationReport) -> d
         for output in output_root.glob("*.html"):
             if output.stem not in expected_slugs:
                 report.errors.append(f"Pagina guida senza sorgente: {output.relative_to(root)}")
+    try:
+        backlog = generator.load_json(root / "docs/editorial/backlog-editoriale.json")
+        expected_index, _, _ = generator.render_guide_index(root, backlog)
+        index_path = root / "src/main/resources/static/guide.html"
+        if index_path.exists():
+            report.check(index_path.read_text(encoding="utf-8") == expected_index, "Indice guide non allineato ai manifesti")
+        elif mode == "publication":
+            report.errors.append("Indice guide mancante in modalità publication")
+    except Exception as exc:
+        report.errors.append(f"Indice guide: {exc}")
     return manifests
 
 
@@ -645,6 +656,8 @@ def canonical_route(path: Path, static_root: Path) -> str | None:
         return "/"
     if relative == "metodologia.html":
         return "/metodologia"
+    if relative == "guide.html":
+        return "/guide"
     if relative.startswith("guida/") and relative.endswith(".html"):
         return "/guida/" + path.stem
     if relative.startswith("autore/") and relative.endswith(".html"):

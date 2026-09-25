@@ -108,8 +108,8 @@ Il template produce in modo uniforme:
 - nota informativa sui limiti del contenuto;
 - call to action e footer con identificatore editoriale.
 
-L'output viene scritto in `src/main/resources/static/guida/<slug>.html`. La scrittura è atomica e la sitemap viene
-aggiornata senza duplicare un URL già presente.
+L'output viene scritto in `src/main/resources/static/guida/<slug>.html`. La scrittura è atomica, l'indice pubblico
+`/guide` viene ricostruito dalle guide pubblicabili e la sitemap viene aggiornata senza duplicare URL.
 
 ## 7. Routing e canonicalizzazione
 
