@@ -727,7 +727,7 @@ def scheduled_run_id(reference: datetime | None = None) -> str:
     daylight_end = datetime(utc.year, 10, october_sunday, 1, tzinfo=timezone.utc)
     offset = timedelta(hours=2 if daylight_start <= utc < daylight_end else 1)
     local = utc + offset
-    slot_hour = (local.hour // 6) * 6
+    slot_hour = (local.hour // 3) * 3
     return f"editorial-{local:%Y%m%d}-{slot_hour:02d}"
 
 
@@ -778,7 +778,7 @@ def main() -> int:
         elif args.action == "cancel":
             result = cancel(root, args.run_id, args.owner_token, manual_recovery=args.manual_recovery)
         elif args.action == "run-id":
-            result = {"run_id": scheduled_run_id(), "timezone": "Europe/Rome", "slot_hours": 6}
+            result = {"run_id": scheduled_run_id(), "timezone": "Europe/Rome", "slot_hours": 3}
         elif args.action == "log":
             result = read_execution_log(root, args.run_id)
         else:

@@ -1,6 +1,6 @@
 # Contratto dell'automazione editoriale
 
-Versione: 0.2
+Versione: 0.3
 
 Stato: attivo
 
@@ -22,7 +22,7 @@ La sequenza eseguibile, i comandi e le procedure di recupero sono consolidati ne
 | Progetto | Calcolo FIRE Italia |
 | Autore pubblico | Stefano Liga |
 | Modalità | Automatica completa, senza approvazione preventiva |
-| Frequenza | Ogni 6 ore |
+| Frequenza | Ogni 3 ore |
 | Fuso orario | Europe/Rome |
 | Quantità massima | Una guida per esecuzione |
 | Destinazione Git | Push diretto su `origin/main` |

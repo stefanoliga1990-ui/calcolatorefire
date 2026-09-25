@@ -6,7 +6,7 @@ Il processo pubblica una sola guida per esecuzione su `main`, senza force push e
 
 ## Flusso a due fasi
 
-Prima dell'avvio si ricava l'identificatore deterministico della finestra di 6 ore. Due tentativi nella stessa finestra
+Prima dell'avvio si ricava l'identificatore deterministico della finestra di 3 ore. Due tentativi nella stessa finestra
 usano quindi lo stesso ID e non possono creare due pubblicazioni equivalenti:
 
 ```powershell
