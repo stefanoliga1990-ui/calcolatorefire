@@ -1,0 +1,61 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0008",
+  "slug": "/guida/metodo-finite-o-swr",
+  "seo": {
+    "title": "Metodo FINITE o SWR: come scegliere il target FIRE",
+    "description": "Confronta FINITE e SWR nel simulatore FIRE: durata, capitale finale, tasso di prelievo ed esempio per capire perché i due target possono differire.",
+    "og_title": "FINITE e SWR: due domande diverse sul capitale FIRE",
+    "og_description": "Un confronto pratico tra capitale per una durata definita e target basato sul tasso di prelievo, con ipotesi e limiti visibili."
+  },
+  "page": {
+    "kicker": "Metodi di calcolo",
+    "h1": "Metodo FINITE o SWR: quale target FIRE stai calcolando?",
+    "lead": "Vuoi sapere quanto capitale serve per finanziare una durata scelta, oppure partire da un tasso di prelievo iniziale? Nel simulatore FINITE risponde alla prima domanda e SWR alla seconda. I target possono differire perché applicano regole diverse: confronta anche la proiezione, non soltanto la cifra iniziale."
+  },
+  "dates": {
+    "published": "2026-09-26",
+    "updated": "2026-09-26"
+  },
+  "summary_points": [
+    "FINITE calcola il capitale necessario per i prelievi della durata FIRE impostata e per l'eventuale capitale finale desiderato, alle ipotesi di rendimento e inflazione scelte.",
+    "SWR parte dal primo fabbisogno annuo e dal tasso di prelievo iniziale scelto; la durata entra nella proiezione successiva, che può mostrare uno shortfall.",
+    "Il tasso SWR non è il rendimento del portafoglio né una quota da ricalcolare ogni anno sul saldo residuo.",
+    "Per confrontare i metodi mantieni uguali spesa, orizzonte, rendimenti, inflazione, risorse e impostazioni fiscali; cambia soltanto il metodo e il suo input specifico.",
+    "Entrambi sono modelli basati su ipotesi: un target più basso o una proiezione senza shortfall non garantiscono un esito reale."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0004",
+    "SRC-2026-0008"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore",
+      "reason": "Documenta formule, ordine dei prelievi, risorse aggiuntive e controlli della proiezione."
+    },
+    {
+      "url": "/guida/numero-fire",
+      "label": "Guida al numero FIRE",
+      "reason": "Mostra come partire dalla spesa per costruire un capitale obiettivo prima di scegliere il metodo."
+    },
+    {
+      "url": "/guida/regola-del-4-percento-swr",
+      "label": "Significato e limiti della regola del 4%",
+      "reason": "Approfondisce origine storica e limiti del tasso di prelievo usato nel metodo SWR."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Consente di confrontare i due target mantenendo coerenti gli altri input."
+    }
+  ],
+  "cta": {
+    "title": "Confronta due scenari coerenti",
+    "text": "Inserisci una spesa documentata, imposta durata e ipotesi, poi esegui FINITE e SWR senza cambiare gli altri input. Leggi target, saldo finale e avvisi di shortfall.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

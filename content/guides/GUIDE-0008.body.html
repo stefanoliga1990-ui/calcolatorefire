@@ -1,0 +1,121 @@
+<section class="content-section" id="domanda" aria-labelledby="domanda-title">
+    <h2 id="domanda-title">Scegli il metodo in base alla domanda</h2>
+    <p>
+        Se vuoi finanziare una spesa per un numero definito di anni e stabilire quanto capitale conservare alla fine,
+        usa <strong>FINITE</strong> come calcolo condizionato alle ipotesi. Se vuoi partire da una percentuale di
+        prelievo iniziale rispetto al patrimonio, usa <strong>SWR</strong> come riferimento iniziale e controlla poi
+        la durata nella proiezione. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 6, 7 e 9</a>
+        descrive le due regole del motore.
+    </p>
+    <p>
+        Prima di scegliere, definisci la spesa che il patrimonio dovrà coprire. La
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia, nella guida alla pianificazione</a>
+        suggerisce di partire da entrate e uscite osservate, includere spese poco frequenti e rivedere gli obiettivi.
+        Il simulatore porta la spesa mensile in euro di oggi alla data FIRE mediante l'inflazione ipotizzata.
+    </p>
+</section>
+
+<section class="content-section" id="confronto" aria-labelledby="confronto-title">
+    <h2 id="confronto-title">FINITE incorpora la durata; SWR verifica la durata dopo il target</h2>
+    <p>
+        FINITE attualizza i prelievi mensili della durata scelta con il rendimento reale ipotizzato e aggiunge
+        l'eventuale capitale finale desiderato. Il primo prelievo avviene all'inizio del primo mese FIRE. SWR,
+        senza risorse aggiuntive, divide invece il primo fabbisogno annuo per il tasso scelto. Quel tasso è una
+        <em>quota iniziale del capitale</em>, non il rendimento del portafoglio e non una percentuale da applicare
+        ogni anno al saldo residuo. Le formule sono nella
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 5–7</a>.
+    </p>
+    <table>
+        <thead>
+            <tr><th scope="col">Domanda</th><th scope="col">FINITE</th><th scope="col">SWR</th></tr>
+        </thead>
+        <tbody>
+            <tr><th scope="row">Input che definisce il target</th><td>Durata FIRE, rendimento nel FIRE, inflazione e capitale finale.</td><td>Primo fabbisogno annuo e tasso di prelievo iniziale.</td></tr>
+            <tr><th scope="row">Ruolo della durata</th><td>Entra nel calcolo del capitale necessario.</td><td>Entra nella proiezione che controlla i prelievi mese per mese.</td></tr>
+            <tr><th scope="row">Risposta da leggere</th><td>Capitale per i flussi ipotizzati lungo l'orizzonte scelto.</td><td>Capitale di partenza secondo il tasso scelto, da confrontare con shortfall e saldo finale.</td></tr>
+        </tbody>
+    </table>
+    <p>
+        Il rendimento e la durata restano necessari anche quando selezioni SWR, perché il motore proietta i
+        prelievi mensili. Se il capitale non basta, segnala il primo mese con fabbisogno non coperto. Un capitale
+        finale desiderato, invece, influisce sul target FINITE ma non sul target SWR senza risorse aggiuntive.
+        Con rendite o capitali futuri le formule di entrambi i metodi cambiano secondo le sezioni 20 e 21 della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica del motore</a>.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Con gli stessi input i due target possono divergere</h2>
+    <p>
+        Esempio didattico: ingresso nel FIRE oggi, spesa interamente finanziata dal portafoglio di 2.000 euro al
+        mese, durata di 30 anni, capitale finale desiderato pari a zero, nessuna risorsa aggiuntiva. Per isolare
+        la differenza tra i metodi poniamo inflazione, rendimento nel FIRE, aliquota e bollo del simulatore a
+        zero. Impostiamo una SWR del 4% solo come ipotesi di calcolo, non come tasso consigliato. Tutti gli
+        importi sono nominali e, con inflazione zero, coincidono con gli euro di oggi.
+    </p>
+    <pre class="formula"><code>Durata = 30 × 12 = 360 mesi
+FINITE = 2.000 euro/mese × 360 mesi = 720.000 euro
+Primo fabbisogno annuo = 2.000 × 12 = 24.000 euro
+SWR = 24.000 ÷ 0,04 = 600.000 euro</code></pre>
+    <p>
+        Con rendimento zero, 600.000 euro coprono 300 prelievi mensili da 2.000 euro: il primo fabbisogno
+        scoperto arriva nel mese 301, dopo 25 anni. Il target FINITE copre i 360 prelievi previsti e termina a
+        zero per costruzione. È un'applicazione delle formule e del momento dei prelievi documentati nella
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 2, 6, 7 e 9</a>;
+        il calcolo è esatto negli input scelti e non descrive un rendimento futuro probabile. Con altri
+        rendimenti, imposte, rendite o un capitale finale richiesto il confronto cambia.
+    </p>
+</section>
+
+<section class="content-section" id="procedura" aria-labelledby="procedura-title">
+    <h2 id="procedura-title">Confronta i metodi cambiando un input alla volta</h2>
+    <ol>
+        <li>Stima una spesa mensile documentata in euro di oggi e indica età, durata e capitale già disponibile.</li>
+        <li>Imposta inflazione, rendimenti, risorse aggiuntive e opzioni fiscali; annota queste ipotesi.</li>
+        <li>Esegui FINITE con il capitale finale che vuoi esaminare, poi SWR con un tasso dichiarato, lasciando uguali gli altri input.</li>
+        <li>Confronta target, PAC necessario, primo shortfall e saldo finale della proiezione; ripeti con ipotesi diverse senza trattarle come previsioni.</li>
+    </ol>
+    <p>
+        Questa procedura è una lettura del modello, non una raccomandazione finanziaria. L'obiettivo va
+        ricontrollato se cambiano spese e circostanze, come ricorda la
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia, sezione sulla verifica del budget</a>.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Nessuno dei due target certifica la sostenibilità reale</h2>
+    <p>
+        Il simulatore usa rendimenti costanti: una proiezione senza shortfall dice soltanto che i flussi
+        risultano coperti <em>con quegli input</em>. Lo
+        <a href="https://www.coronation.com/assets/Coroconnect/An%20International%20Perspective%20on%20Safe%20Withdrawal%20Rates%20from%20Retirement%20Savings.pdf" data-source-id="SRC-2026-0008">studio internazionale di Wade Pfau, sezioni 2–4 e tabella 3</a>
+        mostra quanto i risultati storici dei prelievi possano cambiare tra mercati. Esamina 17 paesi, dati
+        dal 1900 al 2008 e orizzonti simulati di 30 anni; assume in parte un'allocazione scelta conoscendo
+        il futuro ed esclude costi amministrativi e imposte. Non fornisce una SWR garantita per l'Italia.
+    </p>
+    <p>
+        FINITE è sensibile a durata e rendimento ipotizzati. SWR è sensibile al tasso iniziale scelto e la
+        proiezione può esaurirsi prima dell'orizzonte. Risorse future con decorrenze diverse, spese non
+        previste, costi e fiscalità individuale possono modificare entrambi i risultati. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 19–22</a>
+        distingue anche la disponibilità temporale di rendite e capitali.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="limiti-avvertenza-title">
+        <h3 id="limiti-avvertenza-title">Leggi target e proiezione insieme</h3>
+        <p>
+            Un target iniziale più basso non significa maggiore sicurezza. Se compare uno shortfall, lo
+            scenario non copre l'intera spesa indicata; se non compare, resta comunque uno scenario
+            deterministico basato sulle ipotesi inserite.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Parti dall'orizzonte o dal tasso che vuoi esaminare</h2>
+    <p>
+        Usa FINITE per chiedere quale capitale richiede una durata definita con un saldo finale scelto. Usa SWR
+        per chiedere quale capitale corrisponde a un tasso di prelievo iniziale e poi verifica se la proiezione
+        copre la durata. Conserva le ipotesi accanto ai risultati e confronta più scenari: è il modo più chiaro
+        per capire perché due target diversi rispondono a domande diverse.
+    </p>
+</section>
