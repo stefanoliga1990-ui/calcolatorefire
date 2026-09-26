@@ -295,7 +295,7 @@
     {
       "id": "GUIDE-0007",
       "content_type": "guide",
-      "status": "ready",
+      "status": "pushed_to_main",
       "execution_mode": "automatic",
       "automation_eligible": true,
       "sequence": 7,

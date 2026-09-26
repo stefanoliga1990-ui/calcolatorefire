@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-26T12:03:21+02:00"
+        "last_accessed_at": "2026-09-26T18:03:35+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -40,7 +40,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-26T12:03:21+02:00",
+        "checked_at": "2026-09-26T18:03:35+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -81,6 +81,12 @@
           "claim": "Il motore converte i tassi annui in equivalenti mensili, rivaluta la spesa fino al FIRE e usa il rapporto esatto tra rendimento nominale e inflazione per il rendimento reale.",
           "importance": "central",
           "verified_at": "2026-09-26T12:03:21+02:00"
+        },
+        {
+          "content_id": "GUIDE-0007",
+          "claim": "Il motore distingue investimento o PAC esistente, rendita periodica e capitale futuro; ne applica decorrenza, disponibilità, trattamento nel target e regole contro il doppio conteggio.",
+          "importance": "central",
+          "verified_at": "2026-09-26T18:03:35+02:00"
         }
       ],
       "limitations": [
@@ -106,7 +112,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-26T15:08:00+02:00"
+        "last_accessed_at": "2026-09-26T18:03:35+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -124,7 +130,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-26T15:08:00+02:00",
+        "checked_at": "2026-09-26T18:03:35+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -165,6 +171,12 @@
           "claim": "Il simulatore applica un modello fiscale semplificato con default 26% e 0,20%, costo fiscale, plusvalenza latente, vendita lorda fiscalizzata e bollo mensile equivalente; numerose fattispecie reali restano escluse.",
           "importance": "central",
           "verified_at": "2026-09-26T15:08:00+02:00"
+        },
+        {
+          "content_id": "GUIDE-0007",
+          "claim": "Il modello fiscale tratta rendite periodiche e capitali futuri come importi netti; investimenti esistenti conservano saldo e costo fiscale separati, con esclusioni fiscali esplicite.",
+          "importance": "central",
+          "verified_at": "2026-09-26T18:03:35+02:00"
         }
       ],
       "limitations": [
@@ -423,25 +435,25 @@
         "published": "2017-04-03",
         "updated": "2025-07-31",
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-24T21:05:22+02:00"
+        "last_accessed_at": "2026-09-26T18:03:35+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-24",
+        "as_of": "2026-09-26",
         "reference_period": "Servizio basato sulla normativa vigente e sulla posizione contributiva dell'utente",
         "version": "Aggiornamento del 31 luglio 2025",
         "provisional": false
       },
       "locator": {
         "article": null,
-        "section": "Cos'è; Come funziona",
+        "section": "Cos'è; A chi è rivolto; Come funziona",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-24T21:05:22+02:00",
+        "checked_at": "2026-09-26T18:03:35+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -452,11 +464,18 @@
           "claim": "Il servizio INPS permette agli utenti coperti di controllare la contribuzione e simulare importo e data della pensione sulla base della normativa vigente.",
           "importance": "central",
           "verified_at": "2026-09-24T21:05:22+02:00"
+        },
+        {
+          "content_id": "GUIDE-0007",
+          "claim": "Il servizio INPS consente agli utenti delle gestioni elencate di simulare data e importo presumibili della pensione in moneta costante, sulla base di età, contribuzione e reddito.",
+          "importance": "central",
+          "verified_at": "2026-09-26T18:03:35+02:00"
         }
       ],
       "limitations": [
         "La stima dipende dalla normativa e dai dati contributivi disponibili e non è una prestazione garantita.",
-        "L'accesso e le funzionalità disponibili dipendono dalla gestione previdenziale dell'utente."
+        "L'accesso e le funzionalità disponibili dipendono dalla gestione previdenziale dell'utente.",
+        "La stima INPS è espressa a moneta costante; il simulatore FIRE richiede un importo mensile netto in euro di oggi. Conversione, decorrenza e imposte individuali non sono determinate da questa pagina."
       ],
       "conflicts": [],
       "local_copy": null,
@@ -606,7 +625,7 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-25T22:57:33+02:00",
-        "last_accessed_at": "2026-09-26T12:03:21+02:00"
+        "last_accessed_at": "2026-09-26T18:03:35+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -624,7 +643,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-26T12:03:21+02:00",
+        "checked_at": "2026-09-26T18:03:35+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -641,10 +660,17 @@
           "claim": "Il rendimento futuro è incerto, un'inflazione inattesa può ridurne il valore reale e costi e rischio vanno considerati insieme all'orizzonte temporale.",
           "importance": "central",
           "verified_at": "2026-09-26T12:03:21+02:00"
+        },
+        {
+          "content_id": "GUIDE-0007",
+          "claim": "Il rendimento può comprendere interessi, dividendi e variazioni del capitale; rendimento futuro e potere d’acquisto sono incerti.",
+          "importance": "central",
+          "verified_at": "2026-09-26T18:03:35+02:00"
         }
       ],
       "limitations": [
-        "Pagina di educazione finanziaria generale: non indica un rendimento futuro per un PAC né un prodotto adatto al singolo lettore."
+        "Pagina di educazione finanziaria generale: non indica un rendimento futuro per un PAC né un prodotto adatto al singolo lettore.",
+        "I principi generali non determinano il rendimento, il canone o la disponibilità di una specifica risorsa futura."
       ],
       "conflicts": [],
       "local_copy": null,

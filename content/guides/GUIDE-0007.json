@@ -1,0 +1,62 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0007",
+  "slug": "/guida/rendite-pensione-capitali-futuri",
+  "seo": {
+    "title": "Pensione, rendite e capitali futuri nel calcolo FIRE",
+    "description": "Scopri come inserire pensione stimata, rendite, investimenti esistenti e capitali futuri nel simulatore FIRE, rispettando tempi e importi senza doppi conteggi.",
+    "og_title": "Risorse aggiuntive nel piano FIRE",
+    "og_description": "Tre tipi di risorsa, tempi diversi e controlli per evitare doppi conteggi nel calcolo FIRE."
+  },
+  "page": {
+    "kicker": "Risorse aggiuntive",
+    "h1": "Rendite, pensione e capitali futuri nel piano FIRE",
+    "lead": "Come considerare una pensione futura o altre entrate nel calcolo FIRE? Classifica ogni risorsa come investimento esistente, rendita mensile o capitale una tantum; inserisci quando sarà disponibile e controlla che non sia già compresa nel patrimonio o nel rendimento. Una pensione stimata è una rendita futura ipotetica, non un capitale disponibile oggi."
+  },
+  "dates": {
+    "published": "2026-09-26",
+    "updated": "2026-09-26"
+  },
+  "summary_points": [
+    "Un investimento o PAC esistente è un patrimonio con eventuali nuovi versamenti; entra nel capitale al FIRE solo se lo indichi come disponibile.",
+    "Una rendita periodica è un importo mensile netto: può essere investita prima del FIRE oppure ridurre i prelievi nei mesi in cui è attiva.",
+    "Un capitale futuro una tantum conta dal momento della ricezione e non può coprire spese precedenti.",
+    "La pensione pubblica va stimata separatamente con i dati e gli strumenti dell'INPS; il simulatore FIRE non calcola il diritto o l'importo individuale.",
+    "Il patrimonio e i suoi proventi non devono essere contati due volte tra capitale iniziale, risorse e rendite."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0007",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia delle risorse aggiuntive",
+      "reason": "Spiega i confini temporali, le formule e i limiti del motore."
+    },
+    {
+      "url": "/guida/fire-italia",
+      "label": "Guida al FIRE in Italia",
+      "reason": "Colloca pensione e patrimonio nel quadro generale del percorso FIRE."
+    },
+    {
+      "url": "/guida/tassazione-fire-italia",
+      "label": "Guida alla tassazione nel simulatore",
+      "reason": "Chiarisce quali imposte il modello stima e quali entrate richiedono importi già netti."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Permette di confrontare scenari con risorse aggiuntive e senza."
+    }
+  ],
+  "cta": {
+    "title": "Prova una risorsa alla volta",
+    "text": "Parti da uno scenario senza risorse, poi aggiungi un investimento, una rendita o un capitale futuro con importo e decorrenza documentati. Controlla come cambiano target, PAC e proiezione.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

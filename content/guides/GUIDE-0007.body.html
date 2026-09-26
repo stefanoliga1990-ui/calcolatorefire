@@ -1,0 +1,118 @@
+<section class="content-section" id="tre-risorse" aria-labelledby="tre-risorse-title">
+    <h2 id="tre-risorse-title">Tre risorse diverse richiedono tre trattamenti diversi</h2>
+    <p>
+        Il simulatore separa un patrimonio già investito, un'entrata periodica e una somma ricevuta una volta sola.
+        Nome e provenienza della risorsa non cambiano il calcolo: contano tipo, importo, decorrenza e disponibilità.
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica del motore, sezioni 16–19</a>
+        descrive il trattamento di ciascun tipo.
+    </p>
+    <ul>
+        <li><strong>Investimento o PAC esistente:</strong> indica un capitale attuale distinto dal patrimonio principale, eventuali versamenti futuri e se il saldo sarà disponibile quando inizia il FIRE. I versamenti storici sono già nel capitale attuale.</li>
+        <li><strong>Rendita periodica:</strong> indica un'entrata mensile netta, con inizio, eventuale fine e crescita ipotizzata. Può essere investita prima del FIRE oppure ridurre il prelievo nei mesi FIRE in cui è attiva.</li>
+        <li><strong>Capitale futuro:</strong> indica una somma netta disponibile una sola volta. Prima della ricezione non può finanziare spese o prelievi.</li>
+    </ul>
+    <p>
+        Il rendimento di un investimento comprende potenzialmente interessi, dividendi e variazioni del prezzo, come
+        spiega la <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia nella sezione sul rendimento</a>.
+        Se il rendimento impostato comprende proventi reinvestiti, inserirli anche come rendita ripeterebbe lo stesso flusso.
+    </p>
+</section>
+
+<section class="content-section" id="pensione" aria-labelledby="pensione-title">
+    <h2 id="pensione-title">La pensione stimata entra come rendita dalla sua decorrenza</h2>
+    <p>
+        Per rappresentare una pensione pubblica nel piano FIRE, usa una rendita periodica a partire dal confine temporale
+        in cui ipotizzi che sia disponibile. Non aggiungere il valore attualizzato delle rate come capitale iniziale:
+        il motore sottrae la rendita dal fabbisogno soltanto nei mesi in cui è attiva, secondo la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 17, 19 e 21</a>.
+    </p>
+    <p>
+        Il servizio <a href="https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.la-mia-pensione-futura-simulazione-della-propria-pensione-50033.la-mia-pensione-futura-simulazione-della-propria-pensione.html" data-source-id="SRC-2026-0007">La mia pensione futura dell'INPS</a>
+        consente agli utenti delle gestioni indicate di verificare contributi e simulare data e importo presumibili in
+        moneta costante sulla base della normativa in vigore, di età, storia lavorativa e reddito. Il simulatore FIRE
+        non ricostruisce la posizione contributiva né calcola il diritto alla prestazione. Una stima INPS va quindi
+        interpretata con le sue ipotesi; prima di usarla come input serve valutare l'importo mensile effettivamente
+        spendibile, la decorrenza e la coerenza tra euro di oggi e crescita nominale ipotizzata.
+    </p>
+    <p>
+        Regole previdenziali e situazione personale possono cambiare: per importo, tassazione e diritto individuali occorre
+        verificare la posizione presso INPS e, quando necessario, con un professionista qualificato.
+    </p>
+</section>
+
+<section class="content-section" id="tempi" aria-labelledby="tempi-title">
+    <h2 id="tempi-title">La data di disponibilità determina dove la risorsa incide</h2>
+    <p>
+        Un investimento dichiarato disponibile al FIRE concorre al capitale di ingresso; se non è disponibile resta
+        fuori dal target e dal PAC principale. Una rendita investita durante l'accumulo può ridurre il nuovo PAC
+        richiesto; durante il FIRE, se usata per la spesa, riduce il fabbisogno da prelevare dal portafoglio fino a
+        un minimo di zero. L'eccedenza non viene investita automaticamente.
+        Un capitale una tantum ricevuto prima o all'ingresso nel FIRE contribuisce al capitale disponibile; se arriva
+        dopo, entra solo dal mese di ricezione. Sono le regole delle
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">sezioni 18–22 della specifica</a>.
+    </p>
+    <p>
+        Nel metodo SWR, una rendita che parte più tardi non riduce retroattivamente i prelievi iniziali: il motore
+        considera un capitale ponte fino alla decorrenza e una riserva sul fabbisogno successivo. Nel metodo FINITE
+        ricalcola invece mese per mese il capitale necessario. Entrambi i risultati dipendono dalle ipotesi, e la
+        proiezione può segnalare un fabbisogno non coperto.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Esempio: una pensione futura non cancella il ponte iniziale</h2>
+    <p>
+        Esempio ipotetico per isolare il tempo: ingresso nel FIRE al mese zero, orizzonte di 30 anni,
+        spesa di 2.000 euro mensili, pensione netta ipotizzata di 1.200 euro mensili in euro di oggi
+        dall'inizio del mese 121 e poi senza fine, SWR del 4%,
+        rendimento, inflazione, crescita della rendita, aliquota sulle plusvalenze e bollo pari a zero.
+        Nei primi 120 mesi il portafoglio deve coprire 2.000 euro al mese; dopo, 800 euro.
+        Con le regole del <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">capitale ponte e della riserva SWR, sezione 21</a>:
+    </p>
+    <pre class="formula"><code>target base = 2.000 × 12 / 0,04 = 600.000 euro
+ponte = 2.000 × 120 = 240.000 euro
+riserva dal mese 121 = 800 × 12 / 0,04 = 240.000 euro
+target con risorsa = min(600.000, 240.000 + 240.000) = 480.000 euro</code></pre>
+    <p>
+        Il calcolo mostra perché sottrarre subito 1.200 euro dalla spesa di tutti i mesi darebbe un risultato errato.
+        L'importo pensionistico e la data sono assunti per l'esempio: non sono una stima INPS, una previsione o una
+        garanzia di sostenibilità. Con fiscalità, rendimento, inflazione o durata diversi occorre leggere la
+        proiezione completa, non riutilizzare il numero di questo esempio.
+    </p>
+</section>
+
+<section class="content-section" id="doppi-conteggi" aria-labelledby="doppi-conteggi-title">
+    <h2 id="doppi-conteggi-title">Controlla che patrimonio ed entrate compaiano una volta sola</h2>
+    <ol>
+        <li>Se un investimento è già in «Patrimonio investito oggi», non inserirlo di nuovo come investimento esistente. Il suo PAC futuro va nella risorsa soltanto se non fa parte del nuovo PAC che stai valutando.</li>
+        <li>Se usi un rendimento complessivo che include cedole o dividendi reinvestiti, non inserire gli stessi proventi come rendita separata. Se li spendi come rendita, il rendimento attribuito al patrimonio deve escluderli.</li>
+        <li>Se una somma una tantum è già compresa nel capitale attuale, non inserirla di nuovo come capitale futuro. Se è soltanto attesa, dichiarane la data e prova anche uno scenario senza di essa.</li>
+    </ol>
+    <p>
+        Il motore somma le risorse e non può riconoscere due descrizioni dello stesso denaro: lo specifica la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">sezione 23 della specifica</a>.
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 1 e 5–7</a>
+        chiarisce inoltre che rendite e capitali futuri sono importi netti inseriti dall'utente: il modello non
+        calcola le loro imposte personali, mentre mantiene saldo e costo fiscale dei portafogli investiti.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Rivedi le ipotesi quando la risorsa è incerta</h2>
+    <p>
+        Importo, decorrenza e durata di pensioni, canoni o altri flussi possono differire dalle ipotesi. Anche il
+        rendimento di un patrimonio investito è incerto: la
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia, sezione sul rischio</a>
+        ricorda che prezzi e proventi possono variare e che l'inflazione inattesa riduce il potere d'acquisto.
+        Il simulatore usa traiettorie deterministiche e non attribuisce probabilità all'arrivo di un capitale futuro.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="risorsa-incerta-title">
+        <h3 id="risorsa-incerta-title">Una risorsa attesa resta un'ipotesi</h3>
+        <p>Confronta uno scenario che la include con uno che la esclude o la posticipa. Non considerare il risultato come diritto previdenziale, reddito garantito o consiglio finanziario personale.</p>
+    </aside>
+    <p>
+        Per impostare il piano, documenta per ciascuna risorsa importo netto, data iniziale, eventuale fine e rapporto
+        con il patrimonio già dichiarato. Poi confronta target, PAC e mesi con eventuale fabbisogno non coperto nella
+        <a href="/metodologia">metodologia</a> e nel <a href="/">simulatore</a>.
+    </p>
+</section>
