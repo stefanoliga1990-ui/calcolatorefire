@@ -1,0 +1,61 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0005",
+  "slug": "/guida/inflazione-rendimenti-fire",
+  "seo": {
+    "title": "Inflazione e rendimenti nel FIRE: come cambiano i calcoli",
+    "description": "Capisci come inflazione, rendimento nominale e rendimento reale modificano spesa futura, capitale FIRE e PAC nel simulatore.",
+    "og_title": "Inflazione e rendimenti nel calcolo FIRE",
+    "og_description": "Una guida per distinguere rendimento nominale e reale e confrontare scenari FIRE senza trattare le ipotesi come previsioni."
+  },
+  "page": {
+    "kicker": "Ipotesi finanziarie",
+    "h1": "Inflazione e rendimenti nel calcolo FIRE",
+    "lead": "Inflazione e rendimento agiscono su parti diverse del piano FIRE: la prima aumenta nel tempo la spesa nominale e riduce il potere d'acquisto, il secondo può far crescere il capitale ma resta incerto. Questa guida mostra come il simulatore collega le due variabili e come confrontare scenari prudenti."
+  },
+  "dates": {
+    "published": "2026-09-26",
+    "updated": "2026-09-26"
+  },
+  "summary_points": [
+    "L'inflazione rivaluta la spesa di oggi fino alla data FIRE e riduce il rendimento reale disponibile durante il FIRE.",
+    "Il rendimento di accumulo influenza la crescita del patrimonio e dei versamenti, quindi il PAC necessario, ma non è una promessa.",
+    "Nel metodo FINITE un rendimento reale più alto riduce il capitale teorico richiesto; nel metodo SWR il rendimento FIRE non cambia direttamente il target base, ma incide sulla proiezione.",
+    "Rendimento nominale e inflazione si combinano con un rapporto esatto: sottrarli è soltanto un'approssimazione.",
+    "È più utile confrontare scenari coerenti e osservare la sensibilità dei risultati che cercare un unico tasso corretto."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0005",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Documenta conversione dei tassi, rivalutazione della spesa e formule di accumulo e decumulo."
+    },
+    {
+      "url": "/guida/numero-fire",
+      "label": "Guida al numero FIRE",
+      "reason": "Spiega come le ipotesi confluiscono nel capitale obiettivo."
+    },
+    {
+      "url": "/guida/pac-per-raggiungere-il-fire",
+      "label": "Guida al PAC per il FIRE",
+      "reason": "Approfondisce l'effetto del rendimento di accumulo sul versamento mensile."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Permette di confrontare scenari modificando una variabile alla volta."
+    }
+  ],
+  "cta": {
+    "title": "Confronta inflazione e rendimenti",
+    "text": "Crea uno scenario di partenza, poi modifica una sola ipotesi alla volta e confronta capitale richiesto, PAC e proiezioni.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

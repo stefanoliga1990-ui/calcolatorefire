@@ -1,0 +1,132 @@
+<section class="content-section" id="due-variabili" aria-labelledby="due-variabili-title">
+    <h2 id="due-variabili-title">Inflazione e rendimento non sono la stessa leva</h2>
+    <p>
+        L'inflazione descrive un aumento continuo e generalizzato dei prezzi. A parità di denaro, nel tempo puoi
+        acquistare meno beni e servizi: è la perdita di potere d'acquisto descritta nelle
+        <a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/" data-source-id="SRC-2026-0005">FAQ ISTAT sui prezzi al consumo</a>.
+        Il rendimento descrive invece il guadagno o la perdita prodotto dal capitale investito.
+    </p>
+    <p>
+        Nel piano FIRE le due variabili interagiscono, ma non si annullano automaticamente. L'inflazione aumenta
+        la spesa nominale che dovrai finanziare; il rendimento può accrescere il patrimonio, con un risultato
+        futuro incerto. La
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">guida agli investimenti della Banca d'Italia</a>
+        ricorda che rendimento, rischio, tempo e costi vanno considerati insieme e che l'inflazione inattesa può
+        ridurre il valore reale degli investimenti.
+    </p>
+</section>
+
+<section class="content-section" id="nominale-reale" aria-labelledby="nominale-reale-title">
+    <h2 id="nominale-reale-title">Il rendimento reale misura la crescita del potere d'acquisto</h2>
+    <p>
+        Un rendimento nominale indica come cambia l'importo in euro. Il rendimento reale corregge quel risultato
+        per la variazione dei prezzi. Il simulatore converte prima i tassi annui effettivi nei corrispondenti tassi
+        mensili e, durante il FIRE, calcola il rendimento reale con un rapporto, non con una semplice sottrazione.
+        La convenzione è documentata nella
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezione 4</a>.
+    </p>
+    <pre class="formula"><code>tasso_mensile = (1 + tasso_annuo)^(1/12) − 1
+rendimento_reale = (1 + rendimento_nominale) / (1 + inflazione) − 1</code></pre>
+    <p>
+        Con rendimento nominale annuo del 4% e inflazione del 2%, il rendimento reale annuo equivalente è circa
+        1,96%, non esattamente 2%. Se l'inflazione sale al 3% lasciando invariato il rendimento nominale, il valore
+        reale scende a circa 0,97%. Sono esempi matematici, non stime dei tassi futuri.
+    </p>
+</section>
+
+<section class="content-section" id="simulatore" aria-labelledby="simulatore-title">
+    <h2 id="simulatore-title">Nel simulatore le variabili agiscono in momenti diversi</h2>
+    <p>
+        Prima del FIRE, l'inflazione rivaluta la spesa mensile inserita in euro di oggi fino alla data di uscita
+        dal lavoro. Il rendimento di accumulo fa invece crescere il patrimonio presente e ogni versamento del PAC.
+        Un rendimento di accumulo più alto tende quindi a ridurre il nuovo PAC richiesto, a parità di target e di
+        tutte le altre condizioni.
+    </p>
+    <p>
+        Durante il FIRE, il metodo FINITE usa il rendimento reale per calcolare il valore attuale dei prelievi:
+        a parità di spesa e durata, un rendimento reale più alto riduce il target teorico. Nel metodo SWR il target
+        base deriva invece dal primo fabbisogno annuo diviso per la percentuale di prelievo. Il rendimento FIRE non
+        modifica direttamente quella formula, ma resta decisivo nella proiezione che verifica saldo e possibili
+        shortfall. La distinzione completa è nella <a href="/guida/numero-fire">guida al numero FIRE</a>.
+    </p>
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Ipotesi aumentata</th>
+                <th>Effetto diretto nel modello</th>
+                <th>Lettura prudente</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Inflazione</td>
+                <td>Spesa futura più alta e rendimento reale FIRE più basso</td>
+                <td>Il target e il PAC possono aumentare</td>
+            </tr>
+            <tr>
+                <td>Rendimento in accumulo</td>
+                <td>Patrimonio e versamenti capitalizzano di più</td>
+                <td>Il PAC calcolato può diminuire, ma l'ipotesi è incerta</td>
+            </tr>
+            <tr>
+                <td>Rendimento nel FIRE</td>
+                <td>Rendimento reale più alto a inflazione invariata</td>
+                <td>Riduce il target FINITE; nel metodo SWR incide soprattutto sulla proiezione</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Un esempio separa euro futuri e potere d'acquisto</h2>
+    <p>
+        Considera 1.500 euro di spesa mensile di oggi e un ingresso nel FIRE tra 20 anni. Con inflazione annua
+        costante del 2%, la prima spesa mensile nominale diventa circa 2.228,92 euro. Con inflazione del 3%, a parità
+        di tutto il resto, sale a circa 2.709,17 euro. Il simulatore applica lo stesso principio mese per mese usando
+        il tasso mensile equivalente.
+    </p>
+    <pre class="formula"><code>Spesa al FIRE con inflazione 2% = 1.500 × 1,02^20 ≈ 2.228,92 euro
+Spesa al FIRE con inflazione 3% = 1.500 × 1,03^20 ≈ 2.709,17 euro</code></pre>
+    <p>
+        Ora considera 100.000 euro investiti per gli stessi 20 anni a un rendimento nominale costante del 4%, senza
+        versamenti, costi o imposte. Il valore nominale finale è circa 219.112 euro in entrambi gli scenari. Espresso
+        nel potere d'acquisto iniziale, equivale però a circa 147.456 euro con inflazione al 2% e 121.317 euro con
+        inflazione al 3%. L'esempio mostra perché un saldo nominale da solo non basta a descrivere il risultato reale.
+    </p>
+</section>
+
+<section class="content-section" id="scenari" aria-labelledby="scenari-title">
+    <h2 id="scenari-title">Confronta scenari coerenti, non un solo risultato</h2>
+    <p>
+        Non esiste un tasso futuro certo da inserire. La Banca d'Italia sottolinea che i rendimenti possono risultare
+        diversi da quelli sperati e che costi e oscillazioni incidono sul risultato. Per questo il simulatore è più
+        utile come confronto di sensibilità: crea uno scenario di base, poi modifica una variabile alla volta e osserva
+        come cambiano capitale necessario, <a href="/guida/pac-per-raggiungere-il-fire">PAC</a> e proiezioni.
+    </p>
+    <ul>
+        <li>Non alzare il rendimento soltanto per ottenere un PAC compatibile con il budget.</li>
+        <li>Non usare automaticamente l'ultimo dato di inflazione come previsione per decenni.</li>
+        <li>Controlla se il rendimento inserito è coerente con costi e fiscalità considerati nello scenario.</li>
+        <li>Osserva anche gli shortfall e il capitale finale, non soltanto il target iniziale.</li>
+    </ul>
+    <aside class="content-notice warning" aria-labelledby="limite-sequenza-title">
+        <h3 id="limite-sequenza-title">Il modello non simula la sequenza reale dei mercati</h3>
+        <p>
+            Il simulatore applica tassi medi costanti. Due percorsi con la stessa media possono produrre effetti diversi
+            quando i rendimenti oscillano, soprattutto durante i prelievi. Il risultato è uno scenario deterministico,
+            non una probabilità di successo.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Usa inflazione e rendimento per misurare la sensibilità del piano</h2>
+    <p>
+        Parti da ipotesi esplicite, verifica in <a href="/metodologia">metodologia</a> come vengono trasformate e
+        confronta più combinazioni nel <a href="/">simulatore FIRE</a>. L'obiettivo non è trovare il numero più
+        favorevole, ma capire quali variabili rendono fragile il piano e quanto margine resta quando inflazione,
+        rendimento o costi si discostano dallo scenario iniziale.
+    </p>
+</section>

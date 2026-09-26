@@ -1,7 +1,7 @@
 {
   "$schema": "./registro-fonti.schema.json",
   "schema_version": "1.0",
-  "updated_at": "2026-09-25",
+  "updated_at": "2026-09-26",
   "next_id_by_year": {
     "2026": 11
   },
@@ -22,12 +22,12 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-25T22:57:33+02:00"
+        "last_accessed_at": "2026-09-26T12:03:21+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-25",
+        "as_of": "2026-09-26",
         "reference_period": "Versione del motore verificata su main",
         "version": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
         "provisional": false
@@ -40,7 +40,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-25T22:57:33+02:00",
+        "checked_at": "2026-09-26T12:03:21+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -75,6 +75,12 @@
           "claim": "Il PAC iniziale dipende da target, patrimonio presente, mesi, rendimento di accumulo e crescita dei versamenti; i contributi entrano a fine mese.",
           "importance": "central",
           "verified_at": "2026-09-25T22:57:33+02:00"
+        },
+        {
+          "content_id": "GUIDE-0005",
+          "claim": "Il motore converte i tassi annui in equivalenti mensili, rivaluta la spesa fino al FIRE e usa il rapporto esatto tra rendimento nominale e inflazione per il rendimento reale.",
+          "importance": "central",
+          "verified_at": "2026-09-26T12:03:21+02:00"
         }
       ],
       "limitations": [
@@ -295,12 +301,12 @@
         "published": "2024-02-22",
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-25T12:41:13+02:00"
+        "last_accessed_at": "2026-09-26T12:03:21+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-25",
+        "as_of": "2026-09-26",
         "reference_period": "Definizioni e metodologia generale degli indici dei prezzi al consumo",
         "version": "Pagina pubblicata il 22 febbraio 2024",
         "provisional": false
@@ -313,7 +319,7 @@
         "dataset_or_series": "Indici NIC, IPCA e FOI"
       },
       "verification": {
-        "checked_at": "2026-09-25T12:41:13+02:00",
+        "checked_at": "2026-09-26T12:03:21+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -330,6 +336,12 @@
           "claim": "L'inflazione riduce il potere d'acquisto e l'indice nazionale non replica necessariamente il paniere della singola famiglia.",
           "importance": "central",
           "verified_at": "2026-09-25T12:41:13+02:00"
+        },
+        {
+          "content_id": "GUIDE-0005",
+          "claim": "L'inflazione è un aumento continuo e generalizzato dei prezzi, riduce il potere d'acquisto ed è misurata in Italia tramite indici dei prezzi al consumo basati su un paniere ponderato.",
+          "importance": "central",
+          "verified_at": "2026-09-26T12:03:21+02:00"
         }
       ],
       "limitations": [
@@ -588,12 +600,12 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-25T22:57:33+02:00",
-        "last_accessed_at": "2026-09-25T22:57:33+02:00"
+        "last_accessed_at": "2026-09-26T12:03:21+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-25",
+        "as_of": "2026-09-26",
         "reference_period": "Principi generali su rendimento, rischio, orizzonte e costi degli investimenti",
         "version": null,
         "provisional": false
@@ -606,7 +618,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-25T22:57:33+02:00",
+        "checked_at": "2026-09-26T12:03:21+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -617,6 +629,12 @@
           "claim": "I rendimenti futuri sono incerti; durata, oscillazioni e costi influenzano il risultato di un piano di accumulo.",
           "importance": "central",
           "verified_at": "2026-09-25T22:57:33+02:00"
+        },
+        {
+          "content_id": "GUIDE-0005",
+          "claim": "Il rendimento futuro è incerto, un'inflazione inattesa può ridurne il valore reale e costi e rischio vanno considerati insieme all'orizzonte temporale.",
+          "importance": "central",
+          "verified_at": "2026-09-26T12:03:21+02:00"
         }
       ],
       "limitations": [
