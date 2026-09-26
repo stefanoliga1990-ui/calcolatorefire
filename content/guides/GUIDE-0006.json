@@ -1,0 +1,63 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0006",
+  "slug": "/guida/tassazione-fire-italia",
+  "seo": {
+    "title": "Tassazione FIRE in Italia: cosa calcola il simulatore",
+    "description": "Scopri come il simulatore FIRE stima imposta sulle plusvalenze, bollo, costo fiscale e prelievo netto, e quali casi restano esclusi.",
+    "og_title": "Tassazione e FIRE in Italia: il modello del simulatore",
+    "og_description": "Una panoramica delle imposte stimate su accumulo e prelievi, con esempi, fonti e limiti del modello fiscale."
+  },
+  "page": {
+    "kicker": "Fiscalità e simulatore",
+    "h1": "Tassazione e FIRE in Italia: cosa considera il simulatore",
+    "lead": "Come incidono le imposte sul capitale necessario per il FIRE? Il simulatore stima un'imposta sulle plusvalenze realizzate quando vende quote del portafoglio e una riduzione equivalente al bollo sugli investimenti. Questa guida spiega come leggere quei risultati e dove il modello fiscale si ferma."
+  },
+  "dates": {
+    "published": "2026-09-26",
+    "updated": "2026-09-26"
+  },
+  "summary_points": [
+    "Il 26% sulle plusvalenze e lo 0,20% annuo di bollo sono valori iniziali modificabili del simulatore, non aliquote valide per ogni situazione.",
+    "In accumulo il modello non tassa il rendimento quando matura: aggiorna il saldo, il costo fiscale e sottrae il bollo mensile equivalente.",
+    "Durante il FIRE il modello tassa soltanto la quota di plusvalenza attribuita alla vendita necessaria per ottenere la spesa netta.",
+    "Se il costo fiscale coincide con il valore del portafoglio, la plusvalenza latente iniziale è zero; un valore diverso modifica il prelievo lordo stimato.",
+    "Il calcolo esclude regimi, strumenti, redditi e situazioni personali che richiedono una verifica fiscale specifica."
+  ],
+  "source_ids": [
+    "SRC-2026-0002",
+    "SRC-2026-0011",
+    "SRC-2026-0012",
+    "SRC-2026-0013",
+    "SRC-2026-0014"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia fiscale del simulatore",
+      "reason": "Documenta formule, ordine delle operazioni e limiti della stima."
+    },
+    {
+      "url": "/guida/fire-italia",
+      "label": "Guida al FIRE in Italia",
+      "reason": "Colloca le imposte tra le ipotesi del piano generale."
+    },
+    {
+      "url": "/guida/numero-fire",
+      "label": "Guida al numero FIRE",
+      "reason": "Mostra come il fabbisogno netto confluisce nel capitale obiettivo."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Permette di confrontare i risultati con parametri fiscali modificati."
+    }
+  ],
+  "cta": {
+    "title": "Confronta le ipotesi fiscali",
+    "text": "Nel simulatore confronta lo scenario iniziale con un costo fiscale documentato e controlla come cambiano prelievo lordo, imposta e bollo stimati.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

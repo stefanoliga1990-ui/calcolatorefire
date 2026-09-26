@@ -1,0 +1,103 @@
+<section class="content-section" id="perimetro" aria-labelledby="perimetro-title">
+    <h2 id="perimetro-title">La stima fiscale riguarda il portafoglio simulato</h2>
+    <p>
+        Nel calcolo FIRE la spesa da finanziare è un importo netto, mentre la vendita del portafoglio può richiedere
+        un importo lordo maggiore. Il simulatore collega i due importi con un modello fiscale semplificato: conserva
+        valore di mercato e costo fiscale del patrimonio, stima la quota di plusvalenza realizzata con le vendite e
+        riduce il saldo per un bollo equivalente. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale del simulatore</a>
+        definisce formule, tempi e casi esclusi.
+    </p>
+    <p>
+        Il valore iniziale del campo sulle plusvalenze è 26%. L'<a href="https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.codiceRedazionale=14A04717&amp;art.dataPubblicazioneGazzetta=2014-06-23&amp;art.flagTipoArticolo=0&amp;art.idArticolo=3&amp;art.idGruppo=2&amp;art.idSottoArticolo=1&amp;art.idSottoArticolo1=10&amp;art.progressivo=1&amp;art.versione=1" data-source-id="SRC-2026-0011">articolo 3 del decreto-legge 66/2014</a>
+        stabilisce questa aliquota per le categorie indicate e prevede deroghe. Anche le
+        <a href="https://infoprecompilata.agenziaentrate.gov.it/portale/semplificata-mod-plusvalenze-natura-finanziaria" data-source-id="SRC-2026-0012">istruzioni dell'Agenzia delle Entrate sulle plusvalenze finanziarie</a>
+        distinguono le fattispecie e il periodo di realizzo. Il 26% del simulatore non rappresenta quindi la
+        tassazione effettiva di ogni strumento o contribuente.
+    </p>
+</section>
+
+<section class="content-section" id="bollo-accumulo" aria-labelledby="bollo-accumulo-title">
+    <h2 id="bollo-accumulo-title">In accumulo il bollo riduce il saldo stimato</h2>
+    <p>
+        Il valore iniziale del bollo è 0,20% annuo. Alla data di verifica del 26 settembre 2026, la
+        <a href="https://def.finanze.it/DocTribFrontend/getAttoNormativoDetail.do?ACTION=getArticolo&amp;articolo=Tariffa+Articolo+13&amp;codiceOrdinamento=0020000000000130000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&amp;id=%7B407B5FF9-73F0-438A-B916-D756086EAD0B%7D" data-source-id="SRC-2026-0013">Tariffa del D.P.R. 642/1972, articolo 13, comma 2-ter</a>
+        prevede il 2 per mille annuo sulle comunicazioni relative a prodotti finanziari, con ambito ed esclusioni
+        propri. La decorrenza del nuovo testo unico dei tributi indiretti è stata rinviata al 2027 dall'<a href="https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.codiceRedazionale=26A01010&amp;art.dataPubblicazioneGazzetta=2026-02-28&amp;art.flagTipoArticolo=0&amp;art.idArticolo=4&amp;art.idGruppo=0&amp;art.idSottoArticolo=1&amp;art.idSottoArticolo1=10&amp;art.progressivo=0&amp;art.versione=1" data-source-id="SRC-2026-0014">articolo 4, comma 5, del decreto-legge 200/2025</a>.
+    </p>
+    <p>
+        Per proiettare mesi omogenei, il motore converte lo 0,20% annuo in un tasso mensile equivalente e lo sottrae
+        dal portafoglio investito. Questa è una scelta di calcolo, non il calendario del prelievo reale del bollo.
+        Durante l'accumulo, versamenti e apporti netti aumentano il costo fiscale; rendimento e bollo modificano il
+        saldo ma non quel costo. Nel modello il rendimento non viene tassato mentre matura, perché il portafoglio
+        simulato è trattato come investimento ad accumulazione, come spiega la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica sul percorso di accumulo</a>.
+    </p>
+</section>
+
+<section class="content-section" id="prelievi" aria-labelledby="prelievi-title">
+    <h2 id="prelievi-title">Nel FIRE l'imposta dipende dalla plusvalenza attribuita alla vendita</h2>
+    <p>
+        Il costo fiscale è la parte di capitale fiscalmente investita che il modello attribuisce ancora al
+        portafoglio. All'avvio coincide automaticamente con il valore corrente, ma può essere modificato. La
+        differenza positiva tra valore e costo è la plusvalenza latente nel modello: non viene tassata per la sola
+        esistenza. Quando serve vendere, il motore attribuisce alla vendita la stessa proporzione di plusvalenza,
+        calcola l'imposta stimata e aumenta il lordo venduto fino a coprire il fabbisogno netto. Il costo fiscale
+        residuo scende in proporzione alla quota ceduta. Sono le regole delle
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">sezioni sul costo fiscale e sul decumulo</a>.
+    </p>
+    <p>
+        Se il costo fiscale è almeno pari al valore del portafoglio, il modello pone a zero la quota di plusvalenza
+        imponibile. Non crea però un credito da minusvalenza: la compensazione fiscale reale è fuori dal perimetro
+        del calcolo. Il risultato mostra quindi una <strong>vendita lorda</strong>, un'<strong>imposta stimata</strong>
+        e un <strong>importo netto spendibile</strong> distinti.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Esempio: 1.000 euro netti con una plusvalenza latente</h2>
+    <p>
+        Considera un portafoglio ipotetico di 100.000 euro con costo fiscale di 70.000 euro, un fabbisogno di
+        1.000 euro netti nel primo mese FIRE e l'aliquota del modello al 26%. Prima di rendimento e bollo, la
+        plusvalenza latente è 30.000 euro, pari al 30% del valore. Con le formule della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, scenario 10.2</a>:
+    </p>
+    <pre class="formula"><code>quota di plusvalenza = (100.000 - 70.000) / 100.000 = 30%
+vendita lorda = 1.000 / (1 - 26% × 30%) = 1.084,60 euro
+imposta stimata = 1.084,60 × 30% × 26% = 84,60 euro
+netto disponibile = 1.084,60 - 84,60 = 1.000 euro</code></pre>
+    <p>
+        Gli importi sono arrotondati al centesimo solo per la lettura. L'esempio isola la vendita e non include
+        rendimento, bollo o altre imposte. Illustra il funzionamento del modello; non è una previsione di imposta
+        personale né una stima del capitale FIRE completo.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">La situazione fiscale reale può richiedere altri calcoli</h2>
+    <p>
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica del modello</a>
+        esclude aliquote agevolate, compensazione delle minusvalenze, distinzione tra redditi di capitale e redditi
+        diversi, regimi amministrato o dichiarativo, ritenute estere e fiscalità di dividendi, pensioni e immobili.
+        Rendite periodiche e capitali futuri entrano come importi già netti. Anche base e momento effettivi del bollo
+        possono differire dalla riduzione mensile del simulatore.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="limite-fiscale-title">
+        <h3 id="limite-fiscale-title">Prima di usare una stima per una decisione</h3>
+        <p>
+            Verifica categoria degli strumenti, costo fiscale documentato, regime applicabile e regole valide per il
+            tuo caso con un professionista qualificato quando necessario. Modificare i campi fiscali serve a
+            confrontare scenari, non a determinare un obbligo o una dichiarazione.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Usa imposta, bollo e prelievo netto come stime separate</h2>
+    <p>
+        Nel simulatore controlla prima se il costo fiscale automatico descrive il portafoglio ipotizzato. Poi leggi
+        insieme vendita lorda, imposta stimata, importo netto e bollo, confrontando scenari con ipotesi esplicite.
+        Per le formule complete e il rapporto tra target FIRE e PAC consulta la <a href="/metodologia">metodologia</a>;
+        per provare i valori apri il <a href="/">simulatore FIRE</a>.
+    </p>
+</section>

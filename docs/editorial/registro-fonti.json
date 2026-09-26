@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "updated_at": "2026-09-26",
   "next_id_by_year": {
-    "2026": 11
+    "2026": 15
   },
   "sources": [
     {
@@ -106,13 +106,13 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-25T22:57:33+02:00"
+        "last_accessed_at": "2026-09-26T15:08:00+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-25",
-        "reference_period": "Versione del motore verificata su main",
+        "as_of": "2026-09-26",
+        "reference_period": "Versione del motore verificata su main il 26 settembre 2026",
         "version": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
         "provisional": false
       },
@@ -124,7 +124,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-25T22:57:33+02:00",
+        "checked_at": "2026-09-26T15:08:00+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -159,6 +159,12 @@
           "claim": "Con la fiscalità semplificata attiva il PAC e il target vengono risolti congiuntamente; bollo e costo fiscale modificano la stima rispetto alla formula senza imposte.",
           "importance": "central",
           "verified_at": "2026-09-25T22:57:33+02:00"
+        },
+        {
+          "content_id": "GUIDE-0006",
+          "claim": "Il simulatore applica un modello fiscale semplificato con default 26% e 0,20%, costo fiscale, plusvalenza latente, vendita lorda fiscalizzata e bollo mensile equivalente; numerose fattispecie reali restano escluse.",
+          "importance": "central",
+          "verified_at": "2026-09-26T15:08:00+02:00"
         }
       ],
       "limitations": [
@@ -643,6 +649,215 @@
       "conflicts": [],
       "local_copy": null,
       "notes": "Consultata integralmente sul sito istituzionale; nessun conflitto rilevante con le fonti del motore."
+    },
+    {
+      "status": "approved",
+      "level": "A",
+      "authors": [],
+      "persistent_identifier": null,
+      "local_copy": null,
+      "conflicts": [],
+      "id": "SRC-2026-0011",
+      "type": "normative_act",
+      "title": "Decreto-legge 24 aprile 2014, n. 66, articolo 3, testo coordinato",
+      "responsible_entity": "Repubblica Italiana — Gazzetta Ufficiale",
+      "url": "https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.codiceRedazionale=14A04717&art.dataPubblicazioneGazzetta=2014-06-23&art.flagTipoArticolo=0&art.idArticolo=3&art.idGruppo=2&art.idSottoArticolo=1&art.idSottoArticolo1=10&art.progressivo=1&art.versione=1",
+      "dates": {
+        "published": "2014-06-23",
+        "updated": null,
+        "first_accessed_at": "2026-09-26T15:08:00+02:00",
+        "last_accessed_at": "2026-09-26T15:08:00+02:00"
+      },
+      "applicability": {
+        "valid_from": "2014-07-01",
+        "valid_to": null,
+        "as_of": "2026-09-26",
+        "reference_period": "Aliquota ordinaria e deroghe per redditi finanziari",
+        "version": "Testo coordinato con legge 23 giugno 2014, n. 89",
+        "provisional": false
+      },
+      "locator": {
+        "article": "Art. 3, commi 1, 2, 3, 6 e 12",
+        "section": null,
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-26T15:08:00+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0006",
+          "claim": "L’articolo 3 stabilisce il 26% per le categorie indicate e prevede eccezioni; non autorizza ad applicare una sola aliquota a ogni investimento.",
+          "importance": "central",
+          "verified_at": "2026-09-26T15:08:00+02:00"
+        }
+      ],
+      "limitations": [
+        "Il testo del 2014 va letto con eventuali modifiche successive e con la categoria concreta del reddito."
+      ],
+      "notes": "Testo integrale dell’articolo consultato; la guida usa solo la regola generale e segnala le esclusioni."
+    },
+    {
+      "status": "approved",
+      "level": "A",
+      "authors": [],
+      "persistent_identifier": null,
+      "local_copy": null,
+      "conflicts": [],
+      "id": "SRC-2026-0012",
+      "type": "institutional_page",
+      "title": "Plusvalenze di natura finanziaria — Dichiarazione precompilata 2026",
+      "responsible_entity": "Agenzia delle Entrate",
+      "url": "https://infoprecompilata.agenziaentrate.gov.it/portale/semplificata-mod-plusvalenze-natura-finanziaria",
+      "dates": {
+        "published": null,
+        "updated": null,
+        "first_accessed_at": "2026-09-26T15:08:00+02:00",
+        "last_accessed_at": "2026-09-26T15:08:00+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-26",
+        "reference_period": "Istruzioni informative 730/2026 su redditi realizzati e categorie dichiarative",
+        "version": "730/2026",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Plusvalenze assoggettate a imposta sostitutiva del 26%",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-26T15:08:00+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0006",
+          "claim": "La pagina dell’Agenzia distingue plusvalenze finanziarie soggette al 26%, periodo di realizzo e costo o valore di acquisto.",
+          "importance": "central",
+          "verified_at": "2026-09-26T15:08:00+02:00"
+        }
+      ],
+      "limitations": [
+        "La pagina riguarda la dichiarazione 2026 e non determina da sola l’imposta individuale di ogni portafoglio o regime."
+      ],
+      "notes": "Pagina istituzionale consultata integralmente; usata come prassi informativa, non come testo della legge."
+    },
+    {
+      "status": "approved",
+      "level": "A",
+      "authors": [],
+      "persistent_identifier": null,
+      "local_copy": null,
+      "conflicts": [],
+      "id": "SRC-2026-0013",
+      "type": "normative_act",
+      "title": "D.P.R. 26 ottobre 1972, n. 642 — Tariffa, parte I, articolo 13, comma 2-ter",
+      "responsible_entity": "Repubblica Italiana — Documentazione Economica e Finanziaria",
+      "url": "https://def.finanze.it/DocTribFrontend/getAttoNormativoDetail.do?ACTION=getArticolo&articolo=Tariffa+Articolo+13&codiceOrdinamento=0020000000000130000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&id=%7B407B5FF9-73F0-438A-B916-D756086EAD0B%7D",
+      "dates": {
+        "published": null,
+        "updated": null,
+        "first_accessed_at": "2026-09-26T15:08:00+02:00",
+        "last_accessed_at": "2026-09-26T15:08:00+02:00"
+      },
+      "applicability": {
+        "valid_from": "2014-01-01",
+        "valid_to": null,
+        "as_of": "2026-09-26",
+        "reference_period": "Tariffa applicabile al 26 settembre 2026; decorrenza del testo unico 2025 differita",
+        "version": "Testo vigente verificato nella banca dati DEF",
+        "provisional": false
+      },
+      "locator": {
+        "article": "Tariffa parte I, art. 13, comma 2-ter",
+        "section": null,
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-26T15:08:00+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0006",
+          "claim": "La tariffa prevede il bollo annuo del 2 per mille sulle comunicazioni relative a prodotti finanziari, con base e categorie escluse proprie.",
+          "importance": "central",
+          "verified_at": "2026-09-26T15:08:00+02:00"
+        }
+      ],
+      "limitations": [
+        "La cadenza mensile del simulatore è un equivalente matematico e non riproduce il momento o la base effettiva del bollo.",
+        "La tariffa presenta eccezioni e regole specifiche non riprodotte dal modello."
+      ],
+      "notes": "Testo integrale della voce della tariffa letto nella banca dati istituzionale."
+    },
+    {
+      "status": "approved",
+      "level": "A",
+      "authors": [],
+      "persistent_identifier": null,
+      "local_copy": null,
+      "conflicts": [],
+      "id": "SRC-2026-0014",
+      "type": "normative_act",
+      "title": "Decreto-legge 31 dicembre 2025, n. 200, articolo 4, testo coordinato",
+      "responsible_entity": "Repubblica Italiana — Gazzetta Ufficiale",
+      "url": "https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.codiceRedazionale=26A01010&art.dataPubblicazioneGazzetta=2026-02-28&art.flagTipoArticolo=0&art.idArticolo=4&art.idGruppo=0&art.idSottoArticolo=1&art.idSottoArticolo1=10&art.progressivo=0&art.versione=1",
+      "dates": {
+        "published": "2026-02-28",
+        "updated": null,
+        "first_accessed_at": "2026-09-26T15:08:00+02:00",
+        "last_accessed_at": "2026-09-26T15:08:00+02:00"
+      },
+      "applicability": {
+        "valid_from": "2026-03-01",
+        "valid_to": null,
+        "as_of": "2026-09-26",
+        "reference_period": "Differimento al 2027 del testo unico dei tributi indiretti",
+        "version": "Testo coordinato con legge 27 febbraio 2026, n. 26",
+        "provisional": false
+      },
+      "locator": {
+        "article": "Art. 4, comma 5",
+        "section": null,
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-26T15:08:00+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0006",
+          "claim": "La decorrenza del D.Lgs. 123/2025 è rinviata dal 1° gennaio 2026 al 1° gennaio 2027, perciò la guida cita la tariffa del D.P.R. 642/1972 come riferimento applicabile nel 2026.",
+          "importance": "central",
+          "verified_at": "2026-09-26T15:08:00+02:00"
+        }
+      ],
+      "limitations": [
+        "Il differimento riguarda il testo unico indicato, non modifica direttamente l’aliquota del bollo."
+      ],
+      "notes": "Testo integrale dell’articolo consultato sulla Gazzetta Ufficiale; nessun conflitto irrisolto."
     }
   ]
 }
