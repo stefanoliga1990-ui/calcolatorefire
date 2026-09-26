@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "updated_at": "2026-09-25",
   "next_id_by_year": {
-    "2026": 10
+    "2026": 11
   },
   "sources": [
     {
@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-25T19:13:38+02:00"
+        "last_accessed_at": "2026-09-25T22:57:33+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -40,7 +40,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-25T19:13:38+02:00",
+        "checked_at": "2026-09-25T22:57:33+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -69,6 +69,12 @@
           "claim": "Nel metodo SWR il primo fabbisogno annuo diviso per il tasso scelto determina il target base; la proiezione mensile può segnalare uno shortfall.",
           "importance": "central",
           "verified_at": "2026-09-25T19:13:38+02:00"
+        },
+        {
+          "content_id": "GUIDE-0004",
+          "claim": "Il PAC iniziale dipende da target, patrimonio presente, mesi, rendimento di accumulo e crescita dei versamenti; i contributi entrano a fine mese.",
+          "importance": "central",
+          "verified_at": "2026-09-25T22:57:33+02:00"
         }
       ],
       "limitations": [
@@ -94,7 +100,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-25T19:13:38+02:00"
+        "last_accessed_at": "2026-09-25T22:57:33+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -112,7 +118,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-25T19:13:38+02:00",
+        "checked_at": "2026-09-25T22:57:33+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -141,6 +147,12 @@
           "claim": "Con fiscalità attiva il target SWR usa la prima vendita lorda per coprire il fabbisogno netto; il modello resta una semplificazione.",
           "importance": "central",
           "verified_at": "2026-09-25T19:13:38+02:00"
+        },
+        {
+          "content_id": "GUIDE-0004",
+          "claim": "Con la fiscalità semplificata attiva il PAC e il target vengono risolti congiuntamente; bollo e costo fiscale modificano la stima rispetto alla formula senza imposte.",
+          "importance": "central",
+          "verified_at": "2026-09-25T22:57:33+02:00"
         }
       ],
       "limitations": [
@@ -219,7 +231,7 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-25T12:41:13+02:00"
+        "last_accessed_at": "2026-09-25T22:57:33+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -237,7 +249,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-25T12:41:13+02:00",
+        "checked_at": "2026-09-25T22:57:33+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -254,6 +266,12 @@
           "claim": "La stima della spesa parte dal budget osservato e include uscite poco frequenti e imprevisti.",
           "importance": "central",
           "verified_at": "2026-09-25T12:41:13+02:00"
+        },
+        {
+          "content_id": "GUIDE-0004",
+          "claim": "Un obiettivo di risparmio concreto va confrontato con entrate, uscite e budget, includendo spese irregolari e verifiche successive.",
+          "importance": "central",
+          "verified_at": "2026-09-25T22:57:33+02:00"
         }
       ],
       "limitations": [
@@ -555,6 +573,58 @@
       ],
       "local_copy": null,
       "notes": "Articolo originale collegato dall'archivio personale dell'autore; nessuna raccomandazione di allocazione del 1994 è ripresa come consiglio attuale."
+    },
+    {
+      "id": "SRC-2026-0010",
+      "status": "approved",
+      "level": "A",
+      "type": "institutional_page",
+      "title": "Cosa sapere prima di investire",
+      "responsible_entity": "Banca d'Italia — L'economia per tutti",
+      "authors": [],
+      "url": "https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/",
+      "persistent_identifier": null,
+      "dates": {
+        "published": null,
+        "updated": null,
+        "first_accessed_at": "2026-09-25T22:57:33+02:00",
+        "last_accessed_at": "2026-09-25T22:57:33+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-25",
+        "reference_period": "Principi generali su rendimento, rischio, orizzonte e costi degli investimenti",
+        "version": null,
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Rendimento: cos'è e come misurarlo; Rischio; Tempo; Attenzione ai costi",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-25T22:57:33+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0004",
+          "claim": "I rendimenti futuri sono incerti; durata, oscillazioni e costi influenzano il risultato di un piano di accumulo.",
+          "importance": "central",
+          "verified_at": "2026-09-25T22:57:33+02:00"
+        }
+      ],
+      "limitations": [
+        "Pagina di educazione finanziaria generale: non indica un rendimento futuro per un PAC né un prodotto adatto al singolo lettore."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Consultata integralmente sul sito istituzionale; nessun conflitto rilevante con le fonti del motore."
     }
   ]
 }

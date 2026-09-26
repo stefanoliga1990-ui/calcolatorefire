@@ -1,0 +1,114 @@
+<section class="content-section" id="pac-e-target" aria-labelledby="pac-e-target-title">
+    <h2 id="pac-e-target-title">Il PAC parte dal capitale che vuoi raggiungere</h2>
+    <p>
+        Un piano di accumulo (PAC) distribuisce i versamenti nel tempo. Per stimare la rata mensile utile al FIRE,
+        serve prima un capitale obiettivo: la <a href="/guida/numero-fire">guida al numero FIRE</a> spiega come
+        spesa, durata e metodo selezionato cambiano quel target. Nel simulatore il PAC indicato è il
+        <strong>versamento iniziale aggiuntivo</strong> necessario nello scenario inserito, non una quota universalmente
+        giusta per tutti.
+    </p>
+    <p>
+        La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia, nella pagina sulla pianificazione</a>,
+        suggerisce di partire da entrate, uscite e obiettivi concreti, includendo anche le spese poco frequenti.
+        Confronta quindi la rata calcolata con un budget sostenibile; se non lo è, puoi riesaminare l'obiettivo,
+        il tempo disponibile o altre ipotesi, senza presumere che basti scegliere un rendimento più alto.
+    </p>
+</section>
+
+<section class="content-section" id="calcolo" aria-labelledby="calcolo-title">
+    <h2 id="calcolo-title">Capitale iniziale, mesi e rendimento determinano la rata</h2>
+    <p>
+        Il motore trasforma il rendimento annuo effettivo in un tasso mensile equivalente. Per ciascuno dei mesi
+        prima del FIRE, applica il rendimento al capitale presente e aggiunge il PAC <strong>alla fine del mese</strong>.
+        Il primo versamento non matura dunque il rendimento del primo mese. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 2, 4 e 8</a>
+        definisce l'ordine dei flussi e il calcolo del versamento iniziale.
+    </p>
+    <p>
+        Senza imposte e risorse aggiuntive, il capitale già investito viene proiettato alla data FIRE. La
+        differenza positiva tra target e capitale proiettato è il divario che il nuovo PAC deve colmare.
+        Se il patrimonio proiettato copre già il target, il PAC richiesto è zero; con zero mesi disponibili
+        e un divario positivo non esiste invece una rata mensile capace di recuperarlo. Se imposti una crescita
+        dei versamenti, il numero mostrato è la <em>prima</em> rata e quelle successive aumentano secondo il
+        tasso scelto.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Un esempio mostra come ottenere circa 752 euro al mese</h2>
+    <p>
+        Considera una persona ipotetica di 35 anni che imposta il FIRE a 55 anni: 240 mesi di accumulo.
+        Sceglie il metodo FINITE, 1.000 euro di spesa mensile in euro di oggi per 25 anni di FIRE,
+        capitale finale desiderato zero e rendimento durante il FIRE e inflazione pari a zero. Senza
+        rendite o altri capitali, il target didattico è 1.000 × 300 = 300.000 euro.
+    </p>
+    <p>
+        Supponi inoltre 30.000 euro già investiti, rendimento nominale annuo effettivo del 3% in accumulo,
+        PAC costante, aliquota sulle plusvalenze e bollo impostati entrambi a zero. Il 3% è soltanto
+        un'ipotesi numerica. Convertito nel tasso mensile equivalente, porta il patrimonio iniziale a circa
+        54.183 euro dopo 240 mesi. La formula della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezione 8</a>
+        dà un fattore di capitalizzazione dei versamenti a fine mese di circa 326,8544.
+    </p>
+    <pre class="formula"><code>Mesi = (55 − 35) × 12 = 240
+Target FINITE = 1.000 × 25 × 12 = 300.000 euro
+Tasso mensile = (1 + 0,03)^(1/12) − 1 ≈ 0,00246627
+Patrimonio iniziale al FIRE = 30.000 × (1 + 0,03)^20 ≈ 54.183 euro
+Divario = 300.000 − 54.183,34 ≈ 245.816,66 euro
+PAC iniziale = divario ÷ 326,8544 ≈ 752,07 euro al mese</code></pre>
+    <p>
+        Gli importi sono arrotondati solo per la lettura; il calcolo usa i valori non arrotondati.
+        Con rendimento di accumulo posto invece a zero e tutte le altre ipotesi identiche, il PAC sarebbe
+        1.125 euro al mese: (300.000 − 30.000) ÷ 240. La differenza mostra quanto pesa l'ipotesi di rendimento,
+        non quale risultato si realizzerà.
+    </p>
+</section>
+
+<section class="content-section" id="simulatore" aria-labelledby="simulatore-title">
+    <h2 id="simulatore-title">Il risultato fiscale del simulatore può essere diverso</h2>
+    <p>
+        L'esempio azzera le imposte per rendere visibile la formula. Nel calcolo ordinario del simulatore,
+        il bollo stimato riduce il saldo durante l'accumulo; costo fiscale e imposta sulle plusvalenze realizzate
+        incidono sul capitale necessario per finanziare i prelievi. Target e PAC vengono perciò risolti insieme,
+        come descrive la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 5, 7 e 16</a>.
+        Il valore di 752,07 euro non va confrontato con una schermata che mantiene le impostazioni fiscali attive.
+    </p>
+    <p>
+        Il modello fiscale rappresenta soltanto alcune componenti e non ricostruisce la posizione tributaria
+        individuale. Inoltre un PAC già programmato come risorsa aggiuntiva entra nel capitale disponibile:
+        il nuovo PAC mostrato resta la quota <em>ulteriore</em> richiesta, senza sommare di nuovo quei versamenti.
+        Per i dettagli sulle formule e sui limiti puoi consultare la <a href="/metodologia">metodologia del simulatore</a>.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Il PAC calcolato dipende da ipotesi che possono cambiare</h2>
+    <p>
+        I rendimenti futuri non sono certi e possono oscillare. La
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia, nella guida agli investimenti</a>,
+        richiama il rapporto tra rischio e rendimento, l'orizzonte temporale e l'effetto dei costi.
+        Un tasso costante nel simulatore serve a confrontare scenari, non riproduce la sequenza reale dei
+        rendimenti e non garantisce il raggiungimento del target.
+    </p>
+    <ul>
+        <li>Un'età FIRE più vicina lascia meno rate mensili per colmare lo stesso divario.</li>
+        <li>Un patrimonio iniziale maggiore può ridurre il nuovo PAC, purché non sia contato anche tra le risorse aggiuntive.</li>
+        <li>Inflazione, spesa, durata FIRE e metodo FINITE o SWR possono cambiare il target prima ancora del calcolo del PAC.</li>
+        <li>Costi di investimento non inclusi nel rendimento inserito rendono lo scenario troppo favorevole.</li>
+    </ul>
+    <aside class="content-notice warning" aria-labelledby="avvertenza-pac-title">
+        <h3 id="avvertenza-pac-title">Una rata raggiungibile nel modello può non esserlo nel budget</h3>
+        <p>Verifica la capacità di versare senza trascurare spese irregolari e imprevisti. Ridurre il PAC effettivo o interromperlo cambia il capitale finale rispetto alla proiezione.</p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Confronta più rate, poi verifica cosa puoi sostenere</h2>
+    <p>
+        Definisci prima un target motivato, inserisci solo il patrimonio realmente disponibile e controlla
+        quanti mesi restano fino all'età FIRE. Nel <a href="/">simulatore FIRE</a> confronta il PAC con
+        rendimenti e scadenze diversi, osserva l'effetto della fiscalità semplificata e verifica la proiezione.
+        La cifra utile è quella che puoi interpretare e mettere alla prova nel tuo budget, non quella ottenuta
+        alzando un'ipotesi di rendimento per far quadrare il piano.
+    </p>
+</section>

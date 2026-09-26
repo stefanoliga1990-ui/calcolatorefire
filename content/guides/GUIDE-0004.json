@@ -1,0 +1,57 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0004",
+  "slug": "/guida/pac-per-raggiungere-il-fire",
+  "seo": {
+    "title": "PAC per raggiungere il FIRE: calcolare i versamenti mensili",
+    "description": "Scopri come target, capitale iniziale, anni e rendimento ipotizzato determinano il PAC per il FIRE, con un esempio verificabile e limiti chiari.",
+    "og_title": "PAC per il FIRE: capitale, tempo e versamenti",
+    "og_description": "Una guida al versamento mensile richiesto dal simulatore, con formula, esempio e ipotesi da controllare."
+  },
+  "page": {
+    "kicker": "Accumulo verso il FIRE",
+    "h1": "PAC per raggiungere il FIRE: capitale, tempo e versamenti",
+    "lead": "Quanto dovresti versare ogni mese per arrivare al capitale FIRE? Il PAC necessario dipende dal target scelto, dal patrimonio già disponibile, dai mesi prima del FIRE e dalle ipotesi di accumulo. Qui trovi un esempio riproducibile e una guida per leggere il risultato del simulatore senza scambiare il rendimento ipotizzato per una promessa."
+  },
+  "dates": {
+    "published": "2026-09-25",
+    "updated": "2026-09-25"
+  },
+  "summary_points": [
+    "Il PAC mostrato dal simulatore è il primo versamento mensile aggiuntivo necessario nello scenario inserito.",
+    "Prima si definisce il target FIRE; poi si sottrae il valore futuro del patrimonio già investito e si ripartisce il divario sui versamenti futuri.",
+    "Il simulatore applica il rendimento mensile equivalente al capitale presente e inserisce ogni versamento alla fine del mese.",
+    "Un rendimento più alto abbassa il PAC calcolato, ma resta un'ipotesi incerta: confronta scenari diversi e verifica la sostenibilità del versamento nel budget.",
+    "Con fiscalità attiva, target e PAC dipendono anche dal costo fiscale e dal bollo stimato; la semplice formula senza imposte è solo didattica."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0004",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Permette di verificare timing dei versamenti, formule di accumulo e fiscalità semplificata."
+    },
+    {
+      "url": "/guida/numero-fire",
+      "label": "Guida al numero FIRE",
+      "reason": "Aiuta a definire il capitale obiettivo prima di stimare il PAC."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Consente di confrontare il PAC in più scenari di età, patrimonio, rendimento e fiscalità."
+    }
+  ],
+  "cta": {
+    "title": "Confronta il PAC in più scenari",
+    "text": "Imposta target, capitale attuale ed età FIRE; confronta il versamento richiesto con il tuo budget e modifica una ipotesi alla volta.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
