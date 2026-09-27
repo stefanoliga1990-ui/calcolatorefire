@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-27T15:40:39+02:00"
+        "last_accessed_at": "2026-09-27T17:42:44+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -34,13 +34,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Sezioni 1–24",
+        "section": "Sezioni 6, 8, 16–18 e 23–24",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-27T15:40:39+02:00",
+        "checked_at": "2026-09-27T17:42:44+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -105,12 +105,25 @@
           "claim": "La specifica definisce target FIRE, mesi di accumulo, valore futuro del capitale e PAC iniziale; a target e altre ipotesi invariati, un versamento maggiore riduce il tempo necessario nel confronto di scenari.",
           "importance": "central",
           "verified_at": "2026-09-27T15:40:39+02:00"
+        },
+        {
+          "content_id": "GUIDE-0011",
+          "claim": "Il patrimonio principale e gli investimenti esistenti sono additivi; il PAC storico è nel saldo iniziale, i nuovi versamenti entrano a fine mese e solo le risorse disponibili al FIRE riducono il PAC aggiuntivo.",
+          "importance": "central",
+          "verified_at": "2026-09-27T17:42:44+02:00"
         }
       ],
       "limitations": [
-        "Descrive il comportamento del motore deterministico e non costituisce validazione esterna delle ipotesi finanziarie."
+        "Descrive il comportamento del motore deterministico e non costituisce validazione esterna delle ipotesi finanziarie.",
+        "Le frasi introduttive sulla fiscalità riflettono una fase precedente: per il modello fiscale implementato prevale la specifica fiscale dedicata."
       ],
-      "conflicts": [],
+      "conflicts": [
+        {
+          "source_id": "SRC-2026-0002",
+          "status": "resolved",
+          "resolution": "L’introduzione della specifica matematica descrive la fase precedente senza fiscalità; la specifica fiscale dedicata documenta il motore ora implementato e prevale per costo fiscale e imposte."
+        }
+      ],
       "local_copy": null,
       "notes": "Fonte primaria interna per la pagina metodologia."
     },
@@ -130,25 +143,25 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-26T18:03:35+02:00"
+        "last_accessed_at": "2026-09-27T17:42:44+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-26",
-        "reference_period": "Versione del motore verificata su main il 26 settembre 2026",
+        "as_of": "2026-09-27",
+        "reference_period": "Versione del motore verificata su main il 27 settembre 2026",
         "version": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
         "provisional": false
       },
       "locator": {
         "article": null,
-        "section": "Sezioni 1–16",
+        "section": "Sezioni 1–2, 5, 14.3 e 16",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-26T18:03:35+02:00",
+        "checked_at": "2026-09-27T17:42:44+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -195,12 +208,24 @@
           "claim": "Il modello fiscale tratta rendite periodiche e capitali futuri come importi netti; investimenti esistenti conservano saldo e costo fiscale separati, con esclusioni fiscali esplicite.",
           "importance": "central",
           "verified_at": "2026-09-26T18:03:35+02:00"
+        },
+        {
+          "content_id": "GUIDE-0011",
+          "claim": "Il costo fiscale iniziale della risorsa segue per default il suo valore corrente, può essere modificato e confluisce con il saldo solo se disponibile al FIRE; il modello fiscale resta semplificato.",
+          "importance": "central",
+          "verified_at": "2026-09-27T17:42:44+02:00"
         }
       ],
       "limitations": [
         "Modello fiscale semplificato del simulatore; non rappresenta tutti i regimi, le agevolazioni o le situazioni individuali."
       ],
-      "conflicts": [],
+      "conflicts": [
+        {
+          "source_id": "SRC-2026-0001",
+          "status": "resolved",
+          "resolution": "La specifica fiscale estende e supera le frasi introduttive storiche della specifica matematica nei punti fiscali; le formule delle risorse restano nella specifica matematica."
+        }
+      ],
       "local_copy": null,
       "notes": "Fonte primaria interna per la sezione fiscale della pagina metodologia."
     },
@@ -673,7 +698,7 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-25T22:57:33+02:00",
-        "last_accessed_at": "2026-09-27T15:40:39+02:00"
+        "last_accessed_at": "2026-09-27T17:42:44+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -685,13 +710,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Rendimento: cos'è e come misurarlo; Rischio; Tempo; Attenzione ai costi",
+        "section": "Rendimento: cos’è e come misurarlo; Rischio; Attenzione ai costi",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-27T15:40:39+02:00",
+        "checked_at": "2026-09-27T17:42:44+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -720,6 +745,12 @@
           "claim": "Il rendimento composto agisce nel tempo, ma rendimenti, rischio e costi sono incerti e incidono sul capitale accumulato.",
           "importance": "context",
           "verified_at": "2026-09-27T15:40:39+02:00"
+        },
+        {
+          "content_id": "GUIDE-0011",
+          "claim": "Il rendimento comprende interessi, dividendi e variazioni di capitale; rendimento e prezzi futuri sono incerti e i costi possono ridurre il risultato.",
+          "importance": "central",
+          "verified_at": "2026-09-27T17:42:44+02:00"
         }
       ],
       "limitations": [

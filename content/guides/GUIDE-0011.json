@@ -1,0 +1,61 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0011",
+  "slug": "/guida/capitale-investito-pac-esistente",
+  "seo": {
+    "title": "Capitale già investito e PAC esistente nel calcolo FIRE",
+    "description": "Inserisci patrimonio e PAC già avviati senza contare due volte il capitale. Distingui versamenti futuri, disponibilità al FIRE e costo fiscale.",
+    "og_title": "Come inserire capitale e PAC esistenti nel FIRE",
+    "og_description": "Una guida pratica agli input della risorsa investimento esistente, con esempio e controlli contro il doppio conteggio."
+  },
+  "page": {
+    "kicker": "Risorse già investite",
+    "h1": "Come inserire capitale investito e PAC esistenti nel calcolo FIRE",
+    "lead": "Se hai già un investimento o un PAC, inserisci il suo valore attuale una sola volta: nel patrimonio principale oppure in una risorsa «Investimento o PAC esistente». Nella risorsa separa il capitale già accumulato dai soli versamenti futuri, indica se sarà disponibile al FIRE e verifica il costo fiscale. Così il nuovo PAC richiesto dal simulatore resta distinto da quello che versi già."
+  },
+  "dates": {
+    "published": "2026-09-27",
+    "updated": "2026-09-27"
+  },
+  "summary_points": [
+    "Il valore di un investimento esistente è già incluso nel capitale attuale della sua risorsa: non ripeterlo nel patrimonio principale.",
+    "I versamenti passati di un PAC sono già nel valore attuale; indica come PAC della risorsa solo le rate future.",
+    "Il simulatore mostra un nuovo PAC aggiuntivo, separato dai versamenti già programmati nella risorsa.",
+    "Solo un investimento segnato come disponibile all'ingresso nel FIRE contribuisce al capitale usato per ridurre il nuovo PAC.",
+    "Il costo fiscale della risorsa parte dal valore corrente, ma puoi modificarlo se conosci un importo diverso; la stima fiscale è semplificata."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Documenta il trattamento delle risorse, il PAC aggiuntivo e la fiscalità semplificata."
+    },
+    {
+      "url": "/guida/rendite-pensione-capitali-futuri",
+      "label": "Guida a rendite, pensione e capitali futuri",
+      "reason": "Distingue un investimento esistente dalle altre risorse aggiuntive."
+    },
+    {
+      "url": "/guida/pac-per-raggiungere-il-fire",
+      "label": "Guida al PAC richiesto per il FIRE",
+      "reason": "Spiega come il simulatore ricava il nuovo versamento mensile dal capitale ancora da accumulare."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Consente di confrontare lo scenario con e senza un investimento esistente."
+    }
+  ],
+  "cta": {
+    "title": "Verifica il capitale una sola volta",
+    "text": "Ricostruisci il valore attuale dei tuoi investimenti, separa i versamenti futuri e confronta nel simulatore il PAC aggiuntivo con la somma che versi già. Rivedi anche disponibilità e costo fiscale.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

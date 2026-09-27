@@ -453,7 +453,7 @@
     {
       "id": "GUIDE-0011",
       "content_type": "guide",
-      "status": "ready",
+      "status": "pushed_to_main",
       "execution_mode": "automatic",
       "automation_eligible": true,
       "sequence": 11,
