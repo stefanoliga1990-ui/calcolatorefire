@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "updated_at": "2026-09-27",
   "next_id_by_year": {
-    "2026": 17
+    "2026": 18
   },
   "sources": [
     {
@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-27T21:43:19+02:00"
+        "last_accessed_at": "2026-09-27T23:44:05+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -40,7 +40,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-27T21:43:19+02:00",
+        "checked_at": "2026-09-27T23:44:05+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -123,6 +123,12 @@
           "claim": "Le sezioni 3-5 definiscono input nominali, conversione annua-mensile e rapporto esatto tra rendimento nominale e inflazione; le sezioni 6, 8 e 9 mostrano dove entrano nel target e nelle proiezioni.",
           "importance": "central",
           "verified_at": "2026-09-27T21:43:19+02:00"
+        },
+        {
+          "content_id": "GUIDE-0014",
+          "claim": "I rendimenti di accumulo e FIRE sono tassi nominali annui effettivi al netto dei costi ricorrenti e prima delle imposte personali; il motore usa tassi costanti e il rendimento di accumulo influenza il PAC, mentre quello FIRE influenza FINITE e la proiezione.",
+          "importance": "central",
+          "verified_at": "2026-09-27T23:44:05+02:00"
         }
       ],
       "limitations": [
@@ -722,7 +728,7 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-25T22:57:33+02:00",
-        "last_accessed_at": "2026-09-27T21:43:19+02:00"
+        "last_accessed_at": "2026-09-27T23:44:05+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -740,7 +746,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-27T21:43:19+02:00",
+        "checked_at": "2026-09-27T23:44:05+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -781,6 +787,12 @@
           "claim": "Il rendimento può comprendere interessi, dividendi e variazioni del capitale; il risultato futuro è incerto e costi e inflazione possono ridurne il valore reale.",
           "importance": "central",
           "verified_at": "2026-09-27T21:43:19+02:00"
+        },
+        {
+          "content_id": "GUIDE-0014",
+          "claim": "Rendimenti futuri e inflazione sono incerti; rischio, orizzonte e costi cambiano il risultato effettivo di un investimento.",
+          "importance": "central",
+          "verified_at": "2026-09-27T23:44:05+02:00"
         }
       ],
       "limitations": [
@@ -1111,6 +1123,59 @@
       "conflicts": [],
       "local_copy": null,
       "notes": "Rapporto originale consultato direttamente; i risultati simulati non sono previsioni né una stima di probabilità del simulatore Calcolo FIRE Italia. Il confronto con Pfau riguarda metodi e campioni diversi, senza conflitto sostanziale sulle limitazioni dei rendimenti medi."
+    },
+    {
+      "id": "SRC-2026-0017",
+      "status": "approved",
+      "level": "A",
+      "type": "institutional_page",
+      "title": "Investor Bulletin: Performance Claims",
+      "responsible_entity": "U.S. Securities and Exchange Commission — Office of Investor Education and Advocacy",
+      "authors": [],
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-47",
+      "persistent_identifier": null,
+      "dates": {
+        "published": "2022-09-15",
+        "updated": null,
+        "first_accessed_at": "2026-09-27T23:44:05+02:00",
+        "last_accessed_at": "2026-09-27T23:44:05+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-27",
+        "reference_period": "Principi generali di lettura delle performance e delle proiezioni di investimento; contesto statunitense",
+        "version": "Investor Bulletin del 15 settembre 2022",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "How is performance calculated and presented?; How reliable is a performance claim?",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-27T23:44:05+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0014",
+          "claim": "I dati storici non predicono i risultati futuri; costi esclusi, periodi scelti selettivamente, benchmark e ipotesi della proiezione possono rendere fuorviante un tasso usato nel piano.",
+          "importance": "central",
+          "verified_at": "2026-09-27T23:44:05+02:00"
+        }
+      ],
+      "limitations": [
+        "Bollettino educativo rivolto a investitori statunitensi: non fornisce un rendimento atteso applicabile all’Italia.",
+        "Il documento esprime l’orientamento educativo dello staff SEC, non una norma o una stima di mercato."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Consultato integralmente sul sito originale. Coerente con la Banca d’Italia su incertezza e costi; nessun conflitto sostanziale. Nessun tasso storico trasferito a previsione."
     }
   ]
 }

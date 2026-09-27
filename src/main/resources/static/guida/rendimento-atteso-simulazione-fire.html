@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Costruisci ipotesi di rendimento coerenti per accumulo e FIRE, considera costi e incertezza e confronta scenari senza trattare il passato come previsione.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Rendimento ipotizzato nel calcolo FIRE">
+    <meta property="og:description" content="Un metodo per documentare il tasso inserito nel simulatore e misurare quanto cambia il risultato.">
+    <meta property="og:url" content="https://simulatorefire.com/guida/rendimento-atteso-simulazione-fire">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Come scegliere il rendimento atteso in una simulazione FIRE">
+    <meta property="article:published_time" content="2026-09-27">
+    <meta property="article:modified_time" content="2026-09-27">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rendimento ipotizzato nel calcolo FIRE">
+    <meta name="twitter:description" content="Un metodo per documentare il tasso inserito nel simulatore e misurare quanto cambia il risultato.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>Come scegliere il rendimento in una simulazione FIRE</title>
+    <link rel="canonical" href="https://simulatorefire.com/guida/rendimento-atteso-simulazione-fire">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.0">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.3">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Come scegliere il rendimento atteso in una simulazione FIRE",
+  "description": "Costruisci ipotesi di rendimento coerenti per accumulo e FIRE, considera costi e incertezza e confronta scenari senza trattare il passato come previsione.",
+  "url": "https://simulatorefire.com/guida/rendimento-atteso-simulazione-fire",
+  "mainEntityOfPage": "https://simulatorefire.com/guida/rendimento-atteso-simulazione-fire",
+  "datePublished": "2026-09-27",
+  "dateModified": "2026-09-27",
+  "inLanguage": "it-IT",
+  "author": {
+    "@type": "Person",
+    "name": "Stefano Liga",
+    "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calcolo FIRE Italia",
+    "url": "https://simulatorefire.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+    }
+  },
+  "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Simulatore FIRE",
+      "item": "https://simulatorefire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guide",
+      "item": "https://simulatorefire.com/guide"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Come scegliere il rendimento atteso in una simulazione FIRE",
+      "item": "https://simulatorefire.com/guida/rendimento-atteso-simulazione-fire"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/guide">Guide</a>
+        <a class="header-link" href="/metodologia">Metodologia</a>
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li><a href="/guide">Guide</a></li>
+                <li aria-current="page">Come scegliere il rendimento atteso in una simulazione FIRE</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">Ipotesi finanziarie</p>
+        <h1>Come scegliere il rendimento atteso in una simulazione FIRE</h1>
+        <p class="content-lead">Quale rendimento usare per stimare il percorso FIRE? Non esiste un tasso valido per tutti. Parti da ipotesi coerenti con il patrimonio che stai modellando, chiarisci se includono costi e inflazione, poi confronta più scenari. Il numero inserito serve a misurare la sensibilità del piano: non prevede il rendimento che otterrai.</p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia</span>
+            <span>5 minuti di lettura</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della guida">
+            <strong>In questa guida</strong>
+            <ol><li><a href="#tasso-ipotetico">Il rendimento da inserire è un&#x27;ipotesi di lavoro</a></li><li><a href="#unita-input">Usa tassi coerenti con i campi del simulatore</a></li><li><a href="#metodo-scenari">Costruisci ipotesi controllabili e confrontale una alla volta</a></li><li><a href="#esempio-sensibilita">Tre tassi illustrativi producono saldi molto diversi</a></li><li><a href="#limiti">Anche più scenari non misurano la probabilità di riuscita</a></li><li><a href="#conclusione">Documenta l&#x27;ipotesi e guarda quanto cambia il piano</a></li></ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul><li>Un rendimento storico o pubblicizzato non è una previsione: controlla periodo, mercato, valuta, costi e metodo di calcolo prima di usarlo come riferimento.</li><li>Nel simulatore i rendimenti di accumulo e FIRE sono ipotesi nominali annue effettive, al netto dei costi ricorrenti e prima delle imposte personali.</li><li>Tieni separate le due fasi e l&#x27;inflazione; annota le ipotesi e confronta uno scenario centrale con alternative meno e più favorevoli, senza assegnare loro probabilità.</li><li>Il motore applica tassi costanti: anche più scenari non simulano oscillazioni, rischio di sequenza o probabilità di riuscita.</li></ul>
+            </section>
+
+<section class="content-section" id="tasso-ipotetico" aria-labelledby="tasso-ipotetico-title">
+    <h2 id="tasso-ipotetico-title">Il rendimento da inserire è un'ipotesi di lavoro</h2>
+    <p>
+        Nella simulazione FIRE il rendimento è il tasso con cui il modello fa crescere il capitale. Non è il
+        guadagno promesso da un investimento. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia</a>
+        ricorda che il risultato futuro resta incerto e che rischio, orizzonte e costi contano insieme al rendimento.
+        Per questo è più utile sapere da dove arriva un'ipotesi e quanto il piano dipende da essa che cercare un numero universale.
+    </p>
+    <p>
+        Un dato di mercato può offrire contesto, ma va letto per quello che misura. Il
+        <a href="https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-47" data-source-id="SRC-2026-0017">bollettino della SEC sulle performance</a>
+        invita a verificare periodo, condizioni di mercato, dividendi, costi e benchmark; avverte che i rendimenti
+        passati non prevedono quelli futuri. Un indice di un altro mercato o una serie scelta solo nei suoi anni
+        migliori non descrive automaticamente il patrimonio di un lettore in Italia.
+    </p>
+</section>
+
+<section class="content-section" id="unita-input" aria-labelledby="unita-input-title">
+    <h2 id="unita-input-title">Usa tassi coerenti con i campi del simulatore</h2>
+    <p>
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 1, 3, 4 e 8–9</a>
+        definisce due rendimenti annui nominali effettivi: uno per l'accumulo e uno per il FIRE. Entrambi sono al
+        netto dei costi ricorrenti dell'investimento e prima delle imposte personali. L'inflazione è un input
+        distinto. Se parti da un tasso reale, non inserirlo direttamente come nominale aggiungendo anche
+        l'inflazione: la <a href="/guida/rendimento-nominale-reale">guida ai tassi nominali e reali</a>
+        mostra la conversione.
+    </p>
+    <p>
+        I due rendimenti possono essere diversi perché accumulo e prelievi sono fasi diverse del piano; non serve
+        però imporre una differenza artificiale. Annota per ciascuna fase quale patrimonio stai rappresentando,
+        la valuta, l'orizzonte e il trattamento di costi e imposte. Nella <a href="/metodologia">metodologia</a>
+        trovi le convenzioni applicate dal motore. Non sottrarre informalmente le imposte personali dal tasso se
+        stai usando le funzioni fiscali separate del simulatore.
+    </p>
+</section>
+
+<section class="content-section" id="metodo-scenari" aria-labelledby="metodo-scenari-title">
+    <h2 id="metodo-scenari-title">Costruisci ipotesi controllabili e confrontale una alla volta</h2>
+    <ol>
+        <li>Descrivi il patrimonio modellato e la fase: capitale che riceve versamenti oppure capitale da cui prelevi.</li>
+        <li>Se consulti una serie storica o una stima pubblicata, controlla mercato, periodo completo, valuta, dividendi, costi e inflazione. Non convertire una media storica in certezza futura.</li>
+        <li>Formula uno scenario di riferimento e almeno un'alternativa meno favorevole e una più favorevole. Le differenze sono scelte per esplorare la sensibilità, non intervalli statistici o probabilità.</li>
+        <li>Nel <a href="/">simulatore</a> cambia prima solo il rendimento di accumulo, poi solo quello nel FIRE; conserva invariati spesa, inflazione e altre risorse per capire quale risultato reagisce.</li>
+        <li>Salva accanto ai risultati input, costi inclusi, fonte usata come contesto e motivo della scelta. Se manca una base attendibile, descrivi i tassi come puri esempi esplorativi.</li>
+    </ol>
+    <p>
+        Nel metodo FINITE il rendimento nel FIRE contribuisce al target tramite l'attualizzazione dei prelievi;
+        nel metodo SWR non modifica direttamente il target base senza risorse aggiuntive, ma cambia la proiezione
+        dei saldi e l'eventuale shortfall. Il rendimento di accumulo incide invece sulla crescita del capitale e
+        sul PAC richiesto. Queste relazioni seguono le sezioni 6–9 della specifica del motore, non una previsione dei mercati.
+    </p>
+</section>
+
+<section class="content-section" id="esempio-sensibilita" aria-labelledby="esempio-sensibilita-title">
+    <h2 id="esempio-sensibilita-title">Tre tassi illustrativi producono saldi molto diversi</h2>
+    <p>
+        Considera solo la crescita di 100.000 euro già investiti per 20 anni, senza altri versamenti, prelievi,
+        inflazione o imposte. I tassi nominali annui effettivi dello 0%, 2% e 4% sono scelti esclusivamente per
+        mostrare la sensibilità matematica: non sono stime di mercato né tassi consigliati. Supponiamo che gli
+        eventuali costi ricorrenti siano già riflessi nel tasso inserito.
+    </p>
+    <pre class="formula"><code>saldo dopo 20 anni = 100.000 euro × (1 + tasso annuo)^20
+0% → 100.000,00 euro
+2% → 148.594,74 euro
+4% → 219.112,31 euro</code></pre>
+    <p>
+        Gli importi sono arrotondati ai centesimi. Questo calcolo isola la capitalizzazione del capitale iniziale
+        prevista dalla sezione 8 della specifica; non è un risultato completo del simulatore. Con PAC, spese,
+        inflazione e prelievi il confronto va rifatto nello scenario effettivo. La distanza fra i saldi dimostra
+        quanto l'ipotesi pesa sul risultato, non quale dei tre tassi si realizzerà.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Anche più scenari non misurano la probabilità di riuscita</h2>
+    <p>
+        Il motore applica in ogni fase un rendimento costante convertito in tasso mensile. La specifica esclude
+        rendimenti variabili, simulazioni Monte Carlo e rischio di sequenza simulato. Due percorsi con la stessa
+        media possono avere esiti diversi quando iniziano i prelievi: la
+        <a href="/guida/rischio-sequenza-rendimenti-fire">guida al rischio di sequenza</a> spiega il motivo.
+        Scenari meno e più favorevoli aiutano a vedere la fragilità di un piano, ma non assegnano probabilità
+        ai risultati.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="avvertenza-title">
+        <h3 id="avvertenza-title">Non trasformare lo scenario migliore in un obiettivo garantito</h3>
+        <p>
+            Se il piano funziona solo con il rendimento più elevato ipotizzato, annota questa dipendenza e
+            ricontrolla spese, tempi e versamenti. Nessun tasso della guida indica un prodotto, un'allocazione
+            personale o il rendimento che avrai.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Documenta l'ipotesi e guarda quanto cambia il piano</h2>
+    <p>
+        Parti da tassi nominali coerenti con la fase e con i costi che hai incluso, mantieni separata
+        l'inflazione e confronta scenari modificando una variabile alla volta. Nel <a href="/">simulatore FIRE</a>
+        osserva non solo il target o il PAC, ma anche i saldi durante i prelievi e gli eventuali avvisi di
+        insufficienza. La domanda utile è quanto il piano dipenda dal rendimento scelto, non quale singolo
+        tasso possa promettere il futuro.
+    </p>
+</section>
+
+            <aside class="related-content" aria-labelledby="related-title">
+                <h2 id="related-title">Approfondisci e verifica</h2>
+                <ul><li><a href="/metodologia">Metodologia del simulatore FIRE</a><small>Definisce unità degli input, conversione mensile e limiti delle proiezioni.</small></li><li><a href="/guida/rendimento-nominale-reale">Rendimento nominale e reale</a><small>Spiega come controllare il trattamento dell&#x27;inflazione senza confondere i due tassi.</small></li><li><a href="/guida/rischio-sequenza-rendimenti-fire">Rischio di sequenza dei rendimenti</a><small>Approfondisce un rischio che il tasso costante del simulatore non rappresenta.</small></li><li><a href="/">Simulatore FIRE</a><small>Consente di variare i rendimenti e confrontare i risultati dello scenario.</small></li></ul>
+            </aside>
+
+            <section class="guide-sources" aria-labelledby="sources-title">
+                <h2 id="sources-title">Fonti consultate</h2>
+                <p>Le fonti sono state consultate integralmente e registrate nel processo editoriale.</p>
+                <ol><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md">Calcolo FIRE Italia — specifica matematica del motore</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0001</small></li><li><a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/">Cosa sapere prima di investire</a><small>Banca d&#x27;Italia — L&#x27;economia per tutti · SRC-2026-0010</small></li><li><a href="https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-47">Investor Bulletin: Performance Claims</a><small>U.S. Securities and Exchange Commission — Office of Investor Education and Advocacy · 15 settembre 2022 · SRC-2026-0017</small></li></ol>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.</p>
+                <p class="editorial-disclosure">Questa guida è stata preparata tramite il processo editoriale automatizzato di Calcolo FIRE Italia, basato sulle fonti citate e sulle regole di qualità del progetto. Stefano Liga ne è il responsabile editoriale.</p>
+            </aside>
+
+            <aside class="content-notice warning" aria-label="Nota informativa">
+                <h2>Nota informativa</h2>
+                <p>I contenuti hanno finalità esclusivamente informative ed educative e non costituiscono consulenza finanziaria, fiscale, previdenziale o legale personalizzata. Prima di prendere decisioni, valuta la tua situazione e, quando necessario, rivolgiti a un professionista qualificato.</p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Confronta ipotesi dichiarate</h2>
+                <p>Registra i tassi nominali, i costi considerati e l&#x27;inflazione, poi modifica uno scenario alla volta e osserva come cambiano target, PAC e saldo finale.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Guida · GUIDE-0014</span>
+</footer>
+</body>
+</html>

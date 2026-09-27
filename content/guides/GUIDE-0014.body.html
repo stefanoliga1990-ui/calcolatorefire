@@ -1,0 +1,103 @@
+<section class="content-section" id="tasso-ipotetico" aria-labelledby="tasso-ipotetico-title">
+    <h2 id="tasso-ipotetico-title">Il rendimento da inserire è un'ipotesi di lavoro</h2>
+    <p>
+        Nella simulazione FIRE il rendimento è il tasso con cui il modello fa crescere il capitale. Non è il
+        guadagno promesso da un investimento. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia</a>
+        ricorda che il risultato futuro resta incerto e che rischio, orizzonte e costi contano insieme al rendimento.
+        Per questo è più utile sapere da dove arriva un'ipotesi e quanto il piano dipende da essa che cercare un numero universale.
+    </p>
+    <p>
+        Un dato di mercato può offrire contesto, ma va letto per quello che misura. Il
+        <a href="https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-47" data-source-id="SRC-2026-0017">bollettino della SEC sulle performance</a>
+        invita a verificare periodo, condizioni di mercato, dividendi, costi e benchmark; avverte che i rendimenti
+        passati non prevedono quelli futuri. Un indice di un altro mercato o una serie scelta solo nei suoi anni
+        migliori non descrive automaticamente il patrimonio di un lettore in Italia.
+    </p>
+</section>
+
+<section class="content-section" id="unita-input" aria-labelledby="unita-input-title">
+    <h2 id="unita-input-title">Usa tassi coerenti con i campi del simulatore</h2>
+    <p>
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 1, 3, 4 e 8–9</a>
+        definisce due rendimenti annui nominali effettivi: uno per l'accumulo e uno per il FIRE. Entrambi sono al
+        netto dei costi ricorrenti dell'investimento e prima delle imposte personali. L'inflazione è un input
+        distinto. Se parti da un tasso reale, non inserirlo direttamente come nominale aggiungendo anche
+        l'inflazione: la <a href="/guida/rendimento-nominale-reale">guida ai tassi nominali e reali</a>
+        mostra la conversione.
+    </p>
+    <p>
+        I due rendimenti possono essere diversi perché accumulo e prelievi sono fasi diverse del piano; non serve
+        però imporre una differenza artificiale. Annota per ciascuna fase quale patrimonio stai rappresentando,
+        la valuta, l'orizzonte e il trattamento di costi e imposte. Nella <a href="/metodologia">metodologia</a>
+        trovi le convenzioni applicate dal motore. Non sottrarre informalmente le imposte personali dal tasso se
+        stai usando le funzioni fiscali separate del simulatore.
+    </p>
+</section>
+
+<section class="content-section" id="metodo-scenari" aria-labelledby="metodo-scenari-title">
+    <h2 id="metodo-scenari-title">Costruisci ipotesi controllabili e confrontale una alla volta</h2>
+    <ol>
+        <li>Descrivi il patrimonio modellato e la fase: capitale che riceve versamenti oppure capitale da cui prelevi.</li>
+        <li>Se consulti una serie storica o una stima pubblicata, controlla mercato, periodo completo, valuta, dividendi, costi e inflazione. Non convertire una media storica in certezza futura.</li>
+        <li>Formula uno scenario di riferimento e almeno un'alternativa meno favorevole e una più favorevole. Le differenze sono scelte per esplorare la sensibilità, non intervalli statistici o probabilità.</li>
+        <li>Nel <a href="/">simulatore</a> cambia prima solo il rendimento di accumulo, poi solo quello nel FIRE; conserva invariati spesa, inflazione e altre risorse per capire quale risultato reagisce.</li>
+        <li>Salva accanto ai risultati input, costi inclusi, fonte usata come contesto e motivo della scelta. Se manca una base attendibile, descrivi i tassi come puri esempi esplorativi.</li>
+    </ol>
+    <p>
+        Nel metodo FINITE il rendimento nel FIRE contribuisce al target tramite l'attualizzazione dei prelievi;
+        nel metodo SWR non modifica direttamente il target base senza risorse aggiuntive, ma cambia la proiezione
+        dei saldi e l'eventuale shortfall. Il rendimento di accumulo incide invece sulla crescita del capitale e
+        sul PAC richiesto. Queste relazioni seguono le sezioni 6–9 della specifica del motore, non una previsione dei mercati.
+    </p>
+</section>
+
+<section class="content-section" id="esempio-sensibilita" aria-labelledby="esempio-sensibilita-title">
+    <h2 id="esempio-sensibilita-title">Tre tassi illustrativi producono saldi molto diversi</h2>
+    <p>
+        Considera solo la crescita di 100.000 euro già investiti per 20 anni, senza altri versamenti, prelievi,
+        inflazione o imposte. I tassi nominali annui effettivi dello 0%, 2% e 4% sono scelti esclusivamente per
+        mostrare la sensibilità matematica: non sono stime di mercato né tassi consigliati. Supponiamo che gli
+        eventuali costi ricorrenti siano già riflessi nel tasso inserito.
+    </p>
+    <pre class="formula"><code>saldo dopo 20 anni = 100.000 euro × (1 + tasso annuo)^20
+0% → 100.000,00 euro
+2% → 148.594,74 euro
+4% → 219.112,31 euro</code></pre>
+    <p>
+        Gli importi sono arrotondati ai centesimi. Questo calcolo isola la capitalizzazione del capitale iniziale
+        prevista dalla sezione 8 della specifica; non è un risultato completo del simulatore. Con PAC, spese,
+        inflazione e prelievi il confronto va rifatto nello scenario effettivo. La distanza fra i saldi dimostra
+        quanto l'ipotesi pesa sul risultato, non quale dei tre tassi si realizzerà.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Anche più scenari non misurano la probabilità di riuscita</h2>
+    <p>
+        Il motore applica in ogni fase un rendimento costante convertito in tasso mensile. La specifica esclude
+        rendimenti variabili, simulazioni Monte Carlo e rischio di sequenza simulato. Due percorsi con la stessa
+        media possono avere esiti diversi quando iniziano i prelievi: la
+        <a href="/guida/rischio-sequenza-rendimenti-fire">guida al rischio di sequenza</a> spiega il motivo.
+        Scenari meno e più favorevoli aiutano a vedere la fragilità di un piano, ma non assegnano probabilità
+        ai risultati.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="avvertenza-title">
+        <h3 id="avvertenza-title">Non trasformare lo scenario migliore in un obiettivo garantito</h3>
+        <p>
+            Se il piano funziona solo con il rendimento più elevato ipotizzato, annota questa dipendenza e
+            ricontrolla spese, tempi e versamenti. Nessun tasso della guida indica un prodotto, un'allocazione
+            personale o il rendimento che avrai.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Documenta l'ipotesi e guarda quanto cambia il piano</h2>
+    <p>
+        Parti da tassi nominali coerenti con la fase e con i costi che hai incluso, mantieni separata
+        l'inflazione e confronta scenari modificando una variabile alla volta. Nel <a href="/">simulatore FIRE</a>
+        osserva non solo il target o il PAC, ma anche i saldi durante i prelievi e gli eventuali avvisi di
+        insufficienza. La domanda utile è quanto il piano dipenda dal rendimento scelto, non quale singolo
+        tasso possa promettere il futuro.
+    </p>
+</section>

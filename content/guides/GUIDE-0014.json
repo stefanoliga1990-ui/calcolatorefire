@@ -1,0 +1,60 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0014",
+  "slug": "/guida/rendimento-atteso-simulazione-fire",
+  "seo": {
+    "title": "Come scegliere il rendimento in una simulazione FIRE",
+    "description": "Costruisci ipotesi di rendimento coerenti per accumulo e FIRE, considera costi e incertezza e confronta scenari senza trattare il passato come previsione.",
+    "og_title": "Rendimento ipotizzato nel calcolo FIRE",
+    "og_description": "Un metodo per documentare il tasso inserito nel simulatore e misurare quanto cambia il risultato."
+  },
+  "page": {
+    "kicker": "Ipotesi finanziarie",
+    "h1": "Come scegliere il rendimento atteso in una simulazione FIRE",
+    "lead": "Quale rendimento usare per stimare il percorso FIRE? Non esiste un tasso valido per tutti. Parti da ipotesi coerenti con il patrimonio che stai modellando, chiarisci se includono costi e inflazione, poi confronta più scenari. Il numero inserito serve a misurare la sensibilità del piano: non prevede il rendimento che otterrai."
+  },
+  "dates": {
+    "published": "2026-09-27",
+    "updated": "2026-09-27"
+  },
+  "summary_points": [
+    "Un rendimento storico o pubblicizzato non è una previsione: controlla periodo, mercato, valuta, costi e metodo di calcolo prima di usarlo come riferimento.",
+    "Nel simulatore i rendimenti di accumulo e FIRE sono ipotesi nominali annue effettive, al netto dei costi ricorrenti e prima delle imposte personali.",
+    "Tieni separate le due fasi e l'inflazione; annota le ipotesi e confronta uno scenario centrale con alternative meno e più favorevoli, senza assegnare loro probabilità.",
+    "Il motore applica tassi costanti: anche più scenari non simulano oscillazioni, rischio di sequenza o probabilità di riuscita."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0010",
+    "SRC-2026-0017"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Definisce unità degli input, conversione mensile e limiti delle proiezioni."
+    },
+    {
+      "url": "/guida/rendimento-nominale-reale",
+      "label": "Rendimento nominale e reale",
+      "reason": "Spiega come controllare il trattamento dell'inflazione senza confondere i due tassi."
+    },
+    {
+      "url": "/guida/rischio-sequenza-rendimenti-fire",
+      "label": "Rischio di sequenza dei rendimenti",
+      "reason": "Approfondisce un rischio che il tasso costante del simulatore non rappresenta."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Consente di variare i rendimenti e confrontare i risultati dello scenario."
+    }
+  ],
+  "cta": {
+    "title": "Confronta ipotesi dichiarate",
+    "text": "Registra i tassi nominali, i costi considerati e l'inflazione, poi modifica uno scenario alla volta e osserva come cambiano target, PAC e saldo finale.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
