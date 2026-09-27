@@ -1,0 +1,99 @@
+<section class="content-section" id="misurare-risparmio" aria-labelledby="misurare-risparmio-title">
+    <h2 id="misurare-risparmio-title">Calcola la quota risparmiata su un periodo coerente</h2>
+    <p>
+        Per leggere il tuo budget, chiama <em>tasso di risparmio personale</em> la parte delle entrate disponibili
+        che non spendi nello stesso periodo. Se le entrate sono irregolari, usa un periodo abbastanza lungo da
+        comprendere i mesi meno favorevoli. La
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia, nella guida alla pianificazione</a>
+        invita a ricostruire entrate e uscite e a includere nel budget spese poco frequenti e imprevisti.
+    </p>
+    <pre class="formula"><code>Risparmio del periodo = entrate disponibili − uscite del periodo
+Tasso di risparmio personale = risparmio del periodo ÷ entrate disponibili × 100</code></pre>
+    <p>
+        Usa importi netti e la stessa durata al numeratore e al denominatore. Se in un mese entrano 4.000 euro
+        e le uscite complessive sono 2.000 euro, restano 2.000 euro: la quota è il 50%. Se le uscite superano
+        le entrate, il risultato è negativo. Il calcolo descrive il budget, non dice da solo quanto investire.
+        Una parte del risparmio potrebbe servire per imprevisti, debiti o obiettivi precedenti al FIRE.
+    </p>
+</section>
+
+<section class="content-section" id="quota-e-pac" aria-labelledby="quota-e-pac-title">
+    <h2 id="quota-e-pac-title">Dal risparmio disponibile al PAC il passaggio è una scelta</h2>
+    <p>
+        Il simulatore non chiede una percentuale di reddito da risparmiare: parte dal capitale obiettivo e
+        calcola il PAC iniziale necessario per l'età FIRE indicata. Il calcolo dipende anche dal patrimonio
+        presente, dal rendimento di accumulo ipotizzato e dalla crescita dei versamenti. Ogni nuovo versamento
+        entra alla fine del mese, secondo la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica del motore, sezioni 2 e 8</a>.
+        Il PAC richiesto è quindi un risultato dello scenario, da confrontare con la somma che il tuo budget
+        consente davvero di destinare a questo obiettivo.
+    </p>
+    <p>
+        A parità di target, patrimonio e rendimento ipotizzato, versare di più può ridurre i mesi necessari.
+        Per esplorarlo nel simulatore, prova età FIRE diverse e confronta il PAC richiesto: una data più vicina
+        richiede in genere una rata maggiore. La
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia</a>
+        raccomanda obiettivi concreti e raggiungibili, verificati nel tempo contro il budget effettivo.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Con target fisso, 500 euro in più riducono cinque anni nell'esempio</h2>
+    <p>
+        Questo è un esempio didattico, non una previsione. Una persona ipotetica ha 4.000 euro mensili di entrate
+        disponibili, 2.000 euro mensili di uscite e nessun capitale iniziale. Destina tutti i 2.000 euro residui
+        al PAC. Tiene fisso un target di 600.000 euro: nel metodo FINITE rappresenta 2.000 euro mensili di spesa
+        durante 25 anni di FIRE, con capitale finale zero. Per isolare l'effetto dei versamenti, rendimento,
+        inflazione, crescita del PAC, imposte e bollo sono tutti impostati a zero, e non ci sono risorse aggiuntive.
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 6 e 8</a>
+        consente di ricostruire direttamente target e PAC in questo caso limite.
+    </p>
+    <pre class="formula"><code>Target = 2.000 euro/mese × 12 mesi × 25 anni = 600.000 euro
+Risparmio iniziale = 4.000 − 2.000 = 2.000 euro/mese (50%)
+Tempo con PAC di 2.000 euro/mese = 600.000 ÷ 2.000 = 300 mesi = 25 anni
+Nuove entrate disponibili: 4.500 euro/mese; uscite ferme a 2.000 euro/mese
+Nuovo PAC ipotizzato = 2.500 euro/mese (circa 55,6% delle nuove entrate)
+Tempo con PAC di 2.500 euro/mese = 600.000 ÷ 2.500 = 240 mesi = 20 anni</code></pre>
+    <p>
+        I cinque anni di differenza derivano dalla divisione con rendimento zero. Non sono una regola generale:
+        con rendimenti, inflazione, imposte o importi variabili il rapporto cambia. L'esempio aumenta le entrate
+        e lascia ferme sia le uscite attuali sia la spesa prevista nel FIRE; per questo il target rimane uguale.
+    </p>
+</section>
+
+<section class="content-section" id="spese-e-target" aria-labelledby="spese-e-target-title">
+    <h2 id="spese-e-target-title">Tagliare le spese può cambiare anche il capitale necessario</h2>
+    <p>
+        Se risparmi di più riducendo una spesa corrente, il PAC disponibile può crescere. Ma se quella stessa
+        riduzione sarà sostenibile anche durante il FIRE, dovresti rivedere anche la spesa futura usata per il
+        target. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 3, 5 e 6</a>
+        mostra che la spesa mensile inserita influisce sul primo prelievo e sul capitale richiesto. Non attribuire
+        automaticamente a ogni taglio di oggi una riduzione permanente delle spese future: casa, salute e
+        composizione familiare possono evolvere diversamente. La
+        <a href="/guida/calcolare-spese-fire">guida alla stima delle spese FIRE</a> aiuta a separare i due budget.
+    </p>
+    <p>
+        Per un confronto utile, annota in ciascuno scenario entrate, uscite, somma destinabile al PAC, spesa
+        prevista nel FIRE, età obiettivo e ipotesi di rendimento. Cambia una variabile alla volta quando vuoi
+        capirne l'effetto, poi verifica l'insieme come scenario completo.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Una percentuale alta non garantisce una data FIRE</h2>
+    <p>
+        Il reddito può variare, le uscite impreviste possono assorbire il risparmio e i rendimenti reali possono
+        differire dallo scenario. La
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia, nella guida agli investimenti</a>
+        spiega che rendimenti, rischi, orizzonte e costi incidono sui risultati. Il simulatore usa ipotesi
+        deterministiche: non prevede la tua traiettoria di reddito né gli andamenti futuri dei mercati.
+        Non scegliere una percentuale universale o un taglio di spesa insostenibile per far quadrare una data.
+    </p>
+    <p>
+        Parti dal budget documentato, conserva un margine per bisogni e imprevisti e confronta il PAC che puoi
+        sostenere con quello richiesto dal simulatore. Se i due non coincidono, rivedi scadenza, fabbisogno e
+        ipotesi senza trattare un rendimento più alto come soluzione certa. Le formule e le semplificazioni sono
+        nella <a href="/metodologia">metodologia del simulatore</a>; il confronto tra capitale e versamento
+        mensile è approfondito nella <a href="/guida/pac-per-raggiungere-il-fire">guida al PAC per il FIRE</a>.
+    </p>
+</section>

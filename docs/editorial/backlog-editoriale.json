@@ -414,7 +414,7 @@
     {
       "id": "GUIDE-0010",
       "content_type": "guide",
-      "status": "ready",
+      "status": "pushed_to_main",
       "execution_mode": "automatic",
       "automation_eligible": true,
       "sequence": 10,

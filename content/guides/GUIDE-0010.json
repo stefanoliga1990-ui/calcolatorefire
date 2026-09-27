@@ -1,0 +1,61 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0010",
+  "slug": "/guida/tasso-di-risparmio-fire",
+  "seo": {
+    "title": "Tasso di risparmio e FIRE: come cambia il tempo al target",
+    "description": "Calcola la quota di reddito che risparmi, collegala al PAC e confronta gli anni necessari al FIRE senza usare percentuali universali.",
+    "og_title": "Tasso di risparmio e tempo per il FIRE",
+    "og_description": "Formula, esempio riproducibile e limiti del confronto tra quota risparmiata, PAC e capitale obiettivo."
+  },
+  "page": {
+    "kicker": "Risparmio e accumulo",
+    "h1": "Tasso di risparmio e FIRE: quanto incide sul tempo necessario",
+    "lead": "Una quota di reddito risparmiata più alta può aumentare il PAC e abbreviare il tempo per raggiungere un capitale FIRE dato. Calcola però la quota sulle entrate disponibili e su tutte le uscite, poi confronta scenari coerenti: se tagli le spese, potrebbe cambiare anche il capitale che ti servirà durante il FIRE."
+  },
+  "dates": {
+    "published": "2026-09-27",
+    "updated": "2026-09-27"
+  },
+  "summary_points": [
+    "Il tasso di risparmio personale è la quota delle entrate disponibili che resta dopo le uscite nello stesso periodo.",
+    "Il denaro risparmiato non coincide automaticamente con il PAC: tieni conto di riserve, debiti e altri obiettivi.",
+    "A target e ipotesi invariati, un PAC più alto può raggiungere il capitale prima; il simulatore calcola invece il PAC richiesto per l'età FIRE scelta.",
+    "Ridurre le spese può agire sia sul denaro disponibile oggi sia sul fabbisogno futuro, se il taglio è sostenibile anche durante il FIRE.",
+    "Non esiste una percentuale di risparmio valida per tutti: rendimento, costi, imposte e condizioni personali possono cambiare il percorso."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0004",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Documenta il target e il calcolo mensile del PAC con le ipotesi usate dal motore."
+    },
+    {
+      "url": "/guida/pac-per-raggiungere-il-fire",
+      "label": "Guida al PAC per il FIRE",
+      "reason": "Approfondisce il versamento mensile richiesto per un target e una data scelti."
+    },
+    {
+      "url": "/guida/calcolare-spese-fire",
+      "label": "Guida alla stima delle spese FIRE",
+      "reason": "Aiuta a costruire una spesa futura distinta dalle uscite correnti."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Permette di confrontare il PAC richiesto cambiando l'età FIRE e le ipotesi."
+    }
+  ],
+  "cta": {
+    "title": "Confronta due scadenze sostenibili",
+    "text": "Parti dal tuo budget, imposta la spesa FIRE e confronta il PAC richiesto per due età diverse. Verifica che ciascun versamento sia compatibile con le tue uscite reali.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
