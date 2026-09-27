@@ -1,7 +1,7 @@
 {
   "$schema": "./backlog-editoriale.schema.json",
   "schema_version": "1.0",
-  "updated_at": "2026-09-27",
+  "updated_at": "2026-09-28",
   "selection_policy": {
     "required_status": "ready",
     "automation_eligible": true,
@@ -611,7 +611,7 @@
     {
       "id": "GUIDE-0015",
       "content_type": "guide",
-      "status": "ready",
+      "status": "pushed_to_main",
       "execution_mode": "automatic",
       "automation_eligible": true,
       "sequence": 15,

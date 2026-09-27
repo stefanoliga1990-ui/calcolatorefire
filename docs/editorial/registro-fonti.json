@@ -1,9 +1,9 @@
 {
   "$schema": "./registro-fonti.schema.json",
   "schema_version": "1.0",
-  "updated_at": "2026-09-27",
+  "updated_at": "2026-09-28",
   "next_id_by_year": {
-    "2026": 18
+    "2026": 19
   },
   "sources": [
     {
@@ -161,25 +161,25 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-27T17:42:44+02:00"
+        "last_accessed_at": "2026-09-28T01:47:57+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-27",
-        "reference_period": "Versione del motore verificata su main il 27 settembre 2026",
+        "as_of": "2026-09-28",
+        "reference_period": "Versione del motore verificata su main il 28 settembre 2026",
         "version": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
         "provisional": false
       },
       "locator": {
         "article": null,
-        "section": "Sezioni 1–2, 5, 14.3 e 16",
+        "section": "Sezioni 1–2, 4–8, 10.1–10.3, 14 e 16",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-27T17:42:44+02:00",
+        "checked_at": "2026-09-28T01:47:57+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -232,6 +232,12 @@
           "claim": "Il costo fiscale iniziale della risorsa segue per default il suo valore corrente, può essere modificato e confluisce con il saldo solo se disponibile al FIRE; il modello fiscale resta semplificato.",
           "importance": "central",
           "verified_at": "2026-09-27T17:42:44+02:00"
+        },
+        {
+          "content_id": "GUIDE-0015",
+          "claim": "Il motore conserva saldo e costo fiscale residuo, aggiorna gli apporti, attribuisce costo e guadagno proporzionalmente alle vendite, calcola lordo e imposta per un netto richiesto e non crea crediti da minusvalenze; esempi propri con saldo 240.000 euro e fabbisogno mensile 1.500 euro.",
+          "importance": "central",
+          "verified_at": "2026-09-28T01:47:57+02:00"
         }
       ],
       "limitations": [
@@ -245,7 +251,7 @@
         }
       ],
       "local_copy": null,
-      "notes": "Fonte primaria interna per la sezione fiscale della pagina metodologia."
+      "notes": "Specifica interna consultata integralmente nel checkout; formule riconciliate con FiscalCalculator.java e FiscalPortfolioState.java. Esempi GUIDE-0015: p=max(0,B-F)/B; G=D/(1-tau*p); T=G*p*tau; F residuo=F*(1-G/B). B=240000, D=1500, tau=0.26, F=240000/144000/60000/260000; rendimenti, bollo, apporti e rendite zero, un mese, euro nominali. Arrotondamento espositivo ai centesimi. Con F=144000: G=1674.107142857143, T=174.107142857143, saldo=238325.89285714286, F residuo=142995.5357142857. Esempio accumulo: B=240000, F=144000, rendimento mensile=0.005, versamento=1000, bollo zero; saldo finale=242200, F finale=145000. Nessuna previsione o imposta personale."
     },
     {
       "id": "SRC-2026-0003",
@@ -819,25 +825,25 @@
         "published": "2014-06-23",
         "updated": null,
         "first_accessed_at": "2026-09-26T15:08:00+02:00",
-        "last_accessed_at": "2026-09-26T15:08:00+02:00"
+        "last_accessed_at": "2026-09-28T01:47:57+02:00"
       },
       "applicability": {
         "valid_from": "2014-07-01",
         "valid_to": null,
-        "as_of": "2026-09-26",
+        "as_of": "2026-09-28",
         "reference_period": "Aliquota ordinaria e deroghe per redditi finanziari",
         "version": "Testo coordinato con legge 23 giugno 2014, n. 89",
         "provisional": false
       },
       "locator": {
-        "article": "Art. 3, commi 1, 2, 3, 6 e 12",
+        "article": "Art. 3, commi 1, 2 e 6 (testo integrale consultato)",
         "section": null,
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-26T15:08:00+02:00",
+        "checked_at": "2026-09-28T01:47:57+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -848,12 +854,18 @@
           "claim": "L’articolo 3 stabilisce il 26% per le categorie indicate e prevede eccezioni; non autorizza ad applicare una sola aliquota a ogni investimento.",
           "importance": "central",
           "verified_at": "2026-09-26T15:08:00+02:00"
+        },
+        {
+          "content_id": "GUIDE-0015",
+          "claim": "Art. 3, commi 1, 2 e 6: aliquota del 26% per le categorie indicate e deroghe; il default del modello non rappresenta ogni strumento o regime.",
+          "importance": "central",
+          "verified_at": "2026-09-28T01:47:57+02:00"
         }
       ],
       "limitations": [
         "Il testo del 2014 va letto con eventuali modifiche successive e con la categoria concreta del reddito."
       ],
-      "notes": "Testo integrale dell’articolo consultato; la guida usa solo la regola generale e segnala le esclusioni."
+      "notes": "Articolo completo letto direttamente dalla Gazzetta Ufficiale con richiesta HTTPS ordinaria; web.open non restituiva il testo. Regola generale riscontrata nelle istruzioni AE, senza estenderla a cripto-attività, titoli agevolati o regimi specifici."
     },
     {
       "status": "approved",
@@ -871,25 +883,25 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-26T15:08:00+02:00",
-        "last_accessed_at": "2026-09-26T15:08:00+02:00"
+        "last_accessed_at": "2026-09-28T01:47:57+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-26",
+        "as_of": "2026-09-28",
         "reference_period": "Istruzioni informative 730/2026 su redditi realizzati e categorie dichiarative",
         "version": "730/2026",
         "provisional": false
       },
       "locator": {
         "article": null,
-        "section": "Plusvalenze assoggettate a imposta sostitutiva del 26%",
+        "section": "Criteri della base imponibile e Plusvalenze assoggettate a imposta sostitutiva del 26% (pagina integrale consultata)",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-26T15:08:00+02:00",
+        "checked_at": "2026-09-28T01:47:57+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -900,12 +912,18 @@
           "claim": "La pagina dell’Agenzia distingue plusvalenze finanziarie soggette al 26%, periodo di realizzo e costo o valore di acquisto.",
           "importance": "central",
           "verified_at": "2026-09-26T15:08:00+02:00"
+        },
+        {
+          "content_id": "GUIDE-0015",
+          "claim": "La pagina istituzionale distingue corrispettivo e costo o valore di acquisto, rinvia all’art. 68 TUIR e descrive le categorie al 26%; le istruzioni dichiarative non sono il modello proporzionale del simulatore.",
+          "importance": "central",
+          "verified_at": "2026-09-28T01:47:57+02:00"
         }
       ],
       "limitations": [
         "La pagina riguarda la dichiarazione 2026 e non determina da sola l’imposta individuale di ogni portafoglio o regime."
       ],
-      "notes": "Pagina istituzionale consultata integralmente; usata come prassi informativa, non come testo della legge."
+      "notes": "Pagina completa acquisita mediante richiesta HTTPS ordinaria al sito AE; web.open non restituiva il contenuto. Usati soltanto definizione di corrispettivo/costo e categorie finanziarie ordinarie, confrontati con il TUIR. Frammenti riferiti ad annualità storiche, rivalutazioni e cripto-attività non sono usati per descrivere la fiscalità corrente."
     },
     {
       "status": "approved",
@@ -1176,6 +1194,59 @@
       "conflicts": [],
       "local_copy": null,
       "notes": "Consultato integralmente sul sito originale. Coerente con la Banca d’Italia su incertezza e costi; nessun conflitto sostanziale. Nessun tasso storico trasferito a previsione."
+    },
+    {
+      "id": "SRC-2026-0018",
+      "status": "approved",
+      "level": "A",
+      "type": "normative_act",
+      "title": "D.P.R. 22 dicembre 1986, n. 917 — articolo 68, Plusvalenze",
+      "responsible_entity": "Ministero dell’Economia e delle Finanze — Documentazione Economica e Finanziaria",
+      "authors": [],
+      "url": "https://def.finanze.it/DocTribFrontend/getAttoNormativoDetail.do?ACTION=getArticolo&codiceOrdinamento=0000000000000680000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&id=%7B31D694E8-4398-4030-873B-FEAF5A6647F9%7D",
+      "persistent_identifier": "DPR 917/1986, art. 68; versione {12E25FBE-2352-4C39-A290-D00431CDD4FD}",
+      "dates": {
+        "published": "1986-12-31",
+        "updated": null,
+        "first_accessed_at": "2026-09-28T01:47:57+02:00",
+        "last_accessed_at": "2026-09-28T01:47:57+02:00"
+      },
+      "applicability": {
+        "valid_from": "2025-01-01",
+        "valid_to": null,
+        "as_of": "2026-09-28",
+        "reference_period": "Testo vigente dell’articolo 68 alla consultazione; uso limitato alla definizione delle plusvalenze finanziarie del comma 6",
+        "version": "Versione in vigore dal 01/01/2025; modificata da legge 30/12/2024 n. 207, art. 1, comma 25",
+        "provisional": false
+      },
+      "locator": {
+        "article": "Art. 68, comma 6",
+        "section": null,
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-28T01:47:57+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0015",
+          "claim": "Per le fattispecie dell’art. 67, comma 1, lettere c), c-bis) e c-ter), il comma 6 definisce la plusvalenza come differenza fra corrispettivo e costo o valore di acquisto con oneri inerenti ed esclusione degli interessi passivi, e richiede documentazione del costo; non stabilisce il modello aggregato proporzionale del simulatore.",
+          "importance": "central",
+          "verified_at": "2026-09-28T01:47:57+02:00"
+        }
+      ],
+      "limitations": [
+        "Regola riferita alle categorie indicate dalla norma, non a tutti i prodotti, proventi o contribuenti.",
+        "Il costo fiscale reale richiede documentazione e regole specifiche; l’aggregazione proporzionale del simulatore è una scelta interna e non un metodo dichiarativo."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Consultato l’articolo completo e la lista delle versioni dalla variabile XML pubblica inclusa nell’HTML ufficiale DEF, acquisito con richiesta HTTPS ordinaria. La vista testuale del browser di ricerca ometteva il testo dinamico. Identificata come corrente la versione in vigore dal 01/01/2025; contenuto del comma 6 confrontato con AE. Nessun conflitto sostanziale nell’ambito utilizzato; esclusi immobili, cripto-attività e procedure dichiarative."
     }
   ]
 }

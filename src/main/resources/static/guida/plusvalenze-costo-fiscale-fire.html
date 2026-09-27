@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Distingui valore del portafoglio, costo fiscale e plusvalenza latente. Calcola il prelievo lordo per una spesa netta nel modello FIRE semplificato.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Plusvalenze e costo fiscale nel calcolo FIRE">
+    <meta property="og:description" content="A parità di patrimonio, un costo fiscale diverso cambia l&#x27;imposta stimata sulle vendite. Formule, confronto numerico e limiti del simulatore.">
+    <meta property="og:url" content="https://simulatorefire.com/guida/plusvalenze-costo-fiscale-fire">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Plusvalenze e costo fiscale nel calcolo FIRE">
+    <meta property="article:published_time" content="2026-09-28">
+    <meta property="article:modified_time" content="2026-09-28">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Plusvalenze e costo fiscale nel calcolo FIRE">
+    <meta name="twitter:description" content="A parità di patrimonio, un costo fiscale diverso cambia l&#x27;imposta stimata sulle vendite. Formule, confronto numerico e limiti del simulatore.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>Plusvalenze e costo fiscale nel FIRE: dal lordo al netto</title>
+    <link rel="canonical" href="https://simulatorefire.com/guida/plusvalenze-costo-fiscale-fire">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.0">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.3">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Plusvalenze e costo fiscale nel calcolo FIRE",
+  "description": "Distingui valore del portafoglio, costo fiscale e plusvalenza latente. Calcola il prelievo lordo per una spesa netta nel modello FIRE semplificato.",
+  "url": "https://simulatorefire.com/guida/plusvalenze-costo-fiscale-fire",
+  "mainEntityOfPage": "https://simulatorefire.com/guida/plusvalenze-costo-fiscale-fire",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "inLanguage": "it-IT",
+  "author": {
+    "@type": "Person",
+    "name": "Stefano Liga",
+    "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calcolo FIRE Italia",
+    "url": "https://simulatorefire.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+    }
+  },
+  "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Simulatore FIRE",
+      "item": "https://simulatorefire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guide",
+      "item": "https://simulatorefire.com/guide"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Plusvalenze e costo fiscale nel calcolo FIRE",
+      "item": "https://simulatorefire.com/guida/plusvalenze-costo-fiscale-fire"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/guide">Guide</a>
+        <a class="header-link" href="/metodologia">Metodologia</a>
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li><a href="/guide">Guide</a></li>
+                <li aria-current="page">Plusvalenze e costo fiscale nel calcolo FIRE</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">Fiscalità del portafoglio</p>
+        <h1>Plusvalenze e costo fiscale nel calcolo FIRE</h1>
+        <p class="content-lead">Quanto devi vendere per ottenere una somma netta da spendere nel FIRE? Nel modello del simulatore dipende dalla quota di guadagno inclusa nella vendita: valore del portafoglio e costo fiscale residuo determinano insieme l&#x27;imposta stimata. Due patrimoni uguali possono quindi richiedere prelievi lordi diversi. Questa guida spiega il calcolo proporzionale, come cambia il costo fiscale durante il percorso e quali limiti impediscono di usarlo come conteggio fiscale personale.</p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia</span>
+            <span>8 minuti di lettura</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della guida">
+            <strong>In questa guida</strong>
+            <ol><li><a href="#valore-e-costo">Valore corrente, costo fiscale e guadagno sono tre grandezze diverse</a></li><li><a href="#quota-imponibile">L&#x27;imposta stimata riguarda il guadagno attribuito alla vendita</a></li><li><a href="#dal-netto-al-lordo">Per coprire una spesa netta serve risolvere il prelievo lordo</a></li><li><a href="#confronto-numerico">Lo stesso patrimonio può produrre prelievi lordi diversi</a></li><li><a href="#costo-residuo">La vendita consuma anche una parte del costo fiscale</a></li><li><a href="#durante-accumulo">Versamenti e rendimenti cambiano il costo in modi diversi</a></li><li><a href="#limiti-del-modello">Un costo aggregato non riproduce la fiscalità dei singoli strumenti</a></li><li><a href="#leggere-la-stima">Leggi costo, plusvalenza, lordo e netto nello stesso scenario</a></li></ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul><li>Il valore di mercato indica quanto vale il portafoglio; il costo fiscale residuo rappresenta il costo ancora attribuito alle quote possedute nel modello.</li><li>La plusvalenza latente positiva è la differenza fra saldo e costo fiscale: il simulatore la tassa solo nella quota attribuita a una vendita.</li><li>Con quota imponibile p e aliquota τ, la vendita lorda richiesta per ottenere D euro netti è D / (1 − τ × p), finché il patrimonio disponibile basta.</li><li>Nuovi apporti aumentano saldo e costo fiscale; rendimenti e bollo modificano il saldo. Una vendita riduce il costo fiscale in proporzione alla quota ceduta.</li><li>Il costo fiscale automatico iniziale coincide con il valore corrente: può essere modificato, ma non ricostruisce la storia fiscale reale degli investimenti.</li><li>Il modello aggrega il portafoglio e non gestisce compensazioni delle minusvalenze, aliquote diverse per singolo titolo o regimi fiscali personali.</li></ul>
+            </section>
+
+<section class="content-section" id="valore-e-costo" aria-labelledby="valore-e-costo-title">
+    <h2 id="valore-e-costo-title">Valore corrente, costo fiscale e guadagno sono tre grandezze diverse</h2>
+    <p>
+        Il valore corrente è quanto vale il portafoglio nel mese considerato. Il costo fiscale residuo è il costo
+        che il modello attribuisce alla parte ancora posseduta: non coincide necessariamente con tutti i versamenti
+        compiuti nella vita dell'investimento, perché le vendite precedenti ne hanno già consumato una parte.
+        La differenza positiva fra valore e costo è la <strong>plusvalenza latente</strong>, cioè il guadagno
+        ancora incluso nelle quote detenute.
+    </p>
+    <p>
+        Per le fattispecie finanziarie indicate dalla norma, l'<a href="https://def.finanze.it/DocTribFrontend/getAttoNormativoDetail.do?ACTION=getArticolo&amp;codiceOrdinamento=0000000000000680000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&amp;id=%7B31D694E8-4398-4030-873B-FEAF5A6647F9%7D" data-source-id="SRC-2026-0018">articolo 68, comma 6, del TUIR</a>
+        definisce la plusvalenza usando il corrispettivo e il costo o valore di acquisto, con gli oneri inerenti
+        previsti ed esclusione degli interessi passivi. Richiede inoltre la documentazione del costo. Questa regola
+        non rende equivalenti costo fiscale, valore di mercato e semplice somma dei bonifici effettuati.
+    </p>
+    <p>
+        Il simulatore usa invece un costo aggregato del portafoglio, descritto nella
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 2 e 4</a>.
+        All'inizio assume automaticamente costo e valore uguali. Scegliendo «Modifica» puoi inserire un costo diverso;
+        con il valore automatico, ogni modifica del patrimonio aggiorna anche il costo. Il default è un'ipotesi
+        iniziale di calcolo e non una ricostruzione degli acquisti passati.
+    </p>
+</section>
+
+<section class="content-section" id="quota-imponibile" aria-labelledby="quota-imponibile-title">
+    <h2 id="quota-imponibile-title">L'imposta stimata riguarda il guadagno attribuito alla vendita</h2>
+    <p>
+        Nel modello, un portafoglio di 240.000 euro con costo fiscale di 144.000 euro contiene 96.000 euro di
+        guadagno latente positivo: il 40% del suo valore. Ogni vendita viene ripartita nella stessa proporzione,
+        40% guadagno e 60% costo. Non viene attribuita alla prima vendita tutta la plusvalenza del portafoglio.
+        È la regola proporzionale della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica del decumulo, sezione 6</a>,
+        non un criterio universale per una dichiarazione fiscale.
+    </p>
+    <p>
+        Il campo aliquota parte dal 26%. L'<a href="https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.codiceRedazionale=14A04717&amp;art.dataPubblicazioneGazzetta=2014-06-23&amp;art.flagTipoArticolo=0&amp;art.idArticolo=3&amp;art.idGruppo=2&amp;art.idSottoArticolo=1&amp;art.idSottoArticolo1=10&amp;art.progressivo=1&amp;art.versione=1" data-source-id="SRC-2026-0011">articolo 3 del decreto-legge 66/2014, commi 1 e 2</a>
+        prevede il 26% per le categorie indicate e deroghe; le
+        <a href="https://infoprecompilata.agenziaentrate.gov.it/portale/semplificata-mod-plusvalenze-natura-finanziaria" data-source-id="SRC-2026-0012">istruzioni dell'Agenzia delle Entrate sulle plusvalenze finanziarie</a>
+        distinguono anch'esse corrispettivo, costo e categorie tassate. Le istruzioni riguardano il periodo d'imposta
+        del modello dichiarativo citato. Non estendere il default a ogni prodotto, provento o regime.
+    </p>
+    <p>
+        Indicando con <strong>B</strong> il saldo disponibile prima della vendita, con <strong>F</strong> il costo
+        fiscale residuo e con <strong>p</strong> la quota di guadagno, il calcolo interno è:
+    </p>
+    <pre class="formula"><code>plusvalenza latente positiva = max(0, B − F)
+quota imponibile p = max(0, B − F) / B, se B &gt; 0
+p = 0, se B = 0</code></pre>
+    <p>
+        Se F è uguale o superiore a B, la quota imponibile del modello è zero. Un costo superiore al saldo può
+        rappresentare una perdita latente, ma il simulatore non crea né utilizza un credito da minusvalenza.
+    </p>
+</section>
+
+<section class="content-section" id="dal-netto-al-lordo" aria-labelledby="dal-netto-al-lordo-title">
+    <h2 id="dal-netto-al-lordo-title">Per coprire una spesa netta serve risolvere il prelievo lordo</h2>
+    <p>
+        D è il fabbisogno mensile ancora da finanziare dopo le rendite nette; τ è l'aliquota del modello espressa
+        come numero decimale, per esempio 0,26. La vendita lorda G deve lasciare D dopo l'imposta T. Dalla
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">formula fiscale della sezione 6</a>:
+    </p>
+    <pre class="formula"><code>T = G × p × τ
+D = G − T = G × (1 − p × τ)
+G richiesto = D / (1 − p × τ)</code></pre>
+    <p>
+        Applicare il 26% a tutta la vendita confonderebbe capitale restituito e guadagno. Anche aggiungere
+        semplicemente il 26% alla spesa netta userebbe una base sbagliata: la tassa dipende da p e dal lordo
+        effettivamente venduto. La formula vale per la vendita richiesta; quella effettiva non può superare B.
+        Se il patrimonio non basta, il motore vende quanto disponibile e segnala il fabbisogno non coperto.
+    </p>
+</section>
+
+<section class="content-section" id="confronto-numerico" aria-labelledby="confronto-numerico-title">
+    <h2 id="confronto-numerico-title">Lo stesso patrimonio può produrre prelievi lordi diversi</h2>
+    <p>
+        Questo confronto è un'elaborazione didattica sulle formule del modello: saldo iniziale B di 240.000 euro,
+        fabbisogno D di 1.500 euro netti per un solo mese e aliquota τ del 26%. Rendimenti, inflazione, bollo,
+        rendite e nuovi apporti sono posti a zero per isolare la vendita. Tutti gli importi sono euro nominali
+        del mese considerato, senza commissioni o altre imposte.
+    </p>
+    <p>Vendita del primo mese al variare del solo costo fiscale:</p>
+    <table>
+        <thead>
+            <tr><th scope="col">Costo fiscale F</th><th scope="col">Quota imponibile p</th><th scope="col">Vendita lorda G</th><th scope="col">Imposta T</th><th scope="col">Ricavo netto</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>240.000 euro</td><td>0%</td><td>1.500,00 euro</td><td>0,00 euro</td><td>1.500,00 euro</td></tr>
+            <tr><td>144.000 euro</td><td>40%</td><td>1.674,11 euro</td><td>174,11 euro</td><td>1.500,00 euro</td></tr>
+            <tr><td>60.000 euro</td><td>75%</td><td>1.863,35 euro</td><td>363,35 euro</td><td>1.500,00 euro</td></tr>
+            <tr><td>260.000 euro</td><td>0%</td><td>1.500,00 euro</td><td>0,00 euro</td><td>1.500,00 euro</td></tr>
+        </tbody>
+    </table>
+    <p>
+        Nel secondo caso, G = 1.500 / (1 − 0,40 × 0,26) = 1.674,107142… euro. Il modello attribuisce alla vendita
+        669,642857… euro di guadagno e stima 174,107142… euro d'imposta. L'aliquota del 26% sul guadagno equivale
+        qui al 10,4% della vendita lorda. I calcoli conservano i decimali; la tabella arrotonda soltanto gli importi
+        finali ai centesimi.
+    </p>
+    <p>
+        L'ultima riga non promette una compensazione: mostra soltanto che il modello pone p a zero. Il confronto
+        non è una previsione d'imposta personale e non determina il target FIRE completo, che richiede anche
+        durata, spese future e tutte le altre ipotesi.
+    </p>
+</section>
+
+<section class="content-section" id="costo-residuo" aria-labelledby="costo-residuo-title">
+    <h2 id="costo-residuo-title">La vendita consuma anche una parte del costo fiscale</h2>
+    <p>
+        Dopo la vendita, mantenere F invariato attribuirebbe alle quote rimaste anche il costo della parte ceduta.
+        Per evitarlo, il motore riduce il costo in proporzione alla vendita. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale sul costo dopo la vendita</a>
+        distingue quindi il nuovo saldo e il nuovo costo:
+    </p>
+    <pre class="formula"><code>saldo dopo la vendita = B − G
+costo fiscale dopo la vendita = F × (1 − G / B)</code></pre>
+    <p>
+        Nel caso F = 144.000 euro, dopo il primo prelievo restano 238.325,89 euro di saldo e 142.995,54 euro di
+        costo fiscale, arrotondati. Il costo consumato è 1.004,46 euro, non l'intera vendita di 1.674,11 euro.
+        Prima di nuovi rendimenti, apporti o bollo, il rapporto F/B resta il 60%: la sola vendita proporzionale
+        non elimina più velocemente il guadagno del capitale iniziale. Per una vendita totale, il costo residuo
+        viene azzerato.
+    </p>
+</section>
+
+<section class="content-section" id="durante-accumulo" aria-labelledby="durante-accumulo-title">
+    <h2 id="durante-accumulo-title">Versamenti e rendimenti cambiano il costo in modi diversi</h2>
+    <p>
+        Durante l'accumulo, un nuovo versamento netto aumenta sia saldo sia costo fiscale dello stesso importo;
+        il rendimento aumenta o riduce soltanto il saldo. Anche il bollo modellato riduce il saldo senza consumare
+        il costo. In questa semplificazione il rendimento non viene tassato mentre matura: il portafoglio è
+        trattato come un investimento ad accumulazione. È il perimetro delle
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">sezioni 1, 4 e 5 della specifica fiscale</a>.
+    </p>
+    <p>
+        Esempio separato di un mese: saldo iniziale 240.000 euro, costo 144.000 euro, rendimento ipotetico mensile
+        dello 0,5% e versamento di 1.000 euro a fine mese, con bollo zero e nessun altro apporto. Il rendimento
+        è 1.200 euro; il saldo finale è 242.200 euro e il costo è 145.000 euro. La plusvalenza latente positiva
+        diventa 97.200 euro. Il versamento aggiunge costo; i 1.200 euro di rendimento aggiungono guadagno nel modello.
+        Il tasso scelto serve soltanto a illustrare il passaggio e non è una stima di rendimento futuro.
+    </p>
+    <p>
+        Ogni investimento o PAC esistente conserva saldo e costo separati durante l'accumulo; se disponibile al
+        FIRE, li fa confluire nel portafoglio usato per i prelievi. Anche rendite nette reinvestite e capitali
+        futuri netti investiti aggiungono costo. Per inserirli senza contare due volte lo stesso patrimonio,
+        consulta la guida su <a href="/guida/capitale-investito-pac-esistente">capitale investito e PAC esistente</a>.
+    </p>
+</section>
+
+<section class="content-section" id="limiti-del-modello" aria-labelledby="limiti-del-modello-title">
+    <h2 id="limiti-del-modello-title">Un costo aggregato non riproduce la fiscalità dei singoli strumenti</h2>
+    <p>
+        Il calcolo proporzionale tratta il portafoglio come un insieme omogeneo: non sceglie quali titoli vendere e
+        non segue lotti di acquisto individuali. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica, sezione 1</a>
+        esclude compensazione delle minusvalenze, aliquote agevolate, distinzione fra redditi di capitale e redditi
+        diversi, regimi fiscali personali e tassazione separata di cedole o dividendi. Cambiare l'aliquota unica
+        non aggiunge queste funzioni.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="costo-documentato-title">
+        <h3 id="costo-documentato-title">La stima non ricostruisce il costo fiscalmente riconosciuto</h3>
+        <p>
+            Per il costo effettivo servono la documentazione degli investimenti e le regole applicabili al prodotto
+            e al regime. Il campo del simulatore consente confronti di scenario; non stabilisce quanto dichiarare,
+            quali perdite compensare o quali strumenti vendere. Quando necessario, verifica il conteggio reale
+            con l'intermediario o un professionista qualificato.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="leggere-la-stima" aria-labelledby="leggere-la-stima-title">
+    <h2 id="leggere-la-stima-title">Leggi costo, plusvalenza, lordo e netto nello stesso scenario</h2>
+    <p>
+        Nel <a href="/">simulatore FIRE</a> controlla prima come è impostato il costo iniziale. Poi leggi insieme
+        costo fiscale e plusvalenza latente all'ingresso nel FIRE, vendita lorda del primo mese, imposta stimata e
+        importo netto disponibile. Per isolare l'effetto del costo, mantieni uguali gli altri input e confronta
+        soltanto due valori di F: stai misurando la sensibilità del modello, non scegliendo il costo che conviene.
+    </p>
+    <p>
+        Target e PAC dipendono dal costo prodotto durante l'accumulo, perché quel costo influisce sulle vendite
+        future. La <a href="/metodologia">metodologia</a> spiega il calcolo congiunto; la guida sulla
+        <a href="/guida/tassazione-fire-italia">tassazione nel FIRE in Italia</a> completa il quadro del bollo
+        e delle esclusioni. Conserva la distinzione fra questa stima educativa e il calcolo fiscale del portafoglio reale.
+    </p>
+</section>
+
+            <aside class="related-content" aria-labelledby="related-title">
+                <h2 id="related-title">Approfondisci e verifica</h2>
+                <ul><li><a href="/metodologia">Metodologia del simulatore FIRE</a><small>Verifica il rapporto fra costo fiscale, target e proiezioni mensili di accumulo e decumulo.</small></li><li><a href="/">Simulatore FIRE</a><small>Confronta scenari con lo stesso patrimonio e costi fiscali iniziali diversi.</small></li><li><a href="/guida/tassazione-fire-italia">Tassazione nel calcolo FIRE in Italia</a><small>Completa il meccanismo delle plusvalenze con la panoramica del bollo e delle esclusioni fiscali.</small></li><li><a href="/guida/capitale-investito-pac-esistente">Capitale investito e PAC esistente</a><small>Inserisci gli investimenti aggiuntivi una sola volta, con disponibilità e costo fiscale separati.</small></li></ul>
+            </aside>
+
+            <section class="guide-sources" aria-labelledby="sources-title">
+                <h2 id="sources-title">Fonti consultate</h2>
+                <p>Le fonti sono state consultate integralmente e registrate nel processo editoriale.</p>
+                <ol><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md">Calcolo FIRE Italia — specifica della fiscalità semplificata</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0002</small></li><li><a href="https://def.finanze.it/DocTribFrontend/getAttoNormativoDetail.do?ACTION=getArticolo&amp;codiceOrdinamento=0000000000000680000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&amp;id=%7B31D694E8-4398-4030-873B-FEAF5A6647F9%7D">D.P.R. 22 dicembre 1986, n. 917 — articolo 68, Plusvalenze</a><small>Ministero dell’Economia e delle Finanze — Documentazione Economica e Finanziaria · 31 dicembre 1986 · SRC-2026-0018</small></li><li><a href="https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.codiceRedazionale=14A04717&amp;art.dataPubblicazioneGazzetta=2014-06-23&amp;art.flagTipoArticolo=0&amp;art.idArticolo=3&amp;art.idGruppo=2&amp;art.idSottoArticolo=1&amp;art.idSottoArticolo1=10&amp;art.progressivo=1&amp;art.versione=1">Decreto-legge 24 aprile 2014, n. 66, articolo 3, testo coordinato</a><small>Repubblica Italiana — Gazzetta Ufficiale · 23 giugno 2014 · SRC-2026-0011</small></li><li><a href="https://infoprecompilata.agenziaentrate.gov.it/portale/semplificata-mod-plusvalenze-natura-finanziaria">Plusvalenze di natura finanziaria — Dichiarazione precompilata 2026</a><small>Agenzia delle Entrate · SRC-2026-0012</small></li></ol>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.</p>
+                <p class="editorial-disclosure">Questa guida è stata preparata tramite il processo editoriale automatizzato di Calcolo FIRE Italia, basato sulle fonti citate e sulle regole di qualità del progetto. Stefano Liga ne è il responsabile editoriale.</p>
+            </aside>
+
+            <aside class="content-notice warning" aria-label="Nota informativa">
+                <h2>Nota informativa</h2>
+                <p>I contenuti hanno finalità esclusivamente informative ed educative e non costituiscono consulenza finanziaria, fiscale, previdenziale o legale personalizzata. Prima di prendere decisioni, valuta la tua situazione e, quando necessario, rivolgiti a un professionista qualificato.</p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Confronta il lordo richiesto con costi fiscali diversi</h2>
+                <p>Mantieni uguali spesa e patrimonio, modifica soltanto il costo fiscale iniziale e leggi insieme vendita lorda, imposta stimata e ricavo netto. Per il conteggio fiscale reale servono documenti e regole specifiche.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Guida · GUIDE-0015</span>
+</footer>
+</body>
+</html>

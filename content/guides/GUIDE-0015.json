@@ -1,0 +1,63 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0015",
+  "slug": "/guida/plusvalenze-costo-fiscale-fire",
+  "seo": {
+    "title": "Plusvalenze e costo fiscale nel FIRE: dal lordo al netto",
+    "description": "Distingui valore del portafoglio, costo fiscale e plusvalenza latente. Calcola il prelievo lordo per una spesa netta nel modello FIRE semplificato.",
+    "og_title": "Plusvalenze e costo fiscale nel calcolo FIRE",
+    "og_description": "A parità di patrimonio, un costo fiscale diverso cambia l'imposta stimata sulle vendite. Formule, confronto numerico e limiti del simulatore."
+  },
+  "page": {
+    "kicker": "Fiscalità del portafoglio",
+    "h1": "Plusvalenze e costo fiscale nel calcolo FIRE",
+    "lead": "Quanto devi vendere per ottenere una somma netta da spendere nel FIRE? Nel modello del simulatore dipende dalla quota di guadagno inclusa nella vendita: valore del portafoglio e costo fiscale residuo determinano insieme l'imposta stimata. Due patrimoni uguali possono quindi richiedere prelievi lordi diversi. Questa guida spiega il calcolo proporzionale, come cambia il costo fiscale durante il percorso e quali limiti impediscono di usarlo come conteggio fiscale personale."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "Il valore di mercato indica quanto vale il portafoglio; il costo fiscale residuo rappresenta il costo ancora attribuito alle quote possedute nel modello.",
+    "La plusvalenza latente positiva è la differenza fra saldo e costo fiscale: il simulatore la tassa solo nella quota attribuita a una vendita.",
+    "Con quota imponibile p e aliquota τ, la vendita lorda richiesta per ottenere D euro netti è D / (1 − τ × p), finché il patrimonio disponibile basta.",
+    "Nuovi apporti aumentano saldo e costo fiscale; rendimenti e bollo modificano il saldo. Una vendita riduce il costo fiscale in proporzione alla quota ceduta.",
+    "Il costo fiscale automatico iniziale coincide con il valore corrente: può essere modificato, ma non ricostruisce la storia fiscale reale degli investimenti.",
+    "Il modello aggrega il portafoglio e non gestisce compensazioni delle minusvalenze, aliquote diverse per singolo titolo o regimi fiscali personali."
+  ],
+  "source_ids": [
+    "SRC-2026-0002",
+    "SRC-2026-0018",
+    "SRC-2026-0011",
+    "SRC-2026-0012"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica il rapporto fra costo fiscale, target e proiezioni mensili di accumulo e decumulo."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Confronta scenari con lo stesso patrimonio e costi fiscali iniziali diversi."
+    },
+    {
+      "url": "/guida/tassazione-fire-italia",
+      "label": "Tassazione nel calcolo FIRE in Italia",
+      "reason": "Completa il meccanismo delle plusvalenze con la panoramica del bollo e delle esclusioni fiscali."
+    },
+    {
+      "url": "/guida/capitale-investito-pac-esistente",
+      "label": "Capitale investito e PAC esistente",
+      "reason": "Inserisci gli investimenti aggiuntivi una sola volta, con disponibilità e costo fiscale separati."
+    }
+  ],
+  "cta": {
+    "title": "Confronta il lordo richiesto con costi fiscali diversi",
+    "text": "Mantieni uguali spesa e patrimonio, modifica soltanto il costo fiscale iniziale e leggi insieme vendita lorda, imposta stimata e ricavo netto. Per il conteggio fiscale reale servono documenti e regole specifiche.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
