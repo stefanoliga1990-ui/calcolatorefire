@@ -1,0 +1,62 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0009",
+  "slug": "/guida/calcolare-spese-fire",
+  "seo": {
+    "title": "Come stimare le spese mensili per il calcolo FIRE",
+    "description": "Costruisci una spesa mensile FIRE dalle uscite osservate, includi costi irregolari e cambiamenti futuri, poi inseriscila nel simulatore in euro di oggi.",
+    "og_title": "Spese per il FIRE: dal budget alla simulazione",
+    "og_description": "Un metodo pratico per stimare il fabbisogno mensile, distribuire le spese annuali e leggere il ruolo dell'inflazione nel calcolo."
+  },
+  "page": {
+    "kicker": "Budget e fabbisogno",
+    "h1": "Come stimare le spese per calcolare il proprio FIRE",
+    "lead": "Quanto ti servirà ogni mese durante il FIRE? Parti dalle uscite realmente osservate, distribuisci su dodici mesi i costi occasionali e modifica il budget per ciò che cambierà. Inserisci il risultato nel simulatore come spesa mensile in euro di oggi: sarà l'inflazione ipotizzata a rivalutarla fino all'ingresso nel FIRE."
+  },
+  "dates": {
+    "published": "2026-09-27",
+    "updated": "2026-09-27"
+  },
+  "summary_points": [
+    "Usa un periodo di spese osservate abbastanza lungo da includere uscite mensili e costi che ricorrono solo poche volte l'anno.",
+    "Converti le spese irregolari in una quota mensile e aggiungi in modo esplicito i cambiamenti plausibili della vita durante il FIRE.",
+    "Non copiare la spesa media nazionale: descrive famiglie diverse e non il tuo fabbisogno futuro.",
+    "L'input di spesa del simulatore è in euro di oggi; il modello lo rivaluta fino al FIRE con l'inflazione scelta.",
+    "Verifica scenari con spese diverse: una stima documentata rimane un'ipotesi, non una promessa sui costi futuri."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0004",
+    "SRC-2026-0005",
+    "SRC-2026-0015"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore",
+      "reason": "Spiega l'unità della spesa, la rivalutazione e il calcolo del primo prelievo."
+    },
+    {
+      "url": "/guida/numero-fire",
+      "label": "Guida al numero FIRE",
+      "reason": "Collega il fabbisogno mensile documentato al capitale obiettivo."
+    },
+    {
+      "url": "/guida/inflazione-rendimenti-fire",
+      "label": "Inflazione e rendimenti nel FIRE",
+      "reason": "Approfondisce il rapporto tra euro di oggi e valori nominali futuri."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Permette di provare spese e ipotesi differenti mantenendo traccia degli input."
+    }
+  ],
+  "cta": {
+    "title": "Prova la spesa che hai ricostruito",
+    "text": "Inserisci il budget mensile in euro di oggi, annota l'inflazione scelta e confronta almeno due scenari di spesa senza trattare il risultato come una previsione.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

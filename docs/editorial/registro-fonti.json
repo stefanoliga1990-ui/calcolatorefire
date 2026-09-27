@@ -1,9 +1,9 @@
 {
   "$schema": "./registro-fonti.schema.json",
   "schema_version": "1.0",
-  "updated_at": "2026-09-26",
+  "updated_at": "2026-09-27",
   "next_id_by_year": {
-    "2026": 15
+    "2026": 16
   },
   "sources": [
     {
@@ -22,12 +22,12 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-26T21:04:27+02:00"
+        "last_accessed_at": "2026-09-27T00:05:50+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-26",
+        "as_of": "2026-09-27",
         "reference_period": "Versione del motore verificata su main",
         "version": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
         "provisional": false
@@ -40,7 +40,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-26T21:04:27+02:00",
+        "checked_at": "2026-09-27T00:05:50+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -93,6 +93,12 @@
           "claim": "FINITE usa durata, rendimento reale e capitale finale in una rendita anticipata; SWR divide il primo fabbisogno annuo per il tasso scelto e verifica poi gli eventuali shortfall nella proiezione. Le risorse aggiuntive seguono formule distinte.",
           "importance": "central",
           "verified_at": "2026-09-26T21:04:27+02:00"
+        },
+        {
+          "content_id": "GUIDE-0009",
+          "claim": "Il simulatore usa la spesa mensile in euro di oggi, la rivaluta fino al FIRE secondo l’inflazione ipotizzata e ne ricava il primo prelievo e il target del metodo selezionato.",
+          "importance": "central",
+          "verified_at": "2026-09-27T00:05:50+02:00"
         }
       ],
       "limitations": [
@@ -261,12 +267,12 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-26T21:04:27+02:00"
+        "last_accessed_at": "2026-09-27T00:05:50+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-26",
+        "as_of": "2026-09-27",
         "reference_period": "Principi generali di pianificazione finanziaria personale",
         "version": null,
         "provisional": false
@@ -279,7 +285,7 @@
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-26T21:04:27+02:00",
+        "checked_at": "2026-09-27T00:05:50+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -308,6 +314,12 @@
           "claim": "Un obiettivo finanziario va definito con importo e orizzonte, costruito su entrate e uscite documentate e riletto quando cambiano le ipotesi.",
           "importance": "context",
           "verified_at": "2026-09-26T21:04:27+02:00"
+        },
+        {
+          "content_id": "GUIDE-0009",
+          "claim": "La costruzione di un budget parte da entrate e uscite osservate per un periodo significativo, include spese poco frequenti e imprevisti, e richiede una verifica successiva.",
+          "importance": "central",
+          "verified_at": "2026-09-27T00:05:50+02:00"
         }
       ],
       "limitations": [
@@ -331,12 +343,12 @@
         "published": "2024-02-22",
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-26T12:03:21+02:00"
+        "last_accessed_at": "2026-09-27T00:05:50+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-26",
+        "as_of": "2026-09-27",
         "reference_period": "Definizioni e metodologia generale degli indici dei prezzi al consumo",
         "version": "Pagina pubblicata il 22 febbraio 2024",
         "provisional": false
@@ -349,7 +361,7 @@
         "dataset_or_series": "Indici NIC, IPCA e FOI"
       },
       "verification": {
-        "checked_at": "2026-09-26T12:03:21+02:00",
+        "checked_at": "2026-09-27T00:05:50+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -372,6 +384,12 @@
           "claim": "L'inflazione è un aumento continuo e generalizzato dei prezzi, riduce il potere d'acquisto ed è misurata in Italia tramite indici dei prezzi al consumo basati su un paniere ponderato.",
           "importance": "central",
           "verified_at": "2026-09-26T12:03:21+02:00"
+        },
+        {
+          "content_id": "GUIDE-0009",
+          "claim": "L’inflazione riduce il potere di acquisto; gli indici dei prezzi sono basati su un paniere ponderato e non rappresentano automaticamente il paniere personale.",
+          "importance": "context",
+          "verified_at": "2026-09-27T00:05:50+02:00"
         }
       ],
       "limitations": [
@@ -902,6 +920,59 @@
         "Il differimento riguarda il testo unico indicato, non modifica direttamente l’aliquota del bollo."
       ],
       "notes": "Testo integrale dell’articolo consultato sulla Gazzetta Ufficiale; nessun conflitto irrisolto."
+    },
+    {
+      "id": "SRC-2026-0015",
+      "status": "approved",
+      "level": "A",
+      "type": "official_dataset",
+      "title": "Le spese per i consumi delle famiglie - Anno 2024",
+      "responsible_entity": "Istituto nazionale di statistica (ISTAT)",
+      "authors": [],
+      "url": "https://www.istat.it/comunicato-stampa/spese-per-consumi-delle-famiglie-anno-2024/",
+      "persistent_identifier": "ISTAT content ID 106378",
+      "dates": {
+        "published": "2025-10-07",
+        "updated": null,
+        "first_accessed_at": "2026-09-27T00:05:50+02:00",
+        "last_accessed_at": "2026-09-27T00:05:50+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-27",
+        "reference_period": "Anno 2024; famiglie residenti in Italia",
+        "version": "Comunicato del 7 ottobre 2025",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Nel 2024 stabile la spesa per consumi delle famiglie; Nel Nord-est la spesa media è di 834 euro superiore a quella del Sud",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": "Indagine sulle spese delle famiglie, anno 2024"
+      },
+      "verification": {
+        "checked_at": "2026-09-27T00:05:50+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0009",
+          "claim": "Nel 2024 media e mediana della spesa mensile delle famiglie residenti differiscono e la spesa media varia tra ripartizioni; il dato aggregato non sostituisce il budget della singola famiglia.",
+          "importance": "context",
+          "verified_at": "2026-09-27T00:05:50+02:00"
+        }
+      ],
+      "limitations": [
+        "Dati campionari aggregati del 2024 in valori correnti; la media non è una soglia FIRE né una stima delle spese della singola famiglia.",
+        "La pagina presenta un riepilogo dei risultati; il rapporto metodologico completo segnala l’uso di dati del secondo semestre 2023 aggiornati per stimare il secondo semestre 2024."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Comunicato istituzionale e rapporto integrale con nota metodologica consultati; nessun conflitto rilevante."
     }
   ]
 }
