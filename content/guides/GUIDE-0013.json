@@ -1,0 +1,60 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0013",
+  "slug": "/guida/rendimento-nominale-reale",
+  "seo": {
+    "title": "Rendimento nominale e reale nel calcolo FIRE",
+    "description": "Distingui crescita in euro e potere d'acquisto, verifica la formula del rendimento reale e usa tassi coerenti con gli input del simulatore FIRE.",
+    "og_title": "Rendimento nominale o reale nel FIRE?",
+    "og_description": "Formula, esempio e controlli pratici per non applicare due volte l'inflazione in una simulazione FIRE."
+  },
+  "page": {
+    "kicker": "Ipotesi finanziarie",
+    "h1": "Rendimento nominale e reale: quale usare nel calcolo FIRE",
+    "lead": "Se un capitale cresce in euro, quanto cresce davvero il suo potere d'acquisto? Il rendimento nominale misura la variazione dell'importo; quello reale corregge l'effetto dei prezzi. Nel simulatore FIRE inserisci rendimenti nominali e inflazione in campi separati: questa guida mostra la conversione esatta e come evitare di applicare l'inflazione due volte."
+  },
+  "dates": {
+    "published": "2026-09-27",
+    "updated": "2026-09-27"
+  },
+  "summary_points": [
+    "Il rendimento nominale descrive la variazione dell'importo in euro; quello reale descrive la variazione del potere d'acquisto.",
+    "Il tasso reale esatto è (1 + rendimento nominale) / (1 + inflazione) − 1: la semplice sottrazione è un'approssimazione.",
+    "Il simulatore richiede rendimenti nominali annui e inflazione annua in campi distinti; non inserire un tasso già depurato dall'inflazione come se fosse nominale.",
+    "Costi, imposte e oscillazioni dei rendimenti non scompaiono con la conversione: il risultato resta uno scenario ipotetico."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0005",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Documenta le unità degli input, la conversione mensile e il calcolo del rendimento reale."
+    },
+    {
+      "url": "/guida/inflazione-rendimenti-fire",
+      "label": "Effetto di inflazione e rendimenti sul piano FIRE",
+      "reason": "Approfondisce come le due ipotesi cambiano spesa, target e PAC."
+    },
+    {
+      "url": "/guida/numero-fire",
+      "label": "Calcolo del numero FIRE",
+      "reason": "Collega le ipotesi di rendimento e inflazione al capitale obiettivo."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Permette di verificare scenari con rendimento nominale e inflazione separati."
+    }
+  ],
+  "cta": {
+    "title": "Controlla le unità del tuo scenario",
+    "text": "Verifica se il rendimento che vuoi inserire è nominale, se include i costi ricorrenti e quale inflazione stai ipotizzando. Poi confronta i risultati nel simulatore.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

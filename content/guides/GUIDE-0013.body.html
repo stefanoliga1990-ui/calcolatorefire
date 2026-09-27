@@ -1,0 +1,99 @@
+<section class="content-section" id="due-misure" aria-labelledby="due-misure-title">
+    <h2 id="due-misure-title">Un saldo più alto non implica lo stesso aumento del potere d'acquisto</h2>
+    <p>
+        Il rendimento nominale misura la crescita o la perdita dell'importo espresso in euro. Il rendimento reale
+        misura invece quanto cambia ciò che quell'importo può acquistare, dopo aver tenuto conto dei prezzi.
+        L'<a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/" data-source-id="SRC-2026-0005">ISTAT spiega il potere d'acquisto e gli indici dei prezzi</a>:
+        il suo paniere statistico descrive la collettività, non necessariamente le spese di una persona.
+    </p>
+    <p>
+        Il rendimento di un investimento può derivare da interessi, dividendi e variazioni del capitale. La
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia</a>
+        ricorda che rendimenti futuri, costi e inflazione possono cambiare il risultato effettivo. Qui i tassi sono
+        ipotesi di calcolo, non valori attesi né consigli per scegliere investimenti.
+    </p>
+</section>
+
+<section class="content-section" id="formula-esatta" aria-labelledby="formula-esatta-title">
+    <h2 id="formula-esatta-title">Per passare da nominale a reale, confronta i due fattori di crescita</h2>
+    <p>
+        Su uno stesso periodo, dividi il fattore del rendimento nominale per quello dei prezzi e sottrai uno.
+        Rendimento e inflazione devono riferirsi allo stesso intervallo: due tassi annui effettivi tra loro, oppure
+        due tassi mensili equivalenti tra loro. Questa è la convenzione della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezione 4</a>.
+    </p>
+    <pre class="formula"><code>rendimento reale = (1 + rendimento nominale) / (1 + inflazione) − 1
+tasso mensile equivalente = (1 + tasso annuo effettivo)^(1/12) − 1</code></pre>
+    <p>
+        Sottrarre semplicemente inflazione e rendimento nominale dà una stima vicina quando i tassi sono piccoli,
+        ma non il risultato esatto. Se il rendimento nominale è inferiore all'inflazione, il rendimento reale è
+        negativo anche quando il saldo in euro aumenta.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Un anno ipotetico: 5% nominale e 2% di inflazione</h2>
+    <p>
+        Parti da 10.000 euro per un anno, senza versamenti, prelievi, costi o imposte. Supponi un rendimento
+        nominale annuo effettivo del 5% e una crescita dei prezzi del 2% nello stesso anno. Il saldo finale è
+        10.500 euro nominali; per esprimerlo nel potere d'acquisto iniziale dividi per 1,02.
+    </p>
+    <pre class="formula"><code>saldo nominale = 10.000 × 1,05 = 10.500 euro
+saldo in euro iniziali = 10.500 / 1,02 ≈ 10.294,12 euro
+rendimento reale = 1,05 / 1,02 − 1 ≈ 2,94%</code></pre>
+    <p>
+        La sottrazione 5% − 2% darebbe 3%, circa 0,06 punti percentuali in più. Gli importi sono arrotondati
+        ai centesimi e il tasso a due decimali. L'esempio illustra una conversione matematica, non predice
+        rendimenti o inflazione futuri.
+    </p>
+</section>
+
+<section class="content-section" id="input-simulatore" aria-labelledby="input-simulatore-title">
+    <h2 id="input-simulatore-title">Nel simulatore inserisci il rendimento nominale una sola volta</h2>
+    <p>
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica del motore, sezioni 3–9</a>
+        definisce rendimento di accumulo e rendimento nel FIRE come tassi annui nominali effettivi, al netto dei
+        costi ricorrenti dell'investimento e prima delle imposte personali. L'inflazione è un altro input annuo.
+        Il motore converte i tassi in equivalenti mensili: usa il rendimento nominale per la crescita del capitale,
+        rivaluta la spesa di oggi e calcola il tasso reale dove richiesto dal target FINITE.
+    </p>
+    <ol>
+        <li>Controlla se il tasso che hai in mente è nominale o già corretto per l'inflazione.</li>
+        <li>Se è reale, riconvertilo in nominale con <code>(1 + rendimento reale) × (1 + inflazione) − 1</code>, usando la stessa ipotesi d'inflazione.</li>
+        <li>Inserisci il nominale nei campi di rendimento e l'inflazione nel suo campo separato; verifica nella <a href="/metodologia">metodologia</a> le altre convenzioni del modello.</li>
+    </ol>
+    <p>
+        Inserire il 2,94% reale dell'esempio come rendimento nominale e aggiungere ancora il 2% di inflazione
+        conterebbe due volte l'effetto dei prezzi. Per il metodo SWR, il rendimento nel FIRE non cambia
+        direttamente il target base, ma influisce sulla proiezione mensile: il dettaglio è nella
+        <a href="/guida/numero-fire">guida al numero FIRE</a>.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Il tasso reale non risolve da solo costi, imposte e incertezza</h2>
+    <p>
+        La conversione nominale-reale isola l'effetto dell'inflazione ipotizzata; non rende certo il rendimento
+        e non replica il paniere di spesa personale. La Banca d'Italia segnala anche il peso dei costi e del rischio
+        nell'investimento. La specifica del simulatore distingue inoltre le imposte personali dal rendimento
+        nominale in input: non sottrarle informalmente una seconda volta se stai usando le funzioni fiscali del modello.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="ipotesi-title">
+        <h3 id="ipotesi-title">Mantieni coerenti periodo e trattamento dei costi</h3>
+        <p>
+            Confronta tassi riferiti allo stesso periodo e annota se sono lordi o netti dei costi ricorrenti.
+            Un tasso storico osservato non è una promessa di rendimento futuro. Il simulatore usa tassi costanti,
+            quindi i risultati non rappresentano oscillazioni di mercato né una probabilità di successo.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Prima di confrontare scenari, scegli una sola base per i tassi</h2>
+    <p>
+        Leggi il rendimento nominale come variazione del saldo in euro e quello reale come variazione del potere
+        d'acquisto. Se usi il <a href="/">simulatore FIRE</a>, documenta il rendimento nominale e l'inflazione
+        separatamente, poi controlla come il loro rapporto cambia il tuo scenario. Per l'effetto complessivo su
+        capitale e PAC, continua con la <a href="/guida/inflazione-rendimenti-fire">guida a inflazione e rendimenti nel FIRE</a>.
+    </p>
+</section>

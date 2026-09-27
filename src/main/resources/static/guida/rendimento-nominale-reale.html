@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Distingui crescita in euro e potere d&#x27;acquisto, verifica la formula del rendimento reale e usa tassi coerenti con gli input del simulatore FIRE.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Rendimento nominale o reale nel FIRE?">
+    <meta property="og:description" content="Formula, esempio e controlli pratici per non applicare due volte l&#x27;inflazione in una simulazione FIRE.">
+    <meta property="og:url" content="https://simulatorefire.com/guida/rendimento-nominale-reale">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Rendimento nominale e reale: quale usare nel calcolo FIRE">
+    <meta property="article:published_time" content="2026-09-27">
+    <meta property="article:modified_time" content="2026-09-27">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rendimento nominale o reale nel FIRE?">
+    <meta name="twitter:description" content="Formula, esempio e controlli pratici per non applicare due volte l&#x27;inflazione in una simulazione FIRE.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>Rendimento nominale e reale nel calcolo FIRE</title>
+    <link rel="canonical" href="https://simulatorefire.com/guida/rendimento-nominale-reale">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.0">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.3">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Rendimento nominale e reale: quale usare nel calcolo FIRE",
+  "description": "Distingui crescita in euro e potere d'acquisto, verifica la formula del rendimento reale e usa tassi coerenti con gli input del simulatore FIRE.",
+  "url": "https://simulatorefire.com/guida/rendimento-nominale-reale",
+  "mainEntityOfPage": "https://simulatorefire.com/guida/rendimento-nominale-reale",
+  "datePublished": "2026-09-27",
+  "dateModified": "2026-09-27",
+  "inLanguage": "it-IT",
+  "author": {
+    "@type": "Person",
+    "name": "Stefano Liga",
+    "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calcolo FIRE Italia",
+    "url": "https://simulatorefire.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+    }
+  },
+  "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Simulatore FIRE",
+      "item": "https://simulatorefire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guide",
+      "item": "https://simulatorefire.com/guide"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Rendimento nominale e reale: quale usare nel calcolo FIRE",
+      "item": "https://simulatorefire.com/guida/rendimento-nominale-reale"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/guide">Guide</a>
+        <a class="header-link" href="/metodologia">Metodologia</a>
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li><a href="/guide">Guide</a></li>
+                <li aria-current="page">Rendimento nominale e reale: quale usare nel calcolo FIRE</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">Ipotesi finanziarie</p>
+        <h1>Rendimento nominale e reale: quale usare nel calcolo FIRE</h1>
+        <p class="content-lead">Se un capitale cresce in euro, quanto cresce davvero il suo potere d&#x27;acquisto? Il rendimento nominale misura la variazione dell&#x27;importo; quello reale corregge l&#x27;effetto dei prezzi. Nel simulatore FIRE inserisci rendimenti nominali e inflazione in campi separati: questa guida mostra la conversione esatta e come evitare di applicare l&#x27;inflazione due volte.</p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia</span>
+            <span>4 minuti di lettura</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della guida">
+            <strong>In questa guida</strong>
+            <ol><li><a href="#due-misure">Un saldo più alto non implica lo stesso aumento del potere d&#x27;acquisto</a></li><li><a href="#formula-esatta">Per passare da nominale a reale, confronta i due fattori di crescita</a></li><li><a href="#esempio">Un anno ipotetico: 5% nominale e 2% di inflazione</a></li><li><a href="#input-simulatore">Nel simulatore inserisci il rendimento nominale una sola volta</a></li><li><a href="#limiti">Il tasso reale non risolve da solo costi, imposte e incertezza</a></li><li><a href="#conclusione">Prima di confrontare scenari, scegli una sola base per i tassi</a></li></ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul><li>Il rendimento nominale descrive la variazione dell&#x27;importo in euro; quello reale descrive la variazione del potere d&#x27;acquisto.</li><li>Il tasso reale esatto è (1 + rendimento nominale) / (1 + inflazione) − 1: la semplice sottrazione è un&#x27;approssimazione.</li><li>Il simulatore richiede rendimenti nominali annui e inflazione annua in campi distinti; non inserire un tasso già depurato dall&#x27;inflazione come se fosse nominale.</li><li>Costi, imposte e oscillazioni dei rendimenti non scompaiono con la conversione: il risultato resta uno scenario ipotetico.</li></ul>
+            </section>
+
+<section class="content-section" id="due-misure" aria-labelledby="due-misure-title">
+    <h2 id="due-misure-title">Un saldo più alto non implica lo stesso aumento del potere d'acquisto</h2>
+    <p>
+        Il rendimento nominale misura la crescita o la perdita dell'importo espresso in euro. Il rendimento reale
+        misura invece quanto cambia ciò che quell'importo può acquistare, dopo aver tenuto conto dei prezzi.
+        L'<a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/" data-source-id="SRC-2026-0005">ISTAT spiega il potere d'acquisto e gli indici dei prezzi</a>:
+        il suo paniere statistico descrive la collettività, non necessariamente le spese di una persona.
+    </p>
+    <p>
+        Il rendimento di un investimento può derivare da interessi, dividendi e variazioni del capitale. La
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia</a>
+        ricorda che rendimenti futuri, costi e inflazione possono cambiare il risultato effettivo. Qui i tassi sono
+        ipotesi di calcolo, non valori attesi né consigli per scegliere investimenti.
+    </p>
+</section>
+
+<section class="content-section" id="formula-esatta" aria-labelledby="formula-esatta-title">
+    <h2 id="formula-esatta-title">Per passare da nominale a reale, confronta i due fattori di crescita</h2>
+    <p>
+        Su uno stesso periodo, dividi il fattore del rendimento nominale per quello dei prezzi e sottrai uno.
+        Rendimento e inflazione devono riferirsi allo stesso intervallo: due tassi annui effettivi tra loro, oppure
+        due tassi mensili equivalenti tra loro. Questa è la convenzione della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezione 4</a>.
+    </p>
+    <pre class="formula"><code>rendimento reale = (1 + rendimento nominale) / (1 + inflazione) − 1
+tasso mensile equivalente = (1 + tasso annuo effettivo)^(1/12) − 1</code></pre>
+    <p>
+        Sottrarre semplicemente inflazione e rendimento nominale dà una stima vicina quando i tassi sono piccoli,
+        ma non il risultato esatto. Se il rendimento nominale è inferiore all'inflazione, il rendimento reale è
+        negativo anche quando il saldo in euro aumenta.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Un anno ipotetico: 5% nominale e 2% di inflazione</h2>
+    <p>
+        Parti da 10.000 euro per un anno, senza versamenti, prelievi, costi o imposte. Supponi un rendimento
+        nominale annuo effettivo del 5% e una crescita dei prezzi del 2% nello stesso anno. Il saldo finale è
+        10.500 euro nominali; per esprimerlo nel potere d'acquisto iniziale dividi per 1,02.
+    </p>
+    <pre class="formula"><code>saldo nominale = 10.000 × 1,05 = 10.500 euro
+saldo in euro iniziali = 10.500 / 1,02 ≈ 10.294,12 euro
+rendimento reale = 1,05 / 1,02 − 1 ≈ 2,94%</code></pre>
+    <p>
+        La sottrazione 5% − 2% darebbe 3%, circa 0,06 punti percentuali in più. Gli importi sono arrotondati
+        ai centesimi e il tasso a due decimali. L'esempio illustra una conversione matematica, non predice
+        rendimenti o inflazione futuri.
+    </p>
+</section>
+
+<section class="content-section" id="input-simulatore" aria-labelledby="input-simulatore-title">
+    <h2 id="input-simulatore-title">Nel simulatore inserisci il rendimento nominale una sola volta</h2>
+    <p>
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica del motore, sezioni 3–9</a>
+        definisce rendimento di accumulo e rendimento nel FIRE come tassi annui nominali effettivi, al netto dei
+        costi ricorrenti dell'investimento e prima delle imposte personali. L'inflazione è un altro input annuo.
+        Il motore converte i tassi in equivalenti mensili: usa il rendimento nominale per la crescita del capitale,
+        rivaluta la spesa di oggi e calcola il tasso reale dove richiesto dal target FINITE.
+    </p>
+    <ol>
+        <li>Controlla se il tasso che hai in mente è nominale o già corretto per l'inflazione.</li>
+        <li>Se è reale, riconvertilo in nominale con <code>(1 + rendimento reale) × (1 + inflazione) − 1</code>, usando la stessa ipotesi d'inflazione.</li>
+        <li>Inserisci il nominale nei campi di rendimento e l'inflazione nel suo campo separato; verifica nella <a href="/metodologia">metodologia</a> le altre convenzioni del modello.</li>
+    </ol>
+    <p>
+        Inserire il 2,94% reale dell'esempio come rendimento nominale e aggiungere ancora il 2% di inflazione
+        conterebbe due volte l'effetto dei prezzi. Per il metodo SWR, il rendimento nel FIRE non cambia
+        direttamente il target base, ma influisce sulla proiezione mensile: il dettaglio è nella
+        <a href="/guida/numero-fire">guida al numero FIRE</a>.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Il tasso reale non risolve da solo costi, imposte e incertezza</h2>
+    <p>
+        La conversione nominale-reale isola l'effetto dell'inflazione ipotizzata; non rende certo il rendimento
+        e non replica il paniere di spesa personale. La Banca d'Italia segnala anche il peso dei costi e del rischio
+        nell'investimento. La specifica del simulatore distingue inoltre le imposte personali dal rendimento
+        nominale in input: non sottrarle informalmente una seconda volta se stai usando le funzioni fiscali del modello.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="ipotesi-title">
+        <h3 id="ipotesi-title">Mantieni coerenti periodo e trattamento dei costi</h3>
+        <p>
+            Confronta tassi riferiti allo stesso periodo e annota se sono lordi o netti dei costi ricorrenti.
+            Un tasso storico osservato non è una promessa di rendimento futuro. Il simulatore usa tassi costanti,
+            quindi i risultati non rappresentano oscillazioni di mercato né una probabilità di successo.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Prima di confrontare scenari, scegli una sola base per i tassi</h2>
+    <p>
+        Leggi il rendimento nominale come variazione del saldo in euro e quello reale come variazione del potere
+        d'acquisto. Se usi il <a href="/">simulatore FIRE</a>, documenta il rendimento nominale e l'inflazione
+        separatamente, poi controlla come il loro rapporto cambia il tuo scenario. Per l'effetto complessivo su
+        capitale e PAC, continua con la <a href="/guida/inflazione-rendimenti-fire">guida a inflazione e rendimenti nel FIRE</a>.
+    </p>
+</section>
+
+            <aside class="related-content" aria-labelledby="related-title">
+                <h2 id="related-title">Approfondisci e verifica</h2>
+                <ul><li><a href="/metodologia">Metodologia del simulatore FIRE</a><small>Documenta le unità degli input, la conversione mensile e il calcolo del rendimento reale.</small></li><li><a href="/guida/inflazione-rendimenti-fire">Effetto di inflazione e rendimenti sul piano FIRE</a><small>Approfondisce come le due ipotesi cambiano spesa, target e PAC.</small></li><li><a href="/guida/numero-fire">Calcolo del numero FIRE</a><small>Collega le ipotesi di rendimento e inflazione al capitale obiettivo.</small></li><li><a href="/">Simulatore FIRE</a><small>Permette di verificare scenari con rendimento nominale e inflazione separati.</small></li></ul>
+            </aside>
+
+            <section class="guide-sources" aria-labelledby="sources-title">
+                <h2 id="sources-title">Fonti consultate</h2>
+                <p>Le fonti sono state consultate integralmente e registrate nel processo editoriale.</p>
+                <ol><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md">Calcolo FIRE Italia — specifica matematica del motore</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0001</small></li><li><a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/">FAQ — Domande frequenti sui prezzi al consumo</a><small>Istituto nazionale di statistica (ISTAT) · 22 febbraio 2024 · SRC-2026-0005</small></li><li><a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/">Cosa sapere prima di investire</a><small>Banca d&#x27;Italia — L&#x27;economia per tutti · SRC-2026-0010</small></li></ol>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.</p>
+                <p class="editorial-disclosure">Questa guida è stata preparata tramite il processo editoriale automatizzato di Calcolo FIRE Italia, basato sulle fonti citate e sulle regole di qualità del progetto. Stefano Liga ne è il responsabile editoriale.</p>
+            </aside>
+
+            <aside class="content-notice warning" aria-label="Nota informativa">
+                <h2>Nota informativa</h2>
+                <p>I contenuti hanno finalità esclusivamente informative ed educative e non costituiscono consulenza finanziaria, fiscale, previdenziale o legale personalizzata. Prima di prendere decisioni, valuta la tua situazione e, quando necessario, rivolgiti a un professionista qualificato.</p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Controlla le unità del tuo scenario</h2>
+                <p>Verifica se il rendimento che vuoi inserire è nominale, se include i costi ricorrenti e quale inflazione stai ipotizzando. Poi confronta i risultati nel simulatore.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Guida · GUIDE-0013</span>
+</footer>
+</body>
+</html>
