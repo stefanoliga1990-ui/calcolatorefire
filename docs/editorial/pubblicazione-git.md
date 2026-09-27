@@ -79,16 +79,30 @@ Annullare un'esecuzione è possibile soltanto se non esistono modifiche e non è
 ./scripts/publish-guide.ps1 cancel -RunId 20260924-guide-0001 -OwnerToken <token>
 ```
 
+Se un fallimento precedente al commit appartiene a una condizione con `repository_state: local_artifacts_allowed`,
+archiviare gli artefatti e liberare il checkout con:
+
+```powershell
+./scripts/publish-guide.ps1 quarantine -RunId 20260924-guide-0001 -OwnerToken <token> `
+  -StopCode STOP-VALIDATION-FAILED -StopMessage "Descrizione sintetica della causa"
+```
+
+`quarantine` accetta esclusivamente file compresi nell'allowlist del run, salva patch, copie e manifesto sotto
+`.git/editorial-publication/quarantine/<run-id>/`, ripristina quei soli percorsi, marca la guida `blocked`, valida il
+backlog e pubblica un commit contenente soltanto il cambio di stato. Non pubblica la bozza della guida.
+
 ## Ripetibilità e recupero
 
 - Un secondo `start` mentre il lock è fresco termina con `STOP-ACTIVE-EDITORIAL-LOCK`, senza modifiche.
 - Ripetere `publish` dopo un successo restituisce lo stesso esito senza richiedere il token e senza creare commit o push aggiuntivi.
 - Se il push è riuscito ma il processo si è interrotto prima di aggiornare il log, il comando confronta lo SHA remoto e completa la sessione.
-- Se l'esecuzione si arresta prima del commit, il lock resta attivo: dopo la correzione si può ripetere `publish` con lo stesso `RunId`.
+- Se l'esecuzione si arresta prima del commit e la causa è correggibile nello stesso run, si può ripetere `publish` con
+  lo stesso `RunId`; altrimenti si usa `quarantine` e la guida resta `blocked` fino al recupero finale.
 - Se esiste un commit locale non pubblicato, il retry ordinario si arresta. Dopo la verifica consapevole di HEAD, diff,
   test e remoto, il recupero va autorizzato esplicitamente con `publish -ManualRecovery`.
-- Un lock è classificato come obsoleto dopo 480 minuti senza heartbeat. Non viene mai rimosso o acquisito nuovamente
-  in automatico.
+- Un lock è classificato come obsoleto dopo 480 minuti senza heartbeat. Non viene acquisito nuovamente in automatico;
+  il rilascio automatico è ammesso soltanto come parte conclusiva di una quarantena verificata e appartenente al
+  proprietario originale.
 - Dopo aver verificato che non esistano modifiche o commit locali, un lock obsoleto può essere chiuso manualmente con
   `cancel -ManualRecovery`. Se esistono artefatti, il comando rifiuta la rimozione.
 

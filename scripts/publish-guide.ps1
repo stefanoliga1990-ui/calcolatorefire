@@ -1,6 +1,6 @@
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("run-id", "start", "heartbeat", "checkpoint", "publish", "status", "log", "cancel")]
+    [ValidateSet("run-id", "start", "heartbeat", "checkpoint", "publish", "status", "log", "cancel", "quarantine")]
     [string]$Action,
 
     [string]$RunId,
@@ -17,6 +17,10 @@ param(
     [string[]]$SourceId = @(),
 
     [string[]]$Check = @(),
+
+    [string]$StopCode,
+
+    [string]$StopMessage,
 
     [switch]$ManualRecovery
 )
@@ -44,12 +48,23 @@ if ($Action -eq "start") {
     }
 }
 
-if ($Action -in @("heartbeat", "checkpoint", "publish", "cancel")) {
+if ($Action -in @("heartbeat", "checkpoint", "publish", "cancel", "quarantine")) {
     if ([string]::IsNullOrWhiteSpace($OwnerToken)) {
         Write-Error "OwnerToken è obbligatorio per l'azione $Action."
         exit 2
     }
     $arguments += @("--owner-token", $OwnerToken)
+}
+
+if ($Action -eq "quarantine") {
+    if ([string]::IsNullOrWhiteSpace($StopCode)) {
+        Write-Error "StopCode è obbligatorio per l'azione quarantine."
+        exit 2
+    }
+    $arguments += @("--stop-code", $StopCode)
+    if (-not [string]::IsNullOrWhiteSpace($StopMessage)) {
+        $arguments += @("--stop-message", $StopMessage)
+    }
 }
 
 if ($Action -eq "checkpoint") {
@@ -67,8 +82,8 @@ if ($Action -eq "checkpoint") {
 }
 
 if ($ManualRecovery) {
-    if ($Action -notin @("publish", "cancel")) {
-        Write-Error "ManualRecovery è consentito soltanto con publish o cancel."
+    if ($Action -notin @("publish", "cancel", "quarantine")) {
+        Write-Error "ManualRecovery è consentito soltanto con publish, cancel o quarantine."
         exit 2
     }
     $arguments += "--manual-recovery"

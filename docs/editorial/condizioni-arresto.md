@@ -1,10 +1,10 @@
 # Condizioni di arresto del processo editoriale
 
-Versione: 1.0
+Versione: 1.1
 
 Stato: vincolante per il processo manuale e automatico
 
-Ultimo aggiornamento: 24 settembre 2026
+Ultimo aggiornamento: 27 settembre 2026
 
 ## 1. Obiettivo
 
@@ -22,10 +22,11 @@ Quando si attiva una qualsiasi condizione `STOP-*`:
 
 - l'esecuzione termina e non inizia un'altra guida;
 - non vengono creati ulteriori contenuti o modifiche correttive speculative;
-- non è consentito creare un commit successivo al rilevamento;
-- non è consentito effettuare il push;
+- non è consentito committare o pubblicare la guida fallita;
+- è ammesso esclusivamente il commit operativo del backlog creato da `quarantine`, quando la condizione e lo stato Git
+  soddisfano tutti i requisiti della sezione 4;
 - non sono ammessi force push, reset distruttivi o risoluzioni automatiche di conflitti non banali;
-- gli artefatti già prodotti possono restare locali ma non devono raggiungere `main`;
+- gli artefatti già prodotti possono essere archiviati localmente ma non devono raggiungere `main`;
 - il motivo deve essere registrato con codice, fase, evidenze e stato Git;
 - `deployment_checked` resta sempre `false`;
 - Railway, URL pubblico e Google Search Console non vengono interrogati.
@@ -49,11 +50,13 @@ L'assenza di guide idonee e un lock attivo non sono errori. Non devono generare 
 | Stato | Regola |
 | --- | --- |
 | `unchanged` | La condizione viene rilevata prima delle modifiche; il repository deve restare identico allo stato iniziale. |
-| `local_artifacts_allowed` | Possono esistere sorgenti o output locali non pubblicati; non devono essere committati o inclusi nella prossima esecuzione senza nuova verifica. |
+| `local_artifacts_allowed` | Sorgenti e output locali possono essere archiviati con `quarantine` se appartengono interamente all'allowlist e non esiste un commit della guida. |
 | `local_commit_present` | Il commit atomico può essere già stato creato, ma non è su `origin/main`; sono vietati push forzati e tentativi ciechi. |
 
-L'automazione non deve cancellare automaticamente artefatti o commit per simulare uno stato pulito. La successiva
-esecuzione riparte sempre dai prerequisiti e, trovando modifiche residue, applica la relativa condizione di arresto.
+L'automazione non può cancellare genericamente artefatti o commit. `quarantine` è l'unica eccezione: salva prima copie,
+patch e manifesto nello stato locale, ripristina esclusivamente i percorsi autorizzati, marca la guida `blocked` e
+rilascia il lock dopo il push verificato del solo backlog. File estranei, commit locali e stati Git incerti impediscono
+la quarantena e conservano il blocco manuale.
 
 ## 5. Ordine dei controlli
 
@@ -69,7 +72,8 @@ Prima di selezionare una guida devono essere verificati, nell'ordine:
 6. validità di backlog, registro fonti e configurazioni editoriali.
 
 Un errore in preflight vieta qualsiasi modifica. Un lock valido produce rinvio silenzioso; un lock non verificabile
-richiede intervento manuale e non può essere rimosso automaticamente.
+richiede intervento manuale. Il lock del run proprietario può essere rilasciato automaticamente soltanto al termine di
+una quarantena verificata.
 
 ### Selezione
 
@@ -124,8 +128,9 @@ Limiti di utilizzo, indisponibilità degli strumenti o altre interruzioni prima 
 `STOP-EXECUTION-INTERRUPTED-AFTER-COMMIT` e si richiede intervento manuale. Il log deve indicare l'ultima fase
 completata e lo stato Git finale.
 
-Una esecuzione successiva non può presumere che il lavoro precedente sia valido o completo. Deve ripartire dal
-preflight; eventuali artefatti residui attiveranno `STOP-REPOSITORY-NOT-CLEAN` e richiederanno valutazione consapevole.
+Se l'interruzione è precedente al commit e il diff è interamente autorizzato, il run deve concludersi con `quarantine`.
+La schedulazione successiva riparte quindi dal preflight pulito e ignora la guida `blocked`. Se la quarantena non è
+ammessa o non riesce, gli artefatti residui restano bloccanti e richiedono valutazione consapevole.
 
 ## 7. Evidenze e log minimi
 
@@ -149,10 +154,10 @@ Non inserire nei log credenziali, cookie, token, contenuti riservati o copie int
 
 - `none`: l'esecuzione è conclusa e non esiste un retry automatico associato;
 - `next_schedule`: non restare in attesa; la prossima esecuzione ricomincia dal preflight;
-- `manual`: nessun nuovo tentativo finché la causa non è stata valutata e corretta consapevolmente.
+- `manual`: la guida viene recuperata separatamente; se quarantinabile, non impedisce l'avanzamento delle altre voci.
 
-Un retry non riutilizza automaticamente uno stato `in_progress`, una ricerca parziale o un commit locale. Idempotenza,
-lock e cronologia delle esecuzioni devono determinare il percorso corretto secondo il
+Un retry ordinario non riutilizza automaticamente uno stato `blocked`, una ricerca parziale o un commit locale.
+Idempotenza, quarantena, lock e cronologia delle esecuzioni devono determinare il percorso corretto secondo il
 [runbook operativo](runbook-operativo.md).
 
 ## 9. Validazione del catalogo
@@ -169,7 +174,8 @@ contratto e invarianti di sicurezza. Una modifica non valida del catalogo blocca
 ## 10. Modifiche
 
 Nuove condizioni possono essere aggiunte solo quando descrivono un rischio distinto. Non devono indebolire le condizioni
-esistenti, trasformare un intervento manuale in retry cieco o consentire commit e push dopo un arresto.
+esistenti, trasformare un intervento manuale in retry cieco o consentire la pubblicazione della guida dopo un arresto.
+Il solo commit operativo `blocked` resta vincolato alla procedura di quarantena.
 
 Qualsiasi modifica a esito, retry, notifiche o comportamento Git deve aggiornare nello stesso commit catalogo, schema,
 questo documento, validatori e contratto quando ne cambia le regole sostanziali.

@@ -46,7 +46,7 @@ La priorità non sostituisce i controlli di qualità. Un elemento `P1` bloccato 
 | `in_progress` | Esecuzione avviata e protetta dal meccanismo di esclusione. |
 | `pushed_to_main` | Commit del contenuto presente su `origin/main`; deploy non verificato. |
 | `needs_correction` | Contenuto pubblicato o preparato che richiede una correzione prioritaria. |
-| `blocked` | Impossibile procedere senza risolvere una condizione esplicita. |
+| `blocked` | Pubblicazione non riuscita; causa e artefatti sono conservati per un recupero separato dopo le voci `ready`. |
 | `discarded` | Argomento rimosso dal piano con motivazione registrata. |
 
 ## Selezione automatica
@@ -61,6 +61,9 @@ Una voce è selezionabile soltanto quando:
 - non è già in corso un'altra esecuzione editoriale.
 
 Tra le voci idonee si sceglie prima la priorità più alta e poi il numero di sequenza più basso. Una singola esecuzione può selezionare al massimo una voce. Se nessuna voce è idonea, termina senza modifiche.
+
+Le voci `blocked` non vengono ritentate dalla schedulazione ordinaria. Quando non restano voci `ready`, costituiscono
+la coda di recupero manuale, ordinata con gli stessi criteri di priorità e sequenza.
 
 ## Dipendenze iniziali
 

@@ -1,7 +1,7 @@
 {
   "$schema": "./condizioni-arresto.schema.json",
   "schema_version": "1.0",
-  "updated_at": "2026-09-24",
+  "updated_at": "2026-09-27",
   "default_actions": {
     "commit_allowed": false,
     "push_allowed": false,
@@ -150,7 +150,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["affermazioni senza supporto", "fonti esaminate", "limiti riscontrati"],
-      "recovery": "Integrare fonti adeguate, restringere il perimetro o marcare la guida blocked con una motivazione esplicita."
+      "recovery": "Correggere la causa nello stesso run oppure usare quarantine per archiviare gli artefatti, marcare la guida blocked e consentire alla schedulazione successiva di avanzare."
     },
     {
       "code": "STOP-SOURCE-UNAVAILABLE",
@@ -163,7 +163,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["URL fonte", "momento del tentativo", "errore di accesso"],
-      "recovery": "Riprovare alla schedulazione successiva o sostituire la fonte con un originale equivalente verificabile."
+      "recovery": "Sostituire la fonte nello stesso run oppure usare quarantine; la guida blocked sarà recuperata separatamente dopo l'esaurimento delle voci ready."
     },
     {
       "code": "STOP-SOURCE-CONFLICT",
@@ -176,7 +176,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["identificatori fonti", "affermazione controversa", "natura del conflitto"],
-      "recovery": "Documentare il conflitto nel registro e richiedere una decisione editoriale prima di riprendere la guida."
+      "recovery": "Documentare il conflitto e, se non risolvibile nel run, usare quarantine; la decisione editoriale avverrà nel recupero separato della guida blocked."
     },
     {
       "code": "STOP-HIGH-RISK-CLAIM-UNSUPPORTED",
@@ -189,7 +189,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["affermazione ad alto rischio", "data di validità", "fonte mancante o ambigua"],
-      "recovery": "Rimuovere l'affermazione, restringere la guida o ottenere una base istituzionale sufficiente prima della pubblicazione."
+      "recovery": "Rimuovere o sostenere l'affermazione nello stesso run; altrimenti usare quarantine e rinviare la guida blocked al recupero separato."
     },
     {
       "code": "STOP-EDITORIAL-POLICY-VIOLATION",
@@ -202,7 +202,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["regola violata", "passaggio interessato", "controllo che ha rilevato il problema"],
-      "recovery": "Correggere integralmente la violazione e ripetere ricerca e controlli interessati prima della generazione."
+      "recovery": "Correggere integralmente la violazione nello stesso run oppure usare quarantine e rinviare la guida blocked al recupero separato."
     },
     {
       "code": "STOP-GENERATION-FAILED",
@@ -215,7 +215,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["comando generatore", "codice di uscita", "errore restituito"],
-      "recovery": "Correggere la causa senza modificare direttamente l'HTML finale e rigenerare tutti gli artefatti interessati."
+      "recovery": "Correggere e rigenerare nello stesso run oppure usare quarantine per conservare i sorgenti e liberare il checkout per la guida successiva."
     },
     {
       "code": "STOP-VALIDATION-FAILED",
@@ -228,7 +228,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["modalità del validatore", "codice di uscita", "errori rilevati"],
-      "recovery": "Correggere i sorgenti o i dati responsabili, rigenerare e ripetere la validazione publication completa."
+      "recovery": "Correggere e rivalidare nello stesso run oppure usare quarantine per conservare gli artefatti e marcare la guida blocked."
     },
     {
       "code": "STOP-TESTS-FAILED",
@@ -241,7 +241,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["comando fallito", "test o fase", "codice di uscita"],
-      "recovery": "Diagnosticare il fallimento e ripetere l'intera catena di test dopo la correzione; non ignorare test esistenti."
+      "recovery": "Correggere e ripetere tutti i test nello stesso run oppure usare quarantine se il diff resta interamente nell'allowlist; non ignorare test esistenti."
     },
     {
       "code": "STOP-OUT-OF-SCOPE-DIFF",
@@ -254,7 +254,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["elenco file modificati", "guida selezionata", "file fuori perimetro"],
-      "recovery": "Separare o rimuovere consapevolmente le modifiche estranee preservando il lavoro altrui, poi ripetere tutti i controlli."
+      "recovery": "Non archiviare file estranei. Usare quarantine soltanto se ogni modifica appartiene all'allowlist del run; altrimenti richiedere intervento manuale."
     },
     {
       "code": "STOP-COMMIT-FAILED",
@@ -267,7 +267,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["stato staged", "comando commit", "messaggio di errore"],
-      "recovery": "Conservare gli artefatti locali, verificare staging e configurazione Git e creare il commit soltanto dopo un nuovo controllo completo."
+      "recovery": "Se nessun commit è stato creato e il diff appartiene interamente all'allowlist, usare quarantine; altrimenti preservare lo stato per il recupero manuale."
     },
     {
       "code": "STOP-ORIGIN-MAIN-ADVANCED",
@@ -306,7 +306,7 @@
       "notification": "failed_runs_only",
       "repository_state": "local_artifacts_allowed",
       "evidence": ["ultima fase completata", "errore o limite", "stato Git finale"],
-      "recovery": "Registrare lo stato senza pubblicare; la nuova esecuzione deve ripartire dai prerequisiti e non presumere che quella precedente sia completa."
+      "recovery": "Se il run può riprendere, completarlo; altrimenti usare quarantine sul diff interamente autorizzato, così la schedulazione successiva può avanzare."
     },
     {
       "code": "STOP-EXECUTION-INTERRUPTED-AFTER-COMMIT",

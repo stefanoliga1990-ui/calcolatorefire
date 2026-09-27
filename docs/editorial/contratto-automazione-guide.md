@@ -1,10 +1,10 @@
 # Contratto dell'automazione editoriale
 
-Versione: 0.3
+Versione: 0.4
 
 Stato: attivo
 
-Ultimo aggiornamento: 25 settembre 2026
+Ultimo aggiornamento: 27 settembre 2026
 
 ## 1. Scopo
 
@@ -49,6 +49,8 @@ Ogni esecuzione deve completare, nell'ordine, un solo ciclo editoriale:
 11. registrare l'esito dell'esecuzione e terminare senza attendere Railway.
 
 L'automazione non deve iniziare una seconda guida nella stessa esecuzione, neppure se la prima termina rapidamente.
+Se un arresto precedente al commit ammette artefatti locali, il run deve mettere la guida in quarantena e terminarla
+come `blocked`; sarà la schedulazione successiva, non il run corrente, a selezionare la prossima guida `ready`.
 
 ## 4. Regola di selezione
 
@@ -107,6 +109,10 @@ Le modifiche devono essere limitate alla singola guida e ai file strettamente ne
 
 Se `main` cambia durante l'esecuzione o il push viene rifiutato, l'automazione deve fermarsi senza forzare l'operazione. La guida si considera inviata alla pubblicazione soltanto quando il commit è presente su `origin/main`.
 
+Un fallimento anteriore al commit può produrre un commit operativo contenente soltanto lo stato `blocked` nel backlog.
+La bozza e gli altri artefatti della guida restano fuori da `main`, archiviati nello stato locale di quarantena. Questo
+commit non equivale alla pubblicazione della guida.
+
 ## 9. Significato di pubblicazione
 
 Per questo processo, "pubblicata" significa che la guida è stata inviata con successo a `origin/main`. Non significa che Railway abbia concluso il deploy, che l'URL pubblico risponda correttamente o che Google abbia indicizzato la pagina.
@@ -145,6 +151,9 @@ L'esito finale dell'esecuzione deve riportare almeno:
 - `deployment_checked: false`;
 - eventuale motivo di arresto.
 
+Una guida conclusa come `blocked` resta esclusa dalla selezione ordinaria. Dopo l'esaurimento delle voci `ready`, le
+guide bloccate vengono recuperate separatamente e soltanto su decisione esplicita, usando gli artefatti di quarantena.
+
 Il risultato resta consultabile nella cronologia delle esecuzioni. Non è richiesta una notifica per le esecuzioni riuscite o per l'assenza di guide idonee; sono ammesse notifiche soltanto per fallimenti o interventi richiesti.
 
 Campi, persistenza append-only, risultato finale immutabile e regole di redazione sono definiti nel
@@ -165,7 +174,10 @@ L'esecuzione deve fermarsi senza pubblicare quando si verifica almeno una delle 
 - modifiche estranee alla guida selezionata;
 - rifiuto del push o avanzamento concorrente di `origin/main`.
 
-In caso di arresto sono vietati contenuti parziali su `main`. Gli artefatti locali eventualmente prodotti devono restare fuori dalla pubblicazione e il motivo deve essere registrato nell'esito dell'esecuzione.
+In caso di arresto sono vietati contenuti parziali su `main`. Se il fallimento avviene prima del commit, riguarda solo
+file autorizzati e la condizione ammette artefatti locali, questi vengono archiviati in quarantena, la guida viene
+marcata `blocked` con un commit dedicato e il lock viene rilasciato. Gli arresti con commit locale, divergenza Git,
+push incerto o file estranei restano bloccanti e richiedono intervento manuale.
 
 Codici, classificazione degli esiti, evidenze, retry e comportamento Git sono definiti nel
 [catalogo operativo delle condizioni di arresto](condizioni-arresto.md) e nel relativo

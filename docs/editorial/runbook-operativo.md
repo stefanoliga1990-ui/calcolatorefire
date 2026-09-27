@@ -1,10 +1,10 @@
 # Runbook operativo delle pubblicazioni editoriali
 
-Versione: 1.2
+Versione: 1.3
 
 Stato: vincolante per l'esecuzione automatica
 
-Ultimo aggiornamento: 25 settembre 2026
+Ultimo aggiornamento: 27 settembre 2026
 
 ## 1. Scopo e autorità
 
@@ -275,15 +275,33 @@ Dopo un arresto:
 
 1. non creare commit o push manuali;
 2. non usare force push, reset distruttivi o checkout per cancellare indiscriminatamente gli artefatti;
-3. conservare lock, sessione, audit e file locali quando previsti;
+3. consultare la condizione nel catalogo e verificare `repository_state`;
 4. consultare `status` e `log`;
-5. seguire esclusivamente `retry` e `recovery` della condizione registrata;
-6. non emettere notifiche ordinarie dal run; per gli errori applicare soltanto la policy indicata dal catalogo.
+5. se `repository_state` è `local_artifacts_allowed`, il run non ha creato commit e tutti i file appartengono
+   all'allowlist, concludere con `quarantine`;
+6. negli altri casi conservare lock, sessione, audit e file locali e seguire il recupero manuale previsto;
+7. non emettere notifiche ordinarie dal run; per gli errori applicare soltanto la policy indicata dal catalogo.
 
 Un arresto prima di `start` lascia il repository invariato. Un arresto dopo `start` mantiene lo stesso `run-id` e
-`owner_token` per una correzione ammessa prima del commit.
+`owner_token` per una correzione ammessa prima del commit oppure per la quarantena conclusiva.
 
 ## 6. Recupero e retry
+
+### Quarantena e avanzamento della coda
+
+Quando una causa ammessa non viene risolta nello stesso run, eseguire:
+
+```powershell
+./scripts/publish-guide.ps1 quarantine -RunId <run-id> -OwnerToken <owner-token> `
+  -StopCode <STOP-CODE> -StopMessage "<causa sintetica>"
+```
+
+Il comando deve riuscire prima di terminare il run. Archivia gli artefatti fuori dal working tree, marca la guida
+`blocked` con un commit operativo separato, esegue il push e rilascia il lock. Non selezionare un'altra guida nello
+stesso run: la schedulazione successiva ignorerà gli elementi `blocked` e prenderà la prima voce `ready`.
+
+Non usare la quarantena per file fuori allowlist, commit già creati, avanzamento o divergenza di `origin/main`, push
+incerto, branch errato o lock appartenente a un altro run. Queste condizioni restano di recupero manuale.
 
 ### Correzione prima del commit
 
@@ -323,6 +341,7 @@ nuovo commit e senza nuovo push.
 ## 7. Invarianti finali
 
 - Una guida, un run, un commit e al massimo un push.
+- Un run fallito archiviabile produce al massimo il solo commit operativo che marca la guida `blocked`.
 - Le fonti sono studiate integralmente e registrate prima della redazione finale.
 - Nessuna pagina generata viene corretta a mano.
 - Nessun test o validatore fallito viene ignorato.

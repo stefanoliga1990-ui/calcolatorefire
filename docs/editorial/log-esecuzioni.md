@@ -12,12 +12,14 @@ pubblicati sul sito.
 .git/editorial-publication/
 ├── sessions/<run-id>.json
 ├── audit/<run-id>/<timestamp>-<event-id>.json
-└── history/<run-id>.json
+├── history/<run-id>.json
+└── quarantine/<run-id>/{manifest.json,changes.patch,files/...}
 ```
 
 - `sessions` contiene lo stato aggiornabile necessario a riprendere o diagnosticare un run;
 - `audit` contiene eventi immutabili, creati con nomi univoci e mai sovrascritti;
 - `history` contiene un solo risultato finale immutabile per run concluso.
+- `quarantine` conserva patch e copie degli artefatti di una guida `blocked`, senza inserirli nel repository.
 
 Il formato del risultato finale è definito da [execution-log.schema.json](execution-log.schema.json); comportamento,
 directory e redazioni sono vincolati da [execution-log-policy.json](execution-log-policy.json).
@@ -80,5 +82,5 @@ Entrambi i comandi sono in sola lettura e non aggiungono eventi.
 
 Una condizione `STOP-*` aggiorna la sessione con classificazione, retry, notifica e recupero ricavati dal catalogo delle
 condizioni di arresto. Il tentativo viene conservato nell'audit, ma il risultato finale non viene congelato finché il run
-non è pubblicato, annullato in sicurezza o concluso come `no_op`. In questo modo una correzione pre-commit non può
+non è pubblicato, messo in quarantena, annullato in sicurezza o concluso come `no_op`. In questo modo una correzione pre-commit non può
 riscrivere retroattivamente gli eventi già avvenuti.

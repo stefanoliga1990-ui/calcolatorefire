@@ -29,7 +29,7 @@ Gli esiti possibili quando il file esiste già sono:
 | Stato | Esito | Azione automatica |
 | --- | --- | --- |
 | heartbeat entro 480 minuti | `STOP-ACTIVE-EDITORIAL-LOCK` | Terminare e riprovare alla schedulazione successiva. |
-| heartbeat assente, futuro o più vecchio di 480 minuti | `STOP-STALE-EDITORIAL-LOCK` | Nessuna; richiedere intervento manuale. |
+| heartbeat assente, futuro o più vecchio di 480 minuti | `STOP-STALE-EDITORIAL-LOCK` | Recupero manuale oppure quarantena verificata dal proprietario originale. |
 | file illeggibile o incoerente | `STOP-STALE-EDITORIAL-LOCK` | Nessuna; richiedere intervento manuale. |
 
 Un lock obsoleto non viene mai sovrascritto o rimosso automaticamente.
@@ -51,6 +51,8 @@ La cronologia registra inoltre file modificati, SHA iniziali, commit, push, orar
   precedente non aveva salvato l'ultimo checkpoint.
 - Un commit soltanto locale non viene inviato da un retry ordinario. Dopo una verifica umana si usa `-ManualRecovery`.
 - Prima del commit, una correzione conserva il medesimo run e ripete validatori e controlli sullo stato corrente.
+- Prima del commit, un fallimento non risolto e limitato all'allowlist può essere archiviato con `quarantine`: la guida
+  passa a `blocked`, il checkout torna pulito e il ciclo seguente può avanzare.
 - `cancel -ManualRecovery` rimuove un lock obsoleto soltanto se HEAD è quello iniziale, il working tree è pulito e non
   esiste un commit locale associato.
 
@@ -58,7 +60,7 @@ La cronologia registra inoltre file modificati, SHA iniziali, commit, push, orar
 
 - Il token non va copiato in contenuti, messaggi di commit o log pubblici.
 - `deployment_checked` resta sempre `false`.
-- Il rilascio del lock avviene soltanto dopo push verificato o annullamento sicuro.
+- Il rilascio del lock avviene soltanto dopo push verificato, quarantena verificata o annullamento sicuro.
 - Errori dopo il commit preservano lock, SHA e prove per il recupero manuale.
 - Nessuna procedura di recupero può usare force push, reset distruttivi o rimozione cieca del lock.
 

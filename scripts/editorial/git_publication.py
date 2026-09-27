@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import calendar
+import hashlib
 import json
 import os
 import re
@@ -408,6 +409,17 @@ def load_session(root: Path, run_id: str) -> dict:
     return session
 
 
+def stop_rule(root: Path, code: str) -> dict:
+    catalogue = load_json(root / "docs/editorial/condizioni-arresto.json")
+    matches = [
+        condition for condition in catalogue.get("conditions", [])
+        if isinstance(condition, dict) and condition.get("code") == code
+    ]
+    if len(matches) != 1:
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", f"Condizione di arresto sconosciuta: {code}")
+    return matches[0]
+
+
 def start(root: Path, run_id: str, content_id: str, related_ids: Sequence[str] = ()) -> dict:
     if not RUN_ID.fullmatch(run_id):
         raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", "run-id non valido (minimo 6 caratteri)")
@@ -500,6 +512,16 @@ def run_full_validation(root: Path) -> None:
         raise PublicationStop("STOP-VALIDATION-FAILED", "Validazione editoriale o test non superati")
 
 
+def run_quarantine_validation(root: Path) -> None:
+    executable = shutil.which("pwsh") or shutil.which("powershell")
+    if executable is None:
+        raise PublicationStop("STOP-TESTS-FAILED", "PowerShell non disponibile per validare lo stato blocked")
+    command = [executable, "-NoProfile", "-File", str(root / "scripts/validate-editorial.ps1"), "-Mode", "development"]
+    process = subprocess.run(command, cwd=root)
+    if process.returncode != 0:
+        raise PublicationStop("STOP-VALIDATION-FAILED", "Il backlog con la guida blocked non supera la validazione")
+
+
 def assert_publishable_diff(root: Path, policy: dict, session: dict) -> list[str]:
     paths = sorted(changed_paths(root))
     if not paths:
@@ -523,11 +545,7 @@ def assert_publishable_diff(root: Path, policy: dict, session: dict) -> list[str
 
 def record_stop(root: Path, session: dict, error: PublicationStop) -> None:
     try:
-        catalogue = load_json(root / "docs/editorial/condizioni-arresto.json")
-        rule = next(
-            (condition for condition in catalogue.get("conditions", []) if condition.get("code") == error.code),
-            None,
-        )
+        rule = stop_rule(root, error.code)
     except PublicationStop:
         rule = None
     session["status"] = "committed" if session.get("commit_sha") else "stopped"
@@ -702,6 +720,150 @@ def cancel(root: Path, run_id: str, owner_token: str, *, manual_recovery: bool =
     return session
 
 
+def quarantine(
+    root: Path, run_id: str, owner_token: str, stop_code: str = "", stop_message: str = "",
+    validator: Callable[[Path], None] = run_quarantine_validation, *, manual_recovery: bool = False,
+) -> dict:
+    """Archivia un run fallito prima del commit, marca la guida blocked e libera il checkout."""
+    session = load_session(root, run_id)
+    policy = load_policy(root)
+    _, lock_path, _ = repo_paths(root)
+
+    if session.get("status") == "quarantined":
+        fetch_main(root, policy)
+        commit_sha = str(session.get("commit_sha") or "")
+        tracking_ref = f"refs/remotes/{policy['remote']}/{policy['branch']}"
+        if not commit_sha or not is_ancestor(root, commit_sha, tracking_ref):
+            raise PublicationStop("STOP-EXECUTION-INTERRUPTED", "Il commit di quarantena non è verificabile su origin/main")
+        if lock_path.exists():
+            release_owned_lock(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
+        write_final_result(root, session)
+        return {**session, "idempotent_replay": True}
+
+    assert_lock_owner(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
+    assert_branch(root, policy)
+    if session.get("status") not in {"active", "stopped"}:
+        raise PublicationStop("STOP-EXECUTION-INTERRUPTED", f"Stato non archiviabile: {session.get('status')}")
+    if session.get("commit_sha") or session.get("commit_performed") or head_sha(root) != session.get("base_head"):
+        raise PublicationStop("STOP-EXECUTION-INTERRUPTED-AFTER-COMMIT", "Quarantena vietata dopo la creazione di un commit")
+
+    code = stop_code or str(session.get("stop_code") or "")
+    if not re.fullmatch(r"STOP-[A-Z0-9]+(?:-[A-Z0-9]+)*", code):
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", "Codice STOP obbligatorio per la quarantena")
+    rule = stop_rule(root, code)
+    if rule.get("repository_state") != "local_artifacts_allowed":
+        raise PublicationStop(
+            "STOP-EXECUTION-INTERRUPTED",
+            f"La condizione {code} non consente la quarantena automatica degli artefatti",
+        )
+
+    paths = sorted(changed_paths(root))
+    allowed = set(session.get("allowed_paths", []))
+    maximum = policy.get("maximum_changed_files")
+    if not isinstance(maximum, int) or len(paths) > maximum:
+        raise PublicationStop("STOP-OUT-OF-SCOPE-DIFF", f"Numero di file non archiviabile: {len(paths)}")
+    outside = [path for path in paths if path not in allowed]
+    if outside:
+        raise PublicationStop("STOP-OUT-OF-SCOPE-DIFF", f"File fuori perimetro non archiviabili: {', '.join(outside)}")
+    symlinks = [path for path in paths if (root / path).is_symlink()]
+    if symlinks:
+        raise PublicationStop("STOP-OUT-OF-SCOPE-DIFF", f"Link simbolici non archiviabili: {', '.join(symlinks)}")
+
+    state_dir, _, _ = repo_paths(root)
+    quarantine_root = state_dir / "quarantine" / run_id
+    if quarantine_root.exists():
+        raise PublicationStop("STOP-EXECUTION-INTERRUPTED", f"Archivio di quarantena già presente per {run_id}")
+    temporary = quarantine_root.with_name(f".{run_id}.{os.getpid()}.tmp")
+    files_root = temporary / "files"
+    files_root.mkdir(parents=True, exist_ok=False)
+    archived_files = []
+    for path in paths:
+        source = root / path
+        digest = None
+        if source.is_file():
+            destination = files_root / Path(path)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()
+        archived_files.append({"path": path, "exists": source.is_file(), "sha256": digest})
+    diff_process = subprocess.run(
+        ["git", "diff", "--binary", "HEAD", "--", *paths], cwd=root,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+    if diff_process.returncode != 0:
+        shutil.rmtree(temporary)
+        raise PublicationStop("STOP-EXECUTION-INTERRUPTED", "Impossibile creare la patch di quarantena")
+    (temporary / "changes.patch").write_bytes(diff_process.stdout)
+    message = (stop_message or str(session.get("stop_message") or rule.get("trigger") or code)).strip()[:500]
+    atomic_json_write(temporary / "manifest.json", {
+        "schema_version": "1.0", "run_id": run_id, "content_id": session["content_id"],
+        "base_head": session.get("base_head"), "archived_at": now_utc(), "stop_code": code,
+        "stop_message": message, "source_ids": session.get("source_ids", []),
+        "checks": session.get("checks", []), "files": archived_files,
+    })
+    quarantine_root.parent.mkdir(parents=True, exist_ok=True)
+    os.replace(temporary, quarantine_root)
+
+    tracked = {
+        normalize_repo_path(path)
+        for path in git(root, "ls-files", "-z", "--", *paths).split("\0") if path
+    }
+    if tracked:
+        git(root, "restore", "--source", str(session["base_head"]), "--staged", "--worktree", "--", *sorted(tracked))
+    for path in sorted(set(paths) - tracked):
+        candidate = root / path
+        if candidate.is_file():
+            candidate.unlink()
+        elif candidate.exists():
+            raise PublicationStop("STOP-OUT-OF-SCOPE-DIFF", f"Percorso non-file non rimovibile: {path}")
+    if changed_paths(root):
+        raise PublicationStop("STOP-EXECUTION-INTERRUPTED", "Il checkout non è pulito dopo l'archiviazione")
+
+    backlog_path = root / "docs/editorial/backlog-editoriale.json"
+    backlog = load_json(backlog_path)
+    items = [item for item in backlog.get("items", []) if item.get("id") == session["content_id"]]
+    if len(items) != 1:
+        raise PublicationStop("STOP-EDITORIAL-DATA-INVALID", "Guida della sessione non trovata nel backlog")
+    item = items[0]
+    item["status"] = "blocked"
+    note = f"Blocked automaticamente dopo {code}; artefatti conservati dal run {run_id}."
+    existing_note = item.get("notes")
+    item["notes"] = f"{existing_note} {note}".strip() if existing_note else note
+    backlog["updated_at"] = datetime.now(timezone.utc).date().isoformat()
+    atomic_json_write(backlog_path, backlog)
+    validator(root)
+    if changed_paths(root) != {"docs/editorial/backlog-editoriale.json"}:
+        raise PublicationStop("STOP-OUT-OF-SCOPE-DIFF", "La quarantena deve modificare soltanto il backlog")
+
+    fetch_main(root, policy)
+    if remote_tracking_sha(root, policy) != session["initial_remote_head"] or remote_sha(root, policy) != session["initial_remote_head"]:
+        raise PublicationStop("STOP-ORIGIN-MAIN-ADVANCED", "origin/main è avanzato durante la quarantena")
+    git(root, "add", "--", "docs/editorial/backlog-editoriale.json", code="STOP-COMMIT-FAILED")
+    staged = {path for path in git(root, "diff", "--cached", "--name-only", "-z").split("\0") if path}
+    if staged != {"docs/editorial/backlog-editoriale.json"}:
+        raise PublicationStop("STOP-OUT-OF-SCOPE-DIFF", "Staging della quarantena non valido")
+    commit_message = f"Blocca {session['content_id']} dopo {code}"[:120]
+    git(root, "commit", "-m", commit_message, code="STOP-COMMIT-FAILED")
+    quarantine_commit = head_sha(root)
+    git(root, "push", policy["remote"], f"HEAD:{policy['remote_ref']}", code="STOP-PUSH-REJECTED")
+    if remote_sha(root, policy) != quarantine_commit:
+        raise PublicationStop("STOP-PUSH-REJECTED", "Lo SHA remoto non coincide con il commit di quarantena")
+
+    session.update({
+        "status": "quarantined", "outcome": "blocked", "phase": "complete", "finished_at": now_utc(),
+        "heartbeat_at": now_utc(), "changed_files": paths, "commit_sha": quarantine_commit,
+        "commit_performed": True, "push_performed": True, "stop_code": code, "stop_message": message,
+        "retry": "manual", "notification": rule.get("notification", "failed_runs_only"),
+        "recovery": f"Ripristinare e correggere gli artefatti conservati in .git/editorial-publication/quarantine/{run_id} dopo il completamento del backlog.",
+        "quarantine_path": f".git/editorial-publication/quarantine/{run_id}",
+        "commit_message": commit_message,
+    })
+    save_session(root, session)
+    write_final_result(root, session)
+    release_owned_lock(lock_path, run_id, owner_token, policy, allow_stale=manual_recovery)
+    return session
+
+
 def status_view(root: Path, run_id: str) -> dict:
     session = load_session(root, run_id)
     policy = load_policy(root)
@@ -752,10 +914,14 @@ def parse_args() -> argparse.Namespace:
     publish_parser.add_argument("--run-id", required=True)
     publish_parser.add_argument("--owner-token", required=True)
     publish_parser.add_argument("--manual-recovery", action="store_true")
-    cancel_parser = commands.add_parser("cancel")
-    cancel_parser.add_argument("--run-id", required=True)
-    cancel_parser.add_argument("--owner-token", required=True)
-    cancel_parser.add_argument("--manual-recovery", action="store_true")
+    for name in ("cancel", "quarantine"):
+        command = commands.add_parser(name)
+        command.add_argument("--run-id", required=True)
+        command.add_argument("--owner-token", required=True)
+        command.add_argument("--manual-recovery", action="store_true")
+        if name == "quarantine":
+            command.add_argument("--stop-code", required=True)
+            command.add_argument("--stop-message", default="")
     for name in ("status", "log"):
         command = commands.add_parser(name)
         command.add_argument("--run-id", required=True)
@@ -777,6 +943,11 @@ def main() -> int:
             result = publish(root, args.run_id, args.owner_token, manual_recovery=args.manual_recovery)
         elif args.action == "cancel":
             result = cancel(root, args.run_id, args.owner_token, manual_recovery=args.manual_recovery)
+        elif args.action == "quarantine":
+            result = quarantine(
+                root, args.run_id, args.owner_token, args.stop_code, args.stop_message,
+                manual_recovery=args.manual_recovery,
+            )
         elif args.action == "run-id":
             result = {"run_id": scheduled_run_id(), "timezone": "Europe/Rome", "slot_hours": 3}
         elif args.action == "log":

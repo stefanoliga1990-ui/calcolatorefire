@@ -61,9 +61,26 @@ class GitPublicationTest(unittest.TestCase):
             ],
         }
         backlog = {
+            "updated_at": "2026-09-27",
             "items": [{
                 "id": "GUIDE-0001", "content_type": "guide", "status": "pilot",
                 "slug": "/guida/fire-italia", "working_title": "FIRE in Italia",
+                "notes": None,
+            }, {
+                "id": "GUIDE-0002", "content_type": "guide", "status": "ready",
+                "slug": "/guida/numero-fire", "working_title": "Numero FIRE",
+                "notes": None,
+            }]
+        }
+        stop_conditions = {
+            "conditions": [{
+                "code": "STOP-VALIDATION-FAILED", "repository_state": "local_artifacts_allowed",
+                "outcome": "failed", "retry": "manual", "notification": "failed_runs_only",
+                "trigger": "Validazione non superata", "recovery": "Correggere e riprovare.",
+            }, {
+                "code": "STOP-REPOSITORY-NOT-CLEAN", "repository_state": "unchanged",
+                "outcome": "intervention_required", "retry": "manual", "notification": "failed_runs_only",
+                "trigger": "Repository sporco", "recovery": "Verificare manualmente.",
             }]
         }
         editorial = seed / "docs/editorial"
@@ -72,6 +89,7 @@ class GitPublicationTest(unittest.TestCase):
         (editorial / "execution-log-policy.json").write_text(json.dumps(log_policy), encoding="utf-8")
         (editorial / "backlog-editoriale.json").write_text(json.dumps(backlog), encoding="utf-8")
         (editorial / "registro-fonti.json").write_text("{}\n", encoding="utf-8")
+        (editorial / "condizioni-arresto.json").write_text(json.dumps(stop_conditions), encoding="utf-8")
         static = seed / "src/main/resources/static"
         static.mkdir(parents=True)
         (static / "sitemap.xml").write_text("<urlset/>\n", encoding="utf-8")
@@ -217,6 +235,54 @@ class GitPublicationTest(unittest.TestCase):
             (self.worker / ".git/editorial-publication/history/run-0001.json").read_text(encoding="utf-8")
         )
         self.assertEqual("cancelled", final["outcome"])
+
+    def test_quarantine_blocks_failed_guide_and_allows_next_run(self):
+        self.start()
+        backlog_path = self.worker / "docs/editorial/backlog-editoriale.json"
+        backlog = json.loads(backlog_path.read_text(encoding="utf-8"))
+        backlog["items"][0]["status"] = "in_progress"
+        backlog_path.write_text(json.dumps(backlog), encoding="utf-8")
+        content = self.worker / "content/guides"
+        content.mkdir(parents=True)
+        (content / "GUIDE-0001.json").write_text("{}\n", encoding="utf-8")
+        (content / "GUIDE-0001.body.html").write_text("<p>Bozza</p>\n", encoding="utf-8")
+
+        result = PUBLISHER.quarantine(
+            self.worker, "run-0001", self.owner_token,
+            "STOP-VALIDATION-FAILED", "schema non valido", validator=lambda _: None,
+        )
+
+        self.assertEqual("quarantined", result["status"])
+        self.assertEqual("blocked", result["outcome"])
+        self.assertFalse((self.worker / ".git/editorial-publication/lock.json").exists())
+        self.assertEqual("", run_git(self.worker, "status", "--porcelain"))
+        self.assertFalse((content / "GUIDE-0001.json").exists())
+        archive = self.worker / ".git/editorial-publication/quarantine/run-0001"
+        self.assertTrue((archive / "manifest.json").is_file())
+        self.assertTrue((archive / "files/content/guides/GUIDE-0001.json").is_file())
+        published_backlog = json.loads(backlog_path.read_text(encoding="utf-8"))
+        self.assertEqual("blocked", published_backlog["items"][0]["status"])
+        self.assertEqual(
+            run_git(self.worker, "rev-parse", "HEAD"),
+            run_git(self.worker, "ls-remote", "--heads", "origin", "refs/heads/main").split()[0],
+        )
+        committed_paths = run_git(self.worker, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").splitlines()
+        self.assertEqual(["docs/editorial/backlog-editoriale.json"], committed_paths)
+
+        next_session = PUBLISHER.start(self.worker, "run-0002", "GUIDE-0002")
+        self.assertEqual("GUIDE-0002", next_session["content_id"])
+        PUBLISHER.cancel(self.worker, "run-0002", next_session["owner_token"])
+
+    def test_quarantine_refuses_changes_outside_run_allowlist(self):
+        self.start()
+        (self.worker / "pom.xml").write_text("estraneo\n", encoding="utf-8")
+        with self.assertRaises(PUBLISHER.PublicationStop) as raised:
+            PUBLISHER.quarantine(
+                self.worker, "run-0001", self.owner_token,
+                "STOP-VALIDATION-FAILED", validator=lambda _: None,
+            )
+        self.assertEqual("STOP-OUT-OF-SCOPE-DIFF", raised.exception.code)
+        self.assertTrue((self.worker / ".git/editorial-publication/lock.json").exists())
 
     def test_audit_log_is_append_only_and_redacts_secrets(self):
         self.start()
