@@ -8,8 +8,8 @@ produca una seconda guida o un secondo commit equivalente. Lo stato operativo è
 
 ## Identità del run
 
-La schedulazione ogni 3 ore usa `editorial-AAAAMMGG-HH`, calcolato sul calendario `Europe/Rome`; `HH` vale `00`, `03`,
-`06`, `09`, `12`, `15`, `18` o `21`:
+La schedulazione ogni 2 ore usa `editorial-AAAAMMGG-HH`, calcolato sul calendario `Europe/Rome`; `HH` vale `00`, `02`,
+`04`, `06`, `08`, `10`, `12`, `14`, `16`, `18`, `20` o `22`:
 
 ```powershell
 ./scripts/publish-guide.ps1 run-id
