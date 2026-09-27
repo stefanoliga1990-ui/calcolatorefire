@@ -1,0 +1,60 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0012",
+  "slug": "/guida/rischio-sequenza-rendimenti-fire",
+  "seo": {
+    "title": "Rischio di sequenza dei rendimenti nel FIRE",
+    "description": "Scopri perché una perdita all'inizio dei prelievi può pesare più della stessa perdita successiva e quali limiti ha una proiezione FIRE a rendimento costante.",
+    "og_title": "Perché l'ordine dei rendimenti conta nel FIRE",
+    "og_description": "Un esempio in euro mostra il rischio di sequenza durante i prelievi e il limite delle proiezioni a rendimento costante."
+  },
+  "page": {
+    "kicker": "Rischi del decumulo",
+    "h1": "Rischio di sequenza dei rendimenti: perché conta nel FIRE",
+    "lead": "Quando inizi a finanziare le spese prelevando dal patrimonio, l'ordine dei rendimenti cambia il saldo che resta: una perdita iniziale riduce il capitale su cui può agire un recupero successivo. Due percorsi con gli stessi rendimenti, ma in ordine inverso, possono quindi dare risultati diversi. Il simulatore FIRE usa invece un rendimento costante: aiuta a leggere uno scenario, ma non misura questo rischio."
+  },
+  "dates": {
+    "published": "2026-09-27",
+    "updated": "2026-09-27"
+  },
+  "summary_points": [
+    "Durante i prelievi conta anche quando arrivano perdite e recuperi, non soltanto il rendimento medio.",
+    "Una perdita nelle prime fasi lascia meno capitale investito dopo il prelievo e può rendere più difficile il recupero.",
+    "Il rendimento FIRE inserito nel simulatore è costante: la proiezione non genera percorsi di mercato variabili né probabilità di successo.",
+    "Un eventuale shortfall della proiezione segnala insufficienza nello scenario scelto, non quantifica il rischio di sequenza reale."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0008",
+    "SRC-2026-0016"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Documenta il rendimento costante, l'ordine mensile di prelievo e rendimento e gli avvisi di shortfall."
+    },
+    {
+      "url": "/guida/regola-del-4-percento-swr",
+      "label": "Regola del 4% e limiti della SWR",
+      "reason": "Approfondisce il tasso iniziale di prelievo e i limiti della sua applicazione a un piano italiano."
+    },
+    {
+      "url": "/guida/metodo-finite-o-swr",
+      "label": "Confronto tra metodo FINITE e SWR",
+      "reason": "Aiuta a distinguere i due target disponibili prima di interpretare la proiezione di decumulo."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Permette di confrontare i saldi al variare delle ipotesi di rendimento e spesa."
+    }
+  ],
+  "cta": {
+    "title": "Rileggi la proiezione come uno scenario",
+    "text": "Prova valori prudenti per rendimento e spesa, osserva il saldo e gli eventuali avvisi di shortfall. Tieni distinto questo confronto dal rischio di una sequenza di mercato sfavorevole.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

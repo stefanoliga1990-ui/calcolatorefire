@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "updated_at": "2026-09-27",
   "next_id_by_year": {
-    "2026": 16
+    "2026": 17
   },
   "sources": [
     {
@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-27T17:42:44+02:00"
+        "last_accessed_at": "2026-09-27T19:44:18+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -34,13 +34,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Sezioni 6, 8, 16–18 e 23–24",
+        "section": "Sezioni 1, 2, 6–9, 16–18 e 23–24: limiti deterministici, target, proiezione e risorse aggiuntive",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-27T17:42:44+02:00",
+        "checked_at": "2026-09-27T19:44:18+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -111,6 +111,12 @@
           "claim": "Il patrimonio principale e gli investimenti esistenti sono additivi; il PAC storico è nel saldo iniziale, i nuovi versamenti entrano a fine mese e solo le risorse disponibili al FIRE riducono il PAC aggiuntivo.",
           "importance": "central",
           "verified_at": "2026-09-27T17:42:44+02:00"
+        },
+        {
+          "content_id": "GUIDE-0012",
+          "claim": "Il motore applica un rendimento costante convertito su base mensile e prelievi a inizio mese; non simula sequenze di rendimenti variabili, Monte Carlo o probabilità di successo.",
+          "importance": "central",
+          "verified_at": "2026-09-27T19:44:18+02:00"
         }
       ],
       "limitations": [
@@ -564,12 +570,12 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-25T12:41:13+02:00",
-        "last_accessed_at": "2026-09-26T21:04:27+02:00"
+        "last_accessed_at": "2026-09-27T19:44:18+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-26",
+        "as_of": "2026-09-27",
         "reference_period": "Dati di mercato 1900–2008 in 17 paesi sviluppati; pensionamenti simulati 1900–1979 su 30 anni",
         "version": "Versione rivista, ottobre 2010",
         "provisional": false
@@ -582,7 +588,7 @@
         "dataset_or_series": "Dimson, Marsh e Staunton 1900–2008"
       },
       "verification": {
-        "checked_at": "2026-09-26T21:04:27+02:00",
+        "checked_at": "2026-09-27T19:44:18+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -605,6 +611,12 @@
           "claim": "Una SWR è una regola iniziale basata su ipotesi e dati storici; lo studio su 17 paesi e 30 anni evidenzia la dipendenza da mercato, periodo, costi e imposte, quindi non certifica il target italiano.",
           "importance": "central",
           "verified_at": "2026-09-26T21:04:27+02:00"
+        },
+        {
+          "content_id": "GUIDE-0012",
+          "claim": "La sostenibilità dei prelievi cambia tra coorti e mercati storici; i risultati su 17 paesi e finestre trentennali non definiscono un tasso garantito per il FIRE italiano.",
+          "importance": "central",
+          "verified_at": "2026-09-27T19:44:18+02:00"
         }
       ],
       "limitations": [
@@ -1022,6 +1034,65 @@
       "conflicts": [],
       "local_copy": null,
       "notes": "Comunicato istituzionale e rapporto integrale con nota metodologica consultati; nessun conflitto rilevante."
+    },
+    {
+      "id": "SRC-2026-0016",
+      "status": "approved",
+      "level": "A",
+      "type": "technical_analysis",
+      "title": "The State of Retirement Income: 2025",
+      "responsible_entity": "Morningstar Portfolio and Planning Research",
+      "authors": [
+        "Amy C. Arnott",
+        "Christine Benz",
+        "Jason Kephart",
+        "Tao Guo"
+      ],
+      "url": "https://www.morningstar.com/content/cs-assets/v3/assets/blt9415ea4cc4157833/bltb73b87c5d0c70ead/692f43f57737a31596684522/working_file_11.19_FINAL_REVISE.pdf",
+      "persistent_identifier": null,
+      "dates": {
+        "published": "2025-12-03",
+        "updated": null,
+        "first_accessed_at": "2026-09-27T19:44:18+02:00",
+        "last_accessed_at": "2026-09-27T19:44:18+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-27",
+        "reference_period": "Ipotesi di mercato al 30 settembre 2025; simulazioni di prelievi su 30 anni per portafogli statunitensi",
+        "version": "Rapporto 2025, 54 pagine",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Sezione II, Market Shock: Sequence-of-Returns Risk; sezione VI, How to Use This Research",
+        "page": "13–15, 50–54",
+        "table_or_figure": "Exhibits 10–11",
+        "dataset_or_series": "Simulazioni Morningstar con ipotesi di mercato al 30 settembre 2025"
+      },
+      "verification": {
+        "checked_at": "2026-09-27T19:44:18+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0012",
+          "claim": "Nelle simulazioni originali di Morningstar, perdite nei primi anni di prelievo aumentano il rischio di esaurimento; gli esiti dipendono da orizzonte, allocazione e metodo di spesa.",
+          "importance": "central",
+          "verified_at": "2026-09-27T19:44:18+02:00"
+        }
+      ],
+      "limitations": [
+        "Analisi su ipotesi prospettiche e portafogli statunitensi, non una probabilità calibrata per investitori italiani.",
+        "La sezione sul rischio di sequenza esamina in particolare portafogli interamente azionari e prelievi reali fissi su 30 anni.",
+        "L'autore dello studio è anche fornitore commerciale di ricerca finanziaria; nessun prodotto o tasso suggerito viene trasferito alla guida."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Rapporto originale consultato direttamente; i risultati simulati non sono previsioni né una stima di probabilità del simulatore Calcolo FIRE Italia. Il confronto con Pfau riguarda metodi e campioni diversi, senza conflitto sostanziale sulle limitazioni dei rendimenti medi."
     }
   ]
 }

@@ -1,0 +1,97 @@
+<section class="content-section" id="che-cosa-cambia" aria-labelledby="che-cosa-cambia-title">
+    <h2 id="che-cosa-cambia-title">Con i prelievi, la media dei rendimenti non racconta tutta la storia</h2>
+    <p>
+        Il rischio di sequenza è il rischio che i rendimenti sfavorevoli arrivino quando stai già
+        prelevando dal patrimonio, soprattutto all'inizio del FIRE. Se non ci fossero versamenti o
+        prelievi, invertire l'ordine di due rendimenti lascerebbe invariato il prodotto finale.
+        Con un prelievo periodico, invece, il saldo su cui si applica il rendimento successivo cambia.
+        È una proprietà dei flussi, non una previsione sul prossimo ribasso.
+    </p>
+    <p>
+        Le simulazioni originali di
+        <a href="https://www.morningstar.com/content/cs-assets/v3/assets/blt9415ea4cc4157833/bltb73b87c5d0c70ead/692f43f57737a31596684522/working_file_11.19_FINAL_REVISE.pdf" data-source-id="SRC-2026-0016">Morningstar, sezione sul rischio di sequenza</a>
+        collegano le perdite nei primi anni di prelievo a una maggiore frequenza di esaurimento nei
+        percorsi simulati. Quella ricerca usa ipotesi, portafogli e un orizzonte propri; non fornisce
+        una probabilità applicabile al singolo piano italiano.
+    </p>
+</section>
+
+<section class="content-section" id="esempio-due-ordini" aria-labelledby="esempio-due-ordini-title">
+    <h2 id="esempio-due-ordini-title">Esempio: stessi rendimenti, 4.500 euro di saldo diverso</h2>
+    <p>
+        Esempio didattico calcolato a mano su due anni, fuori dal simulatore. Si parte da 100.000 euro
+        e si prelevano 10.000 euro all'inizio di ciascun anno. Non ci sono inflazione, imposte, costi,
+        nuovi versamenti o altri redditi. I rendimenti annui ipotetici sono −20% e +25%, applicati
+        una volta per ciascun percorso. Il prodotto dei fattori di rendimento è uguale nei due ordini:
+        0,80 × 1,25 = 1. Importi e saldi sono esatti nelle ipotesi scelte.
+    </p>
+    <pre class="formula"><code>Perdita prima:  (100.000 − 10.000) × 0,80 = 72.000 euro
+                (72.000 − 10.000) × 1,25 = 77.500 euro
+
+Guadagno prima: (100.000 − 10.000) × 1,25 = 112.500 euro
+                (112.500 − 10.000) × 0,80 = 82.000 euro
+
+Differenza finale: 82.000 − 77.500 = 4.500 euro</code></pre>
+    <p>
+        Senza i due prelievi, entrambi i percorsi finirebbero a 100.000 euro. Qui il recupero del
+        secondo anno agisce su un saldo già ridotto dalla perdita e dai prelievi. L'esempio isola
+        l'ordine dei rendimenti: non stima la frequenza delle perdite, un rendimento atteso o la
+        sostenibilità di un piano pluridecennale.
+    </p>
+</section>
+
+<section class="content-section" id="simulatore" aria-labelledby="simulatore-title">
+    <h2 id="simulatore-title">Il simulatore mostra un percorso a rendimento costante</h2>
+    <p>
+        Nel simulatore inserisci un solo rendimento annuo nominale per il FIRE. Il motore lo converte
+        nel tasso mensile equivalente e, in ogni mese di decumulo, esegue prima il prelievo e poi
+        applica il rendimento al capitale rimasto. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 1, 2 e 9</a>
+        esclude rendimenti variabili, simulazioni Monte Carlo e rischio di sequenza simulato.
+    </p>
+    <p>
+        Puoi cambiare rendimento, spesa e orizzonte per confrontare scenari deterministici. Se la
+        proiezione segnala uno <em>shortfall</em>, il capitale non copre interamente un prelievo
+        programmato <em>con quelle ipotesi costanti</em>. Se non compare un avviso, ciò non prova
+        che una successione reale di anni favorevoli e sfavorevoli sarebbe sostenibile. Anche il
+        target calcolato con metodo FINITE o SWR resta legato alle ipotesi del modello.
+    </p>
+</section>
+
+<section class="content-section" id="limiti-storici" aria-labelledby="limiti-storici-title">
+    <h2 id="limiti-storici-title">Gli studi storici aiutano a vedere il rischio, non a fissare una garanzia</h2>
+    <p>
+        Lo
+        <a href="https://www.coronation.com/assets/Coroconnect/An%20International%20Perspective%20on%20Safe%20Withdrawal%20Rates%20from%20Retirement%20Savings.pdf" data-source-id="SRC-2026-0008">studio originale di Wade Pfau, sezioni 2–4</a>
+        confronta finestre storiche di prelievo in 17 mercati sviluppati e trova esiti diversi
+        tra paesi e coorti. Il campione arriva al 2008 e le simulazioni principali assumono 30 anni,
+        nessun costo amministrativo o imposta e, per parte dell'analisi, una scelta di allocazione
+        nota soltanto a posteriori. Non si può trasferire un tasso ricavato da quei dati al futuro
+        di una persona in Italia.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="limite-modello-title">
+        <h3 id="limite-modello-title">Un saldo positivo non è una probabilità di successo</h3>
+        <p>
+            Il calcolo del sito non campiona sequenze di mercato. Inflazione, durata dei prelievi,
+            imposte e rendite possono inoltre differire dallo scenario inserito. Usa i risultati
+            per capire quali ipotesi pesano sul piano, senza trattarli come previsione o consiglio
+            finanziario personale.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="come-leggere" aria-labelledby="come-leggere-title">
+    <h2 id="come-leggere-title">Come usare questa distinzione nel tuo piano</h2>
+    <p>
+        Parti da una spesa e da un orizzonte coerenti con il tuo obiettivo, osserva il saldo mese per
+        mese e ripeti il calcolo con ipotesi di rendimento e spesa meno favorevoli. Annotare come
+        cambiano target, prelievi e primo eventuale shortfall aiuta a riconoscere la sensibilità
+        del piano. Per capire i due modi di determinare il capitale iniziale, consulta il
+        <a href="/guida/metodo-finite-o-swr">confronto tra FINITE e SWR</a>.
+    </p>
+    <p>
+        Questo esercizio non riproduce il rischio di sequenza: ciascun tentativo mantiene costante
+        il proprio rendimento. Il punto da conservare è che un rendimento medio plausibile, da solo,
+        non descrive tutti i possibili percorsi dei prelievi.
+    </p>
+</section>

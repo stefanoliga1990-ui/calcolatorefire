@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Scopri perché una perdita all&#x27;inizio dei prelievi può pesare più della stessa perdita successiva e quali limiti ha una proiezione FIRE a rendimento costante.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Perché l&#x27;ordine dei rendimenti conta nel FIRE">
+    <meta property="og:description" content="Un esempio in euro mostra il rischio di sequenza durante i prelievi e il limite delle proiezioni a rendimento costante.">
+    <meta property="og:url" content="https://simulatorefire.com/guida/rischio-sequenza-rendimenti-fire">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Rischio di sequenza dei rendimenti: perché conta nel FIRE">
+    <meta property="article:published_time" content="2026-09-27">
+    <meta property="article:modified_time" content="2026-09-27">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Perché l&#x27;ordine dei rendimenti conta nel FIRE">
+    <meta name="twitter:description" content="Un esempio in euro mostra il rischio di sequenza durante i prelievi e il limite delle proiezioni a rendimento costante.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>Rischio di sequenza dei rendimenti nel FIRE</title>
+    <link rel="canonical" href="https://simulatorefire.com/guida/rischio-sequenza-rendimenti-fire">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.0">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.3">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Rischio di sequenza dei rendimenti: perché conta nel FIRE",
+  "description": "Scopri perché una perdita all'inizio dei prelievi può pesare più della stessa perdita successiva e quali limiti ha una proiezione FIRE a rendimento costante.",
+  "url": "https://simulatorefire.com/guida/rischio-sequenza-rendimenti-fire",
+  "mainEntityOfPage": "https://simulatorefire.com/guida/rischio-sequenza-rendimenti-fire",
+  "datePublished": "2026-09-27",
+  "dateModified": "2026-09-27",
+  "inLanguage": "it-IT",
+  "author": {
+    "@type": "Person",
+    "name": "Stefano Liga",
+    "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calcolo FIRE Italia",
+    "url": "https://simulatorefire.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+    }
+  },
+  "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Simulatore FIRE",
+      "item": "https://simulatorefire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guide",
+      "item": "https://simulatorefire.com/guide"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Rischio di sequenza dei rendimenti: perché conta nel FIRE",
+      "item": "https://simulatorefire.com/guida/rischio-sequenza-rendimenti-fire"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/guide">Guide</a>
+        <a class="header-link" href="/metodologia">Metodologia</a>
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li><a href="/guide">Guide</a></li>
+                <li aria-current="page">Rischio di sequenza dei rendimenti: perché conta nel FIRE</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">Rischi del decumulo</p>
+        <h1>Rischio di sequenza dei rendimenti: perché conta nel FIRE</h1>
+        <p class="content-lead">Quando inizi a finanziare le spese prelevando dal patrimonio, l&#x27;ordine dei rendimenti cambia il saldo che resta: una perdita iniziale riduce il capitale su cui può agire un recupero successivo. Due percorsi con gli stessi rendimenti, ma in ordine inverso, possono quindi dare risultati diversi. Il simulatore FIRE usa invece un rendimento costante: aiuta a leggere uno scenario, ma non misura questo rischio.</p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia</span>
+            <span>4 minuti di lettura</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della guida">
+            <strong>In questa guida</strong>
+            <ol><li><a href="#che-cosa-cambia">Con i prelievi, la media dei rendimenti non racconta tutta la storia</a></li><li><a href="#esempio-due-ordini">Esempio: stessi rendimenti, 4.500 euro di saldo diverso</a></li><li><a href="#simulatore">Il simulatore mostra un percorso a rendimento costante</a></li><li><a href="#limiti-storici">Gli studi storici aiutano a vedere il rischio, non a fissare una garanzia</a></li><li><a href="#come-leggere">Come usare questa distinzione nel tuo piano</a></li></ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul><li>Durante i prelievi conta anche quando arrivano perdite e recuperi, non soltanto il rendimento medio.</li><li>Una perdita nelle prime fasi lascia meno capitale investito dopo il prelievo e può rendere più difficile il recupero.</li><li>Il rendimento FIRE inserito nel simulatore è costante: la proiezione non genera percorsi di mercato variabili né probabilità di successo.</li><li>Un eventuale shortfall della proiezione segnala insufficienza nello scenario scelto, non quantifica il rischio di sequenza reale.</li></ul>
+            </section>
+
+<section class="content-section" id="che-cosa-cambia" aria-labelledby="che-cosa-cambia-title">
+    <h2 id="che-cosa-cambia-title">Con i prelievi, la media dei rendimenti non racconta tutta la storia</h2>
+    <p>
+        Il rischio di sequenza è il rischio che i rendimenti sfavorevoli arrivino quando stai già
+        prelevando dal patrimonio, soprattutto all'inizio del FIRE. Se non ci fossero versamenti o
+        prelievi, invertire l'ordine di due rendimenti lascerebbe invariato il prodotto finale.
+        Con un prelievo periodico, invece, il saldo su cui si applica il rendimento successivo cambia.
+        È una proprietà dei flussi, non una previsione sul prossimo ribasso.
+    </p>
+    <p>
+        Le simulazioni originali di
+        <a href="https://www.morningstar.com/content/cs-assets/v3/assets/blt9415ea4cc4157833/bltb73b87c5d0c70ead/692f43f57737a31596684522/working_file_11.19_FINAL_REVISE.pdf" data-source-id="SRC-2026-0016">Morningstar, sezione sul rischio di sequenza</a>
+        collegano le perdite nei primi anni di prelievo a una maggiore frequenza di esaurimento nei
+        percorsi simulati. Quella ricerca usa ipotesi, portafogli e un orizzonte propri; non fornisce
+        una probabilità applicabile al singolo piano italiano.
+    </p>
+</section>
+
+<section class="content-section" id="esempio-due-ordini" aria-labelledby="esempio-due-ordini-title">
+    <h2 id="esempio-due-ordini-title">Esempio: stessi rendimenti, 4.500 euro di saldo diverso</h2>
+    <p>
+        Esempio didattico calcolato a mano su due anni, fuori dal simulatore. Si parte da 100.000 euro
+        e si prelevano 10.000 euro all'inizio di ciascun anno. Non ci sono inflazione, imposte, costi,
+        nuovi versamenti o altri redditi. I rendimenti annui ipotetici sono −20% e +25%, applicati
+        una volta per ciascun percorso. Il prodotto dei fattori di rendimento è uguale nei due ordini:
+        0,80 × 1,25 = 1. Importi e saldi sono esatti nelle ipotesi scelte.
+    </p>
+    <pre class="formula"><code>Perdita prima:  (100.000 − 10.000) × 0,80 = 72.000 euro
+                (72.000 − 10.000) × 1,25 = 77.500 euro
+
+Guadagno prima: (100.000 − 10.000) × 1,25 = 112.500 euro
+                (112.500 − 10.000) × 0,80 = 82.000 euro
+
+Differenza finale: 82.000 − 77.500 = 4.500 euro</code></pre>
+    <p>
+        Senza i due prelievi, entrambi i percorsi finirebbero a 100.000 euro. Qui il recupero del
+        secondo anno agisce su un saldo già ridotto dalla perdita e dai prelievi. L'esempio isola
+        l'ordine dei rendimenti: non stima la frequenza delle perdite, un rendimento atteso o la
+        sostenibilità di un piano pluridecennale.
+    </p>
+</section>
+
+<section class="content-section" id="simulatore" aria-labelledby="simulatore-title">
+    <h2 id="simulatore-title">Il simulatore mostra un percorso a rendimento costante</h2>
+    <p>
+        Nel simulatore inserisci un solo rendimento annuo nominale per il FIRE. Il motore lo converte
+        nel tasso mensile equivalente e, in ogni mese di decumulo, esegue prima il prelievo e poi
+        applica il rendimento al capitale rimasto. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 1, 2 e 9</a>
+        esclude rendimenti variabili, simulazioni Monte Carlo e rischio di sequenza simulato.
+    </p>
+    <p>
+        Puoi cambiare rendimento, spesa e orizzonte per confrontare scenari deterministici. Se la
+        proiezione segnala uno <em>shortfall</em>, il capitale non copre interamente un prelievo
+        programmato <em>con quelle ipotesi costanti</em>. Se non compare un avviso, ciò non prova
+        che una successione reale di anni favorevoli e sfavorevoli sarebbe sostenibile. Anche il
+        target calcolato con metodo FINITE o SWR resta legato alle ipotesi del modello.
+    </p>
+</section>
+
+<section class="content-section" id="limiti-storici" aria-labelledby="limiti-storici-title">
+    <h2 id="limiti-storici-title">Gli studi storici aiutano a vedere il rischio, non a fissare una garanzia</h2>
+    <p>
+        Lo
+        <a href="https://www.coronation.com/assets/Coroconnect/An%20International%20Perspective%20on%20Safe%20Withdrawal%20Rates%20from%20Retirement%20Savings.pdf" data-source-id="SRC-2026-0008">studio originale di Wade Pfau, sezioni 2–4</a>
+        confronta finestre storiche di prelievo in 17 mercati sviluppati e trova esiti diversi
+        tra paesi e coorti. Il campione arriva al 2008 e le simulazioni principali assumono 30 anni,
+        nessun costo amministrativo o imposta e, per parte dell'analisi, una scelta di allocazione
+        nota soltanto a posteriori. Non si può trasferire un tasso ricavato da quei dati al futuro
+        di una persona in Italia.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="limite-modello-title">
+        <h3 id="limite-modello-title">Un saldo positivo non è una probabilità di successo</h3>
+        <p>
+            Il calcolo del sito non campiona sequenze di mercato. Inflazione, durata dei prelievi,
+            imposte e rendite possono inoltre differire dallo scenario inserito. Usa i risultati
+            per capire quali ipotesi pesano sul piano, senza trattarli come previsione o consiglio
+            finanziario personale.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="come-leggere" aria-labelledby="come-leggere-title">
+    <h2 id="come-leggere-title">Come usare questa distinzione nel tuo piano</h2>
+    <p>
+        Parti da una spesa e da un orizzonte coerenti con il tuo obiettivo, osserva il saldo mese per
+        mese e ripeti il calcolo con ipotesi di rendimento e spesa meno favorevoli. Annotare come
+        cambiano target, prelievi e primo eventuale shortfall aiuta a riconoscere la sensibilità
+        del piano. Per capire i due modi di determinare il capitale iniziale, consulta il
+        <a href="/guida/metodo-finite-o-swr">confronto tra FINITE e SWR</a>.
+    </p>
+    <p>
+        Questo esercizio non riproduce il rischio di sequenza: ciascun tentativo mantiene costante
+        il proprio rendimento. Il punto da conservare è che un rendimento medio plausibile, da solo,
+        non descrive tutti i possibili percorsi dei prelievi.
+    </p>
+</section>
+
+            <aside class="related-content" aria-labelledby="related-title">
+                <h2 id="related-title">Approfondisci e verifica</h2>
+                <ul><li><a href="/metodologia">Metodologia del simulatore FIRE</a><small>Documenta il rendimento costante, l&#x27;ordine mensile di prelievo e rendimento e gli avvisi di shortfall.</small></li><li><a href="/guida/regola-del-4-percento-swr">Regola del 4% e limiti della SWR</a><small>Approfondisce il tasso iniziale di prelievo e i limiti della sua applicazione a un piano italiano.</small></li><li><a href="/guida/metodo-finite-o-swr">Confronto tra metodo FINITE e SWR</a><small>Aiuta a distinguere i due target disponibili prima di interpretare la proiezione di decumulo.</small></li><li><a href="/">Simulatore FIRE</a><small>Permette di confrontare i saldi al variare delle ipotesi di rendimento e spesa.</small></li></ul>
+            </aside>
+
+            <section class="guide-sources" aria-labelledby="sources-title">
+                <h2 id="sources-title">Fonti consultate</h2>
+                <p>Le fonti sono state consultate integralmente e registrate nel processo editoriale.</p>
+                <ol><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md">Calcolo FIRE Italia — specifica matematica del motore</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0001</small></li><li><a href="https://www.coronation.com/assets/Coroconnect/An%20International%20Perspective%20on%20Safe%20Withdrawal%20Rates%20from%20Retirement%20Savings.pdf">An International Perspective on Safe Withdrawal Rates from Retirement Savings: The Demise of the 4 Percent Rule?</a><small>GRIPS Research Center — Discussion Paper 10-12 · SRC-2026-0008</small></li><li><a href="https://www.morningstar.com/content/cs-assets/v3/assets/blt9415ea4cc4157833/bltb73b87c5d0c70ead/692f43f57737a31596684522/working_file_11.19_FINAL_REVISE.pdf">The State of Retirement Income: 2025</a><small>Morningstar Portfolio and Planning Research · 3 dicembre 2025 · SRC-2026-0016</small></li></ol>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.</p>
+                <p class="editorial-disclosure">Questa guida è stata preparata tramite il processo editoriale automatizzato di Calcolo FIRE Italia, basato sulle fonti citate e sulle regole di qualità del progetto. Stefano Liga ne è il responsabile editoriale.</p>
+            </aside>
+
+            <aside class="content-notice warning" aria-label="Nota informativa">
+                <h2>Nota informativa</h2>
+                <p>I contenuti hanno finalità esclusivamente informative ed educative e non costituiscono consulenza finanziaria, fiscale, previdenziale o legale personalizzata. Prima di prendere decisioni, valuta la tua situazione e, quando necessario, rivolgiti a un professionista qualificato.</p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Rileggi la proiezione come uno scenario</h2>
+                <p>Prova valori prudenti per rendimento e spesa, osserva il saldo e gli eventuali avvisi di shortfall. Tieni distinto questo confronto dal rischio di una sequenza di mercato sfavorevole.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Guida · GUIDE-0012</span>
+</footer>
+</body>
+</html>
