@@ -1,0 +1,74 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0023",
+  "slug": "/guida/tipi-di-fire",
+  "seo": {
+    "title": "Tipi di FIRE: Lean, Fat, Barista e Coast a confronto",
+    "description": "Confronta Lean, Fat, Barista e Coast FIRE attraverso spese, reddito da lavoro e PAC. Esempi in euro, ipotesi esplicite e nessuna soglia universale.",
+    "og_title": "Lean, Fat, Barista e Coast FIRE: quali variabili cambiano",
+    "og_description": "Le etichette diventano utili quando si traducono in spesa, entrate e tempi. Confronta scenari nel simulatore senza confondere PAC nullo e indipendenza attuale."
+  },
+  "page": {
+    "kicker": "Fondamenti del FIRE",
+    "h1": "Lean, Fat, Barista e Coast FIRE: differenze senza soglie rigide",
+    "lead": "Quali sono le differenze tra i tipi di FIRE? Lean e Fat descrivono soprattutto il livello di spesa desiderato; Barista mantiene un contributo del lavoro; Coast riguarda un percorso verso l'obiettivo futuro. Per confrontarli, traduci ogni etichetta in spese, entrate, patrimonio e tempi: gli esempi mostrano come cambiano target e PAC, senza fissare soglie valide per tutti."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "Lean e Fat distinguono un obiettivo di vita più frugale da uno con maggiori consumi: il budget effettivo conta più del nome.",
+    "Barista combina patrimonio e reddito da lavoro; l'importo netto e la durata del reddito cambiano il fabbisogno del portafoglio.",
+    "In questa guida Coast viene tradotto operativamente in capitale proiettato sufficiente al target futuro senza nuovi versamenti.",
+    "Un PAC richiesto pari a zero non significa poter finanziare subito le spese: dipende da patrimonio, tempo e ipotesi del calcolo.",
+    "Gli esempi confrontano spese e redditi in euro con FINITE e fiscalità azzerata; non sono soglie per classificare persone o famiglie.",
+    "Il simulatore calcola flussi e patrimoni, non assegna etichette FIRE né probabilità di successo."
+  ],
+  "source_ids": [
+    "SRC-2026-0003",
+    "SRC-2026-0004",
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica target, convenzioni mensili, entrate nette e limiti deterministici degli esempi."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Confronta budget, entrate temporanee e patrimonio iniziale mantenendo esplicite le ipotesi."
+    },
+    {
+      "url": "/guida/fire-italia",
+      "label": "FIRE in Italia",
+      "reason": "Colloca le varianti nel percorso generale verso l'indipendenza finanziaria."
+    },
+    {
+      "url": "/guida/calcolare-spese-fire",
+      "label": "Calcolare le spese FIRE",
+      "reason": "Costruisci un budget comprensivo di spese meno frequenti prima di scegliere una variante."
+    },
+    {
+      "url": "/guida/rendite-periodiche-fire",
+      "label": "Rendite periodiche nel calcolo FIRE",
+      "reason": "Approfondisci decorrenza, fine e importo netto delle entrate usate nello scenario Barista."
+    },
+    {
+      "url": "/guida/metodo-finite-o-swr",
+      "label": "Scegliere tra FINITE e SWR",
+      "reason": "Distingui il metodo di calcolo del target dalle etichette che descrivono lo stile di vita."
+    }
+  ],
+  "cta": {
+    "title": "Confronta le variabili del tuo scenario",
+    "text": "Parti da spesa e patrimonio, poi cambia una sola ipotesi: budget, reddito netto o rendimento di accumulo. Annota target, PAC e copertura dei mesi, senza considerare il risultato una garanzia.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

@@ -1,0 +1,79 @@
+<section class="content-section" id="significato" aria-labelledby="significato-title">
+    <h2 id="significato-title">Quattro nomi per scelte diverse</h2>
+    <p>FIRE significa Financial Independence, Retire Early: indipendenza finanziaria e possibilità di lasciare prima il lavoro. Lo studio di Heilmann e Szymanowska <a href="https://link.springer.com/article/10.1007/s10551-025-06137-z" data-source-id="SRC-2026-0003">The Ethics of FIRE, sezione This is FIRE</a>, descrive queste varianti e la pluralità degli obiettivi. È una lettura concettuale, non una certificazione della sostenibilità finanziaria.</p>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th scope="col">Variante</th><th scope="col">Idea di partenza</th><th scope="col">Applicazione proposta al simulatore</th></tr></thead>
+            <tbody>
+                <tr><th scope="row">Lean FIRE</th><td>Vita frugale, con spese contenute.</td><td>Un budget mensile più basso, verificato nelle sue componenti.</td></tr>
+                <tr><th scope="row">Fat FIRE</th><td>Più risorse per un livello di vita elevato.</td><td>Un budget mensile più alto, con un target coerente.</td></tr>
+                <tr><th scope="row">Barista FIRE</th><td>Lavoro con orario o reddito limitato.</td><td>Un'entrata netta che copre parte delle spese per un intervallo esplicito.</td></tr>
+                <tr><th scope="row">Coast FIRE</th><td>Un percorso graduale verso l'indipendenza.</td><td>Verificare se il capitale proiettato può raggiungere il target futuro senza nuovi versamenti.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>La terza colonna è una nostra traduzione operativa. In particolare, lo studio descrive Coast in modo ampio: qui scegliamo di analizzare il caso senza ulteriori apporti al patrimonio. Non attribuiamo alla fonte una formula o una soglia che non stabilisce.</p>
+</section>
+
+<section class="content-section" id="budget" aria-labelledby="budget-title">
+    <h2 id="budget-title">Lean e Fat: parti dal budget in euro</h2>
+    <p>La stessa cifra mensile può finanziare situazioni molto diverse. Nel confronto proposto conta che cosa include: abitazione, persone a carico, trasporti, spese occasionali e imprevisti. Definire un numero basso omettendo una voce necessaria riduce il target del modello, ma lascia quella spesa senza copertura.</p>
+    <p>La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia, nella guida alla pianificazione</a>, invita a ricostruire entrate e uscite, includere le spese meno frequenti e lasciare spazio agli imprevisti. Per applicarlo a un piano italiano, usa il tuo budget in euro di oggi e indica se riguarda una persona o l'intero nucleo.</p>
+    <p>Non assegniamo soglie in euro alle due etichette. Nel <a href="/guida/calcolare-spese-fire">calcolo delle spese FIRE</a> puoi costruire il dato da inserire; qui confrontiamo soltanto l'effetto di budget differenti, senza giudicare quale stile di vita sia preferibile.</p>
+</section>
+
+<section class="content-section" id="esempio-spese" aria-labelledby="esempio-spese-title">
+    <h2 id="esempio-spese-title">Tre budget, lo stesso orizzonte</h2>
+    <p>Elaborazione propria verificata con formule e motore del simulatore. Impostiamo età attuale 40 anni, ingresso FIRE a 50, durata FIRE 30 anni, metodo FINITE, patrimonio iniziale e capitale finale desiderato zero, nessuna risorsa aggiuntiva. Rendimenti di accumulo e FIRE, inflazione, crescita del PAC, aliquota sulle plusvalenze e bollo sono tutti pari a zero. Gli importi nominali coincidono quindi con gli euro di oggi.</p>
+    <p>Con queste sole ipotesi, la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 6 e 8</a>, permette di contare 360 prelievi e 120 versamenti mensili. Il PAC è il piano di accumulo del capitale; qui la rata resta costante.</p>
+    <pre class="formula"><code>Target FINITE = spesa mensile × 360
+PAC mensile = target / 120</code></pre>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th scope="col">Spesa mensile</th><th scope="col">Target al FIRE</th><th scope="col">PAC mensile richiesto</th></tr></thead>
+            <tbody>
+                <tr><td>1.200 euro</td><td>432.000 euro</td><td>3.600 euro</td></tr>
+                <tr><td>2.000 euro</td><td>720.000 euro</td><td>6.000 euro</td></tr>
+                <tr><td>3.000 euro</td><td>1.080.000 euro</td><td>9.000 euro</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Valori arrotondati all'euro dopo il calcolo; la soluzione numerica FINITE è coerente con le formule entro un centesimo. Sono confronti di fabbisogno, non tre soglie Lean, normale e Fat. Il simulatore non verifica se il reddito attuale consenta di versare la rata: un PAC calcolabile può restare fuori dal budget.</p>
+    <p>Imposte e bollo sono azzerati per isolare il confronto, non perché siano generalmente assenti. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 1 e 7</a>, documenta il modello semplificato: con fiscalità attiva target e accumulo vanno ricalcolati insieme.</p>
+</section>
+
+<section class="content-section" id="reddito" aria-labelledby="reddito-title">
+    <h2 id="reddito-title">Barista: la durata dell'entrata cambia il risultato</h2>
+    <p>Per tradurre il contributo del lavoro in uno scenario, manteniamo la spesa complessiva e aggiungiamo un flusso netto separato. Non ridurre già la spesa dello stesso importo: conteresti due volte l'entrata. Il nome Barista non impone un mestiere specifico né dimostra che il lavoro sarà disponibile o poco impegnativo.</p>
+    <p>Riprendiamo il caso da 2.000 euro mensili, con tutte le altre ipotesi della tabella. Inseriamo una rendita di 800 euro netti al mese, crescita zero, inizio a 50 anni, non investita prima del FIRE e usata per ridurre il prelievo durante il FIRE. Se resta attiva per tutti i 30 anni, il portafoglio finanzia 1.200 euro per 360 mesi: target 432.000 euro e PAC 3.600 euro.</p>
+    <p>Se invece l'entrata termina a 60 anni, il fabbisogno torna a 2.000 euro dal mese FIRE 121. Il target diventa 624.000 euro e il PAC 5.200 euro, sempre arrotondati all'euro:</p>
+    <pre class="formula"><code>Target con entrata per dieci anni
+= 1.200 × 120 + 2.000 × 240
+= 624.000 euro</code></pre>
+    <p>La fine è esclusa secondo la convenzione delle <a href="/guida/rendite-periodiche-fire">rendite periodiche</a>. Il reddito va inserito già netto: il motore non ne calcola imposte o costi personali. Un flusso temporaneo non finanzia automaticamente tutta la vita; confronta anche lo scenario in cui manca o termina prima.</p>
+</section>
+
+<section class="content-section" id="coast" aria-labelledby="coast-title">
+    <h2 id="coast-title">Coast: PAC nullo verso un obiettivo futuro</h2>
+    <p>Nell'applicazione qui proposta, chi smette di versare continua a finanziare le spese correnti con risorse esterne al portafoglio lasciato investito. Quel budget corrente non è verificato dal simulatore. Perciò un PAC richiesto pari a zero verso una data futura non dimostra di poter lasciare subito il lavoro.</p>
+    <p>Un secondo esempio proprio usa età attuale 40 anni, ingresso FIRE a 60 e durata 30 anni, spesa 2.000 euro, metodo FINITE, patrimonio iniziale 400.000 euro, costo fiscale automatico pari al patrimonio, capitale finale zero e nessuna risorsa aggiuntiva. Inflazione, rendimento FIRE, crescita del PAC, aliquota e bollo sono zero; solo il rendimento nominale annuo di accumulo è ipotizzato al 3%.</p>
+    <p>Senza versamenti, il capitale proiettato a 60 anni è circa 722.444 euro, sopra il target di 720.000 euro: il PAC richiesto risulta zero. Ripetendo con rendimento di accumulo zero, il patrimonio resta 400.000 euro e il PAC necessario diventa circa 1.333 euro al mese per 240 mesi. Entrambi i risultati sono verificati nel motore e arrotondati all'euro.</p>
+    <p>Il 3% è un'ipotesi didattica, non un rendimento previsto. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia, nelle sezioni Rischio e Tempo</a>, chiarisce l'incertezza dei rendimenti e il ruolo dell'orizzonte. In questo esempio il margine sul target è piccolo: modificare rendimento, spesa o fiscalità può far riapparire un PAC necessario.</p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Una variante non sceglie il metodo o elimina i rischi</h2>
+    <p>La nostra lettura distingue budget desiderato e finanziamento delle spese. Puoi, per esempio, confrontare un budget contenuto con o senza reddito temporaneo; oppure un obiettivo di spesa elevato con un patrimonio già sufficiente sotto le ipotesi scelte. Non occorre forzare ogni scenario dentro una sola etichetta.</p>
+    <ul>
+        <li>FINITE e SWR sono metodi per costruire il target. Nessun nome impone di usare il 4% o di considerarlo garantito.</li>
+        <li>Le proiezioni usano rendimenti costanti: non includono sequenze di mercato variabili né probabilità di successo.</li>
+        <li>Una rendita lavorativa è un flusso ipotizzato, non un diritto certo. Importo, decorrenza e durata devono restare espliciti.</li>
+        <li>Le spese attuali prima del FIRE e la possibilità concreta di sostenere il PAC richiedono un budget separato.</li>
+    </ul>
+    <p>Per approfondire il calcolo, consulta il <a href="/guida/metodo-finite-o-swr">confronto tra FINITE e SWR</a> e la <a href="/metodologia">metodologia del simulatore</a>. Le varianti descrivono un progetto; nessuna sostituisce la verifica dei flussi e dei mesi coperti.</p>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Scegli prima le variabili da confrontare</h2>
+    <p>Parti dal percorso generale del <a href="/guida/fire-italia">FIRE in Italia</a>, poi annota spesa desiderata, patrimonio disponibile, entrate nette e loro durata. Nel <a href="/">simulatore FIRE</a>, confronta un solo cambiamento alla volta e controlla target, PAC e proiezione. Usa il nome della variante per descrivere ciò che vuoi ottenere dopo aver reso esplicite queste condizioni.</p>
+</section>
