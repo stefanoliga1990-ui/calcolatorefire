@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Come il capitale finale desiderato modifica il target FINITE e il PAC: euro di oggi, saldo nominale futuro, esempi verificabili e limiti della proiezione.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Capitale finale nel FIRE: esaurire o preservare il patrimonio">
+    <meta property="og:description" content="Una riserva alla fine del FIRE cambia il capitale da costruire. Distingui obiettivo reale, saldo nominale e patrimonio effettivo con esempi del simulatore.">
+    <meta property="og:url" content="https://simulatorefire.com/guida/capitale-finale-fire">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Capitale finale nel FIRE: esaurire o preservare il patrimonio">
+    <meta property="article:published_time" content="2026-09-28">
+    <meta property="article:modified_time" content="2026-09-28">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Capitale finale nel FIRE: esaurire o preservare il patrimonio">
+    <meta name="twitter:description" content="Una riserva alla fine del FIRE cambia il capitale da costruire. Distingui obiettivo reale, saldo nominale e patrimonio effettivo con esempi del simulatore.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>Capitale finale FIRE: residuo desiderato e target FINITE</title>
+    <link rel="canonical" href="https://simulatorefire.com/guida/capitale-finale-fire">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.0">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.3">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Capitale finale nel FIRE: esaurire o preservare il patrimonio",
+  "description": "Come il capitale finale desiderato modifica il target FINITE e il PAC: euro di oggi, saldo nominale futuro, esempi verificabili e limiti della proiezione.",
+  "url": "https://simulatorefire.com/guida/capitale-finale-fire",
+  "mainEntityOfPage": "https://simulatorefire.com/guida/capitale-finale-fire",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "inLanguage": "it-IT",
+  "author": {
+    "@type": "Person",
+    "name": "Stefano Liga",
+    "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calcolo FIRE Italia",
+    "url": "https://simulatorefire.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+    }
+  },
+  "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Simulatore FIRE",
+      "item": "https://simulatorefire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guide",
+      "item": "https://simulatorefire.com/guide"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Capitale finale nel FIRE: esaurire o preservare il patrimonio",
+      "item": "https://simulatorefire.com/guida/capitale-finale-fire"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/guide">Guide</a>
+        <a class="header-link" href="/metodologia">Metodologia</a>
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li><a href="/guide">Guide</a></li>
+                <li aria-current="page">Capitale finale nel FIRE: esaurire o preservare il patrimonio</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">Calcolo FIRE</p>
+        <h1>Capitale finale nel FIRE: esaurire o preservare il patrimonio</h1>
+        <p class="content-lead">Quanto capitale serve in più se vuoi conservare una somma alla fine del FIRE? Il metodo FINITE finanzia le spese dell&#x27;orizzonte scelto e un eventuale patrimonio residuo, inserito in euro di oggi. Questa guida mostra come il residuo modifica target e PAC, perché il saldo nominale finale può essere diverso dall&#x27;importo digitato e quali limiti impediscono di considerarlo una garanzia.</p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia</span>
+            <span>8 minuti di lettura</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della guida">
+            <strong>In questa guida</strong>
+            <ol><li><a href="#significato">Il residuo finanzia un obiettivo dopo le spese</a></li><li><a href="#euro-oggi">Euro di oggi e saldo futuro devono avere la stessa base</a></li><li><a href="#effetto-target">La riserva entra nel target con il suo valore attuale</a></li><li><a href="#esempi">Tre residui diversi cambiano target e PAC</a></li><li><a href="#saldo-effettivo">Il saldo personale può superare il residuo richiesto</a></li><li><a href="#limiti">Una riserva calcolata non garantisce il patrimonio futuro</a></li><li><a href="#confronto">Confronta obiettivo, fabbisogno e saldo sulla stessa base</a></li></ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul><li>Il capitale finale desiderato è una riserva al termine della durata FIRE; zero consente di consumare il patrimonio nello scenario calcolato.</li><li>L&#x27;input è in euro di oggi: il simulatore lo rivaluta per l&#x27;inflazione di tutti gli anni, compresi quelli prima del FIRE.</li><li>Senza imposte e risorse aggiuntive durante il FIRE, la riserva contribuisce al target con il proprio valore attuale.</li><li>Il saldo personale finale dipende dal capitale realmente disponibile: può superare il residuo richiesto quando il patrimonio iniziale è già sufficiente.</li><li>Il residuo è un saldo di mercato lasciato investito; il modello non calcola una vendita totale finale o un&#x27;eredità netta.</li><li>SWR non usa il capitale finale desiderato per costruire il target. Nessuno dei due metodi garantisce il patrimonio futuro.</li></ul>
+            </section>
+
+<section class="content-section" id="significato" aria-labelledby="significato-title">
+    <h2 id="significato-title">Il residuo finanzia un obiettivo dopo le spese</h2>
+    <p>
+        Nel metodo <strong>Durata finita, o FINITE</strong>, il capitale finale desiderato è il patrimonio da
+        conservare dopo l'ultimo mese dell'orizzonte FIRE. Si aggiunge all'obiettivo di finanziare le spese di
+        quel periodo. Un valore zero permette al piano calcolato di consumare il capitale; un valore positivo
+        richiede una riserva finale. Non è un versamento futuro che entrerà nel portafoglio.
+    </p>
+    <p>
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica del motore, sezioni 3, 6 e 7</a>
+        definisce l'input in euro di oggi e lo usa per il target FINITE. Il metodo SWR costruisce invece il target
+        dal prelievo iniziale e dalle eventuali risorse: il capitale terminale non ne determina l'importo.
+        La guida sul <a href="/guida/metodo-finite-o-swr">confronto tra FINITE e SWR</a> chiarisce la scelta del metodo.
+    </p>
+    <p>
+        Preservare 100.000 euro alla fine del periodo non significa mantenere almeno 100.000 euro in ogni mese
+        intermedio, né finanziare qualunque anno successivo. È un vincolo sul confine finale scelto. Un fondo
+        di emergenza esterno al portafoglio e una somma da usare prima di quel confine sono obiettivi diversi:
+        questo campo non li rende automaticamente disponibili nel momento in cui servono.
+    </p>
+</section>
+
+<section class="content-section" id="euro-oggi" aria-labelledby="euro-oggi-title">
+    <h2 id="euro-oggi-title">Euro di oggi e saldo futuro devono avere la stessa base</h2>
+    <p>
+        L'importo digitato esprime potere d'acquisto attuale. Con inflazione positiva, il saldo nominale da
+        conservare in futuro deve essere maggiore. L'<a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/" data-source-id="SRC-2026-0005">ISTAT, FAQ 1–3 e 15 sui prezzi al consumo</a>
+        spiega la perdita di potere d'acquisto e il fatto che i consumi della singola famiglia possono differire
+        dal paniere generale. Il tasso costante del simulatore resta un'ipotesi, senza prevedere i prezzi personali.
+    </p>
+    <p>
+        Indichiamo con <code>L0</code> il capitale finale in euro di oggi, con <code>i</code> l'inflazione annua
+        effettiva, con <code>a</code> gli anni prima del FIRE e con <code>d</code> la durata FIRE. La conversione
+        documentata nella specifica del motore è:
+    </p>
+    <pre class="formula"><code>Capitale finale nominale richiesto = L0 × (1 + i)^(a + d)
+Saldo finale equivalente in euro di oggi = saldo nominale / (1 + i)^(a + d)</code></pre>
+    <p>
+        Elaborazione propria: con <code>L0 = 100.000 euro</code>, dieci anni prima del FIRE, venti anni di FIRE
+        e inflazione ipotetica del 2% annuo, il residuo nominale richiesto è
+        <code>100.000 × 1,02^30 = 181.136,16 euro</code>. Confrontare direttamente 181.136 euro futuri con
+        100.000 euro di oggi confonderebbe le unità. Gli importi sono arrotondati ai centesimi solo alla fine.
+    </p>
+    <p>
+        La rivalutazione include anche l'attesa prima del FIRE: in questo esempio non basta usare venti anni.
+        Per leggere correttamente gli altri risultati consulta anche la guida su
+        <a href="/guida/rendimento-nominale-reale">valori nominali e reali</a>.
+    </p>
+</section>
+
+<section class="content-section" id="effetto-target" aria-labelledby="effetto-target-title">
+    <h2 id="effetto-target-title">La riserva entra nel target con il suo valore attuale</h2>
+    <p>
+        Senza imposte, bollo, rendite o capitali futuri durante il FIRE, il target si può separare in due parti:
+        capitale per i prelievi e capitale per il residuo. Quest'ultima parte è il valore attuale della riserva,
+        cioè la somma necessaria all'ingresso nel FIRE affinché, con il rendimento ipotizzato, produca il
+        patrimonio terminale richiesto.
+    </p>
+    <p>
+        Con <code>r</code> rendimento annuo nominale effettivo nel FIRE, il rendimento reale annuo è
+        <code>q = (1 + r) / (1 + i) − 1</code>. La sezione 6 della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica FINITE</a>
+        implica il seguente incremento rispetto allo stesso scenario con residuo zero:
+    </p>
+    <pre class="formula"><code>Incremento del target al FIRE = L0 × (1 + i)^a / (1 + q)^d</code></pre>
+    <p>
+        Il risultato è in euro nominali all'ingresso nel FIRE. Con inflazione zero, rendimento FIRE ipotetico
+        del 3% e durata venti anni, una riserva di 100.000 euro aggiunge al target circa
+        <code>100.000 / 1,03^20 = 55.367,58 euro</code>. Con rendimento reale zero la stessa riserva aggiunge
+        tutto il suo valore all'ingresso nel FIRE; con rendimento reale negativo richiede di più.
+        Questi sono calcoli condizionati ai tassi, non rendimenti promessi.
+    </p>
+    <p>
+        La formula isola un caso semplice. Con fiscalità attiva il simulatore cerca numericamente target e PAC
+        insieme: finanzia il fabbisogno netto mensile e verifica che resti almeno il residuo nominale richiesto,
+        come documenta la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 7.1 e 14.1</a>.
+        Con risorse durante il FIRE, il momento dei flussi può inoltre cambiare quanto capitale serve inizialmente.
+    </p>
+</section>
+
+<section class="content-section" id="esempi" aria-labelledby="esempi-title">
+    <h2 id="esempi-title">Tre residui diversi cambiano target e PAC</h2>
+    <p>
+        Elaborazione propria verificata con le formule e con il motore fiscale Java. Impostazioni nel
+        <a href="/">simulatore FIRE</a>: metodo Durata finita, età attuale 40 anni, età FIRE 50, durata FIRE
+        venti anni, spesa mensile 1.500 euro di oggi, patrimonio iniziale zero e nessuna risorsa aggiuntiva.
+        Rendimento in accumulo, rendimento FIRE, inflazione e crescita dei versamenti sono tutti zero.
+        Anche aliquota sulle plusvalenze e bollo sono impostati a zero per isolare il capitale terminale;
+        questa semplificazione non descrive il trattamento fiscale reale degli investimenti.
+    </p>
+    <p>
+        Ci sono 120 mesi per accumulare e 240 mesi di prelievi. Il PAC è il versamento mensile costante
+        richiesto; entra a fine mese. Il primo prelievo FIRE avviene subito. In queste ipotesi:
+    </p>
+    <pre class="formula"><code>Target FINITE = 1.500 × 240 + capitale finale
+PAC mensile = target / 120</code></pre>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th scope="col">Capitale finale desiderato</th><th scope="col">Target al FIRE</th><th scope="col">PAC mensile</th><th scope="col">Saldo finale del target</th></tr></thead>
+            <tbody>
+                <tr><th scope="row">0 euro</th><td>360.000,00 euro</td><td>3.000,00 euro</td><td>0,00 euro</td></tr>
+                <tr><th scope="row">100.000 euro</th><td>460.000,00 euro</td><td>3.833,33 euro</td><td>100.000,00 euro</td></tr>
+                <tr><th scope="row">300.000 euro</th><td>660.000,00 euro</td><td>5.500,00 euro</td><td>300.000,00 euro</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>
+        Senza inflazione, tutti gli importi hanno anche il potere d'acquisto di oggi. Il residuo di 100.000 euro
+        aumenta il versamento di circa 833,33 euro al mese. La tabella mostra i risultati analitici arrotondati;
+        il risolutore numerico può differire entro un centesimo. Il PAC visualizzato non va arrotondato prima
+        di verificare la proiezione: il motore usa la piena precisione interna.
+    </p>
+    <h3>Lo stesso residuo con inflazione positiva</h3>
+    <p>
+        Ripeti lo scenario con residuo 100.000 euro cambiando soltanto inflazione e rendimento FIRE al 2%
+        annuo. Il rendimento reale FIRE è così zero; rendimento in accumulo e fiscalità restano zero.
+        Il target nominale diventa <code>460.000 × 1,02^10 = 560.737,43 euro</code>, il PAC è circa
+        4.672,81 euro al mese e il saldo terminale è 181.136,16 euro nominali, equivalenti a 100.000 euro di oggi.
+        Il target in euro di oggi rimane 460.000 euro. Il 2% è esclusivamente un'ipotesi dell'esempio.
+    </p>
+</section>
+
+<section class="content-section" id="saldo-effettivo" aria-labelledby="saldo-effettivo-title">
+    <h2 id="saldo-effettivo-title">Il saldo personale può superare il residuo richiesto</h2>
+    <p>
+        Il capitale finale desiderato è un input; il saldo finale personale è un risultato della proiezione.
+        Quest'ultima parte da tutto il patrimonio effettivamente disponibile al FIRE, che può superare il
+        target. Il simulatore non elimina automaticamente l'eccedenza per terminare esattamente all'obiettivo.
+        La distinzione è documentata nelle sezioni 7 e 14 della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica del target e delle proiezioni fiscali</a>.
+    </p>
+    <p>
+        Riprendendo l'esempio senza rendimenti, inflazione e imposte, con residuo richiesto 100.000 euro ma
+        patrimonio già investito di 700.000 euro e costo fiscale iniziale uguale al patrimonio, il target
+        resta 460.000 euro e il nuovo PAC è zero. La proiezione del solo target finisce a 100.000 euro;
+        quella personale finisce a <code>700.000 − 1.500 × 240 = 340.000 euro</code>.
+        La differenza nasce dal capitale disponibile, senza cambiare il desiderio di conservare 100.000 euro.
+    </p>
+    <p>
+        Il saldo personale finale mostrato dall'interfaccia è nominale. Per confrontarlo con l'input in euro
+        di oggi, riportalo alla base attuale usando l'inflazione di tutto l'orizzonte. Un saldo di mercato
+        non è inoltre il netto ottenibile da una liquidazione: il modello non simula una vendita totale
+        alla fine e non sottrae l'eventuale imposta sulle plusvalenze ancora latenti. La guida su
+        <a href="/guida/plusvalenze-costo-fiscale-fire">plusvalenze e costo fiscale</a> spiega questa distinzione.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Una riserva calcolata non garantisce il patrimonio futuro</h2>
+    <p>
+        Rendimenti e inflazione costanti permettono di isolare l'effetto del residuo, ma il risultato effettivo
+        resta incerto. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia, nelle sezioni Rischio, Tempo e Costi</a>
+        ricorda che gli investimenti possono perdere valore e che inflazione inattesa e costi incidono sul
+        risultato. Il simulatore non stima la probabilità di raggiungere il capitale finale.
+    </p>
+    <ul>
+        <li>Un orizzonte più corto non finanzia automaticamente gli anni successivi; residuo zero non equivale a poter smettere di lavorare senza ulteriori risorse.</li>
+        <li>Il patrimonio terminale non protegge da solo dai prelievi anticipati o da spese straordinarie non inserite nel piano.</li>
+        <li>Il rendimento costante non riproduce la volatilità e il rischio di sequenza: una discesa iniziale può cambiare il patrimonio disponibile durante i prelievi.</li>
+        <li>Il residuo può rappresentare un obiettivo patrimoniale, ma la fiscalità semplificata esclude successioni e donazioni: non calcola quanto riceverebbe un beneficiario.</li>
+    </ul>
+    <aside class="content-notice warning" aria-labelledby="swr-residuo-title">
+        <h3 id="swr-residuo-title">SWR non impone una riserva finale</h3>
+        <p>
+            Nel metodo SWR il campo del capitale finale non viene usato per il target. Nell'esempio a tassi
+            e fiscalità zero, con spesa 1.500 euro al mese e SWR ipotetica 4%, il target è 450.000 euro;
+            dopo venti anni restano 90.000 euro. Quel saldo deriva dalla proiezione e non dall'imposizione
+            di un residuo di 100.000 euro. Il 4% qui è solo un parametro di confronto.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="confronto" aria-labelledby="confronto-title">
+    <h2 id="confronto-title">Confronta obiettivo, fabbisogno e saldo sulla stessa base</h2>
+    <ol>
+        <li>Definisci la durata del FIRE e il patrimonio che vuoi esaminare al suo termine, espresso in euro di oggi.</li>
+        <li>Seleziona Durata finita e confronta residuo zero, una riserva intermedia e una maggiore, lasciando identici gli altri input.</li>
+        <li>Leggi l'incremento di target e PAC; confronta il saldo personale nominale con l'obiettivo rivalutato, senza scambiare il target per il patrimonio già disponibile.</li>
+        <li>Ripeti con minori rendimenti, maggiore inflazione o durata più lunga; mantieni esplicite fiscalità, costi e risorse aggiuntive.</li>
+    </ol>
+    <p>
+        La <a href="/metodologia">metodologia del simulatore</a> permette di controllare le convenzioni;
+        la guida sul <a href="/guida/rischio-sequenza-rendimenti-fire">rischio di sequenza</a> aiuta a capire
+        cosa resta fuori dal calcolo. Il confronto misura il costo dell'obiettivo nelle ipotesi scelte:
+        l'eventuale decisione su riserve, investimenti o trasferimenti patrimoniali richiede valutazioni ulteriori.
+    </p>
+</section>
+
+            <aside class="related-content" aria-labelledby="related-title">
+                <h2 id="related-title">Approfondisci e verifica</h2>
+                <ul><li><a href="/metodologia">Metodologia del simulatore FIRE</a><small>Verifica unità, timing mensile, capitale terminale e fiscalità del modello.</small></li><li><a href="/">Simulatore FIRE</a><small>Confronta residui diversi mantenendo uguali spese, durata e rendimenti.</small></li><li><a href="/guida/metodo-finite-o-swr">Metodo FINITE o SWR</a><small>Comprendi perché solo FINITE impone il capitale terminale nel target.</small></li><li><a href="/guida/rendimento-nominale-reale">Rendimento nominale e reale</a><small>Distingui importi futuri dal loro potere d&#x27;acquisto in euro di oggi.</small></li><li><a href="/guida/plusvalenze-costo-fiscale-fire">Plusvalenze e costo fiscale nel FIRE</a><small>Chiarisce perché valore di mercato e netto disponibile dopo una vendita possono differire.</small></li><li><a href="/guida/rischio-sequenza-rendimenti-fire">Rischio di sequenza dei rendimenti</a><small>Spiega un rischio che la proiezione a rendimento costante non simula.</small></li></ul>
+            </aside>
+
+            <section class="guide-sources" aria-labelledby="sources-title">
+                <h2 id="sources-title">Fonti consultate</h2>
+                <p>Le fonti sono state consultate integralmente e registrate nel processo editoriale.</p>
+                <ol><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md">Calcolo FIRE Italia — specifica matematica del motore</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0001</small></li><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md">Calcolo FIRE Italia — specifica della fiscalità semplificata</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0002</small></li><li><a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/">FAQ — Domande frequenti sui prezzi al consumo</a><small>Istituto nazionale di statistica (ISTAT) · 22 febbraio 2024 · SRC-2026-0005</small></li><li><a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/">Cosa sapere prima di investire</a><small>Banca d&#x27;Italia — L&#x27;economia per tutti · SRC-2026-0010</small></li></ol>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.</p>
+                <p class="editorial-disclosure">Questa guida è stata preparata tramite il processo editoriale automatizzato di Calcolo FIRE Italia, basato sulle fonti citate e sulle regole di qualità del progetto. Stefano Liga ne è il responsabile editoriale.</p>
+            </aside>
+
+            <aside class="content-notice warning" aria-label="Nota informativa">
+                <h2>Nota informativa</h2>
+                <p>I contenuti hanno finalità esclusivamente informative ed educative e non costituiscono consulenza finanziaria, fiscale, previdenziale o legale personalizzata. Prima di prendere decisioni, valuta la tua situazione e, quando necessario, rivolgiti a un professionista qualificato.</p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Confronta tre obiettivi di capitale finale</h2>
+                <p>Nel metodo Durata finita confronta residuo zero, una riserva e un importo maggiore. Controlla target, PAC e saldo personale finale, poi ripeti con ipotesi meno favorevoli.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Guida · GUIDE-0020</span>
+</footer>
+</body>
+</html>

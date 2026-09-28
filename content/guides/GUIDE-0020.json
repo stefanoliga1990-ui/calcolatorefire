@@ -1,0 +1,41 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0020",
+  "slug": "/guida/capitale-finale-fire",
+  "seo": {
+    "title": "Capitale finale FIRE: residuo desiderato e target FINITE",
+    "description": "Come il capitale finale desiderato modifica il target FINITE e il PAC: euro di oggi, saldo nominale futuro, esempi verificabili e limiti della proiezione.",
+    "og_title": "Capitale finale nel FIRE: esaurire o preservare il patrimonio",
+    "og_description": "Una riserva alla fine del FIRE cambia il capitale da costruire. Distingui obiettivo reale, saldo nominale e patrimonio effettivo con esempi del simulatore."
+  },
+  "page": {
+    "kicker": "Calcolo FIRE",
+    "h1": "Capitale finale nel FIRE: esaurire o preservare il patrimonio",
+    "lead": "Quanto capitale serve in più se vuoi conservare una somma alla fine del FIRE? Il metodo FINITE finanzia le spese dell'orizzonte scelto e un eventuale patrimonio residuo, inserito in euro di oggi. Questa guida mostra come il residuo modifica target e PAC, perché il saldo nominale finale può essere diverso dall'importo digitato e quali limiti impediscono di considerarlo una garanzia."
+  },
+  "dates": { "published": "2026-09-28", "updated": "2026-09-28" },
+  "summary_points": [
+    "Il capitale finale desiderato è una riserva al termine della durata FIRE; zero consente di consumare il patrimonio nello scenario calcolato.",
+    "L'input è in euro di oggi: il simulatore lo rivaluta per l'inflazione di tutti gli anni, compresi quelli prima del FIRE.",
+    "Senza imposte e risorse aggiuntive durante il FIRE, la riserva contribuisce al target con il proprio valore attuale.",
+    "Il saldo personale finale dipende dal capitale realmente disponibile: può superare il residuo richiesto quando il patrimonio iniziale è già sufficiente.",
+    "Il residuo è un saldo di mercato lasciato investito; il modello non calcola una vendita totale finale o un'eredità netta.",
+    "SWR non usa il capitale finale desiderato per costruire il target. Nessuno dei due metodi garantisce il patrimonio futuro."
+  ],
+  "source_ids": ["SRC-2026-0001", "SRC-2026-0002", "SRC-2026-0005", "SRC-2026-0010"],
+  "internal_links": [
+    { "url": "/metodologia", "label": "Metodologia del simulatore FIRE", "reason": "Verifica unità, timing mensile, capitale terminale e fiscalità del modello." },
+    { "url": "/", "label": "Simulatore FIRE", "reason": "Confronta residui diversi mantenendo uguali spese, durata e rendimenti." },
+    { "url": "/guida/metodo-finite-o-swr", "label": "Metodo FINITE o SWR", "reason": "Comprendi perché solo FINITE impone il capitale terminale nel target." },
+    { "url": "/guida/rendimento-nominale-reale", "label": "Rendimento nominale e reale", "reason": "Distingui importi futuri dal loro potere d'acquisto in euro di oggi." },
+    { "url": "/guida/plusvalenze-costo-fiscale-fire", "label": "Plusvalenze e costo fiscale nel FIRE", "reason": "Chiarisce perché valore di mercato e netto disponibile dopo una vendita possono differire." },
+    { "url": "/guida/rischio-sequenza-rendimenti-fire", "label": "Rischio di sequenza dei rendimenti", "reason": "Spiega un rischio che la proiezione a rendimento costante non simula." }
+  ],
+  "cta": {
+    "title": "Confronta tre obiettivi di capitale finale",
+    "text": "Nel metodo Durata finita confronta residuo zero, una riserva e un importo maggiore. Controlla target, PAC e saldo personale finale, poi ripeti con ipotesi meno favorevoli.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
