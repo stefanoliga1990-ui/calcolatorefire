@@ -1,0 +1,72 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0024",
+  "slug": "/guida/coast-fire",
+  "seo": {
+    "title": "Coast FIRE Italia: formula e capitale senza nuovi versamenti",
+    "description": "Calcola il capitale Coast FIRE partendo dal target futuro. Formula nominale e reale, esempi in euro e confronto con il PAC, senza rendimenti garantiti.",
+    "og_title": "Coast FIRE: quanto capitale serve oggi per un target futuro",
+    "og_description": "Dalla formula inversa al PAC richiesto: confronta tempo, rendimento e inflazione con esempi verificati e limiti espliciti."
+  },
+  "page": {
+    "kicker": "Calcolo del Coast FIRE",
+    "h1": "Coast FIRE: formula, capitale necessario e verifica del PAC",
+    "lead": "Quanto capitale serve oggi per raggiungere un target FIRE futuro senza nuovi versamenti? Nel caso semplice, il capitale Coast è il target nominale alla data FIRE diviso per il fattore di crescita del patrimonio. Il risultato dipende da tempo, rendimento e spese: qui trovi formula, esempi in euro e verifica nel simulatore. Un PAC nullo sotto certe ipotesi non dimostra di poter finanziare subito la vita con il portafoglio."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "Il capitale Coast è una soglia condizionata: nella formula semplice è il target futuro diviso per (1 + rendimento annuo) elevato agli anni disponibili.",
+    "La formula presume nessun nuovo apporto, nessun prelievo prima del FIRE, rendimento costante e fiscalità esclusa.",
+    "Sconta un target nominale con il rendimento nominale, oppure il suo equivalente in euro di oggi con il rendimento reale di accumulo.",
+    "Più tempo riduce la soglia solo a target e rendimento invariati; spese, inflazione e fiscalità possono cambiare anche il target.",
+    "Un PAC aggiuntivo nullo può dipendere da versamenti già programmati in altre risorse: verifica tutti gli apporti prima di chiamarlo percorso senza PAC.",
+    "Il budget per vivere prima della data FIRE e la sostenibilità del decumulo restano verifiche separate."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica tassi, unità monetarie, fiscalità e significato del PAC calcolato."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Confronta il patrimonio disponibile con target e PAC sotto ipotesi esplicite."
+    },
+    {
+      "url": "/guida/tipi-di-fire",
+      "label": "Tipi di FIRE a confronto",
+      "reason": "Colloca Coast fra le varianti senza ripetere la panoramica concettuale."
+    },
+    {
+      "url": "/guida/metodo-finite-o-swr",
+      "label": "Confronto tra FINITE e SWR",
+      "reason": "Scegli il metodo del target prima di calcolarne il valore attuale."
+    },
+    {
+      "url": "/guida/capitale-investito-pac-esistente",
+      "label": "Capitale già investito e PAC esistenti",
+      "reason": "Distingui capitale attuale, apporti futuri e PAC aggiuntivo evitando il doppio conteggio."
+    },
+    {
+      "url": "/guida/rendimento-nominale-reale",
+      "label": "Rendimento nominale e reale",
+      "reason": "Approfondisci il rapporto esatto con l'inflazione usato nella formula Coast."
+    }
+  ],
+  "cta": {
+    "title": "Verifica il capitale e il PAC del tuo scenario",
+    "text": "Parti da spese e target, controlla tutti gli apporti futuri e confronta il risultato con rendimento minore o spese maggiori. Leggi il PAC insieme alla proiezione di decumulo.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

@@ -1,0 +1,90 @@
+<section class="content-section" id="definizione" aria-labelledby="definizione-title">
+    <h2 id="definizione-title">Coast FIRE: finanziare il futuro senza nuovi apporti</h2>
+    <p>In questa guida usiamo Coast FIRE per analizzare un patrimonio che, lasciato investito senza nuovi versamenti, potrebbe raggiungere il capitale necessario alla futura data FIRE. È una definizione operativa per il calcolo: le <a href="/guida/tipi-di-fire">varianti del FIRE</a> descrivono progetti diversi, senza soglie universali.</p>
+    <p>Il punto decisivo è che le spese tra oggi e quella data devono avere una copertura separata. L'esempio presume che non si prelevi dal patrimonio destinato al FIRE. Avere capitale sufficiente sotto queste ipotesi non dimostra quindi di poter lasciare subito il lavoro o spendere già i rendimenti.</p>
+    <p>La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia, nelle sezioni Rendimento e Tempo</a>, spiega la capitalizzazione composta: i proventi reinvestiti contribuiscono alla crescita successiva. Il modello Coast qui illustrato usa questo meccanismo, mantenendo il rendimento come ipotesi e senza attribuire alla fonte una soglia FIRE.</p>
+</section>
+
+<section class="content-section" id="formula" aria-labelledby="formula-title">
+    <h2 id="formula-title">La formula parte dal target alla data FIRE</h2>
+    <p>Prima costruisci il target, cioè il capitale necessario all'ingresso nel FIRE per le spese e il metodo scelti. Poi calcoli quale patrimonio iniziale potrebbe raggiungerlo nel tempo disponibile. Non partire da un multiplo universale della spesa: FINITE dipende anche da durata e capitale finale; SWR usa un tasso di prelievo e richiede comunque la verifica della proiezione.</p>
+    <p>La derivazione seguente è un'elaborazione propria della <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 4 e 8</a>. Vale con rendimento costante, nessun prelievo prima del FIRE, nessun nuovo flusso e fiscalità azzerata:</p>
+    <pre class="formula"><code>Capitale futuro senza PAC = V0 × (1 + r)^Y
+Capitale Coast oggi = Tnom / (1 + r)^Y</code></pre>
+    <p>V0 è il patrimonio investito oggi, in euro; Tnom è il target in euro nominali alla data FIRE; Y sono gli anni tra età attuale ed età FIRE. r è il rendimento nominale annuo effettivo di accumulo: per esempio 4% si scrive 0,04. Nel simulatore è al netto dei costi ricorrenti dell'investimento e prima delle imposte personali.</p>
+    <p>La conversione mensile rmensile = (1 + r)^(1/12) − 1, applicata per 12 × Y mesi, produce lo stesso fattore annuale. Non dividere semplicemente per dodici un tasso annuo effettivo. Con r pari a zero il capitale Coast coincide con Tnom; un rendimento negativo lo rende superiore al target. Con Y pari a zero il confronto è immediato, senza crescita futura.</p>
+    <p>Questa inversione non dimostra che il rendimento si realizzerà. Esprime una condizione matematica da confrontare con altri scenari, non una data certa per interrompere i versamenti.</p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Un target di 540.000 euro, quattro ipotesi di rendimento</h2>
+    <p>Elaborazione propria verificata con formule e motore del simulatore. Impostiamo età attuale 40 anni, età FIRE 60, durata FIRE 25 anni, metodo FINITE, spesa 1.800 euro mensili, capitale finale desiderato zero e nessuna risorsa aggiuntiva. Inflazione, rendimento durante il FIRE, crescita del PAC, aliquota sulle plusvalenze e bollo sono zero. Solo il rendimento di accumulo cambia; gli euro nominali coincidono con quelli di oggi.</p>
+    <pre class="formula"><code>Target FINITE = 1.800 × 12 × 25 = 540.000 euro
+Con accumulo al 4%: capitale Coast = 540.000 / 1,04^20
+                                   ≈ 246.449 euro</code></pre>
+    <p>Per collegare la soglia al PAC, usiamo anche un patrimonio attuale fissato a 250.000 euro, con costo fiscale automatico uguale al patrimonio. Il PAC è il piano di accumulo: nella tabella la rata richiesta resta costante e viene versata a fine mese per 240 mesi.</p>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th scope="col">Rendimento annuo di accumulo ipotizzato</th><th scope="col">Capitale Coast oggi</th><th scope="col">250.000 euro al FIRE senza PAC</th><th scope="col">PAC mensile richiesto dal modello</th></tr></thead>
+            <tbody>
+                <tr><td>0%</td><td>540.000 euro</td><td>250.000 euro</td><td>1.208 euro</td></tr>
+                <tr><td>2%</td><td>363.405 euro</td><td>371.487 euro</td><td>573 euro</td></tr>
+                <tr><td>4%</td><td>246.449 euro</td><td>547.781 euro</td><td>0 euro</td></tr>
+                <tr><td>6%</td><td>168.375 euro</td><td>801.784 euro</td><td>0 euro</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Importi arrotondati all'euro dopo i calcoli; soglie e valori senza PAC derivano dalla formula, mentre target e rate sono riconciliati con il motore entro un centesimo. Il PAC nullo significa che il capitale proiettato basta al target nello scenario selezionato. Nel caso al 4% l'eccedenza è soltanto circa 7.781 euro: cambiarne un'ipotesi può eliminare quel margine.</p>
+    <p>I tassi sono scelti per spiegare la sensibilità, non per suggerire rendimenti plausibili o raccomandati. La colonna senza PAC esclude davvero nuovi apporti; nei due casi con rata positiva il simulatore raggiunge invece il target includendo i versamenti calcolati.</p>
+</section>
+
+<section class="content-section" id="tempo-spesa" aria-labelledby="tempo-spesa-title">
+    <h2 id="tempo-spesa-title">Tempo e spese cambiano il capitale necessario oggi</h2>
+    <p>Mantenendo il target di 540.000 euro, il rendimento di accumulo ipotetico al 4% e tutte le altre semplificazioni dell'esempio, il capitale Coast è circa 364.805 euro con 10 anni disponibili, 246.449 con 20 anni e 166.492 con 30 anni. È un confronto a target invariato: il tempo aggiunge capitalizzazione senza certificare il risultato futuro.</p>
+    <p>In uno scenario completo, cambiare età FIRE può modificare anche spesa nominale all'ingresso, durata scelta o disponibilità delle rendite. Perciò ricalcola prima il target quando cambi la data, anziché scontare sempre la stessa cifra.</p>
+    <p>Se la spesa dell'esempio sale del 20%, da 1.800 a 2.160 euro mensili, con la stessa durata e fiscalità nulla il target diventa 648.000 euro. A vent'anni e al 4%, il capitale Coast sale a circa 295.739 euro. I 250.000 euro iniziali non bastano più senza apporti: il motore richiede circa 275 euro al mese. Anche un budget sottostimato può quindi trasformare un PAC nullo in un PAC necessario.</p>
+</section>
+
+<section class="content-section" id="inflazione" aria-labelledby="inflazione-title">
+    <h2 id="inflazione-title">Usa euro nominali e reali in modo coerente</h2>
+    <p>Il target nominale alla data FIRE e il suo equivalente in euro di oggi sono due rappresentazioni diverse. Se scegli la seconda, scontala con il rendimento reale di accumulo, non con quello nominale. Dalla <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">conversione dei tassi e dell'equivalente odierno, sezioni 4 e 21.4</a>, si ricava:</p>
+    <pre class="formula"><code>rreale = (1 + raccumulo) / (1 + inflazione) − 1
+Toggi = Tnom / (1 + inflazione)^Y
+Capitale Coast oggi = Toggi / (1 + rreale)^Y</code></pre>
+    <p>rreale indica qui il rendimento di accumulo dopo l'inflazione, con imposte e bollo ancora esclusi. Non coincide automaticamente con il rendimento reale durante il FIRE, che dipende da un altro input. Non rivalutare nuovamente Tnom per l'inflazione se il simulatore l'ha già incorporata.</p>
+    <p>Un secondo esempio mantiene età 40 e 60, durata 25 anni, FINITE, spesa 1.800 euro di oggi, capitale finale zero, crescita PAC zero e risorse assenti. Ipotizziamo inflazione al 2%, rendimento FIRE al 2% e accumulo al 4%, con fiscalità zero. Il rendimento reale durante il FIRE è zero: il target nominale è circa 802.412 euro, equivalente a 540.000 euro di oggi. Il rendimento reale di accumulo è circa 1,96% e il capitale Coast sale a circa 366.210 euro.</p>
+    <p>La forma nominale e quella reale danno lo stesso risultato. Nel motore, inserire 366.210,18 euro di patrimonio con questi input produce un PAC richiesto pari a zero. Sono importi didattici: non trasferire la soglia dell'esempio senza inflazione a questo scenario diverso.</p>
+</section>
+
+<section class="content-section" id="simulatore" aria-labelledby="simulatore-title">
+    <h2 id="simulatore-title">Come verificare il collegamento con il PAC</h2>
+    <ol>
+        <li>Nel <a href="/">simulatore FIRE</a>, definisci spesa in euro di oggi, età FIRE, durata, metodo e capitale finale quando usi FINITE.</li>
+        <li>Inserisci il patrimonio effettivamente disponibile e le ipotesi di rendimento, inflazione e fiscalità. Per riprodurre le tabelle, usa esattamente i valori dichiarati e azzera aliquota e bollo.</li>
+        <li>Per verificare un percorso senza nuovi apporti, escludi anche i versamenti futuri degli investimenti esistenti, le rendite reinvestite e gli altri incassi ipotizzati durante l'accumulo.</li>
+        <li>Leggi insieme target, PAC richiesto, saldo al FIRE e decumulo. Ripeti con rendimento minore, spese maggiori o una data diversa, annotando quale ipotesi fa ricomparire il fabbisogno di versamenti.</li>
+    </ol>
+    <p>Con risorse aggiuntive, il PAC mostrato è quello aggiuntivo ancora necessario. Può essere zero perché altri PAC continuano a versare: questo non corrisponde al caso senza apporti della formula Coast. Non conteggiare lo stesso patrimonio sia nel campo principale sia in una card di investimento; la guida al <a href="/guida/capitale-investito-pac-esistente">capitale già investito e ai PAC esistenti</a> spiega la distinzione.</p>
+    <p>La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 5–7 e 14–16</a>, documenta il bollo e il calcolo congiunto di target e PAC attraverso il costo fiscale. Con fiscalità attiva, non basta dividere un target isolato per il fattore di crescita: verifica lo scenario completo. Gli zeri delle tabelle servono a isolare la formula e non indicano un'esenzione.</p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Una soglia calcolata non rende certo il percorso</h2>
+    <p>La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia, nelle sezioni Rischio e Attenzione ai costi</a>, ricorda che rendimenti, capitale e potere d'acquisto possono cambiare e che i costi riducono i risultati. Il tempo non elimina questi rischi.</p>
+    <ul>
+        <li>Il simulatore usa rendimenti costanti e non attribuisce probabilità di successo: un PAC nullo è un risultato condizionato agli input.</li>
+        <li>Prelevare prima della data FIRE interrompe l'ipotesi di patrimonio lasciato crescere senza uscite. Il budget corrente richiede una verifica separata.</li>
+        <li>Proventi già inclusi nel rendimento complessivo reinvestito non vanno aggiunti una seconda volta come rendita.</li>
+        <li>Un target SWR raggiunto non assicura la copertura di tutta la durata: controlla i mesi di decumulo e l'eventuale fabbisogno non coperto.</li>
+        <li>Gli importi arrotondati non costituiscono soglie precise per una decisione personale. Piccole differenze vicino al confine vanno lette con la tolleranza numerica del modello.</li>
+    </ul>
+    <aside class="content-notice warning" aria-labelledby="budget-title">
+        <h3 id="budget-title">PAC zero e spese correnti sono due verifiche diverse</h3>
+        <p>Prima di interpretare il risultato come possibilità di ridurre il lavoro o i versamenti, serve capire come finanziare le spese attuali senza consumare il patrimonio del piano. Il calcolatore non verifica quel reddito né decide quando sia opportuno interrompere un PAC.</p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Confronta la soglia con il patrimonio e con le ipotesi</h2>
+    <p>Annota target, unità monetaria, anni disponibili e rendimento usato. Calcola la soglia semplice soltanto nel suo perimetro, poi confrontala con patrimonio e PAC dello scenario completo. Consulta la <a href="/metodologia">metodologia del simulatore</a> e il <a href="/guida/metodo-finite-o-swr">confronto tra FINITE e SWR</a> per verificare che il target scelto risponda al fabbisogno che vuoi rappresentare. Se un cambiamento contenuto fa sparire il margine, hai individuato un'ipotesi da riesaminare, non una certezza sul futuro.</p>
+</section>
