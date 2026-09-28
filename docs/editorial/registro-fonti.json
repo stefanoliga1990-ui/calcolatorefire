@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T12:03:03+02:00"
+        "last_accessed_at": "2026-09-28T13:04:38+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -34,13 +34,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Documento completo; sezioni 2, 4, 8, 16–23 e 24.6; riscontro in FutureLumpSum, FireCalculator, FiscalFireCalculator, test FutureLumpSum e card Capitale futuro in app-91e2b4c7a630.js; esempi verificati via JShell. Documento completo consultato nel checkout main; GUIDE-0020: sezioni 2–10, 20–22; riscontro FireCalculator.finiteTarget, FiscalFireCalculator.calculate, FireCalculationInput e app-91e2b4c7a630.js (campo terminalCapitalToday e renderFireResults).",
+        "section": "GUIDE-0021: documento completo nel checkout main, sezioni2-4,6,8-9,17-18; FireCalculator.initialContribution e FiscalAccumulationPlan.growingPac, FiscalFireCalculator e campo annualContributionGrowthRate nel frontend; confronto Python/JShell.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T12:03:03+02:00",
+        "checked_at": "2026-09-28T13:04:38+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -153,13 +153,20 @@
           "claim": "Capitale terminale FINITE in euro di oggi, rivalutazione fino alla fine dell’intero orizzonte e valore attuale del residuo; SWR non impone il capitale terminale. Elaborazione propria: età 40→50, FIRE 20 anni, spesa 1500 euro/mese, patrimonio zero, nessuna risorsa, rendimenti/inflazione/crescita PAC/aliquota/bollo zero: L0=0/100000/300000 produce target analitico 360000/460000/660000 e PAC 3000/3833,333333/5500. Solo inflazione e rendimento FIRE al 2%: L0=100000, target 560737,4331975884, PAC 4672,811943313237, residuo nominale 181136,15841033548. Incremento senza imposte con rendimento FIRE 3%, inflazione zero: 100000/1,03^20=55367,57541863345. Formule verificate in Python e motore fiscale Java via JShell entro 0,01 euro; arrotondamento finale ai centesimi.",
           "importance": "central",
           "verified_at": "2026-09-28T12:03:03+02:00"
+        },
+        {
+          "content_id": "GUIDE-0021",
+          "claim": "Crescita del PAC annua effettiva convertita in mensile; Cj=C1*(1+gm)^(j-1), versamento a fine mese, fattore F e caso r=gm. Elaborazione propria con eta 40->50, FINITE20anni, spesa1500, patrimonio e capitale terminale zero, nessuna risorsa, rendimenti/inflazione/aliquota/bollo zero: target analitico360000; g=0/2/5% produce C1=3000/2714,997344/2332,162654 e C120=3000/3304,109607/3783,433042; totale360000 in tutti i casi. g5% non realizzato e rata iniziale tenuta fissa: saldo279859,518526, divario80140,481474. Con rendimento e crescita3%: F=160,873208789 e C1=2237,787154. Formule Python confrontate con FiscalFireCalculator via JShell entro0,01euro; points contiene mesezero, rate estratte per month==13 e120. Arrotondamenti tabella all’euro.",
+          "importance": "central",
+          "verified_at": "2026-09-28T13:04:38+02:00"
         }
       ],
       "limitations": [
         "Descrive il comportamento del motore deterministico e non costituisce validazione esterna delle ipotesi finanziarie.",
         "Le frasi introduttive sulla fiscalità riflettono una fase precedente: per il modello fiscale implementato prevale la specifica fiscale dedicata.",
         "GUIDE-0019: formule isolate con imposte e bollo zero; comportamento operativo verificato nel motore fiscale senza validare incassi o diritti futuri.",
-        "GUIDE-0020: formule incrementali valide senza fiscalità e senza flussi FIRE aggiuntivi; rendimento costante ipotetico, nessuna garanzia sul capitale residuo reale."
+        "GUIDE-0020: formule incrementali valide senza fiscalità e senza flussi FIRE aggiuntivi; rendimento costante ipotetico, nessuna garanzia sul capitale residuo reale.",
+        "GUIDE-0021: crescita mensile liscia, non scatti annuali o promozioni; formula chiusa isolata senza fiscalita. Una rata iniziale minore impegna a versamenti futuri maggiori."
       ],
       "conflicts": [
         {
@@ -169,7 +176,7 @@
         }
       ],
       "local_copy": null,
-      "notes": "Fonte primaria interna per la pagina metodologia. GUIDE-0018: lettura integrale nel checkout main, specifica immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03. Esempi propri: età 40, FIRE 45, durata 20 anni, spesa 1800 euro/mese, capitale iniziale/finale zero, rendimenti/inflazione/crescita PAC e rendita zero, aliquota e bollo zero, nessuna altra risorsa. Rendita 600 euro da 40 a 55 anni: 60 apporti in accumulo, 120 mesi FIRE con fabbisogno 1200 e 120 con 1800; target FINITE analitico 360000, reinvestimento 36000, PAC 5400. Senza reinvestimento PAC 6000; senza rendita target 432000 e PAC 7200; rendita senza fine target 288000 e PAC 4200. Reinvestimento parziale: due card da 240 e 360 euro, solo la prima investita in accumulo, entrambe usate nel FIRE; reinvestiti 14400, PAC 5760. Motore fiscalizzato verificato con JShell: target FINITE inferiori al valore analitico di 0,0078125 euro, PAC inferiori di 0,000130176544 euro; tabella arrotondata all’euro. SWR 0,04 temporanea: candidato 1200*120+540000=684000; target 540000, PAC 8400. Crescita/Inflazione ipotetiche: 600/(1,02)^10=492,2089799250931 euro reali; 600*(1,02)^10=731,3966519968544 euro nominali. Arrotondamento ai centesimi solo per questi valori; nessuna previsione."
+      "notes": "Fonte primaria interna per la pagina metodologia. GUIDE-0018: lettura integrale nel checkout main, specifica immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03. Esempi propri: età 40, FIRE 45, durata 20 anni, spesa 1800 euro/mese, capitale iniziale/finale zero, rendimenti/inflazione/crescita PAC e rendita zero, aliquota e bollo zero, nessuna altra risorsa. Rendita 600 euro da 40 a 55 anni: 60 apporti in accumulo, 120 mesi FIRE con fabbisogno 1200 e 120 con 1800; target FINITE analitico 360000, reinvestimento 36000, PAC 5400. Senza reinvestimento PAC 6000; senza rendita target 432000 e PAC 7200; rendita senza fine target 288000 e PAC 4200. Reinvestimento parziale: due card da 240 e 360 euro, solo la prima investita in accumulo, entrambe usate nel FIRE; reinvestiti 14400, PAC 5760. Motore fiscalizzato verificato con JShell: target FINITE inferiori al valore analitico di 0,0078125 euro, PAC inferiori di 0,000130176544 euro; tabella arrotondata all’euro. SWR 0,04 temporanea: candidato 1200*120+540000=684000; target 540000, PAC 8400. Crescita/Inflazione ipotetiche: 600/(1,02)^10=492,2089799250931 euro reali; 600*(1,02)^10=731,3966519968544 euro nominali. Arrotondamento ai centesimi solo per questi valori; nessuna previsione. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile."
     },
     {
       "id": "SRC-2026-0002",
@@ -187,7 +194,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T12:03:03+02:00"
+        "last_accessed_at": "2026-09-28T13:04:38+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -199,13 +206,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Documento completo; sezioni 1, 4–7, 14 e 16; apporto netto a saldo/costo fiscale in FiscalFireCalculator ed esempi Java con aliquota e bollo zero. Documento completo consultato nel checkout main; GUIDE-0020: sezioni 1, 4–8, 14–16, in particolare 7.1 e 14.1; riscontro FiscalFireCalculator, FiscalDecumulationProjection e frontend fiscal.decumulation.personal.finalBalance.",
+        "section": "GUIDE-0021: documento completo nel checkout main; sezioni4-7,13-16; fiscalita azzerata negli esempi, nessuna regola tributaria esterna dichiarata.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T12:03:03+02:00",
+        "checked_at": "2026-09-28T13:04:38+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -294,12 +301,19 @@
           "claim": "FINITE fiscale risolve target e PAC insieme, finanzia ogni fabbisogno netto e conserva almeno il residuo nominale richiesto; capitale terminale è saldo di mercato prima di un’eventuale vendita totale finale, senza imposta latente liquidata. Proiezione personale usa tutto il capitale disponibile: stessi input a tassi e fiscalità zero con patrimonio/costo fiscale iniziale 700000 e L0=100000 danno target 460000, PAC zero, residuo del target 100000 e personale 340000. SWR con L0=0 oppure 100000 produce target 450000 e residuo 90000; interfaccia invia L0=0 per SWR. Esempi verificati nel motore Java; non sono istruzioni fiscali o successorie.",
           "importance": "central",
           "verified_at": "2026-09-28T12:03:03+02:00"
+        },
+        {
+          "content_id": "GUIDE-0021",
+          "claim": "Il bollo e il costo fiscale entrano nella simulazione congiunta di target e PAC; la formula chiusa vale con aliquota e bollo zero. Il parametro crescita conserva la ricorrenza mensile. La guida descrive il modello, non norme fiscali. Esempio verificato con FiscalSettings(0,0); il solver differisce dal target360000 di meno0,01euro.",
+          "importance": "central",
+          "verified_at": "2026-09-28T13:04:38+02:00"
         }
       ],
       "limitations": [
         "Modello fiscale semplificato del simulatore; non rappresenta tutti i regimi, le agevolazioni o le situazioni individuali.",
         "GUIDE-0019: una card chiamata TFR o eredità non calcola liquidazione, diritto o fiscalità della somma; importo e disponibilità richiedono verifica esterna individuale.",
-        "GUIDE-0020: saldo finale lasciato investito; modello non simula liquidazione totale, imposte di successione o trasferimenti e non quantifica un’eredità netta."
+        "GUIDE-0020: saldo finale lasciato investito; modello non simula liquidazione totale, imposte di successione o trasferimenti e non quantifica un’eredità netta.",
+        "GUIDE-0021: descrizione del modello con aliquota e bollo zero negli esempi, senza informazione tributaria individuale o garanzie sul target."
       ],
       "conflicts": [
         {
@@ -309,7 +323,7 @@
         }
       ],
       "local_copy": null,
-      "notes": "Specifica interna consultata integralmente nel checkout; formule riconciliate con FiscalCalculator.java e FiscalPortfolioState.java. Esempi GUIDE-0015: p=max(0,B-F)/B; G=D/(1-tau*p); T=G*p*tau; F residuo=F*(1-G/B). B=240000, D=1500, tau=0.26, F=240000/144000/60000/260000; rendimenti, bollo, apporti e rendite zero, un mese, euro nominali. Arrotondamento espositivo ai centesimi. Con F=144000: G=1674.107142857143, T=174.107142857143, saldo=238325.89285714286, F residuo=142995.5357142857. Esempio accumulo: B=240000, F=144000, rendimento mensile=0.005, versamento=1000, bollo zero; saldo finale=242200, F finale=145000. Nessuna previsione o imposta personale. GUIDE-0016: intera specifica letta, riscontrata in FiscalCalculator.java, FiscalAccumulationProjector.java e FiscalFireCalculator.java. b_a=0.002, b_m=0.00016681963994558124; B=300000 senza rendimento/inflazione/movimenti, saldo dopo 12 mesi=299400 e dopo 360 mesi=282512.38618727017. Primo mese accumulo, PAC=1000: bollo=50.21271162361995, saldo=300949.78728837636, costo fiscale da 300000 a 301000. Primo mese decumulo, netto=1500 e imposta plusvalenze=0: bollo=49.795662523756, saldo=298450.2043374762, costo fiscale=298500. Euro nominali, arrotondamento espositivo ai centesimi, nessuna previsione. SWR base non aggiunge il bollo al primo prelievo; bollo presente in accumulo e proiezione. FINITE include bollo nel risolutore mensile."
+      "notes": "Specifica interna consultata integralmente nel checkout; formule riconciliate con FiscalCalculator.java e FiscalPortfolioState.java. Esempi GUIDE-0015: p=max(0,B-F)/B; G=D/(1-tau*p); T=G*p*tau; F residuo=F*(1-G/B). B=240000, D=1500, tau=0.26, F=240000/144000/60000/260000; rendimenti, bollo, apporti e rendite zero, un mese, euro nominali. Arrotondamento espositivo ai centesimi. Con F=144000: G=1674.107142857143, T=174.107142857143, saldo=238325.89285714286, F residuo=142995.5357142857. Esempio accumulo: B=240000, F=144000, rendimento mensile=0.005, versamento=1000, bollo zero; saldo finale=242200, F finale=145000. Nessuna previsione o imposta personale. GUIDE-0016: intera specifica letta, riscontrata in FiscalCalculator.java, FiscalAccumulationProjector.java e FiscalFireCalculator.java. b_a=0.002, b_m=0.00016681963994558124; B=300000 senza rendimento/inflazione/movimenti, saldo dopo 12 mesi=299400 e dopo 360 mesi=282512.38618727017. Primo mese accumulo, PAC=1000: bollo=50.21271162361995, saldo=300949.78728837636, costo fiscale da 300000 a 301000. Primo mese decumulo, netto=1500 e imposta plusvalenze=0: bollo=49.795662523756, saldo=298450.2043374762, costo fiscale=298500. Euro nominali, arrotondamento espositivo ai centesimi, nessuna previsione. SWR base non aggiunge il bollo al primo prelievo; bollo presente in accumulo e proiezione. FINITE include bollo nel risolutore mensile. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile."
     },
     {
       "id": "SRC-2026-0003",
@@ -380,7 +394,7 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-28T07:50:42+00:00"
+        "last_accessed_at": "2026-09-28T13:04:38+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -392,13 +406,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Pagina completa; A cosa serve la pianificazione finanziaria; La pianificazione finanziaria in cinque passi, punti 4 e 5.",
+        "section": "Pagina completa consultata sul sito originale; A cosa serve la pianificazione finanziaria e La pianificazione finanziaria in cinque passi, punti1-5.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T07:50:42+00:00",
+        "checked_at": "2026-09-28T13:04:38+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -451,14 +465,21 @@
           "claim": "GUIDE-0019: pianificazione di entrate, uscite, obiettivi e imprevisti; evitare sovrastima entrate. Confronti senza somma, somma minore e ritardata sono applicazioni editoriali dei principi, non stime di probabilità.",
           "importance": "central",
           "verified_at": "2026-09-28T07:50:42+00:00"
+        },
+        {
+          "content_id": "GUIDE-0021",
+          "claim": "Obiettivi concreti e raggiungibili, ricostruzione delle entrate e uscite, inclusione delle spese poco frequenti e degli imprevisti, revisione del budget: applicati editorialmente alla sostenibilita di tutte le rate future del PAC crescente.",
+          "importance": "central",
+          "verified_at": "2026-09-28T13:04:38+02:00"
         }
       ],
       "limitations": [
-        "Contenuto educativo generale; non definisce un piano FIRE né una strategia personalizzata."
+        "Contenuto educativo generale; non definisce un piano FIRE né una strategia personalizzata.",
+        "GUIDE-0021: i principi di budget non sostengono alcun tasso futuro di crescita del reddito o dei versamenti."
       ],
       "conflicts": [],
       "local_copy": null,
-      "notes": "Pagina istituzionale di educazione finanziaria."
+      "notes": "Pagina istituzionale di educazione finanziaria. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile."
     },
     {
       "id": "SRC-2026-0005",
@@ -474,7 +495,7 @@
         "published": "2024-02-22",
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-28T12:03:03+02:00"
+        "last_accessed_at": "2026-09-28T13:04:38+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -486,13 +507,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Pagina completa; FAQ 1–3 e 15: inflazione e potere d’acquisto, indice generale e consumi personali. Pagina completa consultata sul sito ISTAT; GUIDE-0020: FAQ 1–3 e 15, definizione di inflazione, perdita del potere d’acquisto e differenze nei consumi individuali.",
+        "section": "Pagina completa, FAQ1-24, consultata sul sito ISTAT tramite web e Invoke-WebRequest; utilizzo limitato a FAQ1-3 e15, nessuna statistica corrente.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": "Indici NIC, IPCA e FOI"
       },
       "verification": {
-        "checked_at": "2026-09-28T12:03:03+02:00",
+        "checked_at": "2026-09-28T13:04:38+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -545,16 +566,23 @@
           "claim": "Inflazione e perdita del potere d’acquisto spiegano la distinzione tra residuo nominale futuro e capitale in euro di oggi; l’indice generale non coincide necessariamente con il paniere personale. Il tasso 2% dell’esempio è ipotetico e non rappresenta dati o previsioni ISTAT.",
           "importance": "central",
           "verified_at": "2026-09-28T12:03:03+02:00"
+        },
+        {
+          "content_id": "GUIDE-0021",
+          "claim": "Inflazione e perdita del potere d’acquisto, differenze fra paniere generale e spese individuali. Elaborazione propria per Cj=C1*(1+gm)^(j-1), prezzi al termine del mesej: Cj_reale=Cj/(1+im)^j; crescita reale fra rate=(1+ga)/(1+ia)-1. g=ia mantiene il potere d’acquisto da una rata all’altra nel modello, non implica aumenti di reddito. Nessun dato corrente o previsione usato.",
+          "importance": "central",
+          "verified_at": "2026-09-28T13:04:38+02:00"
         }
       ],
       "limitations": [
         "La pagina definisce l'inflazione e gli indici ufficiali, ma non fornisce una previsione da usare automaticamente nelle simulazioni.",
         "GUIDE-0018 usa solo definizioni, senza aliquote di indicizzazione contrattuale o dati correnti: il tasso costante del modello non ricostruisce clausole, scatti annuali o indici effettivi.",
-        "GUIDE-0020: nessuna serie corrente utilizzata; il tasso costante del modello non descrive i prezzi futuri né il paniere della singola famiglia."
+        "GUIDE-0020: nessuna serie corrente utilizzata; il tasso costante del modello non descrive i prezzi futuri né il paniere della singola famiglia.",
+        "GUIDE-0021: tassi didattici costanti; nessuna indicizzazione salariale o crescita del reddito dedotta dall’inflazione."
       ],
       "conflicts": [],
       "local_copy": null,
-      "notes": "Fonte istituzionale primaria per il significato economico dell'inflazione."
+      "notes": "Fonte istituzionale primaria per il significato economico dell'inflazione. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile."
     },
     {
       "id": "SRC-2026-0006",
@@ -830,7 +858,7 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-25T22:57:33+02:00",
-        "last_accessed_at": "2026-09-28T12:03:03+02:00"
+        "last_accessed_at": "2026-09-28T13:04:38+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -842,13 +870,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Pagina completa; Rendimento; Rischio; Tempo; Attenzione ai costi. Pagina completa consultata sul sito Banca d’Italia; GUIDE-0020: Rendimento, Rischio, Tempo e Attenzione ai costi.",
+        "section": "Pagina completa consultata sul sito originale; Rendimento, Rischio, Tempo e Attenzione ai costi.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T12:03:03+02:00",
+        "checked_at": "2026-09-28T13:04:38+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -913,16 +941,23 @@
           "claim": "Rendimenti degli investimenti incerti, possibile perdita di capitale e riduzione del valore reale per inflazione inattesa; orizzonte e costi incidono sui risultati. Il residuo della simulazione non è garantito e il 3% dell’elaborazione propria non è un rendimento raccomandato.",
           "importance": "central",
           "verified_at": "2026-09-28T12:03:03+02:00"
+        },
+        {
+          "content_id": "GUIDE-0021",
+          "claim": "I rendimenti futuri sono incerti e i costi riducono i risultati: la crescita dei versamenti rappresenta apporti propri, non rendimento degli investimenti o reddito previsto dal motore.",
+          "importance": "central",
+          "verified_at": "2026-09-28T13:04:38+02:00"
         }
       ],
       "limitations": [
         "Pagina di educazione finanziaria generale: non indica un rendimento futuro per un PAC né un prodotto adatto al singolo lettore.",
         "I principi generali non determinano il rendimento, il canone o la disponibilità di una specifica risorsa futura.",
-        "GUIDE-0020: fonte educativa generale, non quantifica la probabilità di conservare il capitale finale di uno specifico piano FIRE."
+        "GUIDE-0020: fonte educativa generale, non quantifica la probabilità di conservare il capitale finale di uno specifico piano FIRE.",
+        "GUIDE-0021: non determina rendimento futuro, crescita del reddito o tasso di incremento del PAC."
       ],
       "conflicts": [],
       "local_copy": null,
-      "notes": "Consultata integralmente sul sito istituzionale; nessun conflitto rilevante con le fonti del motore."
+      "notes": "Consultata integralmente sul sito istituzionale; nessun conflitto rilevante con le fonti del motore. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile."
     },
     {
       "status": "approved",

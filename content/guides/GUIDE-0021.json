@@ -1,0 +1,40 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0021",
+  "slug": "/guida/aumento-versamenti-pac-fire",
+  "seo": {
+    "title": "PAC crescente per il FIRE: prima rata e versamenti futuri",
+    "description": "Come la crescita annua del PAC cambia prima rata e versamenti futuri: formule, esempi del simulatore, inflazione e verifica della sostenibilità nel budget.",
+    "og_title": "Aumentare i versamenti del PAC nel tempo: effetto sul FIRE",
+    "og_description": "Un PAC crescente può partire da una rata più bassa, ma richiede apporti maggiori in futuro. Confronta prima rata, ultima rata e totale versato con esempi verificabili."
+  },
+  "page": {
+    "kicker": "Accumulo e risparmio",
+    "h1": "Aumentare i versamenti del PAC nel tempo: effetto sul FIRE",
+    "lead": "Come cambia il percorso FIRE se aumenti il PAC nel tempo? A parità di capitale obiettivo e altre ipotesi, una crescita positiva dei versamenti riduce la prima rata richiesta, perché sposta parte dell'impegno sui mesi successivi. Questa guida spiega come il simulatore applica la crescita annua, come leggere le rate future e perché un piano più leggero oggi può diventare difficile da sostenere domani."
+  },
+  "dates": { "published": "2026-09-28", "updated": "2026-09-28" },
+  "summary_points": [
+    "La crescita del PAC aumenta i soldi che versi: è distinta dal rendimento prodotto dal capitale investito.",
+    "Il tasso annuo effettivo viene convertito in una crescita mensile equivalente; il modello non applica un unico scatto ogni anno.",
+    "Il PAC richiesto dal simulatore è la prima rata. Per valutare il piano occorre controllare anche le rate successive e il totale dei versamenti.",
+    "Una prima rata più bassa con crescita positiva richiede aumenti futuri effettivi: se resti alla rata iniziale, il capitale accumulato può non raggiungere il target.",
+    "Crescita dei versamenti e inflazione sono parametri separati. L'inflazione non garantisce un aumento del reddito disponibile.",
+    "Confronta lo scenario crescente con uno a crescita zero e verifica entrambi contro entrate, uscite e imprevisti del budget."
+  ],
+  "source_ids": ["SRC-2026-0001", "SRC-2026-0002", "SRC-2026-0004", "SRC-2026-0005", "SRC-2026-0010"],
+  "internal_links": [
+    { "url": "/metodologia", "label": "Metodologia del simulatore FIRE", "reason": "Verifica conversione mensile, timing dei versamenti e limiti della fiscalità semplificata." },
+    { "url": "/", "label": "Simulatore FIRE", "reason": "Confronta crescita zero e crescita positiva mantenendo uguali le altre ipotesi." },
+    { "url": "/guida/pac-per-raggiungere-il-fire", "label": "Calcolare il PAC per il FIRE", "reason": "Ricostruisci il collegamento generale tra capitale obiettivo, patrimonio presente e prima rata." },
+    { "url": "/guida/tasso-di-risparmio-fire", "label": "Tasso di risparmio e percorso FIRE", "reason": "Confronta i versamenti richiesti con la quota delle entrate che rimane dopo le spese." },
+    { "url": "/guida/rendimento-nominale-reale", "label": "Rendimento nominale e reale", "reason": "Distingui crescita degli importi nominali e variazione del potere d'acquisto." }
+  ],
+  "cta": {
+    "title": "Confronta due percorsi di versamento",
+    "text": "Mantieni uguali spese, età FIRE e rendimenti. Confronta crescita del PAC zero e positiva, poi ricostruisci l'ultima rata e verifica se gli aumenti previsti sono sostenibili nel budget.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

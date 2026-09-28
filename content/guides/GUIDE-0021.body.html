@@ -1,0 +1,178 @@
+<section class="content-section" id="crescita-e-rendimento" aria-labelledby="crescita-e-rendimento-title">
+    <h2 id="crescita-e-rendimento-title">La crescita del PAC riguarda i tuoi apporti</h2>
+    <p>
+        Un piano di accumulo (PAC) crescente prevede versamenti che aumentano nel tempo. La crescita del PAC
+        descrive denaro aggiuntivo che devi destinare al piano; il rendimento descrive invece ciò che il capitale
+        investito produce o perde. Sono due input separati nella
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 3, 4 e 8</a>.
+        Impostare una crescita positiva non fa aumentare il reddito: dichiara un'ipotesi sui versamenti futuri.
+    </p>
+    <p>
+        Il simulatore calcola la prima rata necessaria per arrivare al target all'età FIRE indicata. Se permette
+        rate successive maggiori, può richiedere meno oggi. La
+        <a href="/guida/pac-per-raggiungere-il-fire">guida al calcolo del PAC</a> spiega come si forma il divario
+        da finanziare; qui il punto è capire come distribuirlo nel tempo senza sottovalutare l'impegno futuro.
+    </p>
+</section>
+
+<section class="content-section" id="rate-mensili" aria-labelledby="rate-mensili-title">
+    <h2 id="rate-mensili-title">Il tasso annuo produce piccoli aumenti ogni mese</h2>
+    <p>
+        La crescita inserita è un tasso annuo effettivo, convertito nel mensile equivalente. Chiamiamo
+        <code>g_a</code> il tasso annuo, <code>g_m</code> quello mensile, <code>C_1</code> la prima rata in euro
+        e <code>j</code> il mese di accumulo, contato da 1. Le
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">sezioni 2, 4 e 8 della specifica</a>
+        fissano il versamento alla fine del mese e la seguente progressione.
+    </p>
+    <pre class="formula"><code>g_m = (1 + g_a)^(1/12) − 1
+C_j = C_1 × (1 + g_m)^(j − 1)
+C_13 = C_1 × (1 + g_a)</code></pre>
+    <p>
+        Un 5% annuo equivale a circa 0,4074% mensile: la rata del secondo mese è già maggiore della prima.
+        La tredicesima rata è il 5% più alta della prima, perché fra le due ci sono dodici incrementi.
+        L'ultima di 120 rate usa l'esponente 119, non 120. Con crescita zero tutte le rate restano uguali.
+        Il modello descrive una progressione regolare; un aumento unico a fine anno o una promozione fra cinque
+        anni non seguono esattamente questo calendario.
+    </p>
+</section>
+
+<section class="content-section" id="formula-prima-rata" aria-labelledby="formula-prima-rata-title">
+    <h2 id="formula-prima-rata-title">Una prima rata più bassa si appoggia sulle rate future</h2>
+    <p>
+        Per isolare l'effetto, considera un accumulo senza imposte, bollo o risorse aggiuntive.
+        <code>N</code> è il numero di mesi disponibili, <code>r_m</code> il rendimento mensile equivalente
+        e <code>Gap</code> la parte positiva del target non coperta dal patrimonio iniziale proiettato.
+        Ogni rata cresce e poi matura il rendimento dei soli mesi successivi al versamento.
+        Il fattore <code>F</code> somma questi contributi, secondo la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezione 8</a>.
+    </p>
+    <pre class="formula"><code>F = somma, per j da 1 a N, di (1 + g_m)^(j − 1) × (1 + r_m)^(N − j)
+C_1 = Gap ÷ F
+Se r_m = g_m: F = N × (1 + r_m)^(N − 1)</code></pre>
+    <p>
+        A target, mesi e rendimento invariati, una crescita positiva aumenta il fattore: per questo la prima
+        rata può scendere. Il caso con tassi uguali evita una divisione per zero nella forma chiusa della
+        formula. Se il capitale già disponibile copre il target, il nuovo PAC è zero; se mancano mesi per
+        versare e rimane un divario, nessuna crescita può recuperarlo.
+    </p>
+    <p>
+        Quando la fiscalità è attiva, saldo e costo fiscale prodotti dai versamenti influenzano anche il target.
+        Il motore risolve quindi target e PAC insieme: la formula isolata non basta a riprodurre quel risultato.
+        È una distinzione del modello descritta nella
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 5, 7 e 14</a>,
+        non una spiegazione della posizione tributaria individuale.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Il confronto deve mostrare anche l'ultima rata</h2>
+    <p>
+        Esempio didattico: età attuale 40 anni, FIRE a 50 anni, quindi 120 mesi di accumulo; metodo FINITE,
+        durata FIRE 20 anni, spesa 1.500 euro al mese in euro di oggi. Patrimonio attuale e capitale finale
+        desiderato sono zero, non ci sono risorse aggiuntive. Rendimento di accumulo, rendimento FIRE,
+        inflazione, aliquota sulle plusvalenze e bollo sono tutti zero. Varia solo la crescita del PAC.
+        Il target analitico è 1.500 × 12 × 20 = 360.000 euro.
+    </p>
+    <p>
+        La tabella è un'elaborazione propria delle formule della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 6 e 8</a>,
+        confrontata con il motore fiscale ad aliquota e bollo zero. Gli importi sono arrotondati all'euro solo
+        per la lettura; formule e verifica usano valori non arrotondati. La ricerca numerica del simulatore
+        può differire dal target analitico di meno di un centesimo.
+    </p>
+    <table>
+        <thead>
+            <tr><th scope="col">Crescita annua del PAC</th><th scope="col">Prima rata</th><th scope="col">Rata del mese 13</th><th scope="col">Ultima rata, mese 120</th><th scope="col">Totale versato</th></tr>
+        </thead>
+        <tbody>
+            <tr><th scope="row">0%</th><td>3.000 euro</td><td>3.000 euro</td><td>3.000 euro</td><td>360.000 euro</td></tr>
+            <tr><th scope="row">2%</th><td>2.715 euro</td><td>2.769 euro</td><td>3.304 euro</td><td>360.000 euro</td></tr>
+            <tr><th scope="row">5%</th><td>2.332 euro</td><td>2.449 euro</td><td>3.783 euro</td><td>360.000 euro</td></tr>
+        </tbody>
+    </table>
+    <p>
+        Con rendimento zero non nasce alcun guadagno: nei tre casi devi versare lo stesso totale.
+        Cambia la distribuzione dell'impegno. Se parti dalla rata esatta del caso al 5%, circa 2.332,16 euro,
+        ma poi la mantieni costante, dopo 120 mesi hai circa 279.860 euro. Rispetto al target mancano circa
+        80.140 euro: 360.000 − (2.332,162654 × 120). Il piano iniziale presumeva aumenti che non hai effettuato.
+    </p>
+    <p>
+        Anche il rendimento cambia il confronto. Con tutte le altre ipotesi dell'esempio ferme, ma rendimento
+        di accumulo e crescita dei versamenti entrambi al 3%, il caso con tassi uguali dà
+        <code>F ≈ 160,8732</code> e una prima rata di circa 2.237,79 euro. È un'altra ipotesi numerica,
+        non un rendimento promesso né una scelta consigliata.
+    </p>
+</section>
+
+<section class="content-section" id="inflazione" aria-labelledby="inflazione-title">
+    <h2 id="inflazione-title">Aumentare il PAC non significa sempre aumentarne il valore reale</h2>
+    <p>
+        Un importo nominale maggiore può comprare la stessa quantità di beni se crescono anche i prezzi.
+        Le <a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/" data-source-id="SRC-2026-0005">FAQ ISTAT, domande 1–3 e 15</a>
+        spiegano inflazione, perdita del potere d'acquisto e differenze fra indice generale e consumi personali.
+        Il tasso del simulatore è una tua ipotesi costante, non una previsione dei prezzi o dello stipendio.
+    </p>
+    <p>
+        Chiamiamo <code>i_a</code> l'inflazione annua ipotizzata e <code>i_m</code> il suo equivalente mensile.
+        Per esprimere una rata versata alla fine del mese <code>j</code> in euro di oggi, la dividiamo per
+        l'aumento cumulato dei prezzi fino a quel mese. Questa è un'elaborazione del progetto che applica
+        le convenzioni nominali e mensili della specifica.
+    </p>
+    <pre class="formula"><code>Rata del mese j in euro di oggi = C_j ÷ (1 + i_m)^j
+Crescita annua reale fra le rate = (1 + g_a) ÷ (1 + i_a) − 1</code></pre>
+    <p>
+        Se crescita e inflazione sono uguali, le rate mantengono lo stesso potere d'acquisto da un mese
+        al successivo nel modello. Con crescita del 3% e inflazione del 2%, l'incremento reale è circa 0,98%
+        annuo, non esattamente 1%. Sono tassi didattici. Il campo crescita del PAC è separato da quello
+        inflazione: non presumere che l'uno si aggiorni automaticamente con l'altro. Per approfondire le
+        unità puoi leggere la <a href="/guida/rendimento-nominale-reale">guida ai valori nominali e reali</a>.
+    </p>
+</section>
+
+<section class="content-section" id="budget-e-limiti" aria-labelledby="budget-e-limiti-title">
+    <h2 id="budget-e-limiti-title">Il budget deve sostenere l'intera progressione</h2>
+    <p>
+        La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia, nella guida alla pianificazione</a>
+        invita a ricostruire entrate e uscite, includere spese poco frequenti e imprevisti e verificare nel tempo
+        se gli obiettivi restano raggiungibili. Applicato al PAC crescente, questo significa confrontare il
+        budget anche con le rate future, non solo con quella iniziale.
+    </p>
+    <p>
+        Per esempio, con entrate nette ferme a 4.000 euro mensili e altre uscite ferme a 1.000 euro,
+        restano al massimo 3.000 euro prima di eventuali ulteriori riserve. La prima rata del caso al 5%
+        entra in questo margine; l'ultima, circa 3.783 euro, lo supera. Il simulatore non conosce quel reddito
+        e non accerta che il budget potrà sostenere l'aumento.
+    </p>
+    <ul>
+        <li>Un aumento di stipendio può essere assorbito da maggiori spese: controlla quanto rimane effettivamente disponibile.</li>
+        <li>Pause, riduzioni o aumenti irregolari dei versamenti cambiano il percorso rispetto alla progressione mensile costante.</li>
+        <li>La crescita del PAC principale non modifica la crescita propria dei PAC già programmati nelle risorse aggiuntive; verifica entrambi e somma gli impegni effettivi.</li>
+        <li>Gli apporti storici di un PAC esistente sono già nel suo patrimonio: non contarli anche nel capitale principale.</li>
+    </ul>
+    <p>
+        La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia, nella guida agli investimenti</a>
+        ricorda che i rendimenti sono incerti e che i costi incidono sui risultati. Una crescita regolare degli
+        apporti non elimina questi rischi. Il simulatore usa tassi costanti e non prevede carriere, mercati
+        o interruzioni del reddito.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="rata-futura-title">
+        <h3 id="rata-futura-title">Una rata più bassa oggi non riduce automaticamente lo sforzo complessivo</h3>
+        <p>Nel caso senza rendimento il totale resta uguale. Con rendimenti e fiscalità il totale può cambiare: leggi il risultato completo e verifica che gli aumenti ipotizzati abbiano un fondamento nel budget.</p>
+    </aside>
+</section>
+
+<section class="content-section" id="confronto-operativo" aria-labelledby="confronto-operativo-title">
+    <h2 id="confronto-operativo-title">Confronta crescita zero e crescita positiva a ipotesi uguali</h2>
+    <ol>
+        <li>Nel <a href="/">simulatore FIRE</a>, definisci spesa, età FIRE, durata, patrimonio e rendimenti; annota anche le impostazioni fiscali e le risorse.</li>
+        <li>Calcola prima con crescita del PAC zero. Salva il riferimento per target, prima rata e totale versato.</li>
+        <li>Modifica soltanto la crescita annua del PAC e ricalcola. Ricostruisci le rate future con la formula mensile, soprattutto l'ultima.</li>
+        <li>Confronta la progressione con entrate e uscite. Per esplorare aumenti mancati, ripeti a crescita zero e osserva quanto PAC richiederebbe lo stesso obiettivo.</li>
+    </ol>
+    <p>
+        Le convenzioni complete sono nella <a href="/metodologia">metodologia del simulatore</a>.
+        La <a href="/guida/tasso-di-risparmio-fire">guida al tasso di risparmio</a> aiuta a collegare il piano
+        al budget: il risultato utile è una progressione comprensibile e verificabile, senza trattare la
+        crescita del reddito o dei rendimenti come certa.
+    </p>
+</section>
