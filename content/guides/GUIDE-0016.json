@@ -1,0 +1,64 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0016",
+  "slug": "/guida/imposta-bollo-investimenti-fire",
+  "seo": {
+    "title": "Imposta di bollo sugli investimenti e FIRE: come incide",
+    "description": "Come il bollo sugli investimenti incide sul FIRE: base e periodo, tasso mensile del simulatore, esempi in accumulo e decumulo e limiti della stima.",
+    "og_title": "Imposta di bollo sugli investimenti e impatto sul FIRE",
+    "og_description": "Distingui il bollo reale dalla riduzione mensile del simulatore e verifica come cambia il saldo con esempi riproducibili."
+  },
+  "page": {
+    "kicker": "Fiscalità e costi del patrimonio",
+    "h1": "Imposta di bollo sugli investimenti e impatto sul FIRE",
+    "lead": "Il bollo è un costo legato al valore dei prodotti finanziari, anche senza guadagni realizzati. Nel simulatore lo 0,20% annuo iniziale diventa una riduzione mensile equivalente del patrimonio investito. Questa guida distingue la regola fiscale dalla proiezione e mostra come leggere il costo in accumulo e durante il FIRE."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "Per i prodotti finanziari nel perimetro ordinario, il riferimento per il 2026 è il 2 per mille annuo; categorie e rapporti hanno regole proprie.",
+    "Il simulatore converte il bollo annuo con b_m = 1 − (1 − b_a)^(1/12), circa 0,016682% mensile con b_a = 0,20%.",
+    "In accumulo il bollo segue rendimento e apporti; nel FIRE segue vendita e rendimento sul saldo rimasto. Non dipende dalla plusvalenza realizzata.",
+    "Con 300.000 euro, nessun movimento e rendimento zero, dodici riduzioni mensili lasciano 299.400 euro: il costo del modello è 600 euro.",
+    "Il bollo del modello riduce il saldo senza ridurre il costo fiscale. La liquidità non investita esclusa in accumulo non è per questo fiscalmente esente.",
+    "Confronta saldo, PAC e copertura dei prelievi: il bollo non si traduce in un aumento identico del target per ogni metodo FIRE."
+  ],
+  "source_ids": [
+    "SRC-2026-0002",
+    "SRC-2026-0013",
+    "SRC-2026-0020",
+    "SRC-2026-0019",
+    "SRC-2026-0014"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica formule, tempi mensili e limiti del modello fiscale nelle due fasi."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Confronta gli stessi input cambiando soltanto il bollo annuo e leggi saldo, PAC e proiezioni."
+    },
+    {
+      "url": "/guida/tassazione-fire-italia",
+      "label": "Tassazione nel calcolo FIRE in Italia",
+      "reason": "Completa il costo patrimoniale con la panoramica della fiscalità semplificata."
+    },
+    {
+      "url": "/guida/plusvalenze-costo-fiscale-fire",
+      "label": "Plusvalenze e costo fiscale nel FIRE",
+      "reason": "Distingui il bollo dalla tassa associata alla quota di guadagno realizzata con una vendita."
+    }
+  ],
+  "cta": {
+    "title": "Confronta il costo del bollo nello stesso scenario",
+    "text": "Mantieni uguali spese, rendimenti e risorse. Cambia soltanto il bollo per isolare il suo effetto su saldo, PAC e copertura dei prelievi, poi torna alle ipotesi fiscali applicabili.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

@@ -1,0 +1,185 @@
+<section class="content-section" id="regola" aria-labelledby="regola-title">
+    <h2 id="regola-title">Il bollo riguarda il valore dei prodotti, non il guadagno</h2>
+    <p>
+        Per il 2026, la <a href="https://def.finanze.it/DocTribFrontend/getAttoNormativoDetail.do?ACTION=getArticolo&amp;articolo=Tariffa+Articolo+13&amp;codiceOrdinamento=0020000000000130000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&amp;id=%7B407B5FF9-73F0-438A-B916-D756086EAD0B%7D" data-source-id="SRC-2026-0013">Tariffa del D.P.R. 642/1972, articolo 13, comma 2-ter e nota 3-ter</a>
+        indica il 2 per mille annuo, cioè lo 0,20%, per le comunicazioni sui prodotti finanziari nel suo perimetro.
+        La base è il valore di mercato complessivo o, se manca, il valore nominale o di rimborso.
+        Il presupposto non è la realizzazione di una plusvalenza: un investimento in perdita può quindi sostenere
+        questo costo. Esistono esclusioni, fra cui le comunicazioni dei fondi pensione e dei fondi sanitari.
+    </p>
+    <p>
+        Qui consideriamo il portafoglio finanziario ordinario rappresentato dal simulatore. Non estendiamo la
+        percentuale a tutti i risparmi o a ogni prodotto: conti correnti, assicurazioni, previdenza complementare,
+        attività estere e cripto-attività richiedono verifiche specifiche e non sono modellati in dettaglio.
+        L'<a href="https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.codiceRedazionale=26A01010&amp;art.dataPubblicazioneGazzetta=2026-02-28&amp;art.flagTipoArticolo=0&amp;art.idArticolo=4&amp;art.idGruppo=0&amp;art.idSottoArticolo=1&amp;art.idSottoArticolo1=10&amp;art.progressivo=0&amp;art.versione=1" data-source-id="SRC-2026-0014">articolo 4, comma 5, del decreto-legge 200/2025, testo coordinato</a>
+        differisce al 2027 la decorrenza del testo unico dei tributi indiretti: spiega perché il riferimento
+        della guida per il 2026 resta la tariffa del D.P.R. 642/1972.
+    </p>
+</section>
+
+<section class="content-section" id="base-periodo" aria-labelledby="base-periodo-title">
+    <h2 id="base-periodo-title">La rendicontazione reale non coincide con i mesi del modello</h2>
+    <p>
+        Per i prodotti ordinari, l'<a href="https://def.finanze.it/DocTribFrontend/getArticoloDetailFromResultList.do?codiceOrdinamento=200000300000000&amp;id=%7B0B8746B7-ED02-48AE-9F31-1FC59BFBB7E8%7D&amp;idAttoNormativo=%7B4348B1AC-DC76-4E5F-AAD8-95122598B206%7D" data-source-id="SRC-2026-0020">articolo 3 del decreto MEF 24 maggio 2012, commi 1–3</a>
+        considera il valore al termine del periodo rendicontato, oppure al 31 dicembre se manca la rendicontazione.
+        Il riferimento è l'anno civile e l'imposta viene rapportata al periodo; se mancano valore di mercato,
+        nominale e di rimborso, si usa il costo di acquisto risultante dalle evidenze dell'intermediario.
+        Le aliquote storiche nel decreto vanno lette con la tariffa vigente, non riutilizzate come aliquote attuali.
+    </p>
+    <p>
+        Cadenza del rendiconto, valorizzazione e modalità di addebito del rapporto reale possono quindi produrre
+        importi diversi da una proiezione che sottrae un costo ogni mese. Il tasso mensile del simulatore non è
+        una scadenza fiscale e il saldo di ogni mese non è necessariamente la base imponibile del rendiconto reale.
+    </p>
+    <p>
+        La <a href="https://def.finanze.it/DocTribFrontend/getPrassiDetail.do?id=%7B2860A08C-1F4A-466A-88E7-FF750AA66B09%7D" data-source-id="SRC-2026-0019">circolare dell’Agenzia delle Entrate 15/E, sezione 2.1</a>
+        distingue il conto corrente con funzione di servizio di cassa dai depositi con altra funzione.
+        Questa distinzione conta anche quando una somma viene chiamata genericamente liquidità.
+        La sua esclusione dal portafoglio investito nel simulatore non dimostra un'esenzione fiscale del rapporto
+        nel quale è custodita. I chiarimenti storici della circolare non sostituiscono le aliquote della norma vigente.
+    </p>
+</section>
+
+<section class="content-section" id="conversione" aria-labelledby="conversione-title">
+    <h2 id="conversione-title">Da 0,20% annuo al tasso mensile equivalente</h2>
+    <p>
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale del simulatore, sezioni 2–3</a>
+        definisce il bollo annuo iniziale allo 0,20%, modificabile, e lo converte in un tasso mensile equivalente.
+        Indichiamo con b_a il tasso annuo e con b_m quello mensile, entrambi in forma decimale:
+        0,20% corrisponde a 0,002.
+    </p>
+    <pre class="formula"><code>b_m = 1 − (1 − b_a)^(1/12)
+b_a = 0,002 → b_m ≈ 0,000166819640
+b_m in percentuale ≈ 0,016681964%
+(1 − b_m)^12 = 1 − b_a = 0,998</code></pre>
+    <p>
+        Dodici applicazioni sul saldo che resta producono una riduzione dello 0,20% quando non ci sono rendimenti
+        né movimenti. Dividere semplicemente 0,20% per dodici darebbe circa 0,016666667% al mese: è vicino,
+        ma non è la formula implementata. La differenza deriva dal fatto che ogni riduzione mensile agisce
+        sul patrimonio già ridotto nei mesi precedenti.
+    </p>
+</section>
+
+<section class="content-section" id="ordine" aria-labelledby="ordine-title">
+    <h2 id="ordine-title">Il bollo arriva dopo gli apporti o dopo la vendita</h2>
+    <p>
+        In accumulo il motore applica il rendimento al saldo iniziale, aggiunge PAC e apporti netti a fine mese,
+        poi sottrae il bollo sul totale. Nel FIRE aggiunge gli eventuali capitali disponibili, vende quanto serve
+        per il fabbisogno netto, applica il rendimento al patrimonio rimasto e infine sottrae il bollo.
+        Sono i tempi della <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 4–6 e 13–14</a>.
+    </p>
+    <pre class="formula"><code>Accumulo:
+saldo prima del bollo = saldo iniziale × (1 + rendimento mensile) + PAC + apporti
+bollo del mese = saldo prima del bollo × b_m
+saldo finale = saldo prima del bollo − bollo del mese
+
+FIRE:
+saldo dopo vendita = saldo iniziale + capitali ricevuti − vendita lorda
+saldo prima del bollo = saldo dopo vendita × (1 + rendimento mensile)
+bollo del mese = saldo prima del bollo × b_m
+saldo finale = saldo prima del bollo − bollo del mese</code></pre>
+    <p>
+        Il bollo del modello è una riduzione diretta del saldo: non viene registrato come una vendita e non
+        consuma il costo fiscale residuo. Nuovi apporti e vendite modificano invece quel costo secondo le regole
+        proprie. La liquidità futura mantenuta non investita è esclusa dal bollo dell'accumulo; quando entra
+        nel portafoglio FIRE, partecipa al saldo su cui il motore stima il costo.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Esempio: 300.000 euro senza rendimento o movimenti</h2>
+    <p>
+        Isoliamo il bollo con patrimonio iniziale e costo fiscale pari a 300.000 euro, bollo annuo 0,20%,
+        rendimento nominale zero, inflazione zero e aliquota sulle plusvalenze impostata a zero. Non ci sono PAC,
+        prelievi, rendite o capitali aggiuntivi. Sono input ipotetici, non una situazione fiscale personale.
+        La formula precedente produce questa elaborazione del progetto:
+    </p>
+    <table>
+        <thead><tr><th>Periodo</th><th>Saldo del modello</th><th>Riduzione rispetto a 300.000 euro</th></tr></thead>
+        <tbody>
+            <tr><td>Primo mese</td><td>299.949,95 euro</td><td>50,05 euro</td></tr>
+            <tr><td>Dodici mesi</td><td>299.400,00 euro</td><td>600,00 euro</td></tr>
+            <tr><td>Trenta anni, 360 mesi</td><td>282.512,39 euro</td><td>17.487,61 euro</td></tr>
+        </tbody>
+    </table>
+    <pre class="formula"><code>saldo dopo n mesi = 300.000 × (1 − b_m)^n
+saldo dopo 30 anni = 300.000 × (1 − 0,002)^30</code></pre>
+    <p>
+        Il calcolo mantiene la precisione completa; gli importi sono arrotondati ai centesimi solo nella tabella.
+        In questo scenario senza rendimento, la riduzione coincide con la somma dei bolli mensili. Non basta
+        moltiplicare 600 euro per trenta: il saldo su cui si applica il costo si riduce nel tempo. Con rendimento
+        positivo, il divario rispetto a uno scenario senza bollo includerebbe anche il rendimento non maturato
+        sulle somme sottratte, e non coinciderebbe necessariamente con il totale dei bolli.
+    </p>
+</section>
+
+<section class="content-section" id="movimenti" aria-labelledby="movimenti-title">
+    <h2 id="movimenti-title">Un versamento e un prelievo cambiano la base mensile</h2>
+    <p>
+        Ripartiamo da 300.000 euro di saldo e costo fiscale per due esempi separati di un solo mese,
+        mantenendo rendimento, inflazione e aliquota sulle plusvalenze a zero, bollo annuo 0,20% e nessun'altra
+        risorsa. Nel primo esempio aggiungiamo un PAC di 1.000 euro; nel secondo finanziamo una spesa di
+        1.500 euro netti, che con aliquota zero richiede una vendita lorda dello stesso importo.
+    </p>
+    <table>
+        <thead><tr><th>Voce del primo mese</th><th>Accumulo con PAC</th><th>FIRE con prelievo</th></tr></thead>
+        <tbody>
+            <tr><td>Movimento</td><td>+1.000,00 euro</td><td>−1.500,00 euro</td></tr>
+            <tr><td>Saldo prima del bollo</td><td>301.000,00 euro</td><td>298.500,00 euro</td></tr>
+            <tr><td>Bollo mensile equivalente</td><td>50,21 euro</td><td>49,80 euro</td></tr>
+            <tr><td>Saldo finale</td><td>300.949,79 euro</td><td>298.450,20 euro</td></tr>
+            <tr><td>Costo fiscale finale</td><td>301.000,00 euro</td><td>298.500,00 euro</td></tr>
+        </tbody>
+    </table>
+    <p>
+        Sono calcoli propri con le formule della <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 5–6</a>,
+        arrotondati solo per la lettura. Il PAC entra prima del bollo, mentre la vendita nel FIRE riduce la
+        base mensile prima del bollo. Il costo fiscale finale differisce dal saldo perché la riduzione dovuta
+        al bollo non lo modifica. Per l'altro meccanismo fiscale consulta la guida su
+        <a href="/guida/plusvalenze-costo-fiscale-fire">plusvalenze e costo fiscale</a>.
+    </p>
+</section>
+
+<section class="content-section" id="impatto-target" aria-labelledby="impatto-target-title">
+    <h2 id="impatto-target-title">Il target FIRE non aumenta allo stesso modo in ogni metodo</h2>
+    <p>
+        Il costo ricorrente riduce il patrimonio disponibile e può richiedere maggiori versamenti per raggiungere
+        un dato obiettivo. Con il metodo FINITE, che verifica una durata determinata, il bollo entra nella
+        simulazione mensile usata per cercare il capitale sufficiente a coprire spese e saldo finale richiesto.
+        Il suo impatto dipende quindi da durata, rendimento, prelievi e risorse.
+    </p>
+    <p>
+        Nel target SWR base, la regola è invece prima vendita lorda mensile × 12 / tasso di prelievo.
+        Il motore non aggiunge il bollo a quella prima vendita. Il bollo resta presente nell'accumulo e nel
+        decumulo; può incidere sul costo fiscale relativo, sul PAC e sui ponti con risorse future.
+        Un target base invariato non significa che il costo sia assente o che il patrimonio basti fino alla fine.
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 7 e 14</a>
+        separa infatti il criterio del target dalla proiezione che può segnalare un fabbisogno non coperto.
+    </p>
+    <p>
+        Non sommare automaticamente lo 0,20% al tasso SWR e non aggiungere il bollo stimato una seconda volta
+        alla spesa mensile già finanziata dal modello. Per isolare l'effetto usa due scenari uguali salvo il
+        bollo; per valutare la copertura leggi anche la proiezione e gli eventuali mesi con patrimonio insufficiente.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Leggi il bollo come una stima distinta dal budget di spesa</h2>
+    <p>
+        Nel <a href="/">simulatore FIRE</a> controlla il campo annuale del bollo e le risorse investite.
+        Confronta prima saldo al FIRE, PAC richiesto e bollo in accumulo; poi verifica il percorso del patrimonio
+        durante il FIRE. L'impostazione zero serve a un confronto didattico e non prova che il bollo non sia dovuto.
+        La <a href="/metodologia">metodologia</a> rende verificabili tempi, formule e limiti; la
+        <a href="/guida/tassazione-fire-italia">panoramica della tassazione nel FIRE</a> completa il quadro.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="stima-title">
+        <h3 id="stima-title">Il modello non determina l'addebito del tuo intermediario</h3>
+        <p>
+            La stima aggregata non ricostruisce categorie, esenzioni, rendicontazioni e regimi specifici né
+            gli altri costi del rapporto. Verifica la documentazione effettiva e le regole applicabili;
+            se la qualificazione fiscale è dubbia, serve la valutazione di un professionista.
+            Il bollo è già sottratto nei saldi fiscalizzati del simulatore: registrarlo di nuovo nel budget
+            dello stesso scenario conterebbe due volte lo stesso costo.
+        </p>
+    </aside>
+</section>
