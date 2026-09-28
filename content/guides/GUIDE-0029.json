@@ -1,0 +1,73 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0029",
+  "slug": "/guida/calcolare-eta-fire",
+  "seo": {
+    "title": "Come stimare a quale età potresti raggiungere il FIRE",
+    "description": "Confronta più età FIRE con il PAC sostenibile e un orizzonte coerente. Esempi verificati per leggere la soglia del modello senza scambiarla per una promessa.",
+    "og_title": "Età FIRE: confrontare scenari e capacità di risparmio",
+    "og_description": "L’età è un input del simulatore. Un confronto tra età, durata, target e PAC aiuta a individuare una soglia condizionata alle ipotesi, senza prevedere una data certa."
+  },
+  "page": {
+    "kicker": "Tempi del percorso FIRE",
+    "h1": "Come stimare a quale età potresti raggiungere il FIRE",
+    "lead": "Per stimare l’età FIRE, confronta il PAC richiesto a più età con il risparmio che puoi sostenere. Nel simulatore l’età di ingresso è un input: il risultato è il capitale necessario e il versamento mensile per raggiungerlo. La prima età compatibile nel confronto resta una soglia sotto le ipotesi scelte; occorre verificare anche durata, risorse, fiscalità e prelievi, senza interpretarla come una data garantita."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "L’età FIRE si stima confrontando scenari: il simulatore riceve l’età scelta e risolve target e PAC, senza cercare automaticamente la tua data di indipendenza finanziaria.",
+    "Definisci il risparmio sostenibile prima del confronto. Il nuovo PAC è aggiuntivo alle rate già previste nelle risorse e deve rispettare il budget anche negli anni successivi.",
+    "Dichiara se tieni fissa la durata del FIRE o l’età finale. Spostare l’ingresso mantenendo la durata cambia anche l’età fino alla quale il capitale deve finanziare le spese.",
+    "Con età attuale 40, fine a 90, spesa 1.800 euro, patrimonio 180.000 euro e tassi e fiscalità nulli, un budget di 2.000 euro al mese supera la soglia del modello a 60 anni, ma non a 59.",
+    "Confronta valori non arrotondati, controlla gli anni intermedi e ricalcola tutti gli input collegati. Un PAC nullo futuro non dimostra che il FIRE sia già raggiunto oggi.",
+    "Rendimenti, inflazione, spese e disponibilità delle risorse possono cambiare. La prima età compatibile e gli scenari meno favorevoli non esprimono una probabilità di successo."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0004",
+    "SRC-2026-0002",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica convenzioni sulle età, formule del target, fiscalità e limiti delle proiezioni."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Ricalcola ciascuna età candidata con gli stessi input e una durata coerente."
+    },
+    {
+      "url": "/guida/pac-per-raggiungere-il-fire",
+      "label": "Calcolare il PAC per raggiungere il FIRE",
+      "reason": "Approfondisci come il patrimonio, il rendimento e i mesi disponibili determinano la rata richiesta."
+    },
+    {
+      "url": "/guida/durata-fire-longevita",
+      "label": "Durata del FIRE e orizzonte da finanziare",
+      "reason": "Distingui l’età di ingresso dalla durata e considera il limite di un’età finale ipotetica."
+    },
+    {
+      "url": "/guida/analisi-sensibilita-fire",
+      "label": "Analisi di sensibilità FIRE",
+      "reason": "Metti alla prova la soglia cambiando spese, rendimenti e altre ipotesi in modo esplicito."
+    },
+    {
+      "url": "/guida/leggere-risultati-simulatore-fire",
+      "label": "Leggere risultati e grafici del simulatore",
+      "reason": "Controlla capitale al FIRE, prelievi, residuo e avvisi dopo il confronto delle età."
+    }
+  ],
+  "cta": {
+    "title": "Confronta alcune età con un budget esplicito",
+    "text": "Definisci il risparmio sostenibile, scegli un orizzonte coerente e annota target, PAC e avvisi per ogni età. Affina il confronto negli anni intermedi e prova ipotesi meno favorevoli.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
