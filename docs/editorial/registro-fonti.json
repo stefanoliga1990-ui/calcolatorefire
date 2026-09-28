@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "updated_at": "2026-09-28",
   "next_id_by_year": {
-    "2026": 26
+    "2026": 27
   },
   "sources": [
     {
@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T18:04:54+02:00"
+        "last_accessed_at": "2026-09-28T17:05:31+00:00"
       },
       "applicability": {
         "valid_from": null,
@@ -34,13 +34,13 @@
       },
       "locator": {
         "article": null,
-        "section": "GUIDE-0021: documento completo nel checkout main, sezioni2-4,6,8-9,17-18; FireCalculator.initialContribution e FiscalAccumulationPlan.growingPac, FiscalFireCalculator e campo annualContributionGrowthRate nel frontend; confronto Python/JShell. GUIDE-0022: documenti completi; matematica2-3,6-9,11,17,19-22; fiscalita7,14-16; formule Python e FiscalFireCalculator via JShell. GUIDE-0023: Documentazione integrale; sezioni2-9,16-23; formule Python e FiscalFireCalculator.calculate via JShell. GUIDE-0024: Documento completo nel checkout main; sezioni2-8,16-18,21.4,23; FiscalFireCalculator.calculate; formule Python e verifiche JShell. GUIDE-0025: documento originale completo nel checkout main; sezioni2-10,16-24; frontend app-91e2b4c7a630.js renderAccumulationChart/renderDecumulationChart e index.html Le proiezioni; FiscalFireCalculator.calculate; verifica Python e JShell. GUIDE-0026: documento originale completo nel checkout main; sezioni2-12,16-24; frontend app-91e2b4c7a630.js enterEditMode/runFullCalculation/buildRequest; FiscalFireCalculator.calculate; formule Python e JShell.",
+        "section": "GUIDE-0021: documento completo nel checkout main, sezioni2-4,6,8-9,17-18; FireCalculator.initialContribution e FiscalAccumulationPlan.growingPac, FiscalFireCalculator e campo annualContributionGrowthRate nel frontend; confronto Python/JShell. GUIDE-0022: documenti completi; matematica2-3,6-9,11,17,19-22; fiscalita7,14-16; formule Python e FiscalFireCalculator via JShell. GUIDE-0023: Documentazione integrale; sezioni2-9,16-23; formule Python e FiscalFireCalculator.calculate via JShell. GUIDE-0024: Documento completo nel checkout main; sezioni2-8,16-18,21.4,23; FiscalFireCalculator.calculate; formule Python e verifiche JShell. GUIDE-0025: documento originale completo nel checkout main; sezioni2-10,16-24; frontend app-91e2b4c7a630.js renderAccumulationChart/renderDecumulationChart e index.html Le proiezioni; FiscalFireCalculator.calculate; verifica Python e JShell. GUIDE-0026: documento originale completo nel checkout main; sezioni2-12,16-24; frontend app-91e2b4c7a630.js enterEditMode/runFullCalculation/buildRequest; FiscalFireCalculator.calculate; formule Python e JShell. GUIDE-0027: documento integrale originale nel checkout; sezioni 2-10, 12 e 16-24, in particolare 8-10, 18.4, 21.4 e 22. Riscontro con dominio e test FiscalFireCalculatorTest.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T18:04:54+02:00",
+        "checked_at": "2026-09-28T17:05:31+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -189,6 +189,12 @@
           "claim": "GUIDE-0026: convenzioni mensili, target FINITE e PAC aggiuntivo, tassi costanti senza Monte Carlo. Elaborazione propria Python/JShell FiscalFireCalculator: eta40->50, durata25, spesa1800/mese, patrimonio e costo fiscale180000, residuo0, nessuna risorsa, inflazione/rendimenti/crescita PAC/aliquota/bollo0: target540000/PAC3000. Varianti isolate: spesa1980 target594000/PAC3450; durata30 target648000/PAC3900; accumulo2% target540000/PAC2417,712710; etaFIRE55 con durata25 target540000/PAC2000; rendimentoFIRE2% target426261,327223/PAC2052,177727. Combinata spesa1980 e durata30 target712800/PAC4440, aumento172800 diverso dalla somma isolata162000. Scarto Java fino0,0078125euro entro0,01; tabella all euro. Frontend Modifica lo scenario/Aggiorna i risultati ricalcola entrambi i risultati senza archivio dei confronti.",
           "importance": "central",
           "verified_at": "2026-09-28T18:04:54+02:00"
+        },
+        {
+          "content_id": "GUIDE-0027",
+          "claim": "GUIDE-0027: convenzioni mensili, target nominale ed equivalente di oggi, PAC aggiuntivo e distinzione tra target e proiezione personale. Esempi propri con input espliciti verificati con formule indipendenti e FiscalFireCalculator.",
+          "importance": "central",
+          "verified_at": "2026-09-28T17:05:31+00:00"
         }
       ],
       "limitations": [
@@ -201,7 +207,8 @@
         "GUIDE-0023: Scenari deterministici propri, senza imposte; il PAC nullo vale soltanto sotto gli input scelti e non prova indipendenza finanziaria attuale.",
         "GUIDE-0024: Formula Coast inversa valida per target fissato e senza flussi aggiuntivi o fiscalita; il PAC mostrato puo essere solo aggiuntivo se esistono versamenti in altre card.",
         "GUIDE-0025: curve deterministiche mensili, prive di volatilita e rischio di sequenza; risultati arrotondati agli euro, solver fiscale entro0,01euro; nessuna probabilita di successo.",
-        "GUIDE-0026: confronto didattico condizionato alle ipotesi scelte, senza previsione o probabilita di successo; non e una valutazione personale."
+        "GUIDE-0026: confronto didattico condizionato alle ipotesi scelte, senza previsione o probabilita di successo; non e una valutazione personale.",
+        "GUIDE-0027: gli esempi azzerano aliquota e bollo per isolare le voci; non rappresentano esenzione fiscale, previsione o probabilita personale. Valori visualizzati arrotondati agli euro interi."
       ],
       "conflicts": [
         {
@@ -211,7 +218,7 @@
         }
       ],
       "local_copy": null,
-      "notes": "Fonte primaria interna per la pagina metodologia. GUIDE-0018: lettura integrale nel checkout main, specifica immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03. Esempi propri: età 40, FIRE 45, durata 20 anni, spesa 1800 euro/mese, capitale iniziale/finale zero, rendimenti/inflazione/crescita PAC e rendita zero, aliquota e bollo zero, nessuna altra risorsa. Rendita 600 euro da 40 a 55 anni: 60 apporti in accumulo, 120 mesi FIRE con fabbisogno 1200 e 120 con 1800; target FINITE analitico 360000, reinvestimento 36000, PAC 5400. Senza reinvestimento PAC 6000; senza rendita target 432000 e PAC 7200; rendita senza fine target 288000 e PAC 4200. Reinvestimento parziale: due card da 240 e 360 euro, solo la prima investita in accumulo, entrambe usate nel FIRE; reinvestiti 14400, PAC 5760. Motore fiscalizzato verificato con JShell: target FINITE inferiori al valore analitico di 0,0078125 euro, PAC inferiori di 0,000130176544 euro; tabella arrotondata all’euro. SWR 0,04 temporanea: candidato 1200*120+540000=684000; target 540000, PAC 8400. Crescita/Inflazione ipotetiche: 600/(1,02)^10=492,2089799250931 euro reali; 600*(1,02)^10=731,3966519968544 euro nominali. Arrotondamento ai centesimi solo per questi valori; nessuna previsione. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile. GUIDE-0022: ricontrollata nel run editorial-20260928-13; fonte immutata e conflitto storico risolto conservato. GUIDE-0023: verificata nel run editorial-20260928-14; nessun conflitto sostanziale irrisolto. GUIDE-0024: fonte originale immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, consultata nel run editorial-20260928-16; conflitto storico risolto conservato. GUIDE-0025: verificata nel run editorial-20260928-17; nessun nuovo conflitto sostanziale irrisolto. Specifiche originali immutate; conflitto storico risolto dalla specifica fiscale prevalente. Per le pagine istituzionali non e pubblicata una data di aggiornamento verificabile. GUIDE-0026: verificata nel run editorial-20260928-18; specifiche immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, conflitto storico risolto conservato; nessun nuovo conflitto. Pagine Banca d Italia senza data di pubblicazione/aggiornamento verificabile."
+      "notes": "Fonte primaria interna per la pagina metodologia. GUIDE-0018: lettura integrale nel checkout main, specifica immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03. Esempi propri: età 40, FIRE 45, durata 20 anni, spesa 1800 euro/mese, capitale iniziale/finale zero, rendimenti/inflazione/crescita PAC e rendita zero, aliquota e bollo zero, nessuna altra risorsa. Rendita 600 euro da 40 a 55 anni: 60 apporti in accumulo, 120 mesi FIRE con fabbisogno 1200 e 120 con 1800; target FINITE analitico 360000, reinvestimento 36000, PAC 5400. Senza reinvestimento PAC 6000; senza rendita target 432000 e PAC 7200; rendita senza fine target 288000 e PAC 4200. Reinvestimento parziale: due card da 240 e 360 euro, solo la prima investita in accumulo, entrambe usate nel FIRE; reinvestiti 14400, PAC 5760. Motore fiscalizzato verificato con JShell: target FINITE inferiori al valore analitico di 0,0078125 euro, PAC inferiori di 0,000130176544 euro; tabella arrotondata all’euro. SWR 0,04 temporanea: candidato 1200*120+540000=684000; target 540000, PAC 8400. Crescita/Inflazione ipotetiche: 600/(1,02)^10=492,2089799250931 euro reali; 600*(1,02)^10=731,3966519968544 euro nominali. Arrotondamento ai centesimi solo per questi valori; nessuna previsione. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile. GUIDE-0022: ricontrollata nel run editorial-20260928-13; fonte immutata e conflitto storico risolto conservato. GUIDE-0023: verificata nel run editorial-20260928-14; nessun conflitto sostanziale irrisolto. GUIDE-0024: fonte originale immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, consultata nel run editorial-20260928-16; conflitto storico risolto conservato. GUIDE-0025: verificata nel run editorial-20260928-17; nessun nuovo conflitto sostanziale irrisolto. Specifiche originali immutate; conflitto storico risolto dalla specifica fiscale prevalente. Per le pagine istituzionali non e pubblicata una data di aggiornamento verificabile. GUIDE-0026: verificata nel run editorial-20260928-18; specifiche immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, conflitto storico risolto conservato; nessun nuovo conflitto. Pagine Banca d Italia senza data di pubblicazione/aggiornamento verificabile. GUIDE-0027: verificata nel run editorial-20260928-19; specifiche immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, conflitto storico risolto conservato. Pagina Banca d Italia senza date di pubblicazione o aggiornamento verificabili."
     },
     {
       "id": "SRC-2026-0002",
@@ -229,7 +236,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T18:04:54+02:00"
+        "last_accessed_at": "2026-09-28T17:05:31+00:00"
       },
       "applicability": {
         "valid_from": null,
@@ -241,13 +248,13 @@
       },
       "locator": {
         "article": null,
-        "section": "GUIDE-0021: documento completo nel checkout main; sezioni4-7,13-16; fiscalita azzerata negli esempi, nessuna regola tributaria esterna dichiarata. GUIDE-0022: documenti completi; matematica2-3,6-9,11,17,19-22; fiscalita7,14-16; formule Python e FiscalFireCalculator via JShell. GUIDE-0023: Documento integrale; sezioni1,5-7,14-16. GUIDE-0024: Documento completo nel checkout main; sezioni1,3-7,14-16; modello operativo fiscalizzato e impostazioni disabilitate negli esempi. GUIDE-0025: documento originale completo nel checkout main; sezioni1,4-8,13-16; esempi con FiscalSettings(0,0). GUIDE-0026: documento originale completo nel checkout main; sezioni1-8,14-16; FiscalFireCalculator.calculate e FiscalSettings.disabled.",
+        "section": "GUIDE-0021: documento completo nel checkout main; sezioni4-7,13-16; fiscalita azzerata negli esempi, nessuna regola tributaria esterna dichiarata. GUIDE-0022: documenti completi; matematica2-3,6-9,11,17,19-22; fiscalita7,14-16; formule Python e FiscalFireCalculator via JShell. GUIDE-0023: Documento integrale; sezioni1,5-7,14-16. GUIDE-0024: Documento completo nel checkout main; sezioni1,3-7,14-16; modello operativo fiscalizzato e impostazioni disabilitate negli esempi. GUIDE-0025: documento originale completo nel checkout main; sezioni1,4-8,13-16; esempi con FiscalSettings(0,0). GUIDE-0026: documento originale completo nel checkout main; sezioni1-8,14-16; FiscalFireCalculator.calculate e FiscalSettings.disabled. GUIDE-0027: documento integrale originale nel checkout; sezioni 1, 4-8 e 14-16. Riscontro con FiscalCalculationResponse.from, renderFireResults e renderPacResults.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T18:04:54+02:00",
+        "checked_at": "2026-09-28T17:05:31+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -372,6 +379,12 @@
           "claim": "GUIDE-0026: fiscalita attiva collega target, PAC e costo fiscale; aliquota e bollo modificabili e da mantenere espliciti nei confronti. Esempi con fiscalita0% disattivata per isolare effetti, non rappresentano la tassazione reale. Formula semplice non estesa ai casi fiscalizzati.",
           "importance": "central",
           "verified_at": "2026-09-28T18:04:54+02:00"
+        },
+        {
+          "content_id": "GUIDE-0027",
+          "claim": "GUIDE-0027: costo fiscale e plusvalenza latente, prima vendita lorda e ricavo netto del target, bollo e imposte totali della proiezione personale; saldo finale di mercato senza liquidazione integrale. Fiscalita descritta esclusivamente come modello, non come normativa vigente.",
+          "importance": "central",
+          "verified_at": "2026-09-28T17:05:31+00:00"
         }
       ],
       "limitations": [
@@ -383,7 +396,8 @@
         "GUIDE-0023: La rendita lavorativa e un input netto ipotetico: il motore non calcola imposte o diritti personali.",
         "GUIDE-0024: La scorciatoia del target scontato non e una soluzione completa del motore fiscale; gli esempi zero non descrivono esenzione fiscale.",
         "GUIDE-0025: descrive soltanto il modello, senza aliquote vigenti, regimi personali o fiscalita specifica delle rendite; azzeramento negli esempi didattici.",
-        "GUIDE-0026: confronto didattico condizionato alle ipotesi scelte, senza previsione o probabilita di successo; non e una valutazione personale."
+        "GUIDE-0026: confronto didattico condizionato alle ipotesi scelte, senza previsione o probabilita di successo; non e una valutazione personale.",
+        "GUIDE-0027: gli esempi azzerano aliquota e bollo per isolare le voci; non rappresentano esenzione fiscale, previsione o probabilita personale. Valori visualizzati arrotondati agli euro interi."
       ],
       "conflicts": [
         {
@@ -393,7 +407,7 @@
         }
       ],
       "local_copy": null,
-      "notes": "Specifica interna consultata integralmente nel checkout; formule riconciliate con FiscalCalculator.java e FiscalPortfolioState.java. Esempi GUIDE-0015: p=max(0,B-F)/B; G=D/(1-tau*p); T=G*p*tau; F residuo=F*(1-G/B). B=240000, D=1500, tau=0.26, F=240000/144000/60000/260000; rendimenti, bollo, apporti e rendite zero, un mese, euro nominali. Arrotondamento espositivo ai centesimi. Con F=144000: G=1674.107142857143, T=174.107142857143, saldo=238325.89285714286, F residuo=142995.5357142857. Esempio accumulo: B=240000, F=144000, rendimento mensile=0.005, versamento=1000, bollo zero; saldo finale=242200, F finale=145000. Nessuna previsione o imposta personale. GUIDE-0016: intera specifica letta, riscontrata in FiscalCalculator.java, FiscalAccumulationProjector.java e FiscalFireCalculator.java. b_a=0.002, b_m=0.00016681963994558124; B=300000 senza rendimento/inflazione/movimenti, saldo dopo 12 mesi=299400 e dopo 360 mesi=282512.38618727017. Primo mese accumulo, PAC=1000: bollo=50.21271162361995, saldo=300949.78728837636, costo fiscale da 300000 a 301000. Primo mese decumulo, netto=1500 e imposta plusvalenze=0: bollo=49.795662523756, saldo=298450.2043374762, costo fiscale=298500. Euro nominali, arrotondamento espositivo ai centesimi, nessuna previsione. SWR base non aggiunge il bollo al primo prelievo; bollo presente in accumulo e proiezione. FINITE include bollo nel risolutore mensile. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile. GUIDE-0022: ricontrollata nel run editorial-20260928-13; fonte immutata e conflitto storico risolto conservato. GUIDE-0023: verificata nel run editorial-20260928-14; nessun conflitto sostanziale irrisolto. GUIDE-0024: fonte originale immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, consultata nel run editorial-20260928-16; conflitto storico risolto conservato. GUIDE-0025: verificata nel run editorial-20260928-17; nessun nuovo conflitto sostanziale irrisolto. Specifiche originali immutate; conflitto storico risolto dalla specifica fiscale prevalente. Per le pagine istituzionali non e pubblicata una data di aggiornamento verificabile. GUIDE-0026: verificata nel run editorial-20260928-18; specifiche immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, conflitto storico risolto conservato; nessun nuovo conflitto. Pagine Banca d Italia senza data di pubblicazione/aggiornamento verificabile."
+      "notes": "Specifica interna consultata integralmente nel checkout; formule riconciliate con FiscalCalculator.java e FiscalPortfolioState.java. Esempi GUIDE-0015: p=max(0,B-F)/B; G=D/(1-tau*p); T=G*p*tau; F residuo=F*(1-G/B). B=240000, D=1500, tau=0.26, F=240000/144000/60000/260000; rendimenti, bollo, apporti e rendite zero, un mese, euro nominali. Arrotondamento espositivo ai centesimi. Con F=144000: G=1674.107142857143, T=174.107142857143, saldo=238325.89285714286, F residuo=142995.5357142857. Esempio accumulo: B=240000, F=144000, rendimento mensile=0.005, versamento=1000, bollo zero; saldo finale=242200, F finale=145000. Nessuna previsione o imposta personale. GUIDE-0016: intera specifica letta, riscontrata in FiscalCalculator.java, FiscalAccumulationProjector.java e FiscalFireCalculator.java. b_a=0.002, b_m=0.00016681963994558124; B=300000 senza rendimento/inflazione/movimenti, saldo dopo 12 mesi=299400 e dopo 360 mesi=282512.38618727017. Primo mese accumulo, PAC=1000: bollo=50.21271162361995, saldo=300949.78728837636, costo fiscale da 300000 a 301000. Primo mese decumulo, netto=1500 e imposta plusvalenze=0: bollo=49.795662523756, saldo=298450.2043374762, costo fiscale=298500. Euro nominali, arrotondamento espositivo ai centesimi, nessuna previsione. SWR base non aggiunge il bollo al primo prelievo; bollo presente in accumulo e proiezione. FINITE include bollo nel risolutore mensile. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile. GUIDE-0022: ricontrollata nel run editorial-20260928-13; fonte immutata e conflitto storico risolto conservato. GUIDE-0023: verificata nel run editorial-20260928-14; nessun conflitto sostanziale irrisolto. GUIDE-0024: fonte originale immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, consultata nel run editorial-20260928-16; conflitto storico risolto conservato. GUIDE-0025: verificata nel run editorial-20260928-17; nessun nuovo conflitto sostanziale irrisolto. Specifiche originali immutate; conflitto storico risolto dalla specifica fiscale prevalente. Per le pagine istituzionali non e pubblicata una data di aggiornamento verificabile. GUIDE-0026: verificata nel run editorial-20260928-18; specifiche immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, conflitto storico risolto conservato; nessun nuovo conflitto. Pagine Banca d Italia senza data di pubblicazione/aggiornamento verificabile. GUIDE-0027: verificata nel run editorial-20260928-19; specifiche immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, conflitto storico risolto conservato. Pagina Banca d Italia senza date di pubblicazione o aggiornamento verificabili."
     },
     {
       "id": "SRC-2026-0003",
@@ -956,7 +970,7 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-25T22:57:33+02:00",
-        "last_accessed_at": "2026-09-28T18:04:54+02:00"
+        "last_accessed_at": "2026-09-28T17:05:31+00:00"
       },
       "applicability": {
         "valid_from": null,
@@ -968,13 +982,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Pagina completa consultata sul sito originale; Rendimento, Rischio, Tempo e Attenzione ai costi. GUIDE-0023: Pagina integrale originale; Rendimento, Rischio, Tempo, Attenzione ai costi. GUIDE-0024: Pagina originale integrale, sezioni Rendimento: cos e e come misurarlo (interesse composto), Rischio, Tempo e Attenzione ai costi. GUIDE-0025: pagina originale integrale; Rendimento, Rischio, Tempo e Attenzione ai costi. GUIDE-0026: pagina originale integrale; Rendimento, Rischio, Tempo e Attenzione ai costi.",
+        "section": "Pagina completa consultata sul sito originale; Rendimento, Rischio, Tempo e Attenzione ai costi. GUIDE-0023: Pagina integrale originale; Rendimento, Rischio, Tempo, Attenzione ai costi. GUIDE-0024: Pagina originale integrale, sezioni Rendimento: cos e e come misurarlo (interesse composto), Rischio, Tempo e Attenzione ai costi. GUIDE-0025: pagina originale integrale; Rendimento, Rischio, Tempo e Attenzione ai costi. GUIDE-0026: pagina originale integrale; Rendimento, Rischio, Tempo e Attenzione ai costi. GUIDE-0027: pagina originale integrale consultata; Rendimento, Rischio, Tempo e Attenzione ai costi.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T18:04:54+02:00",
+        "checked_at": "2026-09-28T17:05:31+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -1069,6 +1083,12 @@
           "claim": "GUIDE-0026: rendimenti futuri incerti, perdita di capitale possibile, inflazione inattesa, ruolo di tempo e costi. Tassi degli esempi ipotetici, senza previsione o probabilita di successo.",
           "importance": "central",
           "verified_at": "2026-09-28T18:04:54+02:00"
+        },
+        {
+          "content_id": "GUIDE-0027",
+          "claim": "GUIDE-0027: rendimenti futuri incerti, possibile perdita di capitale, inflazione e costi possono cambiare il risultato reale; la curva deterministica non esprime una probabilita di successo.",
+          "importance": "central",
+          "verified_at": "2026-09-28T17:05:31+00:00"
         }
       ],
       "limitations": [
@@ -1079,11 +1099,12 @@
         "GUIDE-0023: Educazione generale, senza previsione del rendimento o probabilita di successo di un percorso Coast.",
         "GUIDE-0024: Fonte educativa generale, senza formula Coast, rendimento futuro consigliato o probabilita di successo.",
         "GUIDE-0025: educazione finanziaria generale, senza tassi futuri raccomandati o strategia personalizzata.",
-        "GUIDE-0026: confronto didattico condizionato alle ipotesi scelte, senza previsione o probabilita di successo; non e una valutazione personale."
+        "GUIDE-0026: confronto didattico condizionato alle ipotesi scelte, senza previsione o probabilita di successo; non e una valutazione personale.",
+        "GUIDE-0027: gli esempi azzerano aliquota e bollo per isolare le voci; non rappresentano esenzione fiscale, previsione o probabilita personale. Valori visualizzati arrotondati agli euro interi."
       ],
       "conflicts": [],
       "local_copy": null,
-      "notes": "Consultata integralmente sul sito istituzionale; nessun conflitto rilevante con le fonti del motore. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile. GUIDE-0023: verificata nel run editorial-20260928-14; nessun conflitto sostanziale irrisolto. GUIDE-0024: verificata nel run editorial-20260928-16; nessun nuovo conflitto sostanziale irrisolto. Primo open web istituzionale in errore interno, secondo accesso riuscito con pagina completa; nessun aggiramento. GUIDE-0025: verificata nel run editorial-20260928-17; nessun nuovo conflitto sostanziale irrisolto. Specifiche originali immutate; conflitto storico risolto dalla specifica fiscale prevalente. Per le pagine istituzionali non e pubblicata una data di aggiornamento verificabile. GUIDE-0026: verificata nel run editorial-20260928-18; specifiche immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, conflitto storico risolto conservato; nessun nuovo conflitto. Pagine Banca d Italia senza data di pubblicazione/aggiornamento verificabile."
+      "notes": "Consultata integralmente sul sito istituzionale; nessun conflitto rilevante con le fonti del motore. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile. GUIDE-0023: verificata nel run editorial-20260928-14; nessun conflitto sostanziale irrisolto. GUIDE-0024: verificata nel run editorial-20260928-16; nessun nuovo conflitto sostanziale irrisolto. Primo open web istituzionale in errore interno, secondo accesso riuscito con pagina completa; nessun aggiramento. GUIDE-0025: verificata nel run editorial-20260928-17; nessun nuovo conflitto sostanziale irrisolto. Specifiche originali immutate; conflitto storico risolto dalla specifica fiscale prevalente. Per le pagine istituzionali non e pubblicata una data di aggiornamento verificabile. GUIDE-0026: verificata nel run editorial-20260928-18; specifiche immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, conflitto storico risolto conservato; nessun nuovo conflitto. Pagine Banca d Italia senza data di pubblicazione/aggiornamento verificabile. GUIDE-0027: verificata nel run editorial-20260928-19; specifiche immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03, conflitto storico risolto conservato. Pagina Banca d Italia senza date di pubblicazione o aggiornamento verificabili."
     },
     {
       "status": "approved",
@@ -1925,6 +1946,68 @@
       "conflicts": [],
       "local_copy": null,
       "notes": "Consultata integralmente sul sito originale nel run editorial-20260928-18. Nessun conflitto sostanziale con le specifiche; distinta analisi locale manuale da analisi globale."
+    },
+    {
+      "id": "SRC-2026-0026",
+      "status": "approved",
+      "level": "A",
+      "type": "other",
+      "title": "Calcolo FIRE Italia — implementazione della schermata risultati e dei grafici",
+      "responsible_entity": "Calcolo FIRE Italia",
+      "authors": [
+        "Stefano Liga"
+      ],
+      "url": "https://github.com/stefanoliga1990-ui/calcolatorefire/blob/62bd01b960c43530e2d49cbd01b68bc8a1c35362/src/main/resources/static/app-91e2b4c7a630.js",
+      "persistent_identifier": "62bd01b960c43530e2d49cbd01b68bc8a1c35362",
+      "dates": {
+        "published": null,
+        "updated": null,
+        "first_accessed_at": "2026-09-28T17:05:31+00:00",
+        "last_accessed_at": "2026-09-28T17:05:31+00:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-28",
+        "reference_period": "Implementazione dei risultati verificata nel checkout main, base 180396070a3fa10167eae7cceea479a74f83689d",
+        "version": "62bd01b960c43530e2d49cbd01b68bc8a1c35362",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Funzioni complete renderFireResults, renderPacResults, renderAdditionalResourcesResult, renderAccumulationChart, renderDecumulationChart, createProjectionChart e money; currency; voci di aiuto dei risultati. Riscontro con index.html, FiscalCalculationResponse.from e test di compatibilita e prime vendite di FiscalFireCalculatorTest.",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-28T17:05:31+00:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0027",
+          "claim": "I risultati monetari sono arrotondati agli euro interi. Target e prima vendita usano la proiezione del target; residuo e fiscalita totale quella personale. Nuovi versamenti nominali somma i contribution del portafoglio principale. Capitale versato del grafico somma saldi iniziali, contribution e netInflows dei soli portafogli disponibili; Prelievi netti cumulati somma netProceeds personali, senza rendite o imposte. Grafici nominali esplorabili con puntatore e frecce; legenda cambia visibilita e scala, non scenario.",
+          "importance": "central",
+          "verified_at": "2026-09-28T17:05:31+00:00"
+        }
+      ],
+      "limitations": [
+        "Fonte primaria soltanto per il comportamento del progetto, non per norme, rendimenti futuri o consulenza personale.",
+        "Accesso completo alle funzioni pertinenti nel checkout originale; la fonte GitHub e il codice versionato, non il sito pubblico. Nessuna verifica del deployment.",
+        "Le voci di aiuto storiche possono riportare formule senza fiscalita; per gli output prevalgono i valori fiscal usati dai renderer e la specifica fiscale."
+      ],
+      "conflicts": [
+        {
+          "source_id": "SRC-2026-0002",
+          "status": "resolved",
+          "resolution": "Il testo di aiuto SWR richiama la formula sulla spesa; renderFireResults usa invece fiscal.target. La guida descrive la vendita lorda e il risultato fiscale corrente secondo la specifica dedicata, senza modificare interfaccia o formule."
+        }
+      ],
+      "local_copy": null,
+      "notes": "Consultate integralmente le funzioni pertinenti nel run editorial-20260928-19 e i template risultati/grafici; codice immutato al commit indicato. Esempi propri Python e JShell: FINITE eta40->50, durata25, spesa1800, capitale/costo fiscale180000, residuo0, nessuna risorsa, rendimenti/inflazione/crescita/aliquota/bollo0: target540000/PAC3000, versamenti360000, prima vendita/netto1800, imposte0, accumulo180000->540000, capitale versato540000, decumulo540000->0/prelievi netti cumulati540000. Con capitale700000: PAC0/residuo160000. Con PAC esistente distinto, capitale0,500 al mese da40 a50, tassi0, disponibile: nuovi PAC2500, nuovi versamenti300000, esistente60000, capitale versato aggregato540000. SWR4%, durata30, altri input base: target540000/PAC3000, primo shortfall mese301. Inflazione e rendimento FIRE2%, rendimento accumulo0, resto base: fattore1.02^10=1.2189944199947573, target nominale658256.986797169/euro oggi540000, PAC3985.474889976408, prima vendita2194.1899559905632. Formula euro oggi=nominale/1.02^10. Display agli euro interi; Java FINITE scarto massimo0.0078125 euro, tolleranza0.01 euro. Nessuna probabilita o previsione, aliquote degli esempi azzerate come semplificazione."
     }
   ]
 }

@@ -1,0 +1,69 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0027",
+  "slug": "/guida/leggere-risultati-simulatore-fire",
+  "seo": {
+    "title": "Come leggere risultati e grafici del simulatore FIRE",
+    "description": "Interpreta target, PAC, vendite, imposte e saldo finale del simulatore FIRE. Esempi verificati per distinguere euro nominali, valori di oggi e grafici.",
+    "og_title": "Risultati del simulatore FIRE: una lettura guidata",
+    "og_description": "Distingui obiettivo, nuovi versamenti, capitale versato e prelievi netti cumulati. Esempi per leggere unità, residuo personale e avvisi SWR."
+  },
+  "page": {
+    "kicker": "Uso del simulatore FIRE",
+    "h1": "Come leggere risultati e grafici del simulatore FIRE",
+    "lead": "Il target indica il capitale necessario all’ingresso nel FIRE; il PAC è il primo versamento mensile aggiuntivo per raggiungerlo. Il saldo finale riguarda invece la proiezione del patrimonio personale. Leggi questi numeri con le loro unità e insieme a vendite, imposte e avvisi: i grafici descrivono uno scenario condizionato alle ipotesi, senza garantire il piano."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "Target nominale ed equivalente in euro di oggi descrivono lo stesso capitale: non si sommano.",
+    "Il PAC mostrato è la prima rata aggiuntiva; i versamenti già programmati nelle risorse restano parte del budget.",
+    "Nuovi versamenti nominali riguarda il PAC principale; Capitale versato nel grafico comprende anche capitale iniziale e apporti disponibili.",
+    "La prima vendita e il costo fiscale del target riguardano l’obiettivo; residuo e fiscalità totale usano la proiezione personale.",
+    "I grafici mostrano euro nominali; Prelievi netti cumulati somma ricavi dalle vendite, senza rendite esterne o imposte.",
+    "Il saldo finale zero richiede una lettura degli avvisi: un prelievo scoperto è diverso dall’esaurimento esatto al termine.",
+    "Valori arrotondati e tassi costanti non esprimono una probabilità di successo né una disponibilità di risparmio."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0026",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica unità temporali, convenzioni dei flussi e limiti delle proiezioni."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Riproduci gli esempi e confronta riquadri, grafici e avvisi del tuo scenario."
+    },
+    {
+      "url": "/guida/capitale-investito-pac-esistente",
+      "label": "Patrimonio e PAC già esistenti",
+      "reason": "Distingui il nuovo PAC dai versamenti delle risorse già programmate."
+    },
+    {
+      "url": "/guida/accumulo-decumulo-fire",
+      "label": "Accumulo e decumulo nel FIRE",
+      "reason": "Approfondisci l’ordine dei movimenti nelle due fasi del piano."
+    },
+    {
+      "url": "/guida/analisi-sensibilita-fire",
+      "label": "Analisi di sensibilità FIRE",
+      "reason": "Confronta i risultati dopo aver cambiato una variabile alla volta."
+    }
+  ],
+  "cta": {
+    "title": "Controlla le voci del tuo scenario",
+    "text": "Annota target nelle due unità, nuovo PAC e rate già programmate. Confronta capitale versato, saldo finale e avvisi; ricalcola se cambi un input.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

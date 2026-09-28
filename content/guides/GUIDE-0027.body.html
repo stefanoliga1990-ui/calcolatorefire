@@ -1,0 +1,92 @@
+<section class="content-section" id="ordine-lettura" aria-labelledby="ordine-lettura-title">
+    <h2 id="ordine-lettura-title">Leggi prima obiettivo, versamento e unità</h2>
+    <p>Il risultato FIRE indica quanto capitale serve all'ingresso nella fase di prelievo secondo il metodo scelto. Il risultato PAC indica il primo versamento mensile aggiuntivo necessario per costruirlo. Il patrimonio residuo mostra dove termina la proiezione personale: sono tre risposte diverse.</p>
+    <ol>
+        <li>Controlla il metodo indicato nel riquadro dell'obiettivo: durata finita oppure SWR, il tasso iniziale di prelievo annuo.</li>
+        <li>Leggi il patrimonio necessario insieme al suo equivalente in euro di oggi.</li>
+        <li>Controlla il PAC mensile iniziale, gli anni disponibili e l'eventuale crescita programmata dei versamenti.</li>
+        <li>Passa a vendita, imposte, patrimonio residuo e grafici per capire come si forma il risultato.</li>
+    </ol>
+    <p>Questa sequenza segue i riquadri effettivi della schermata, verificati nell'<a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/62bd01b960c43530e2d49cbd01b68bc8a1c35362/src/main/resources/static/app-91e2b4c7a630.js" data-source-id="SRC-2026-0026">implementazione dei risultati del simulatore</a>. Le cifre visualizzate sono arrotondate agli euro interi; i calcoli conservano una precisione maggiore. Un euro di differenza fra somme arrotondate può dipendere dalla visualizzazione.</p>
+</section>
+
+<section class="content-section" id="target-unita" aria-labelledby="target-unita-title">
+    <h2 id="target-unita-title">Il target è un capitale futuro, il PAC è un flusso mensile</h2>
+    <p>Il <strong>Patrimonio necessario all'ingresso nel FIRE</strong> è espresso in euro nominali al momento dell'età FIRE. La cifra sottostante, in euro di oggi, rappresenta lo stesso capitale dopo aver rimosso l'inflazione ipotizzata fino a quel momento. Non sono due patrimoni da sommare.</p>
+    <p>Per esempio, con dieci anni di accumulo e inflazione annua del 2%, un target nominale di circa 658.257 euro corrisponde a 540.000 euro di oggi. La conversione è un'elaborazione propria secondo la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 4 e 21.4</a>:</p>
+    <pre class="formula"><code>target in euro di oggi = target nominale / (1 + inflazione annua)^anni prima del FIRE
+540.000 ≈ 658.257 / 1,02^10</code></pre>
+    <p>Il <strong>Target a durata finita</strong> finanzia l'orizzonte impostato e il capitale finale richiesto, alle condizioni del modello. Il <strong>Target secondo la SWR</strong> usa un criterio sul prelievo iniziale; il suo valore non certifica che tutti i mesi successivi siano coperti. La schermata mostra soltanto il metodo selezionato. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezione 7</a>, chiarisce che con imposte attive la SWR considera la vendita lorda necessaria, mentre durata finita e PAC vengono risolti congiuntamente.</p>
+    <p>Il <strong>PAC mensile iniziale</strong> è invece un importo al mese: indica la prima rata dei nuovi versamenti. Se hai impostato una crescita del PAC, le rate successive cambiano. Se hai già inserito un PAC in una risorsa aggiuntiva, la rata mostrata si aggiunge a quei versamenti già programmati. Approfondisci la distinzione nella guida su <a href="/guida/capitale-investito-pac-esistente">patrimonio e PAC esistenti</a>.</p>
+</section>
+
+<section class="content-section" id="vendita-fiscalita" aria-labelledby="vendita-fiscalita-title">
+    <h2 id="vendita-fiscalita-title">Vendita lorda, netto e imposte descrivono passaggi distinti</h2>
+    <p>La <strong>Prima vendita mensile dal portafoglio</strong> è l'importo lordo richiesto per ottenere il fabbisogno del primo mese dopo le rendite inserite e l'imposta stimata sulla vendita. Il dettaglio mostra il ricavo netto e l'imposta. Quel netto proviene dal portafoglio: se una rendita finanzia parte delle spese, non rappresenta da solo tutta la spesa mensile.</p>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th scope="col">Voce nella schermata</th><th scope="col">Come interpretarla</th></tr></thead>
+            <tbody>
+                <tr><th scope="row">Costo fiscale del target al FIRE</th><td>Quota di costo fiscale attribuita al capitale target. Serve al modello per separare capitale investito e guadagno nelle vendite.</td></tr>
+                <tr><th scope="row">Plusvalenza latente del target</th><td>Differenza positiva fra valore del target e suo costo fiscale. È un guadagno non ancora realizzato; non è l'imposta dovuta.</td></tr>
+                <tr><th scope="row">Imposta sulla prima vendita</th><td>Stima sulla componente di plusvalenza della prima vendita nella proiezione del target.</td></tr>
+                <tr><th scope="row">Fiscalità totale stimata</th><td>Somma del bollo dell'accumulo, del bollo nel FIRE e delle imposte sulle vendite nella proiezione personale.</td></tr>
+                <tr><th scope="row">Bollo stimato in accumulo</th><td>Parte della fiscalità totale relativa alla fase precedente al FIRE. Non va aggiunta una seconda volta al totale.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>La provenienza delle voci è verificata nei renderer dell'<a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/62bd01b960c43530e2d49cbd01b68bc8a1c35362/src/main/resources/static/app-91e2b4c7a630.js" data-source-id="SRC-2026-0026">interfaccia dei risultati</a> e nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 4–8 e 15</a>. Prima vendita e costo fiscale del target descrivono il capitale obiettivo; residuo e fiscalità totale descrivono il patrimonio personale effettivamente proiettato. Se quest'ultimo supera il target, non ricostruire i totali moltiplicando la prima imposta per il numero di mesi.</p>
+    <p>Queste sono definizioni del modello semplificato. Il totale non comprende tutta la fiscalità personale: le rendite sono input già netti e il motore non calcola dichiarazioni, compensazioni di minusvalenze o imposte di successione. Le regole del modello non stabiliscono il trattamento fiscale di un investimento specifico.</p>
+</section>
+
+<section class="content-section" id="serie-grafici" aria-labelledby="serie-grafici-title">
+    <h2 id="serie-grafici-title">Le linee dei grafici non sono quattro saldi da sommare</h2>
+    <p>I grafici usano euro nominali sull'asse verticale ed età sull'asse orizzontale. Per leggere un punto, passa con il puntatore o tocca il grafico; da tastiera porta il focus sul grafico con Tab e usa le frecce. I pulsanti della legenda nascondono o mostrano una serie e possono cambiare la scala visibile, senza cambiare lo scenario.</p>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th scope="col">Grafico e serie</th><th scope="col">Che cosa misura</th></tr></thead>
+            <tbody>
+                <tr><th scope="row">Accumulo — Patrimonio</th><td>Saldo aggregato dei portafogli disponibili al FIRE, con rendimenti, apporti e bollo stimato.</td></tr>
+                <tr><th scope="row">Accumulo — Capitale versato</th><td>Capitale iniziale degli stessi portafogli più versamenti e afflussi netti cumulati. Comprende anche risorse reinvestite e capitali ricevuti, quando presenti nei portafogli disponibili.</td></tr>
+                <tr><th scope="row">Decumulo — Patrimonio</th><td>Saldo personale rimasto dopo i movimenti del mese, imposte e bollo del modello.</td></tr>
+                <tr><th scope="row">Decumulo — Prelievi netti cumulati</th><td>Somma dei ricavi netti effettivamente ottenuti dalle vendite fino a quel punto. Non include le rendite esterne né le imposte pagate.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Queste definizioni seguono le funzioni complete di <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/62bd01b960c43530e2d49cbd01b68bc8a1c35362/src/main/resources/static/app-91e2b4c7a630.js" data-source-id="SRC-2026-0026">costruzione dei grafici di accumulo e decumulo</a>. In particolare, <strong>Capitale versato</strong> nel grafico è più ampio di <strong>Nuovi versamenti nominali</strong> nel riquadro PAC, che somma soltanto le rate del portafoglio principale. Un investimento non disponibile al FIRE può avere una propria proiezione nella card, ma resta escluso dal grafico aggregato del piano.</p>
+    <p>I prelievi cumulati crescono perché sommano denaro già ottenuto dal portafoglio; non indicano capitale ancora disponibile. Il saldo zero indica assenza di patrimonio a quel punto, ma per sapere se una spesa è rimasta scoperta occorre leggere anche l'avviso sul primo prelievo non interamente coperto. La guida su <a href="/guida/accumulo-decumulo-fire">accumulo e decumulo</a> approfondisce l'ordine dei movimenti.</p>
+</section>
+
+<section class="content-section" id="esempio-riconciliazione" aria-labelledby="esempio-riconciliazione-title">
+    <h2 id="esempio-riconciliazione-title">Un esempio per riconciliare riquadri e linee</h2>
+    <p>Elaborazione propria: età attuale 40 anni, FIRE a 50, durata finita di 25 anni, spesa di oggi 1.800 euro al mese, patrimonio principale e costo fiscale di 180.000 euro, capitale finale richiesto zero, nessuna risorsa aggiuntiva. Inflazione, rendimenti delle due fasi, crescita del PAC, aliquota sulle plusvalenze e bollo sono tutti zero. L'azzeramento fiscale è una semplificazione didattica.</p>
+    <pre class="formula"><code>mesi di accumulo = 10 × 12 = 120
+mesi FIRE = 25 × 12 = 300
+target = 1.800 × 300 = 540.000 euro
+nuovo PAC = (540.000 − 180.000) / 120 = 3.000 euro al mese
+nuovi versamenti nominali = 3.000 × 120 = 360.000 euro</code></pre>
+    <p>Il target nominale e quello in euro di oggi coincidono perché l'inflazione è zero. Prima vendita e netto sono entrambi 1.800 euro; imposta e bollo sono zero. Il grafico di accumulo parte da 180.000 euro e termina a 540.000: anche <strong>Capitale versato</strong> termina a 540.000, perché comprende i 180.000 iniziali. Nel decumulo il patrimonio termina a zero e i prelievi netti cumulati arrivano a 540.000 euro.</p>
+    <p>Le formule sono riconciliate con la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 6, 8 e 9</a> e con il motore fiscale Java ad aliquota e bollo zero. Lo scarto numerico del risolutore resta inferiore a un centesimo; i risultati qui sono arrotondati agli euro, come nella schermata.</p>
+    <h3 id="esempio-pac-esistente">Se aggiungi un PAC già programmato</h3>
+    <p>Lascia invariata la base e aggiungi una risorsa investimento distinta, con patrimonio e costo fiscale iniziali zero, PAC di 500 euro al mese da 40 a 50 anni, crescita e rendimento zero, disponibile al FIRE. Produce 60.000 euro. Il nuovo PAC richiesto scende a 2.500 euro al mese e <strong>Nuovi versamenti nominali</strong> diventa 300.000 euro. La serie <strong>Capitale versato</strong> termina ancora a 540.000: 180.000 iniziali + 300.000 di nuovo PAC + 60.000 del PAC esistente. Nel budget, l'impegno iniziale complessivo dei due PAC resta 3.000 euro al mese.</p>
+    <h3 id="esempio-inflazione">Se confronti valori futuri e valori di oggi</h3>
+    <p>Riparti dalla base senza risorse e porta inflazione e rendimento FIRE al 2%, lasciando rendimento in accumulo e tutti gli altri parametri invariati. Il target diventa circa 658.257 euro nominali, equivalenti a 540.000 euro di oggi; il primo prelievo è circa 2.194 euro e il PAC iniziale circa 3.985 euro al mese. I due target esprimono lo stesso obiettivo in unità temporali diverse. I tassi di questo esempio sono ipotesi matematiche, non rendimenti consigliati.</p>
+</section>
+
+<section class="content-section" id="residuo-avvisi" aria-labelledby="residuo-avvisi-title">
+    <h2 id="residuo-avvisi-title">Il residuo personale può superare quello richiesto</h2>
+    <p>Il <strong>Patrimonio residuo stimato a fine FIRE</strong> usa il capitale personale disponibile, che può essere maggiore del target. Riprendendo la base dell'esempio ma con patrimonio iniziale e costo fiscale di 700.000 euro, il target resta circa 540.000, il PAC è zero e il residuo personale è 160.000 euro: 700.000 meno 300 prelievi da 1.800. Il capitale finale richiesto zero è un vincolo del metodo a durata finita, non un ordine di consumare tutto il patrimonio.</p>
+    <p>Il residuo è un valore di mercato nominale lasciato investito. Non è una somma netta dopo la liquidazione dell'intero portafoglio o un'eredità netta: il confine finale non simula quelle operazioni, come precisa la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezione 7.1</a>.</p>
+    <p>Per leggere un avviso SWR, riparti dalla base con patrimonio di 180.000 euro, scegli SWR al 4% ed estendi la durata a 30 anni, mantenendo tassi e fiscalità zero. Target e PAC sono 540.000 euro e 3.000 euro al mese, ma il primo prelievo non interamente coperto è il mese FIRE 301. I primi 300 mesi consumano tutto il capitale; i successivi richiedono risorse assenti nello scenario. Il saldo finale zero, da solo, non distingue questo caso dal precedente esempio a durata finita di 25 anni.</p>
+    <p>L'avviso riguarda la proiezione personale e conta i mesi dall'ingresso nel FIRE, non dall'inizio dell'accumulo. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica delle proiezioni</a> e il <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/62bd01b960c43530e2d49cbd01b68bc8a1c35362/src/main/resources/static/app-91e2b4c7a630.js" data-source-id="SRC-2026-0026">renderer dell'avviso</a> sostengono questa lettura.</p>
+</section>
+
+<section class="content-section" id="limiti-operativi" aria-labelledby="limiti-operativi-title">
+    <h2 id="limiti-operativi-title">Una curva regolare non misura la sicurezza del piano</h2>
+    <p>Il simulatore applica le ipotesi inserite su un calendario mensile. Non produce percorsi casuali, probabilità di successo o una sequenza reale di rendimenti. Anche un risultato senza avvisi resta condizionato agli input. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia, nelle sezioni su rischio e costi degli investimenti</a>, ricorda che i rendimenti futuri sono incerti, il capitale può subire perdite e inflazione e costi possono ridurre il risultato reale.</p>
+    <aside class="content-notice warning" aria-labelledby="limite-piano-title">
+        <h3 id="limite-piano-title">Il PAC calcolato va confrontato con il budget</h3>
+        <p>Il motore trova un versamento necessario nello scenario; non verifica quanto puoi risparmiare. Se la prima rata o la crescita prevista non sono sostenibili per il budget, il numero calcolato non dimostra che il piano sia realizzabile.</p>
+    </aside>
+    <p>Apri la <a href="/metodologia">metodologia</a> per verificare formule e semplificazioni. Nel <a href="/">simulatore FIRE</a>, annota metodo, orizzonte, target nelle due unità, nuovo PAC e versamenti già programmati; poi controlla netto, residuo e avvisi. Per capire quanto la conclusione dipende dalle ipotesi, usa la procedura della guida sull'<a href="/guida/analisi-sensibilita-fire">analisi di sensibilità</a> e ricalcola dopo ogni modifica dello scenario.</p>
+</section>
