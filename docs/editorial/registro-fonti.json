@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T07:49:19+02:00"
+        "last_accessed_at": "2026-09-28T07:50:42+00:00"
       },
       "applicability": {
         "valid_from": null,
@@ -34,13 +34,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Documento completo; sezioni 16-23 e 24.2, 24.4, 24.6; riscontro in PeriodicIncome.java, FireCalculator.periodicIncomeAt e fireCashFlows, campi della card PERIODIC_INCOME in app-91e2b4c7a630.js.",
+        "section": "Documento completo; sezioni 2, 4, 8, 16–23 e 24.6; riscontro in FutureLumpSum, FireCalculator, FiscalFireCalculator, test FutureLumpSum e card Capitale futuro in app-91e2b4c7a630.js; esempi verificati via JShell.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T07:49:19+02:00",
+        "checked_at": "2026-09-28T07:50:42+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -141,11 +141,18 @@
           "claim": "Sezioni 16-23: importo netto in euro di oggi, intervallo iniziale incluso e finale escluso, crescita dal mese zero, rendita reinvestita a fine mese, riduzione del fabbisogno FIRE, eccedenza esclusa e differenza tra FINITE e SWR; esempi propri e reinvestimento parziale tramite due flussi disgiunti.",
           "importance": "central",
           "verified_at": "2026-09-28T07:49:19+02:00"
+        },
+        {
+          "content_id": "GUIDE-0019",
+          "claim": "GUIDE-0019: TODAY rivalutato all’incasso e NOMINAL fisso; somma disponibile al confine di ricezione; rendimento proprio solo fino al FIRE; entro FIRE riduce Gap / PAC, durante FIRE prima del prelievo, al confine finale dopo ultimo rendimento. Esempi propri verificati via JShell con motore fiscale entro 0,01 euro: età 40 → 50, FIRE 20 anni, spesa 1500 euro, capitale iniziale e terminale zero, altre risorse assenti, tassi e fiscalità zero. FINITE senza somma target 360000 / PAC 3000; 60000 a 45 o 50 target 360000 / PAC 2500; a 55 target 300000 / PAC 2500; 400000 a 55 target 90000 / PAC 750 / finale 130000. SWR 4%: 60000 a 50 target 450000 / PAC 3250; a 55 min(450000,90000+450000-60000) = 450000 / PAC 3750. Arrotondamento tabella all’euro. Con inflazione 2% ipotetica, 60000 TODAY fra 10 anni = 73139,67 nominali; 60000 NOMINAL = 49220,90 oggi. 60000 ricevuti a 45 investiti al 3% fino 50 = 69556,44 prima di fiscalità.",
+          "importance": "central",
+          "verified_at": "2026-09-28T07:50:42+00:00"
         }
       ],
       "limitations": [
         "Descrive il comportamento del motore deterministico e non costituisce validazione esterna delle ipotesi finanziarie.",
-        "Le frasi introduttive sulla fiscalità riflettono una fase precedente: per il modello fiscale implementato prevale la specifica fiscale dedicata."
+        "Le frasi introduttive sulla fiscalità riflettono una fase precedente: per il modello fiscale implementato prevale la specifica fiscale dedicata.",
+        "GUIDE-0019: formule isolate con imposte e bollo zero; comportamento operativo verificato nel motore fiscale senza validare incassi o diritti futuri."
       ],
       "conflicts": [
         {
@@ -173,7 +180,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T07:49:19+02:00"
+        "last_accessed_at": "2026-09-28T07:50:42+00:00"
       },
       "applicability": {
         "valid_from": null,
@@ -185,13 +192,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Documento completo; sezioni 1, 5-7, 14 e 16; riscontro in FiscalFireCalculator e FiscalCalculator; esempi verificati con le classi di dominio via JShell.",
+        "section": "Documento completo; sezioni 1, 4–7, 14 e 16; apporto netto a saldo/costo fiscale in FiscalFireCalculator ed esempi Java con aliquota e bollo zero.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T07:49:19+02:00",
+        "checked_at": "2026-09-28T07:50:42+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -268,10 +275,17 @@
           "claim": "Le rendite sono importi netti inseriti dall’utente; il motore non calcola imposte su affitti o proventi distribuiti, mentre gli apporti netti investiti aumentano saldo e costo fiscale. Esempi con aliquota e bollo zero e confronto col motore fiscalizzato.",
           "importance": "central",
           "verified_at": "2026-09-28T07:49:19+02:00"
+        },
+        {
+          "content_id": "GUIDE-0019",
+          "claim": "GUIDE-0019: capitali futuri come importi netti disponibili; il motore non determina diritti, importi o fiscalità sull’origine della somma. Apporto aumenta saldo e costo fiscale; imposte e bollo successivi seguono modello semplificato. Esempi controllati via FiscalFireCalculator con fiscalità zero; risolutore entro 0,01 euro dalla formula analitica.",
+          "importance": "central",
+          "verified_at": "2026-09-28T07:50:42+00:00"
         }
       ],
       "limitations": [
-        "Modello fiscale semplificato del simulatore; non rappresenta tutti i regimi, le agevolazioni o le situazioni individuali."
+        "Modello fiscale semplificato del simulatore; non rappresenta tutti i regimi, le agevolazioni o le situazioni individuali.",
+        "GUIDE-0019: una card chiamata TFR o eredità non calcola liquidazione, diritto o fiscalità della somma; importo e disponibilità richiedono verifica esterna individuale."
       ],
       "conflicts": [
         {
@@ -352,7 +366,7 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-28T07:49:19+02:00"
+        "last_accessed_at": "2026-09-28T07:50:42+00:00"
       },
       "applicability": {
         "valid_from": null,
@@ -364,13 +378,13 @@
       },
       "locator": {
         "article": null,
-        "section": "A cosa serve la pianificazione finanziaria; La pianificazione finanziaria in cinque passi, punti 1, 4 e 5.",
+        "section": "Pagina completa; A cosa serve la pianificazione finanziaria; La pianificazione finanziaria in cinque passi, punti 4 e 5.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T07:49:19+02:00",
+        "checked_at": "2026-09-28T07:50:42+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -417,6 +431,12 @@
           "claim": "La pianificazione parte da entrate e uscite osservate, include uscite poco frequenti e imprevisti e richiede attenzione alla tendenza a sovrastimare le entrate; applicazione editoriale al netto mensile di una rendita.",
           "importance": "central",
           "verified_at": "2026-09-28T07:49:19+02:00"
+        },
+        {
+          "content_id": "GUIDE-0019",
+          "claim": "GUIDE-0019: pianificazione di entrate, uscite, obiettivi e imprevisti; evitare sovrastima entrate. Confronti senza somma, somma minore e ritardata sono applicazioni editoriali dei principi, non stime di probabilità.",
+          "importance": "central",
+          "verified_at": "2026-09-28T07:50:42+00:00"
         }
       ],
       "limitations": [
@@ -440,7 +460,7 @@
         "published": "2024-02-22",
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-28T07:49:19+02:00"
+        "last_accessed_at": "2026-09-28T07:50:42+00:00"
       },
       "applicability": {
         "valid_from": null,
@@ -452,13 +472,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Documento completo; FAQ 1-3 e 15: inflazione, perdita del potere d’acquisto e differenza tra indice e consumi personali.",
+        "section": "Pagina completa; FAQ 1–3 e 15: inflazione e potere d’acquisto, indice generale e consumi personali.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": "Indici NIC, IPCA e FOI"
       },
       "verification": {
-        "checked_at": "2026-09-28T07:49:19+02:00",
+        "checked_at": "2026-09-28T07:50:42+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -499,6 +519,12 @@
           "claim": "Una rendita nominalmente fissa perde potere d’acquisto in presenza di aumenti dei prezzi; il paniere personale può differire dall’indice generale. Il 2% degli esempi è un’ipotesi, non un dato ISTAT.",
           "importance": "central",
           "verified_at": "2026-09-28T07:49:19+02:00"
+        },
+        {
+          "content_id": "GUIDE-0019",
+          "claim": "GUIDE-0019: inflazione e perdita del potere d’acquisto di importi monetari fissi; nominale futuro e euro di oggi. Tasso 2% dell’elaborazione propria ipotetico, senza dati correnti o previsione ISTAT.",
+          "importance": "central",
+          "verified_at": "2026-09-28T07:50:42+00:00"
         }
       ],
       "limitations": [
@@ -783,7 +809,7 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-25T22:57:33+02:00",
-        "last_accessed_at": "2026-09-28T07:49:19+02:00"
+        "last_accessed_at": "2026-09-28T07:50:42+00:00"
       },
       "applicability": {
         "valid_from": null,
@@ -795,13 +821,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Documento completo; Rendimento: cos’è e come misurarlo; Rischio: quali pericoli corri investendo nei mercati finanziari; Attenzione ai costi.",
+        "section": "Pagina completa; Rendimento; Rischio; Tempo; Attenzione ai costi.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T07:49:19+02:00",
+        "checked_at": "2026-09-28T07:50:42+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -854,6 +880,12 @@
           "claim": "Il rendimento può includere interessi, dividendi e variazioni di capitale; i dividendi e i rendimenti futuri non sono garantiti. Questi principi sostengono la distinzione tra proventi distribuiti e rendimento complessivo.",
           "importance": "central",
           "verified_at": "2026-09-28T07:49:19+02:00"
+        },
+        {
+          "content_id": "GUIDE-0019",
+          "claim": "GUIDE-0019: rendimento degli investimenti incerto, con ruolo di rischio, orizzonte e costi; rendimento 3% dell’esempio esclusivamente ipotesi matematica, non attesa o raccomandazione.",
+          "importance": "central",
+          "verified_at": "2026-09-28T07:50:42+00:00"
         }
       ],
       "limitations": [

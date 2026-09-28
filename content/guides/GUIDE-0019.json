@@ -1,0 +1,40 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0019",
+  "slug": "/guida/capitale-futuro-una-tantum-fire",
+  "seo": {
+    "title": "Capitale futuro nel FIRE: importo, data e impatto sul PAC",
+    "description": "Come inserire una somma una tantum nel calcolo FIRE: netto disponibile, euro di oggi o futuri e ricezione prima o dopo il FIRE, senza anticipare l'incasso.",
+    "og_title": "Come considerare un capitale futuro una tantum nel FIRE",
+    "og_description": "Esempi su PAC, capitale ponte e target FINITE o SWR: una somma futura entra al momento della ricezione e resta un'ipotesi da verificare."
+  },
+  "page": {
+    "kicker": "Risorse aggiuntive",
+    "h1": "Come considerare un capitale futuro una tantum nel FIRE",
+    "lead": "Un capitale futuro entra nel piano una sola volta, quando diventa disponibile. Inserisci il netto utilizzabile, la base dell'importo e l'età di ricezione: entro l'ingresso nel FIRE riduce il capitale da costruire con il PAC; durante il FIRE può modificare il target, lasciando da finanziare i mesi precedenti. Questa guida mostra i campi e gli effetti con esempi, senza trattare una somma incerta come garantita."
+  },
+  "dates": { "published": "2026-09-28", "updated": "2026-09-28" },
+  "summary_points": [
+    "Una somma una tantum è distinta dal patrimonio già disponibile e da un'entrata mensile: ogni importo va contato una sola volta.",
+    "Euro di oggi rivaluta la somma con l'inflazione fino alla ricezione; Euro nominali alla ricezione mantiene fisso l'importo futuro.",
+    "L'età di ricezione è un confine del modello, espresso in anni interi: il simulatore non richiede una data di calendario.",
+    "Il rendimento proprio del capitale opera fra ricezione e ingresso nel FIRE; una somma ricevuta durante il FIRE segue il rendimento globale del decumulo.",
+    "Un capitale ricevuto dopo il FIRE non è patrimonio iniziale: il piano deve finanziare i prelievi prima dell'incasso.",
+    "Confronta anche uno scenario senza la somma, con importo inferiore e con ricezione ritardata; il modello non stima la probabilità dell'evento."
+  ],
+  "source_ids": ["SRC-2026-0001", "SRC-2026-0002", "SRC-2026-0004", "SRC-2026-0005", "SRC-2026-0010"],
+  "internal_links": [
+    { "url": "/metodologia", "label": "Metodologia del simulatore FIRE", "reason": "Verifica unità, confini temporali, apporti netti e limiti del modello." },
+    { "url": "/", "label": "Simulatore FIRE", "reason": "Confronta importi e ricezioni diversi con lo stesso piano di spesa." },
+    { "url": "/guida/rendite-pensione-capitali-futuri", "label": "Rendite, pensione e capitali futuri", "reason": "Distingue la somma una tantum dalle altre risorse aggiuntive." },
+    { "url": "/guida/metodo-finite-o-swr", "label": "Metodo FINITE o SWR", "reason": "Spiega il diverso significato dei target e della proiezione dei prelievi." },
+    { "url": "/guida/rendimento-nominale-reale", "label": "Rendimento nominale e reale", "reason": "Aiuta a leggere importi futuri ed equivalenti in euro di oggi." }
+  ],
+  "cta": {
+    "title": "Confronta il piano con e senza capitale futuro",
+    "text": "Mantieni gli stessi input principali e confronta assenza della somma, ricezione prevista e ricezione ritardata. Controlla PAC, target e copertura dei prelievi fino all'incasso.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

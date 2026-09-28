@@ -1,0 +1,78 @@
+<section class="content-section" id="definizione" aria-labelledby="definizione-title">
+    <h2 id="definizione-title">Una somma futura entra una volta, al momento della ricezione</h2>
+    <p>Il capitale futuro una tantum è uno stock di denaro disponibile a un confine futuro del piano. Può rappresentare una liquidazione o il ricavo netto ipotizzato di un evento: non è una rendita mensile e non appartiene al patrimonio investito oggi finché non è disponibile. Il nome della card descrive la risorsa; le formule dipendono dai campi, non dal nome.</p>
+    <p>La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 16 e 17.3</a>, tratta separatamente investimenti esistenti, rendite e capitali futuri. Tutte le risorse si sommano: il motore non riconosce che due card o il patrimonio principale rappresentano lo stesso denaro. Se una somma è già inclusa nel patrimonio attuale, inserirla di nuovo come incasso futuro produce un doppio conteggio.</p>
+    <p>Per una futura vendita, il punto di partenza del confronto è il netto che resterebbe disponibile, evitando di mantenere nel piano anche il valore dello stesso bene come risorsa destinata al FIRE. Il simulatore non collega automaticamente una vendita a un patrimonio già inserito né sottrae quel patrimonio quando arriva l'incasso.</p>
+</section>
+
+<section class="content-section" id="campi" aria-labelledby="campi-title">
+    <h2 id="campi-title">Compila importo netto, base, ricezione e uso dopo l'incasso</h2>
+    <ol>
+        <li><strong>Importo:</strong> la somma netta che ipotizzi utilizzabile nel piano. Non inserire un lordo senza aver verificato costi e imposte legati alla sua origine.</li>
+        <li><strong>Valore dell'importo:</strong> scegli tra Euro di oggi ed Euro nominali alla ricezione. Le due opzioni trasformano diversamente la stessa cifra.</li>
+        <li><strong>Età di ricezione:</strong> indica quando il denaro diventa disponibile, non quando pensi di maturarne il diritto. Il modello usa anni interi e mesi equivalenti, senza date di calendario.</li>
+        <li><strong>Investi dopo la ricezione:</strong> se attivo, applica il rendimento proprio indicato fino all'ingresso nel FIRE. Se disattivo, il capitale rimane nominalmente fermo nell'accumulo.</li>
+        <li><strong>Rendimento annuo dopo la ricezione:</strong> è un'ipotesi nominale, al netto dei costi ricorrenti e prima delle imposte personali; non è una promessa. Durante il FIRE prevale il rendimento globale di quella fase.</li>
+    </ol>
+    <p>La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 1, 4 e 5</a>, considera i capitali futuri già netti. Il modello non calcola il TFR individuale, il netto di un'eredità o la fiscalità della successione. Quando il denaro confluisce nel portafoglio, aumenta sia il saldo sia il costo fiscale dell'importo netto; imposte sulle vendite e bollo successivi seguono il modello semplificato. La liquidità non investita resta esclusa dal bollo dell'accumulo, poi confluisce nel portafoglio FIRE.</p>
+    <p>Chiamare la card “TFR” o “eredità” non verifica diritti, importi o tempi personali. Per usare questi nomi come scenari occorre distinguere la documentazione disponibile dall'aspettativa: la guida non determina cosa spetti a una persona. Importo netto e disponibilità richiedono la verifica del soggetto competente e, quando necessario, di un professionista.</p>
+</section>
+
+<section class="content-section" id="unita" aria-labelledby="unita-title">
+    <h2 id="unita-title">Euro di oggi ed euro futuri producono incassi diversi</h2>
+    <p>Un importo nominale fisso compra meno beni se i prezzi aumentano: è la perdita del potere d'acquisto spiegata dalle <a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/" data-source-id="SRC-2026-0005">FAQ ISTAT sui prezzi al consumo, domande 1–3</a>. Nel simulatore, Euro di oggi esprime il potere d'acquisto iniziale e viene rivalutato fino alla ricezione; Euro nominali alla ricezione descrive direttamente l'importo che ipotizzi incassare.</p>
+    <pre class="formula"><code>Base Euro di oggi → incasso nominale = importo × (1 + inflazione annua)^anni fino alla ricezione
+Base Euro nominali alla ricezione → incasso nominale = importo
+Equivalente di oggi dell'incasso nominale = importo / (1 + inflazione annua)^anni</code></pre>
+    <p>Esempio proprio: età attuale 40 anni, ricezione a 50 anni, importo 60.000 euro e inflazione ipotetica costante del 2% annuo. Con Euro di oggi il modello accredita 73.139,67 euro nominali; con Euro nominali alla ricezione accredita 60.000 euro, equivalenti a 49.220,90 euro di oggi. I valori sono arrotondati al centesimo e non sono una previsione ISTAT.</p>
+    <p>Se un documento indica una somma futura nominale, selezionare Euro di oggi può sovrastimarla. Questa opzione non attribuisce all'evento un diritto alla rivalutazione: è una trasformazione dell'input secondo l'ipotesi di inflazione. Per le formule, si veda la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezione 17.3</a>.</p>
+</section>
+
+<section class="content-section" id="ricezione" aria-labelledby="ricezione-title">
+    <h2 id="ricezione-title">Il momento della ricezione cambia il ruolo della somma</h2>
+    <p><strong>Prima del FIRE:</strong> la somma entra alla ricezione e il saldo disponibile al FIRE riduce il capitale ancora da costruire. Con rendimento proprio costante e fiscalità disattivata, il valore è importo nominale ricevuto × (1 + rendimento annuo) elevato agli anni fra ricezione e FIRE. Per esempio, 60.000 euro ricevuti a 45 anni e investiti fino a 50 con un'ipotesi del 3% diventano 69.556,44 euro; mantenuti liquidi restano 60.000 euro nominali. L'esempio esclude bollo e imposte e non include crescita prima dell'incasso.</p>
+    <p><strong>Esattamente al FIRE:</strong> la somma è già nel capitale disponibile all'ingresso, senza rendimento intermedio. Non viene accreditata una seconda volta nel primo mese di decumulo.</p>
+    <p><strong>Durante il FIRE:</strong> la somma entra nel portafoglio all'inizio del mese corrispondente, prima del prelievo. Il rendimento proprio della card e l'opzione di investimento non modificano questa fase: da quel momento vale il rendimento globale del FIRE. L'incasso non può coprire retroattivamente i mesi precedenti.</p>
+    <p><strong>Al confine finale:</strong> l'incasso arriva dopo il rendimento dell'ultimo mese. Può contribuire al patrimonio finale desiderato, ma non finanzia l'ultimo prelievo. Questi confini sono definiti nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 17.3, 19, 22 e 24.6</a>.</p>
+    <p>Il rendimento dopo l'incasso è un'ipotesi distinta dalla disponibilità della somma. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia, nelle sezioni su rischio, tempo e costi degli investimenti</a>, ricorda che i risultati sono incerti e i costi incidono sul rendimento. Il modello usa tassi costanti e non simula oscillazioni o probabilità di mancato incasso.</p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Esempio FINITE: stesso PAC, capitale iniziale diverso</h2>
+    <p>Elaborazione propria riproducibile nel simulatore: età attuale 40 anni, FIRE a 50, durata 20 anni, spesa mensile 1.500 euro, patrimonio iniziale e capitale finale desiderato zero. Inflazione, rendimento di accumulo e FIRE, crescita del PAC, aliquota sulle plusvalenze e bollo sono tutti zero. Nessuna altra risorsa. Nella card scegli Euro nominali alla ricezione e disattiva Investi dopo la ricezione.</p>
+    <p>Il metodo FINITE finanzia 240 prelievi mensili: senza somma futura servono 1.500 × 240 = 360.000 euro al FIRE. I 120 mesi di accumulo richiedono un PAC di 3.000 euro. Le regole applicate sono nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 8, 18 e 20</a>; la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 7 e 14</a>, descrive il risolutore operativo.</p>
+    <table>
+        <thead><tr><th scope="col">Scenario</th><th scope="col">Target al FIRE</th><th scope="col">Somma già disponibile al FIRE</th><th scope="col">PAC mensile</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">Nessuna somma futura</th><td>360.000 euro</td><td>0 euro</td><td>3.000 euro</td></tr>
+            <tr><th scope="row">60.000 euro a 45 anni</th><td>360.000 euro</td><td>60.000 euro</td><td>2.500 euro</td></tr>
+            <tr><th scope="row">60.000 euro a 50 anni</th><td>360.000 euro</td><td>60.000 euro</td><td>2.500 euro</td></tr>
+            <tr><th scope="row">60.000 euro a 55 anni</th><td>300.000 euro</td><td>0 euro</td><td>2.500 euro</td></tr>
+        </tbody>
+    </table>
+    <p>La tabella mostra valori analitici arrotondati all'euro; il motore fiscale li riconcilia entro un centesimo. Negli scenari a 45 o 50 anni il target resta 360.000 euro, mentre il PAC deve costruirne soltanto 300.000. Con ricezione a 55 anni, invece, si entra nel FIRE con 300.000 euro: dopo i primi 60 prelievi restano 210.000 euro e all'inizio del mese FIRE 61 arriva la somma. Non è presente prima nel saldo.</p>
+    <p>Una somma molto grande non elimina il ponte. Sostituendo l'incasso a 55 anni con 400.000 euro, il fabbisogno totale meno l'incasso sarebbe negativo; servono comunque 90.000 euro per i primi 60 mesi, quindi un PAC di 750 euro. L'eccedenza porta il saldo finale a 130.000 euro nonostante l'obiettivo finale zero: il modello non crea un patrimonio iniziale negativo per spenderla in anticipo.</p>
+</section>
+
+<section class="content-section" id="swr" aria-labelledby="swr-title">
+    <h2 id="swr-title">Con SWR il capitale futuro può lasciare il target invariato</h2>
+    <p>La SWR è un tasso iniziale di prelievo, non il rendimento. Con gli stessi input dell'esempio e una SWR ipotetica del 4%, il target base è 1.500 × 12 / 0,04 = 450.000 euro. Se 60.000 euro arrivano all'ingresso nel FIRE, il target rimane 450.000 euro e il PAC deve costruire 390.000 euro: 3.250 euro mensili.</p>
+    <p>Se la stessa somma arriva a 55 anni, il candidato composto unisce 90.000 euro di ponte alla riserva SWR di 450.000 euro, meno 60.000 euro ricevuti: 480.000 euro. Il modello sceglie il minore fra candidato e target base, quindi conserva 450.000 euro. Poiché l'incasso non appartiene al capitale iniziale, il PAC è 3.750 euro. La somma migliora la proiezione successiva senza ridurre quel target.</p>
+    <p>È il comportamento della <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezione 21</a>, verificato con il motore Java e fiscalità zero. Il 4% è un input dell'esempio, non una percentuale sicura per ogni piano. Controlla la proiezione completa e gli eventuali prelievi non coperti; la guida su <a href="/guida/metodo-finite-o-swr">FINITE e SWR</a> chiarisce le diverse domande a cui rispondono i due metodi.</p>
+</section>
+
+<section class="content-section" id="verifica" aria-labelledby="verifica-title">
+    <h2 id="verifica-title">Confronta assenza, importo minore e ritardo</h2>
+    <p>Un piano dipendente da una somma futura va letto insieme alle sue condizioni. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia, nei cinque passi della pianificazione</a>, invita a lasciare spazio agli imprevisti e a riesaminare entrate e uscite, evitando di sovrastimare le prime. Per questa guida traduciamo quei principi in confronti di scenario, senza attribuire probabilità all'incasso.</p>
+    <ol>
+        <li>Calcola il piano senza somma futura: rende visibile quanto capitale dipende dall'evento.</li>
+        <li>Aggiungi l'importo netto ipotizzato con la base corretta e la ricezione documentabile.</li>
+        <li>Confronta una somma inferiore e una ricezione più tarda, mantenendo invariati gli altri input.</li>
+        <li>Controlla PAC, target e saldi dei mesi prima dell'incasso; poi verifica la durata completa del decumulo.</li>
+    </ol>
+    <aside class="content-notice warning" aria-labelledby="incertezza-title">
+        <h3 id="incertezza-title">Il simulatore esegue l'ipotesi, non certifica l'evento</h3>
+        <p>Il calcolo non valuta diritti individuali, tempi effettivi di liquidazione, disponibilità di un'eredità o probabilità di vendita di un bene. Un risultato favorevole con una somma futura non dimostra che quell'incasso avverrà. Se l'evento è fuori dall'orizzonte selezionato, non va anticipato artificialmente per farlo entrare nel piano.</p>
+    </aside>
+    <p>La <a href="/metodologia">metodologia</a> consente di verificare convenzioni e limiti; nel <a href="/">simulatore FIRE</a> puoi riprodurre i confronti. Tieni separati patrimonio presente, rendite e somme future e conserva accanto alle ipotesi il motivo dell'importo e del momento scelti.</p>
+</section>
