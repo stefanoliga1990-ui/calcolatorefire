@@ -1,0 +1,85 @@
+<section class="content-section" id="domanda" aria-labelledby="domanda-title">
+    <h2 id="domanda-title">Chiedi quanto cambia il risultato quando cambia un’ipotesi</h2>
+    <p>Un risultato FIRE dipende da spese, tempo, patrimonio, flussi e tassi inseriti. L’analisi di sensibilità serve a capire come il modello risponde a una loro variazione. Non sceglie il valore giusto per il futuro. Qui usiamo un confronto manuale intorno a uno scenario di riferimento, adatto a leggere le conseguenze dei singoli input.</p>
+    <p>Il <a href="https://joint-research-centre.ec.europa.eu/sensitivity-analysis-samo/methods_en" data-source-id="SRC-2026-0025">Joint Research Centre, nella pagina Methods sull’analisi di sensibilità</a>, distingue gli approcci locali dall’analisi globale: cambiare un fattore mantenendo gli altri fermi non stima le loro interazioni. Anche l’intervallo esplorato influisce sull’importanza apparente di un input. La procedura FIRE seguente è un’applicazione didattica del progetto, senza distribuzioni probabilistiche.</p>
+    <p>Il risultato da osservare dipende dalla domanda: quanto capitale serve, quanto occorre versare ogni mese, oppure se il patrimonio copre i prelievi nell’orizzonte scelto? Annota target, PAC mensile iniziale, capitale finale e gli eventuali avvisi di fabbisogno non coperto, chiamato <strong>shortfall</strong>. Un target più basso da solo non dimostra che il piano sia meno fragile.</p>
+</section>
+
+<section class="content-section" id="riferimento" aria-labelledby="riferimento-title">
+    <h2 id="riferimento-title">Fissa input e unità prima di confrontare i numeri</h2>
+    <p>Scrivi la base completa: metodo FINITE o SWR, età attuale e FIRE, durata del FIRE, spesa in euro di oggi, patrimonio, rendimenti nelle due fasi, inflazione, crescita dei versamenti e capitale finale desiderato. Se ci sono risorse aggiuntive, conserva anche importi, decorrenze, durate, rendimenti propri e disponibilità al FIRE. Nel confronto isolato questi valori restano fermi salvo l’input dichiarato.</p>
+    <p>Conserva inoltre costo fiscale, aliquota sulle plusvalenze e bollo. Il motore fiscale collega target, PAC e costo fiscale prodotto dall’accumulo: cambiare un rendimento può incidere anche sul fabbisogno fiscale futuro. Lo documenta la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 7 e 14–16</a>. Le formule semplici degli esempi sotto valgono perché disattiviamo la fiscalità.</p>
+    <p>Confronta target nominale con target nominale e valori in euro di oggi con valori in euro di oggi. Se cambi l’età FIRE, cambia anche la data alla quale è espresso il capitale nominale; con inflazione positiva usa l’equivalente di oggi per confrontare il potere d’acquisto. I rendimenti inseriti sono nominali annui effettivi, dopo i costi ricorrenti dell’investimento e prima delle imposte personali. Non passare da una definizione netta a una lorda tra due varianti.</p>
+</section>
+
+<section class="content-section" id="procedura" aria-labelledby="procedura-title">
+    <h2 id="procedura-title">Usa Modifica lo scenario e riparti ogni volta dalla base</h2>
+    <ol>
+        <li>Inserisci e calcola lo scenario di riferimento nel <a href="/">simulatore FIRE</a>. Copia gli input e i risultati in una tua tabella, indicando unità e significato di ciascuna colonna.</li>
+        <li>Seleziona <strong>Modifica lo scenario</strong>: i campi del piano vengono mostrati insieme. Cambia un solo input, per esempio la spesa mensile.</li>
+        <li>Seleziona <strong>Aggiorna i risultati</strong> e annota i nuovi valori. La modifica dei campi richiede il ricalcolo prima di leggere il risultato della variante.</li>
+        <li>Misura lo scostamento dalla base. Ripristina il valore di partenza del campo modificato prima di provare un’altra variabile; verifica anche le eventuali risorse aggiuntive.</li>
+        <li>Dopo i confronti isolati, costruisci una combinazione esplicita di condizioni meno favorevoli e ricalcola. Etichettala come scenario combinato, senza attribuire il cambiamento a un solo fattore.</li>
+    </ol>
+    <p>La schermata aggiorna i risultati correnti; la tabella di confronto va conservata separatamente. Il comportamento dei pulsanti è stato verificato nel frontend del progetto. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 8–10</a>, chiarisce che il PAC calcolato è il versamento aggiuntivo richiesto e che le proiezioni distinguono accumulo e decumulo.</p>
+    <pre class="formula"><code>Scostamento in euro = risultato della variante − risultato di riferimento
+Scostamento percentuale = scostamento in euro / risultato di riferimento × 100</code></pre>
+    <p>La percentuale richiede un riferimento diverso da zero. Se il PAC di base è zero, riporta l’aumento in euro invece di una percentuale indefinita. Conserva anche l’ampiezza della modifica: aumentare la spesa del 10% e il rendimento di due punti percentuali sono perturbazioni diverse.</p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Sette scenari separano target, PAC e interazioni</h2>
+    <p>Elaborazione propria, con input ipotetici: età attuale 40 anni, FIRE a 50, metodo FINITE, durata FIRE 25 anni, spesa mensile di oggi 1.800 euro, patrimonio investito 180.000 euro e costo fiscale uguale. Capitale finale desiderato zero, nessuna risorsa aggiuntiva, inflazione, entrambi i rendimenti, crescita del PAC, aliquota sulle plusvalenze e bollo tutti allo 0%. Ogni riga parte dalla base e cambia soltanto ciò che indica la prima colonna.</p>
+    <p>Il PAC entra a fine mese e il prelievo FIRE a inizio mese. Con tassi e fiscalità nulli il target è la spesa per i mesi di FIRE; il PAC divide il capitale mancante per i mesi di accumulo. Sono le convenzioni della <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 2, 6 e 8</a>.</p>
+    <pre class="formula"><code>Base: mesi di accumulo = (50 − 40) × 12 = 120
+Target = 1.800 × 25 × 12 = 540.000 euro
+PAC mensile = (540.000 − 180.000) / 120 = 3.000 euro</code></pre>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Modifica rispetto alla base</th><th>Target al FIRE</th><th>PAC iniziale al mese</th><th>Differenza PAC dalla base</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Nessuna: scenario di riferimento</td><td>540.000 euro</td><td>3.000 euro</td><td>0 euro</td></tr>
+                <tr><td>Spesa 1.980 euro (+10%)</td><td>594.000 euro</td><td>3.450 euro</td><td>+450 euro</td></tr>
+                <tr><td>Durata FIRE 30 anni</td><td>648.000 euro</td><td>3.900 euro</td><td>+900 euro</td></tr>
+                <tr><td>Rendimento accumulo 2% annuo</td><td>540.000 euro</td><td>2.418 euro</td><td>−582 euro</td></tr>
+                <tr><td>Età FIRE 55, durata ancora 25 anni</td><td>540.000 euro</td><td>2.000 euro</td><td>−1.000 euro</td></tr>
+                <tr><td>Rendimento FIRE 2% annuo</td><td>426.261 euro</td><td>2.052 euro</td><td>−948 euro</td></tr>
+                <tr><td>Combinata: spesa 1.980 e durata 30 anni</td><td>712.800 euro</td><td>4.440 euro</td><td>+1.440 euro</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Importi nominali, arrotondati all’euro solo alla fine. Con inflazione nulla hanno anche lo stesso potere d’acquisto iniziale. Formule indipendenti e motore fiscale Java sono stati riconciliati entro 0,01 euro; il risolutore può differire di frazioni di centesimo. Lo 0% fiscale è una semplificazione didattica da impostare espressamente, non una descrizione della tassazione italiana o un suggerimento per il piano personale.</p>
+    <p>Per riprodurre le due righe con rendimento positivo, converti il tasso annuo nel mensile equivalente. Con accumulo al 2% il target resta 540.000 euro, mentre patrimonio e versamenti crescono. Con rendimento FIRE al 2% il target FINITE è il valore attuale dei prelievi anticipati:</p>
+    <pre class="formula"><code>r = 1,02^(1/12) − 1
+Accumulo 2%: fattore PAC = [(1 + r)^120 − 1] / r
+PAC = [540.000 − 180.000 × 1,02^10] / fattore PAC ≈ 2.417,71 euro
+FIRE 2%: target = 1.800 × [1 − (1 + r)^(-300)] / r × (1 + r)
+PAC con accumulo 0% = (target − 180.000) / 120 ≈ 2.052,18 euro</code></pre>
+    <p>La spesa maggiore aumenta il target di 54.000 euro; la durata maggiore di 108.000. Sommarli dà 162.000 euro, ma insieme il target cresce di 172.800 euro: i cinque anni aggiunti costano di più perché anche la spesa mensile è aumentata. L’interazione vale 10.800 euro di target, pari a 90 euro di PAC mensile nei 120 mesi. Per questo la combinazione va ricalcolata.</p>
+    <p>Spostare il FIRE a 55 anni lasciando la durata a 25 fa terminare il piano a 80 anni, invece che a 75. La riga isola l’età d’ingresso come input; se vuoi mantenere l’età finale a 75, devi ridurre anche la durata a 20 anni e dichiarare due modifiche. Il PAC è un risultato, non il vincolo di risparmio scelto dall’utente.</p>
+</section>
+
+<section class="content-section" id="interpretazione" aria-labelledby="interpretazione-title">
+    <h2 id="interpretazione-title">Scegli intervalli motivati e confronta il PAC con il budget</h2>
+    <p>Non esiste una graduatoria universale delle variabili più importanti. Nella tabella l’età muove il PAC più della spesa, ma abbiamo confrontato cinque anni con un aumento di spesa del 10%. Il risultato dipende da queste ampiezze, dal patrimonio iniziale e da tutte le altre ipotesi. Annota perché hai scelto gli intervalli: incertezza delle spese, durata da coprire, disponibilità delle entrate o rendimento che il piano richiederebbe.</p>
+    <p>Per una verifica più prudente puoi provare separatamente spese maggiori, rendimenti minori, inflazione maggiore, durata più lunga o risorse future meno disponibili. Poi combina alcune ipotesi, controllando che raccontino una situazione coerente. Se una rendita netta è indicizzata all’inflazione per ipotesi, una variazione coerente della sua indicizzazione va dichiarata insieme alla modifica dell’inflazione: non è più un confronto isolato.</p>
+    <p>Non assegnare probabilità alle etichette “base”, “meno favorevole” o “favorevole”. I rendimenti possono discostarsi dalle attese, il capitale può perdere valore e costi e inflazione incidono sul risultato, come ricorda la <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d’Italia nella guida Cosa sapere prima di investire</a>. Il 2% dell’esempio è soltanto un input matematico.</p>
+    <p>Confronta infine il PAC aggiuntivo con il risparmio sostenibile, tenendo conto dei versamenti già previsti nelle risorse. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">guida alla pianificazione della Banca d’Italia</a> invita a costruire il budget su entrate e uscite, includendo spese poco frequenti e imprevisti. Un modello che richiede 3.000 euro al mese non dimostra che quella somma sia disponibile.</p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Anche più scenari conservano i limiti del modello</h2>
+    <p>Le proiezioni applicano tassi costanti. Provare un rendimento inferiore per tutto l’orizzonte non simula una crisi nei primi anni seguita da un recupero: la <a href="/guida/rischio-sequenza-rendimenti-fire">sequenza dei rendimenti</a> resta un rischio distinto. Il confronto non produce una distribuzione dei saldi futuri o una probabilità di sostenibilità.</p>
+    <p>Con SWR, durata e rendimento FIRE possono cambiare la proiezione senza muovere il target base quando fiscalità e risorse sono assenti. Leggi quindi anche gli avvisi, non soltanto la variazione del target. Con fiscalità o flussi aggiuntivi evita di estendere automaticamente questa proprietà: ricalcola il caso completo secondo la <a href="/metodologia">metodologia</a>.</p>
+    <aside class="content-notice warning" aria-labelledby="copertura-title">
+        <h3 id="copertura-title">La copertura nello scenario resta condizionata agli input</h3>
+        <p>FINITE cerca un capitale che copra i prelievi e il residuo richiesto nell’orizzonte impostato. Un ricalcolo senza shortfall verifica quella combinazione di ipotesi; non garantisce spese reali, vita futura, disponibilità delle rendite o rendimenti effettivi.</p>
+    </aside>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Conserva le differenze e identifica il punto fragile del piano</h2>
+    <p>Al termine dovresti avere una base documentata, alcune varianti isolate e almeno una combinazione esplicita. Per ciascuna conserva input modificati, unità, target, PAC e avvisi. Se una piccola modifica rende il PAC incompatibile con il budget o cambia molto il capitale richiesto, hai individuato una dipendenza da approfondire. Usa il confronto per capire quanto margine richiedono le ipotesi, senza scegliere il tasso che produce il risultato desiderato.</p>
+</section>

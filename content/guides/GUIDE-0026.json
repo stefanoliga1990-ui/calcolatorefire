@@ -1,0 +1,69 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0026",
+  "slug": "/guida/analisi-sensibilita-fire",
+  "seo": {
+    "title": "Analisi di sensibilità FIRE: come confrontare gli scenari",
+    "description": "Confronta scenari FIRE cambiando una variabile alla volta: spese, rendimenti, durata ed età. Esempi verificati per leggere target, PAC e limiti.",
+    "og_title": "Analisi di sensibilità FIRE: quali ipotesi cambiano il piano",
+    "og_description": "Una procedura per usare Modifica lo scenario, misurare gli scostamenti di target e PAC e distinguere confronti isolati da scenari combinati."
+  },
+  "page": {
+    "kicker": "Scenari e rischi del piano FIRE",
+    "h1": "Analisi di sensibilità FIRE: confronta scenari senza prevedere il futuro",
+    "lead": "Quanto dipende il tuo risultato dalle ipotesi inserite? L’analisi di sensibilità confronta uno scenario di riferimento con varianti in cui cambi un solo input, osservando target, PAC e proiezioni. Dopo aver isolato gli effetti, puoi combinare condizioni meno favorevoli. La procedura rende visibili le dipendenze del piano; non indica quale futuro si realizzerà né una probabilità di successo."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "Annota tutti gli input e i risultati di riferimento: ogni confronto isolato deve ripartire dagli stessi valori.",
+    "Cambia un solo input, ricalcola e misura la differenza di target e PAC nella stessa unità monetaria.",
+    "Con Modifica lo scenario e Aggiorna i risultati aggiorni il calcolo completo; conserva i confronti in una tua tabella.",
+    "L’effetto apparente dipende dall’ampiezza della modifica e dal punto di partenza: non è una graduatoria universale dei rischi.",
+    "Una combinazione di spese e durata maggiori può produrre un aumento diverso dalla somma degli effetti isolati.",
+    "Il PAC richiesto è un risultato da confrontare con il budget; tassi costanti e assenza di shortfall non garantiscono il piano reale."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0025",
+    "SRC-2026-0004",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica unità, convenzioni mensili, fiscalità e limiti dei confronti."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Riproduci gli scenari e modifica un input mantenendo gli altri costanti."
+    },
+    {
+      "url": "/guida/inflazione-rendimenti-fire",
+      "label": "Inflazione e rendimenti nel FIRE",
+      "reason": "Approfondisci le due ipotesi che agiscono sulla spesa futura e sulla crescita del capitale."
+    },
+    {
+      "url": "/guida/rischio-sequenza-rendimenti-fire",
+      "label": "Rischio di sequenza dei rendimenti",
+      "reason": "Comprendi il rischio dei percorsi di mercato che i tassi costanti non rappresentano."
+    },
+    {
+      "url": "/guida/rendimento-atteso-simulazione-fire",
+      "label": "Rendimento ipotizzato nella simulazione",
+      "reason": "Distingui un tasso usato per il confronto da una previsione di investimento."
+    }
+  ],
+  "cta": {
+    "title": "Costruisci un confronto verificabile",
+    "text": "Annota lo scenario di riferimento, modifica una sola ipotesi e confronta target e PAC. Ripristina la base prima della variante successiva e verifica il PAC rispetto al budget.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
