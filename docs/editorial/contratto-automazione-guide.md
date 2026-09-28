@@ -1,10 +1,10 @@
 # Contratto dell'automazione editoriale
 
-Versione: 0.5
+Versione: 0.6
 
 Stato: attivo
 
-Ultimo aggiornamento: 27 settembre 2026
+Ultimo aggiornamento: 28 settembre 2026
 
 ## 1. Scopo
 
@@ -22,7 +22,7 @@ La sequenza eseguibile, i comandi e le procedure di recupero sono consolidati ne
 | Progetto | Calcolo FIRE Italia |
 | Autore pubblico | Stefano Liga |
 | Modalità | Automatica completa, senza approvazione preventiva |
-| Frequenza | Ogni 2 ore |
+| Frequenza | Ogni ora |
 | Fuso orario | Europe/Rome |
 | Quantità massima | Una guida per esecuzione |
 | Destinazione Git | Push diretto su `origin/main` |

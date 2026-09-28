@@ -1,10 +1,10 @@
 # Runbook operativo delle pubblicazioni editoriali
 
-Versione: 1.4
+Versione: 1.5
 
 Stato: vincolante per l'esecuzione automatica
 
-Ultimo aggiornamento: 27 settembre 2026
+Ultimo aggiornamento: 28 settembre 2026
 
 ## 1. Scopo e autorità
 
@@ -27,7 +27,7 @@ interroga Google Search Console e non invia notifiche ordinarie o di successo. G
 
 | Voce | Valore |
 | --- | --- |
-| Avvio pianificato | Ogni 2 ore |
+| Avvio pianificato | Ogni ora |
 | Fuso orario | `Europe/Rome` |
 | Branch e remoto | `main` su `origin` |
 | Quantità | Massimo una guida per run |
@@ -57,14 +57,14 @@ generazione.
 
 ### Fase 0 — Identità del run
 
-Ricavare l'identificatore della finestra di 2 ore:
+Ricavare l'identificatore della finestra oraria:
 
 ```powershell
 ./scripts/publish-guide.ps1 run-id
 ```
 
 Leggere `run_id` dall'output JSON e conservarlo come variabile operativa. Il valore atteso ha forma
-`editorial-AAAAMMGG-HH`, dove `HH` identifica una delle finestre `00`, `02`, `04`, `06`, `08`, `10`, `12`, `14`, `16`, `18`, `20` o `22` nel fuso `Europe/Rome`.
+`editorial-AAAAMMGG-HH`, dove `HH` identifica l'ora locale da `00` a `23` nel fuso `Europe/Rome`.
 Non inventare un secondo identificatore nella stessa finestra.
 
 ### Fase 1 — Selezione in sola lettura
