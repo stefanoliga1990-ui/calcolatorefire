@@ -1,0 +1,488 @@
+{
+  "schema_version": 1,
+  "workflow": {
+    "id": "seo-home-improvement",
+    "name": "Miglioramento SEO della home",
+    "objective": "Trasformare la home del simulatore in una landing page SEO competitiva, chiara e utile, senza modificare il funzionamento del calcolatore.",
+    "repository_root": "C:/Users/utente/Downloads/calcolatorefire",
+    "state_file": "docs/seo-home-automation.json",
+    "branch": "miglioramento-seo",
+    "status": "active",
+    "created_at": "2026-09-28",
+    "completed_at": null
+  },
+  "execution_policy": {
+    "tasks_per_run": 1,
+    "selection_rule": "Se non esiste un task recuperabile in_progress, seleziona il task pending con order piu basso le cui dipendenze siano tutte completed.",
+    "completion_rule": "Un task puo diventare completed soltanto dopo aver soddisfatto tutti gli acceptance_criteria ed eseguito con successo tutte le verifiche applicabili.",
+    "commit_each_completed_task": true,
+    "commit_message_pattern": "seo(home): <descrizione sintetica del task>",
+    "push_allowed": false,
+    "merge_allowed": false,
+    "deploy_allowed": false,
+    "remote_operations_allowed": false,
+    "require_target_branch": true,
+    "require_clean_worktree_before_new_task": true,
+    "in_progress_timeout_hours": 6,
+    "stop_when_all_completed": true,
+    "final_workflow_status": "completed"
+  },
+  "run_protocol": [
+    "Leggi integralmente questo file prima di modificare il repository.",
+    "Verifica che il repository_root esista e che il repository Git sia valido.",
+    "Non eseguire git pull, fetch, push, merge, rebase, reset --hard, checkout -- o altre operazioni distruttive o remote.",
+    "Verifica che il branch corrente sia miglioramento-seo. Se non lo e, cambia branch soltanto quando il worktree e pulito e il branch esiste gia localmente.",
+    "Se il worktree contiene modifiche non riconducibili con certezza a un task in_progress di questo workflow, non modificarle e termina la sessione segnalando il conflitto; non cambiare lo stato del task.",
+    "Se esiste un solo task in_progress iniziato da meno di 6 ore, considera possibile una esecuzione ancora attiva e termina senza modificare file.",
+    "Se esiste un task in_progress da almeno 6 ore, ispeziona stato Git, diff e cronologia. Riprendilo solo se le modifiche sono chiaramente riconducibili a quel task; altrimenti termina e richiedi intervento umano.",
+    "Se non esiste un task recuperabile, seleziona esattamente un task usando selection_rule.",
+    "Prima dell'implementazione imposta il task selezionato su in_progress, valorizza result.started_at in formato ISO 8601 con fuso orario e incrementa result.attempt_count.",
+    "Implementa esclusivamente il task selezionato, rispettandone requirements, expected_files e acceptance_criteria. Sono ammessi file aggiuntivi solo se strettamente necessari e vanno elencati nel riepilogo.",
+    "Preserva tutte le modifiche preesistenti e non eseguire refactoring o pulizie non richieste.",
+    "Esegui le verifiche indicate. Se una verifica non e applicabile, spiegane il motivo in result.checks; non ometterla silenziosamente.",
+    "Se il task e completato, imposta status su completed, valorizza completed_at, summary e checks, lascia blocker a null e crea un singolo commit locale che includa implementazione e aggiornamento di questo file.",
+    "Dopo il commit registra il relativo hash in result.commit aggiornando questo file con un commit di stato separato soltanto se necessario. Se si evita il secondo commit, result.commit puo contenere HEAD_PENDING_SELF_REFERENCE e il riepilogo della run deve riportare l'hash effettivo.",
+    "Se emerge un impedimento sostanziale che richiede una decisione dell'utente, imposta status su blocked, descrivi il problema in result.blocker e non procedere ai task successivi.",
+    "Un errore transitorio di ambiente non deve trasformare definitivamente il task in blocked: lascia il task pending o in_progress secondo lo stato reale e descrivi l'errore nel resoconto della run.",
+    "Quando tutti i task sono completed, imposta workflow.status su completed e workflow.completed_at. Non apportare altre modifiche, non creare nuovi task e segnala che il workflow e terminato.",
+    "Ogni run deve riportare task selezionato, file modificati, verifiche eseguite, esito e commit locale; non deve pubblicare aggiornamenti quando non c'e lavoro e non esiste un problema che richieda attenzione."
+  ],
+  "constraints": [
+    "Lavorare esclusivamente sul branch locale miglioramento-seo.",
+    "Non effettuare push, merge, pull request, deploy o modifiche a servizi esterni.",
+    "Non aggiungere box autore, nome personale, profilo autore, biografia o qualifiche alla home.",
+    "Non intervenire su Google Search Console, richieste di indicizzazione o monitoraggio di query e CTR.",
+    "Non modificare sitemap.xml o robots.txt salvo una necessita tecnica direttamente causata da uno dei task e dimostrata dalle verifiche.",
+    "Non modificare formule, API, logica di calcolo, valori predefiniti o comportamento del wizard salvo quanto strettamente richiesto per mostrare contenuti editoriali statici.",
+    "Non duplicare integralmente le guide esistenti: la home deve sintetizzare e collegare gli approfondimenti specialistici.",
+    "Evitare keyword stuffing, promesse di rendimento, garanzie di sostenibilita e formulazioni assimilabili a consulenza finanziaria, fiscale o previdenziale.",
+    "Non aggiungere rating, recensioni, testimonianze o qualifiche non verificabili.",
+    "Tutto il contenuto SEO sostanziale deve essere presente nell'HTML server-side e visibile all'utente; non affidarlo soltanto a JavaScript o a contenuti nascosti.",
+    "Mantenere un solo H1 e una gerarchia semantica coerente di heading.",
+    "Conservare accessibilita da tastiera, focus visibile, contrasto e comportamento responsive da 320 px in su.",
+    "Se viene modificato un asset CSS o JavaScript, aggiornare il relativo parametro di versione nell'HTML e le asserzioni dei test che lo verificano.",
+    "Usare apply_patch per le modifiche manuali ai file e non sovrascrivere file completi con comandi shell.",
+    "Non marcare completed un task con test falliti o criteri di accettazione non soddisfatti."
+  ],
+  "status_values": [
+    "pending",
+    "in_progress",
+    "completed",
+    "blocked"
+  ],
+  "tasks": [
+    {
+      "id": "SEO-HOME-001",
+      "order": 1,
+      "title": "Aggiornare metadata e hero della home",
+      "status": "pending",
+      "depends_on": [],
+      "objective": "Rendere immediatamente chiari intento di ricerca, contesto italiano e risultati principali del simulatore.",
+      "requirements": [
+        "Impostare il title su: Calcolatore FIRE Italia: capitale necessario e PAC.",
+        "Impostare la meta description su: Calcola il patrimonio necessario per il FIRE in Italia e il PAC mensile, considerando inflazione, rendimento, plusvalenze e imposta di bollo.",
+        "Impostare l'H1 su: Calcolatore FIRE Italia per l'indipendenza finanziaria.",
+        "Sostituire il testo introduttivo con una frase naturale che comunichi patrimonio necessario, vivere di rendita, PAC, inflazione, rendimenti e fiscalita italiana senza promettere risultati.",
+        "Allineare og:title, og:description, twitter:title, twitter:description e og:image:alt al nuovo posizionamento, senza renderli una lista artificiale di parole chiave.",
+        "Aggiornare i test della home con asserzioni esplicite sui metadata e sull'H1."
+      ],
+      "expected_files": [
+        "src/main/resources/static/index.html",
+        "src/test/java/com/example/calcolatorefire/api/HomePageTest.java"
+      ],
+      "acceptance_criteria": [
+        "La home contiene esattamente un H1 e usa l'espressione indipendenza finanziaria nel titolo principale.",
+        "Title e description descrivono fedelmente funzioni gia presenti nell'applicazione.",
+        "I metadata social sono coerenti con title, description e contenuto visibile.",
+        "Il percorso guidato e il calcolo continuano a funzionare senza modifiche logiche.",
+        "I test mirati della home passano."
+      ],
+      "verification": [
+        ".\\mvnw.cmd -Dtest=HomePageTest test"
+      ],
+      "result": {
+        "started_at": null,
+        "completed_at": null,
+        "attempt_count": 0,
+        "commit": null,
+        "summary": null,
+        "checks": [],
+        "blocker": null
+      }
+    },
+    {
+      "id": "SEO-HOME-002",
+      "order": 2,
+      "title": "Aggiungere una sintesi dei vantaggi sopra il wizard",
+      "status": "pending",
+      "depends_on": [
+        "SEO-HOME-001"
+      ],
+      "objective": "Comunicare prima dell'interazione perche il simulatore e piu completo di un semplice calcolo spese per 25.",
+      "requirements": [
+        "Inserire tra hero e wizard una fascia compatta con tre vantaggi: capitale FIRE con FINITE o SWR, PAC mensile per il target, fiscalita italiana e risorse aggiuntive.",
+        "Usare HTML semantico e testo visibile server-side.",
+        "Non inserire un secondo H1 e non spostare il calcolatore sotto una lunga introduzione.",
+        "Realizzare uno stile coerente con il design esistente e responsive da 320 px.",
+        "Aggiornare la versione del CSS se il foglio di stile viene modificato e adeguare i test."
+      ],
+      "expected_files": [
+        "src/main/resources/static/index.html",
+        "src/main/resources/static/styles-7c8e1a4b5d20.css",
+        "src/test/java/com/example/calcolatorefire/api/HomePageTest.java"
+      ],
+      "acceptance_criteria": [
+        "I tre vantaggi sono comprensibili senza aprire il wizard.",
+        "La fascia non introduce affermazioni che il motore non supporta.",
+        "Su viewport stretti il contenuto non produce overflow orizzontale.",
+        "I test mirati della home passano."
+      ],
+      "verification": [
+        ".\\mvnw.cmd -Dtest=HomePageTest test"
+      ],
+      "result": {
+        "started_at": null,
+        "completed_at": null,
+        "attempt_count": 0,
+        "commit": null,
+        "summary": null,
+        "checks": [],
+        "blocker": null
+      }
+    },
+    {
+      "id": "SEO-HOME-003",
+      "order": 3,
+      "title": "Aggiungere le sezioni Cosa calcola e Cos'e il FIRE",
+      "status": "pending",
+      "depends_on": [
+        "SEO-HOME-002"
+      ],
+      "objective": "Offrire una risposta introduttiva autonoma e spiegare il significato dell'acronimo senza duplicare la guida generale.",
+      "requirements": [
+        "Ampliare l'area editoriale sotto il calcolatore con una sezione Cosa calcola il simulatore FIRE.",
+        "Descrivere target FIRE, PAC, capitale gia investito, inflazione, rendimenti, plusvalenze, bollo, pensione, rendite e capitali futuri solo nei limiti delle funzioni esistenti.",
+        "Aggiungere una breve sezione che espanda Financial Independence, Retire Early e lo traduca come indipendenza finanziaria e pensionamento anticipato.",
+        "Chiarire che indipendenza finanziaria non implica necessariamente smettere definitivamente di lavorare.",
+        "Collegare in modo contestuale /guida/fire-italia.",
+        "Non copiare interi paragrafi dalla guida esistente."
+      ],
+      "expected_files": [
+        "src/main/resources/static/index.html",
+        "src/main/resources/static/styles-7c8e1a4b5d20.css",
+        "src/test/java/com/example/calcolatorefire/api/HomePageTest.java"
+      ],
+      "acceptance_criteria": [
+        "Un nuovo visitatore comprende cosa produce il simulatore e cosa significa FIRE.",
+        "Il testo usa naturalmente indipendenza finanziaria, patrimonio necessario, piano di accumulo e pensionamento anticipato.",
+        "La guida FIRE riceve un link con anchor descrittiva.",
+        "La sezione resta sintetica e distinta dall'intento della guida specialistica.",
+        "I test mirati della home passano."
+      ],
+      "verification": [
+        ".\\mvnw.cmd -Dtest=HomePageTest test"
+      ],
+      "result": {
+        "started_at": null,
+        "completed_at": null,
+        "attempt_count": 0,
+        "commit": null,
+        "summary": null,
+        "checks": [],
+        "blocker": null
+      }
+    },
+    {
+      "id": "SEO-HOME-004",
+      "order": 4,
+      "title": "Aggiungere formula del numero FIRE ed esempio numerico",
+      "status": "pending",
+      "depends_on": [
+        "SEO-HOME-003"
+      ],
+      "objective": "Rispondere direttamente alla domanda su quanto capitale serve con una formula comprensibile e un esempio riproducibile.",
+      "requirements": [
+        "Aggiungere una sezione sul numero FIRE che presenti la formula semplificata Capitale FIRE = spesa annua / SWR.",
+        "Specificare che la formula appartiene al metodo SWR semplificato e non sostituisce la simulazione completa.",
+        "Mostrare l'esempio: spesa mensile 2.000 euro, spesa annua 24.000 euro, SWR 4%, capitale semplificato 600.000 euro.",
+        "Spiegare che fiscalita, inflazione, durata, capitale finale, pensione e altre risorse possono modificare il risultato del simulatore.",
+        "Collegare in modo contestuale /guida/numero-fire.",
+        "Aggiungere un test che protegga formula, input e risultato dell'esempio da modifiche incoerenti."
+      ],
+      "expected_files": [
+        "src/main/resources/static/index.html",
+        "src/main/resources/static/styles-7c8e1a4b5d20.css",
+        "src/test/java/com/example/calcolatorefire/api/HomePageTest.java"
+      ],
+      "acceptance_criteria": [
+        "La formula e matematicamente corretta e presentata come semplificazione.",
+        "L'esempio e riproducibile e non viene presentato come raccomandazione personale.",
+        "La pagina distingue chiaramente il numero FIRE dal risultato fiscalizzato del simulatore.",
+        "La guida al numero FIRE riceve un link con anchor descrittiva.",
+        "I test mirati della home passano."
+      ],
+      "verification": [
+        ".\\mvnw.cmd -Dtest=HomePageTest test"
+      ],
+      "result": {
+        "started_at": null,
+        "completed_at": null,
+        "attempt_count": 0,
+        "commit": null,
+        "summary": null,
+        "checks": [],
+        "blocker": null
+      }
+    },
+    {
+      "id": "SEO-HOME-005",
+      "order": 5,
+      "title": "Spiegare PAC e confronto tra FINITE e SWR",
+      "status": "pending",
+      "depends_on": [
+        "SEO-HOME-004"
+      ],
+      "objective": "Collegare il patrimonio necessario al piano di accumulo e chiarire i due metodi disponibili.",
+      "requirements": [
+        "Aggiungere una sezione che spieghi come capitale iniziale, anni disponibili, rendimento ipotizzato e crescita dei versamenti influenzano il PAC.",
+        "Non promettere che il PAC calcolato sia sostenibile o garantisca il raggiungimento dell'obiettivo.",
+        "Aggiungere un confronto conciso tra FINITE e SWR coerente con la metodologia e con i testi del wizard.",
+        "Chiarire che FINITE finanzia una durata definita con eventuale capitale finale, mentre SWR parte da un tasso iniziale di prelievo e viene verificato sull'orizzonte scelto.",
+        "Collegare /guida/pac-per-raggiungere-il-fire, /guida/metodo-finite-o-swr e /guida/regola-del-4-percento-swr con anchor contestuali."
+      ],
+      "expected_files": [
+        "src/main/resources/static/index.html",
+        "src/main/resources/static/styles-7c8e1a4b5d20.css",
+        "src/test/java/com/example/calcolatorefire/api/HomePageTest.java"
+      ],
+      "acceptance_criteria": [
+        "PAC e capitale FIRE non vengono confusi.",
+        "Le descrizioni di FINITE e SWR corrispondono alla metodologia pubblicata.",
+        "Le tre guide specialistiche ricevono link descrittivi.",
+        "I test mirati della home passano."
+      ],
+      "verification": [
+        ".\\mvnw.cmd -Dtest=HomePageTest test"
+      ],
+      "result": {
+        "started_at": null,
+        "completed_at": null,
+        "attempt_count": 0,
+        "commit": null,
+        "summary": null,
+        "checks": [],
+        "blocker": null
+      }
+    },
+    {
+      "id": "SEO-HOME-006",
+      "order": 6,
+      "title": "Esplicitare fiscalita italiana e limiti della simulazione",
+      "status": "pending",
+      "depends_on": [
+        "SEO-HOME-005"
+      ],
+      "objective": "Rendere visibile il vantaggio della stima fiscale italiana senza semplificazioni fuorvianti.",
+      "requirements": [
+        "Aggiungere una sezione sulla fiscalita che descriva plusvalenze, costo fiscale, prelievo lordo e imposta di bollo come stime semplificate del modello.",
+        "Chiarire che l'aliquota ordinaria iniziale del 26% non si applica indistintamente a ogni strumento o situazione personale.",
+        "Collegare /guida/tassazione-fire-italia, /guida/plusvalenze-costo-fiscale-fire e /guida/imposta-bollo-investimenti-fire.",
+        "Ampliare il blocco dei limiti includendo volatilita, rischio di sequenza, variazioni normative, differenze personali e sostenibilita reale del PAC.",
+        "Mantenere ben visibile che lo strumento ha finalita educative e non costituisce consulenza finanziaria, fiscale o previdenziale.",
+        "Evitare duplicazioni tra la nuova sezione, il disclaimer e la metodologia."
+      ],
+      "expected_files": [
+        "src/main/resources/static/index.html",
+        "src/main/resources/static/styles-7c8e1a4b5d20.css",
+        "src/test/java/com/example/calcolatorefire/api/HomePageTest.java"
+      ],
+      "acceptance_criteria": [
+        "Il testo distingue valori iniziali del modello e trattamento fiscale personale.",
+        "Le limitazioni deterministiche e fiscali sono comprensibili e visibili.",
+        "Le guide fiscali ricevono link descrittivi.",
+        "Non sono presenti affermazioni fiscali assolute o consulenziali.",
+        "I test mirati della home passano."
+      ],
+      "verification": [
+        ".\\mvnw.cmd -Dtest=HomePageTest test"
+      ],
+      "result": {
+        "started_at": null,
+        "completed_at": null,
+        "attempt_count": 0,
+        "commit": null,
+        "summary": null,
+        "checks": [],
+        "blocker": null
+      }
+    },
+    {
+      "id": "SEO-HOME-007",
+      "order": 7,
+      "title": "Aggiungere domande frequenti visibili",
+      "status": "pending",
+      "depends_on": [
+        "SEO-HOME-006"
+      ],
+      "objective": "Rispondere sinteticamente alle domande principali degli utenti e alle ricerche conversazionali.",
+      "requirements": [
+        "Aggiungere una sezione FAQ server-side con domande e risposte visibili.",
+        "Includere almeno: quanto capitale serve per vivere di rendita; differenza tra numero FIRE e PAC; tasse italiane; pensione, affitti e altri investimenti; limiti della regola del 4%; euro di oggi ed euro futuri.",
+        "Mantenere risposte sintetiche, accurate e coerenti con metodologia e guide.",
+        "Inserire link alle guide solo quando aiutano davvero la risposta.",
+        "Non aggiungere markup FAQPage o QAPage.",
+        "Usare componenti accessibili; se vengono usati details e summary, assicurare comportamento nativo e comprensibile."
+      ],
+      "expected_files": [
+        "src/main/resources/static/index.html",
+        "src/main/resources/static/styles-7c8e1a4b5d20.css",
+        "src/test/java/com/example/calcolatorefire/api/HomePageTest.java"
+      ],
+      "acceptance_criteria": [
+        "Tutte le FAQ sono disponibili nell'HTML iniziale e leggibili senza JavaScript.",
+        "Le risposte non duplicano ampie porzioni delle guide.",
+        "Non e presente JSON-LD FAQPage o QAPage.",
+        "La sezione e utilizzabile da tastiera e su viewport stretti.",
+        "I test mirati della home passano."
+      ],
+      "verification": [
+        ".\\mvnw.cmd -Dtest=HomePageTest test"
+      ],
+      "result": {
+        "started_at": null,
+        "completed_at": null,
+        "attempt_count": 0,
+        "commit": null,
+        "summary": null,
+        "checks": [],
+        "blocker": null
+      }
+    },
+    {
+      "id": "SEO-HOME-008",
+      "order": 8,
+      "title": "Rifinire architettura e anchor dei collegamenti interni",
+      "status": "pending",
+      "depends_on": [
+        "SEO-HOME-007"
+      ],
+      "objective": "Distribuire rilevanza alle guide specialistiche senza creare cannibalizzazione o un elenco artificiale di link.",
+      "requirements": [
+        "Verificare tutti i link interni aggiunti nei task precedenti e rimuovere duplicazioni non utili.",
+        "Usare anchor concise, descrittive e coerenti con l'intento della pagina di destinazione.",
+        "Mantenere la home focalizzata su calcolatore o simulatore FIRE Italia, capitale necessario e PAC.",
+        "Mantenere /guida/numero-fire focalizzata sul capitale necessario e vivere di rendita, /guida/fire-italia sul contesto generale, /guida/pac-per-raggiungere-il-fire sul PAC, le guide SWR sui metodi e le guide fiscali sulla tassazione.",
+        "Verificare che ogni href interno punti a una pagina realmente servita dall'applicazione.",
+        "Non aggiungere una lista estesa di tutte le guide disponibili."
+      ],
+      "expected_files": [
+        "src/main/resources/static/index.html",
+        "src/test/java/com/example/calcolatorefire/api/HomePageTest.java"
+      ],
+      "acceptance_criteria": [
+        "Non esistono link interni rotti tra quelli aggiunti alla home.",
+        "Ogni sezione specialistica contiene al massimo i link necessari alla comprensione.",
+        "Le anchor descrivono la destinazione senza ripetizioni forzate di keyword.",
+        "I test mirati della home e delle pagine guida passano."
+      ],
+      "verification": [
+        ".\\mvnw.cmd -Dtest=HomePageTest,GuidePageControllerTest test"
+      ],
+      "result": {
+        "started_at": null,
+        "completed_at": null,
+        "attempt_count": 0,
+        "commit": null,
+        "summary": null,
+        "checks": [],
+        "blocker": null
+      }
+    },
+    {
+      "id": "SEO-HOME-009",
+      "order": 9,
+      "title": "Aggiungere dati strutturati WebSite",
+      "status": "pending",
+      "depends_on": [
+        "SEO-HOME-008"
+      ],
+      "objective": "Comunicare ai motori di ricerca il nome preferito del sito senza introdurre markup non supportato dal contenuto.",
+      "requirements": [
+        "Aggiungere alla home un blocco JSON-LD WebSite valido.",
+        "Usare name Calcolo FIRE Italia e url https://simulatorefire.com/.",
+        "Usare alternateName solo per varianti realmente utilizzate o riconoscibili, includendo Simulatore FIRE Italia e simulatorefire.com.",
+        "Non aggiungere Person, box autore, AggregateRating, Review, FAQPage o dichiarazioni non visibili o non verificabili.",
+        "Aggiungere test che verifichino presenza, tipo, nome e URL del markup.",
+        "Validare sintassi e parsing del JSON-LD."
+      ],
+      "expected_files": [
+        "src/main/resources/static/index.html",
+        "src/test/java/com/example/calcolatorefire/api/HomePageTest.java"
+      ],
+      "acceptance_criteria": [
+        "Il JSON-LD e JSON valido e usa @type WebSite.",
+        "Nome, nomi alternativi e URL sono coerenti con canonical e branding visibile.",
+        "Non sono presenti dati strutturati non supportati dal contenuto della home.",
+        "I test mirati della home passano."
+      ],
+      "verification": [
+        ".\\mvnw.cmd -Dtest=HomePageTest test"
+      ],
+      "result": {
+        "started_at": null,
+        "completed_at": null,
+        "attempt_count": 0,
+        "commit": null,
+        "summary": null,
+        "checks": [],
+        "blocker": null
+      }
+    },
+    {
+      "id": "SEO-HOME-010",
+      "order": 10,
+      "title": "Eseguire revisione finale SEO, responsive, accessibilita e test",
+      "status": "pending",
+      "depends_on": [
+        "SEO-HOME-009"
+      ],
+      "objective": "Verificare l'insieme della landing prima della revisione manuale dell'utente.",
+      "requirements": [
+        "Controllare coerenza tra title, description, H1, hero, Open Graph, Twitter e contenuto visibile.",
+        "Controllare unicita dell'H1, ordine degli heading, landmark, label e link.",
+        "Controllare che le nuove sezioni siano responsive almeno a 320, 375, 768 e 1180 px senza overflow orizzontale o sovrapposizioni.",
+        "Controllare navigazione da tastiera, focus visibile, details e summary se presenti, e contrasto dei nuovi componenti.",
+        "Verificare che il wizard, i risultati, i grafici e le risorse aggiuntive non siano stati alterati o bloccati.",
+        "Verificare che il contenuto non includa box autore, interventi Search Console, keyword stuffing, promesse, rating o markup FAQ.",
+        "Eseguire l'intera suite Maven e correggere soltanto regressioni causate da questo workflow.",
+        "Aggiornare i test mancanti quando una regressione rilevante non e ancora coperta."
+      ],
+      "expected_files": [
+        "src/main/resources/static/index.html",
+        "src/main/resources/static/styles-7c8e1a4b5d20.css",
+        "src/test/java/com/example/calcolatorefire/api/HomePageTest.java"
+      ],
+      "acceptance_criteria": [
+        "Tutti i task precedenti risultano completed.",
+        "La home e coerente, leggibile e priva di duplicazioni evidenti.",
+        "Non sono state introdotte regressioni funzionali o responsive note.",
+        "L'intera suite Maven passa.",
+        "Il workflow e pronto per la verifica locale manuale dell'utente, senza push o merge."
+      ],
+      "verification": [
+        ".\\mvnw.cmd test",
+        "git diff --check",
+        "git status --short"
+      ],
+      "result": {
+        "started_at": null,
+        "completed_at": null,
+        "attempt_count": 0,
+        "commit": null,
+        "summary": null,
+        "checks": [],
+        "blocker": null
+      }
+    }
+  ]
+}
