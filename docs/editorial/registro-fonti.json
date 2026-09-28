@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "updated_at": "2026-09-28",
   "next_id_by_year": {
-    "2026": 21
+    "2026": 23
   },
   "sources": [
     {
@@ -22,25 +22,25 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-27T23:44:05+02:00"
+        "last_accessed_at": "2026-09-28T03:49:03+00:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-27",
+        "as_of": "2026-09-28",
         "reference_period": "Versione del motore verificata su main",
         "version": "cfc3fc4feab57fb12696b48c45a82bb5b371bc03",
         "provisional": false
       },
       "locator": {
         "article": null,
-        "section": "Sezioni 1-9, 16-18 e 23-24: limiti, input nominali, conversione dei tassi, rendimento reale, target, proiezioni e risorse aggiuntive",
+        "section": "Documento completo; sezioni 17, 19–22, 24.3; confronto con FireCalculator.safeWithdrawalRateTarget e test swrBuildsABridgeToFuturePermanentIncome.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-27T23:44:05+02:00",
+        "checked_at": "2026-09-28T03:49:03+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -129,6 +129,12 @@
           "claim": "I rendimenti di accumulo e FIRE sono tassi nominali annui effettivi al netto dei costi ricorrenti e prima delle imposte personali; il motore usa tassi costanti e il rendimento di accumulo influenza il PAC, mentre quello FIRE influenza FINITE e la proiezione.",
           "importance": "central",
           "verified_at": "2026-09-27T23:44:05+02:00"
+        },
+        {
+          "content_id": "GUIDE-0017",
+          "claim": "Sezioni 17, 19–22 e 24.3: rendita netta disponibile dalla decorrenza; fabbisogno residuo, ricorrenza del ponte, riserva del regime stabile e minimo con il target base; esempi propri con spesa 2.200 euro, rendita 1.400 euro dopo 144 mesi e confronto FINITE su 480 mesi.",
+          "importance": "central",
+          "verified_at": "2026-09-28T03:49:03+00:00"
         }
       ],
       "limitations": [
@@ -161,7 +167,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T03:49:46+02:00"
+        "last_accessed_at": "2026-09-28T03:49:03+00:00"
       },
       "applicability": {
         "valid_from": null,
@@ -173,13 +179,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Sezioni 1–8, 10.1–10.5, 13–16; documento completo consultato nel checkout",
+        "section": "Documento completo; sezioni 1, 7.2, 14.2–14.4 e 16; confronto con FiscalFireCalculator.swrBridgeIsFunded.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T03:49:46+02:00",
+        "checked_at": "2026-09-28T03:49:03+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -244,6 +250,12 @@
           "claim": "Bollo b_m=1-(1-b_a)^(1/12), applicato dopo rendimento e apporti in accumulo e dopo vendita e rendimento nel FIRE; liquidita non investita esclusa in accumulo; costo fiscale invariato dal bollo; target FINITE e SWR distinti; esempi con 300.000 euro.",
           "importance": "central",
           "verified_at": "2026-09-28T03:49:46+02:00"
+        },
+        {
+          "content_id": "GUIDE-0017",
+          "claim": "Sezioni 1, 7.2 e 14–16: rendite inserite al netto delle imposte personali, target SWR fiscale basato sulla vendita lorda, simulazione di vendite e bollo fino al regime stabile; il risultato può avere shortfall successivi.",
+          "importance": "central",
+          "verified_at": "2026-09-28T03:49:03+00:00"
         }
       ],
       "limitations": [
@@ -538,25 +550,25 @@
         "published": "2017-04-03",
         "updated": "2025-07-31",
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-26T18:03:35+02:00"
+        "last_accessed_at": "2026-09-28T03:49:03+00:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-26",
+        "as_of": "2026-09-28",
         "reference_period": "Servizio basato sulla normativa vigente e sulla posizione contributiva dell'utente",
         "version": "Aggiornamento del 31 luglio 2025",
         "provisional": false
       },
       "locator": {
         "article": null,
-        "section": "Cos'è; A chi è rivolto; Come funziona",
+        "section": "Scheda completa: Cos’è; A chi è rivolto; Come funziona, compresa la possibilità di ipotizzare la sospensione del lavoro.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-26T18:03:35+02:00",
+        "checked_at": "2026-09-28T03:49:03+00:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -573,6 +585,12 @@
           "claim": "Il servizio INPS consente agli utenti delle gestioni elencate di simulare data e importo presumibili della pensione in moneta costante, sulla base di età, contribuzione e reddito.",
           "importance": "central",
           "verified_at": "2026-09-26T18:03:35+02:00"
+        },
+        {
+          "content_id": "GUIDE-0017",
+          "claim": "La scheda INPS descrive verifica della contribuzione, pensione presumibile in moneta costante e possibilità di simulare la sospensione del lavoro; lo scenario previdenziale deve essere coerente con l’interruzione prevista nel piano FIRE.",
+          "importance": "central",
+          "verified_at": "2026-09-28T03:49:03+00:00"
         }
       ],
       "limitations": [
@@ -1383,6 +1401,112 @@
       ],
       "local_copy": null,
       "notes": "Articolo completo letto nell'XML dell'HTML pubblico; confronto coerente con art.13 nota 3-ter su criteri ordinari di periodo. Nessuna copia locale."
+    },
+    {
+      "id": "SRC-2026-0021",
+      "status": "approved",
+      "level": "A",
+      "type": "institutional_page",
+      "title": "Pensione di vecchiaia — requisiti e decorrenza",
+      "responsible_entity": "Istituto Nazionale della Previdenza Sociale (INPS)",
+      "authors": [],
+      "url": "https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.pensione-di-vecchiaia.html",
+      "persistent_identifier": "INPS scheda aggiornata il 12 giugno 2026",
+      "dates": {
+        "published": "2024-02-08",
+        "updated": "2026-06-12",
+        "first_accessed_at": "2026-09-28T03:49:03+00:00",
+        "last_accessed_at": "2026-09-28T03:49:03+00:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-28",
+        "reference_period": "Quadro previdenziale 2026 e adeguamenti previsti per il biennio 2027–2028",
+        "version": "INPS scheda aggiornata il 12 giugno 2026",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Scheda completa: Cos’è; A chi è rivolto; Come funziona — Decorrenza; Domanda — Requisiti, condizioni e modalità.",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-28T03:49:03+00:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0017",
+          "claim": "La pensione di vecchiaia richiede requisiti anagrafici e contributivi; requisiti e decorrenza dipendono dal regime e dalla gestione, non dalla sola età scelta nel simulatore FIRE.",
+          "importance": "central",
+          "verified_at": "2026-09-28T03:49:03+00:00"
+        }
+      ],
+      "limitations": [
+        "Scheda generale, non certificazione del diritto o dell’importo individuale.",
+        "Le eccezioni e le condizioni delle diverse gestioni non sono ricostruite dal simulatore; le età intere non modellano automaticamente decorrenze mensili o finestre."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Consultato il testo completo della scheda direttamente, incluse le sezioni espandibili. Nessuna soglia individuale estrapolata; riscontro con la legge n. 199/2025 per il carattere variabile dei requisiti."
+    },
+    {
+      "id": "SRC-2026-0022",
+      "status": "approved",
+      "level": "A",
+      "type": "normative_act",
+      "title": "Legge 30 dicembre 2025, n. 199 — adeguamento dei requisiti pensionistici",
+      "responsible_entity": "Repubblica Italiana — Gazzetta Ufficiale",
+      "authors": [],
+      "url": "https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.codiceRedazionale=26A00149&art.dataPubblicazioneGazzetta=2026-01-21&art.flagTipoArticolo=0&art.idArticolo=1&art.idGruppo=1&art.idSottoArticolo=1&art.idSottoArticolo1=10&art.progressivo=2&art.versione=1",
+      "persistent_identifier": "Legge 199/2025; ripubblicazione 26A00149; GU n. 16 del 21 gennaio 2026, SO n. 2",
+      "dates": {
+        "published": "2025-12-30",
+        "updated": "2026-01-21",
+        "first_accessed_at": "2026-09-28T03:49:03+00:00",
+        "last_accessed_at": "2026-09-28T03:49:03+00:00"
+      },
+      "applicability": {
+        "valid_from": "2025-12-30",
+        "valid_to": null,
+        "as_of": "2026-09-28",
+        "reference_period": "Quadro previdenziale 2026 e adeguamenti previsti per il biennio 2027–2028",
+        "version": "Legge 199/2025; ripubblicazione 26A00149; GU n. 16 del 21 gennaio 2026, SO n. 2",
+        "provisional": false
+      },
+      "locator": {
+        "article": "Articolo 1, commi 185–190 e 197",
+        "section": "Testo ripubblicato con note; consultati integralmente i commi 185–197 e confrontata la scheda INPS vigente.",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-28T03:49:03+00:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0017",
+          "claim": "La legge n. 199/2025 disciplina gli adeguamenti dei requisiti per il 2027 e dal 2028 e le esclusioni: un piano FIRE non può assumere una decorrenza pensionistica universale e immutabile.",
+          "importance": "central",
+          "verified_at": "2026-09-28T03:49:03+00:00"
+        }
+      ],
+      "limitations": [
+        "Norma di adeguamento, non quadro esaustivo di tutti i canali pensionistici.",
+        "La guida non determina requisiti, decorrenza o importo di singole persone né proietta il biennio 2027–2028 a decenni successivi."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Normattiva ha restituito errore di caricamento; consultata l’alternativa ufficiale Gazzetta Ufficiale e confrontata la scheda INPS aggiornata. Il PDF DEF dell’art. 24 del D.L. 201/2011 riporta una versione precedente e non è usato per dimostrare il quadro attuale. Nessun conflitto tra la norma utilizzata e la scheda INPS per le affermazioni della guida."
     }
   ]
 }

@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Come stimare il capitale ponte prima della pensione: riserva SWR, decorrenza e importo netto, esempi con rendita futura e limiti del simulatore FIRE.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Capitale ponte tra FIRE e pensione">
+    <meta property="og:description" content="Separa i mesi da finanziare prima della rendita dalla riserva successiva e confronta decorrenze, importi e proiezioni senza presumere un diritto pensionistico.">
+    <meta property="og:url" content="https://simulatorefire.com/guida/capitale-ponte-pensione-fire">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Capitale ponte tra FIRE e pensione: calcolo e limiti">
+    <meta property="article:published_time" content="2026-09-28">
+    <meta property="article:modified_time" content="2026-09-28">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Capitale ponte tra FIRE e pensione">
+    <meta name="twitter:description" content="Separa i mesi da finanziare prima della rendita dalla riserva successiva e confronta decorrenze, importi e proiezioni senza presumere un diritto pensionistico.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>Capitale ponte tra FIRE e pensione: calcolo e limiti</title>
+    <link rel="canonical" href="https://simulatorefire.com/guida/capitale-ponte-pensione-fire">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.0">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.3">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Capitale ponte tra FIRE e pensione: calcolo e limiti",
+  "description": "Come stimare il capitale ponte prima della pensione: riserva SWR, decorrenza e importo netto, esempi con rendita futura e limiti del simulatore FIRE.",
+  "url": "https://simulatorefire.com/guida/capitale-ponte-pensione-fire",
+  "mainEntityOfPage": "https://simulatorefire.com/guida/capitale-ponte-pensione-fire",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "inLanguage": "it-IT",
+  "author": {
+    "@type": "Person",
+    "name": "Stefano Liga",
+    "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calcolo FIRE Italia",
+    "url": "https://simulatorefire.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+    }
+  },
+  "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Simulatore FIRE",
+      "item": "https://simulatorefire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guide",
+      "item": "https://simulatorefire.com/guide"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Capitale ponte tra FIRE e pensione: calcolo e limiti",
+      "item": "https://simulatorefire.com/guida/capitale-ponte-pensione-fire"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/guide">Guide</a>
+        <a class="header-link" href="/metodologia">Metodologia</a>
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li><a href="/guide">Guide</a></li>
+                <li aria-current="page">Capitale ponte tra FIRE e pensione: calcolo e limiti</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">Risorse aggiuntive e previdenza</p>
+        <h1>Capitale ponte tra FIRE e pensione: calcolo e limiti</h1>
+        <p class="content-lead">Una pensione futura può ridurre il prelievo dal portafoglio quando inizia, ma prima serve capitale per coprire le spese. Nel metodo SWR il simulatore considera questo ponte e una riserva sul fabbisogno successivo. Qui trovi il calcolo, un confronto tra scenari e le verifiche da fare sulla stima previdenziale.</p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia</span>
+            <span>9 minuti di lettura</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della guida">
+            <strong>In questa guida</strong>
+            <ol><li><a href="#ponte">Prima della rendita serve un ponte, dopo può servire ancora patrimonio</a></li><li><a href="#stima-previdenziale">Verifica una pensione coerente con l&#x27;interruzione del lavoro</a></li><li><a href="#input">Inserisci netto, decorrenza e crescita senza anticipare il flusso</a></li><li><a href="#calcolo">Come il metodo SWR combina ponte e riserva</a></li><li><a href="#esempio">Esempio: dodici anni di ponte e una riserva di 240.000 euro</a></li><li><a href="#scenari">Una decorrenza più tardiva può annullare il vantaggio sul target</a></li><li><a href="#limiti">Il ponte va controllato insieme alla fase successiva</a></li><li><a href="#conclusione">Confronta tre ipotesi prima di interpretare il capitale richiesto</a></li></ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul><li>Il ponte finanzia il fabbisogno nei mesi tra FIRE e inizio della rendita; la pensione futura non riduce retroattivamente i prelievi.</li><li>La riserva SWR parte dal fabbisogno residuo all’inizio del regime stabile. Ponte e riserva sono parti dello stesso target, non due patrimoni da contare separatamente.</li><li>Con spesa di 2.200 euro, rendita netta di 1.400 euro dopo 12 anni e tassi e fiscalità nulli, il candidato è 316.800 + 240.000 = 556.800 euro.</li><li>Il target SWR con risorse è il minore tra candidato e target base: una rendita più tardiva non produce sempre una riduzione.</li><li>La stima pensionistica deve riflettere l’interruzione del lavoro ipotizzata nel piano, con importo netto e decorrenza verificati.</li><li>Un target SWR ridotto non garantisce la copertura dell’intero orizzonte: controlla i mesi scoperti e confronta anche il metodo FINITE.</li></ul>
+            </section>
+
+<section class="content-section" id="ponte" aria-labelledby="ponte-title">
+    <h2 id="ponte-title">Prima della rendita serve un ponte, dopo può servire ancora patrimonio</h2>
+    <p>
+        Il capitale ponte è la parte del patrimonio che finanzia i mesi tra l'ingresso nel FIRE e l'inizio di una
+        pensione o di un'altra rendita. Se la pensione copre soltanto una parte della spesa, il portafoglio deve
+        continuare a sostenere la differenza anche dopo. Nel metodo SWR questa seconda esigenza diventa una
+        riserva di riferimento sul fabbisogno residuo.
+    </p>
+    <p>
+        Il ponte e la riserva compongono un unico target: non aggiungere al patrimonio la somma delle pensioni
+        future come se fosse denaro già disponibile. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 19 e 21</a>
+        sottrae la rendita dalla spesa soltanto nei mesi in cui è attiva. Questa guida approfondisce il periodo
+        di attesa; la <a href="/guida/rendite-pensione-capitali-futuri">guida alle risorse aggiuntive</a> spiega
+        come distinguere rendite, investimenti e capitali una tantum.
+    </p>
+</section>
+
+<section class="content-section" id="stima-previdenziale" aria-labelledby="stima-previdenziale-title">
+    <h2 id="stima-previdenziale-title">Verifica una pensione coerente con l'interruzione del lavoro</h2>
+    <p>
+        Il servizio <a href="https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.la-mia-pensione-futura-simulazione-della-propria-pensione-50033.la-mia-pensione-futura-simulazione-della-propria-pensione.html" data-source-id="SRC-2026-0007">La mia pensione futura dell'INPS</a>
+        permette agli utenti delle gestioni indicate di verificare la contribuzione, stimare data e importo
+        presumibili a moneta costante e ipotizzare una data di sospensione del lavoro. Per un piano FIRE,
+        confrontare lo scenario con tale sospensione è essenziale: una stima basata su un percorso lavorativo
+        diverso non descrive automaticamente l'uscita che stai modellando.
+    </p>
+    <p>
+        Nel quadro previdenziale 2026 la pensione di vecchiaia richiede requisiti anagrafici e contributivi;
+        decorrenza e condizioni variano con regime e gestione, come precisa la
+        <a href="https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.pensione-di-vecchiaia.html" data-source-id="SRC-2026-0021">scheda INPS su requisiti e decorrenza</a>.
+        La <a href="https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.codiceRedazionale=26A00149&amp;art.dataPubblicazioneGazzetta=2026-01-21&amp;art.flagTipoArticolo=0&amp;art.idArticolo=1&amp;art.idGruppo=1&amp;art.idSottoArticolo=1&amp;art.idSottoArticolo1=10&amp;art.progressivo=2&amp;art.versione=1" data-source-id="SRC-2026-0022">legge n. 199/2025, articolo 1, commi 185–190 e 197</a>
+        disciplina adeguamenti per il 2027 e dal 2028, con esclusioni specifiche. Il testo normativo e la scheda
+        amministrativa hanno ruoli distinti; nessuno autorizza a fissare una decorrenza universale per i decenni futuri.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="diritto-title">
+        <h3 id="diritto-title">Un'età nel simulatore non certifica il diritto alla pensione</h3>
+        <p>
+            Il calcolatore FIRE non ricostruisce contributi, requisiti o importo individuale. Verifica posizione
+            e decorrenza presso INPS, anche con un patronato o un professionista qualificato quando necessario.
+            Se la rendita resta incerta, conserva un confronto che la escluda.
+        </p>
+    </aside>
+</section>
+
+<section class="content-section" id="input" aria-labelledby="input-title">
+    <h2 id="input-title">Inserisci netto, decorrenza e crescita senza anticipare il flusso</h2>
+    <ol>
+        <li><strong>Importo:</strong> usa la rendita mensile netta in euro di oggi. Non trasferire un importo lordo o una rata nominale futura senza verificarne la base e il netto spendibile.</li>
+        <li><strong>Inizio:</strong> imposta il confine di disponibilità della rendita, distinto dall'età FIRE. Il modello usa età intere e mesi convenzionali; non ricostruisce date di nascita, finestre o slittamenti infrannuali.</li>
+        <li><strong>Durata:</strong> una rendita senza fine esplicita resta attiva nell'orizzonte. Una rendita temporanea richiede di finanziare anche il periodo successivo alla sua cessazione.</li>
+        <li><strong>Crescita:</strong> dichiara l'indicizzazione ipotizzata. Con crescita zero la rendita resta nominalmente fissa; non mantiene automaticamente il potere d'acquisto se i prezzi aumentano.</li>
+        <li><strong>Uso:</strong> abilita la riduzione della spesa nel FIRE. Il reinvestimento prima del FIRE riguarda soltanto flussi effettivamente attivi durante l'accumulo.</li>
+    </ol>
+    <p>
+        Sono le convenzioni delle <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">sezioni 17–19 della specifica</a>:
+        l'inizio è incluso, la fine è esclusa e la crescita parte dal mese zero della simulazione, anche per una
+        rendita futura. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezione 1</a>
+        conferma che il motore non calcola le imposte personali sulla pensione. L'importo netto e una crescita
+        compatibile con esso restano ipotesi da verificare, non risultati previdenziali prodotti dal modello.
+    </p>
+</section>
+
+<section class="content-section" id="calcolo" aria-labelledby="calcolo-title">
+    <h2 id="calcolo-title">Come il metodo SWR combina ponte e riserva</h2>
+    <p>
+        Consideriamo una sola rendita permanente futura, senza capitali una tantum e senza imposte o bollo.
+        In ogni mese il fabbisogno del portafoglio è la spesa meno la rendita attiva, con minimo zero.
+        Il regime stabile comincia quando cambia per l'ultima volta la struttura dei flussi nell'orizzonte:
+        qui coincide con l'inizio della rendita. L'indicizzazione ordinaria non è un nuovo cambio strutturale.
+    </p>
+    <pre class="formula"><code>D_k = max(0, spesa del mese k − rendita del mese k)
+riserva al mese p = D_p × 12 / SWR
+H_p = riserva al mese p
+H_k = D_k + H_(k+1) / (1 + rendimento mensile FIRE), per k da p−1 a 1
+candidato ponte e riserva = H_1
+target base = spesa del primo mese FIRE × 12 / SWR
+target con rendita = min(target base, candidato ponte e riserva)</code></pre>
+    <p>
+        <code>p</code> è il primo mese del regime stabile, <code>D_k</code> il fabbisogno del mese e
+        <code>H_k</code> il patrimonio richiesto all'inizio di quel mese. La ricorrenza risale fino all'ingresso
+        FIRE, tenendo conto del prelievo anticipato e del rendimento successivo. Con rendimento zero,
+        il ponte è semplicemente la somma dei fabbisogni prima di <code>p</code>. Sono regole del progetto,
+        documentate nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">sezione 21</a>,
+        non una formula INPS né una garanzia che il patrimonio duri per sempre.
+    </p>
+    <p>
+        Con fiscalità attiva il motore cerca numericamente il capitale capace di finanziare vendite e bollo
+        fino al regime stabile e la riserva sulla vendita lorda necessaria in quel mese. Il conto semplice
+        precedente va quindi sostituito dal risultato fiscalizzato, secondo le
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">sezioni 7.2 e 14.2 della specifica fiscale</a>.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Esempio: dodici anni di ponte e una riserva di 240.000 euro</h2>
+    <p>
+        Elaborazione propria, ipotetica: età attuale ed età FIRE entrambe 54 anni, durata FIRE 40 anni,
+        spesa 2.200 euro al mese e rendita netta 1.400 euro al mese dall'età convenzionale di 66 anni,
+        senza fine. SWR 4%; inflazione, rendimenti, crescita della rendita, aliquota sulle plusvalenze e bollo
+        tutti zero; nessun'altra risorsa e capitale finale desiderato zero. L'età di 66 anni è soltanto un input
+        didattico, non un requisito pensionistico. Con inflazione nulla euro di oggi e nominali coincidono.
+    </p>
+    <p>
+        Ci sono 144 prelievi prima della rendita, che inizia all'inizio del mese FIRE 145. Da quel mese il
+        fabbisogno del portafoglio scende a 800 euro. Applicando la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">regola del ponte e della riserva</a>:
+    </p>
+    <pre class="formula"><code>target base = 2.200 × 12 / 0,04 = 660.000 euro
+ponte = 2.200 × 144 = 316.800 euro
+riserva = (2.200 − 1.400) × 12 / 0,04 = 240.000 euro
+target SWR = min(660.000, 316.800 + 240.000) = 556.800 euro</code></pre>
+    <p>
+        Per riprodurre la proiezione senza mesi di accumulo, inserisci 556.800 euro di patrimonio e costo fiscale
+        uguale al saldo. Dopo 144 mesi restano 240.000 euro. Sottrarre la rendita dalla spesa fin dall'inizio
+        darebbe invece un target di soli 240.000 euro: quei soldi coprirebbero appena 109 prelievi completi
+        da 2.200 euro, prima ancora della decorrenza.
+    </p>
+    <p>
+        Anche il target corretto ha un limite visibile: con rendimento zero, la riserva di 240.000 euro finanzia
+        300 mesi da 800 euro. Il patrimonio copre quindi 444 mesi complessivi; al mese 445 compare il primo
+        fabbisogno non coperto, prima della fine dei 480 mesi ipotizzati. Il 4% è un parametro dell'esempio,
+        non un rendimento o una promessa di sostenibilità.
+    </p>
+    <p>
+        A parità di questi input, FINITE con capitale terminale zero richiede
+        <code>144 × 2.200 + 336 × 800 = 585.600 euro</code>. La differenza di 28.800 euro finanzia gli ultimi
+        36 mesi nell'esempio deterministico. Per riprodurre questo secondo caso senza accumulo, porta anche
+        patrimonio e costo fiscale a 585.600 euro: con il saldo precedente il capitale sarebbe insufficiente.
+        Il <a href="/guida/metodo-finite-o-swr">confronto tra FINITE e SWR</a>
+        aiuta a distinguere le due domande; nessuno dei due risultati certifica una pensione futura.
+    </p>
+</section>
+
+<section class="content-section" id="scenari" aria-labelledby="scenari-title">
+    <h2 id="scenari-title">Una decorrenza più tardiva può annullare il vantaggio sul target</h2>
+    <p>
+        La tabella cambia soltanto attesa e importo della rendita rispetto all'esempio. Tutte le altre ipotesi
+        restano identiche; gli importi sono euro all'ingresso FIRE, senza arrotondamenti intermedi.
+        Ponte, riserva e candidato sono calcoli propri con le formule appena mostrate.
+    </p>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th scope="col">Scenario</th><th scope="col">Ponte</th><th scope="col">Riserva</th><th scope="col">Candidato</th><th scope="col">Target SWR</th></tr></thead>
+            <tbody>
+                <tr><th scope="row">1.400 euro dopo 12 anni</th><td>316.800</td><td>240.000</td><td>556.800</td><td>556.800</td></tr>
+                <tr><th scope="row">1.400 euro dopo 14 anni</th><td>369.600</td><td>240.000</td><td>609.600</td><td>609.600</td></tr>
+                <tr><th scope="row">1.200 euro dopo 12 anni</th><td>316.800</td><td>300.000</td><td>616.800</td><td>616.800</td></tr>
+                <tr><th scope="row">1.200 euro dopo 14 anni</th><td>369.600</td><td>300.000</td><td>669.600</td><td>660.000</td></tr>
+                <tr><th scope="row">Nessuna rendita</th><td>Non applicabile</td><td>660.000</td><td>660.000</td><td>660.000</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>
+        Due anni in più aggiungono 52.800 euro al ponte a rendimento zero. Nell'ultimo scenario con rendita,
+        il candidato supera il target base: il motore conserva 660.000 euro. La risorsa può migliorare i
+        saldi successivi senza abbassare il target; questa scelta non assicura che resti intatta la riserva
+        candidata di 300.000 euro alla decorrenza. Leggi sempre anche la proiezione mensile.
+    </p>
+    <p>
+        Per verificare le righe con età attuale uguale all'età FIRE, imposta patrimonio e costo fiscale pari
+        al relativo target. Senza mesi di accumulo, un saldo inferiore viene segnalato come insufficiente:
+        non esiste un PAC futuro che colmi il divario prima dell'ingresso immediato nel FIRE.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Il ponte va controllato insieme alla fase successiva</h2>
+    <ul>
+        <li>Se pensione e spesa crescono a tassi diversi, il fabbisogno residuo cambia anche dopo la decorrenza. La riserva SWR resta basata sul primo mese del regime stabile.</li>
+        <li>Se esistono altre entrate temporanee o capitali futuri, il regime stabile può iniziare dopo la pensione, all'ultima variazione strutturale considerata.</li>
+        <li>Il motore usa rendimenti costanti: non attribuisce probabilità alla copertura del ponte e non simula il rischio di sequenza. Il relativo <a href="/guida/rischio-sequenza-rendimenti-fire">approfondimento sui rendimenti</a> spiega il limite.</li>
+        <li>Una rendita che copre tutta la spesa può azzerare il fabbisogno successivo nel modello, ma non elimina i prelievi precedenti né l'incertezza su importo, potere d'acquisto e decorrenza.</li>
+    </ul>
+    <p>
+        La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 1, 21 e 22</a>
+        separa il benchmark SWR dalla verifica mensile. Per una decisione personale, il risultato va letto
+        insieme alla posizione previdenziale verificata e ai limiti del modello.
+    </p>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Confronta tre ipotesi prima di interpretare il capitale richiesto</h2>
+    <p>
+        Documenta la stima previdenziale compatibile con l'uscita lavorativa, il netto in euro di oggi e il
+        confine di disponibilità. Nel <a href="/">simulatore FIRE</a> confronta l'ipotesi principale con una
+        decorrenza più tardiva e un importo inferiore; conserva anche un confronto senza rendita.
+        Per ciascuno controlla target, PAC aggiuntivo e primo mese con fabbisogno non coperto nell'intero orizzonte,
+        usando la <a href="/metodologia">metodologia</a> per verificare le convenzioni. Il ponte è una parte
+        del piano, e la sua riuscita nei primi anni non basta a finanziare automaticamente quelli successivi.
+    </p>
+</section>
+
+            <aside class="related-content" aria-labelledby="related-title">
+                <h2 id="related-title">Approfondisci e verifica</h2>
+                <ul><li><a href="/metodologia">Metodologia del simulatore FIRE</a><small>Verifica tempi, formule del ponte e trattamento delle imposte nelle proiezioni.</small></li><li><a href="/">Simulatore FIRE</a><small>Confronta la rendita ipotizzata con decorrenza più tardiva, netto inferiore e assenza di pensione.</small></li><li><a href="/guida/rendite-pensione-capitali-futuri">Rendite, pensione e capitali futuri nel FIRE</a><small>Inquadra la pensione fra le risorse aggiuntive senza confonderla con capitale già disponibile.</small></li><li><a href="/guida/metodo-finite-o-swr">Scegliere tra FINITE e SWR</a><small>Distingui una riserva di riferimento SWR dal capitale necessario per una durata finita.</small></li><li><a href="/guida/rischio-sequenza-rendimenti-fire">Rischio di sequenza dei rendimenti</a><small>Comprendi perché un ponte esposto a rendimenti variabili non è descritto da una sola traiettoria costante.</small></li></ul>
+            </aside>
+
+            <section class="guide-sources" aria-labelledby="sources-title">
+                <h2 id="sources-title">Fonti consultate</h2>
+                <p>Le fonti sono state consultate integralmente e registrate nel processo editoriale.</p>
+                <ol><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md">Calcolo FIRE Italia — specifica matematica del motore</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0001</small></li><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md">Calcolo FIRE Italia — specifica della fiscalità semplificata</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0002</small></li><li><a href="https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.la-mia-pensione-futura-simulazione-della-propria-pensione-50033.la-mia-pensione-futura-simulazione-della-propria-pensione.html">La mia pensione futura: simulazione della propria pensione</a><small>Istituto Nazionale della Previdenza Sociale (INPS) · 31 luglio 2025 · SRC-2026-0007</small></li><li><a href="https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.pensione-di-vecchiaia.html">Pensione di vecchiaia — requisiti e decorrenza</a><small>Istituto Nazionale della Previdenza Sociale (INPS) · 12 giugno 2026 · SRC-2026-0021</small></li><li><a href="https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.codiceRedazionale=26A00149&amp;art.dataPubblicazioneGazzetta=2026-01-21&amp;art.flagTipoArticolo=0&amp;art.idArticolo=1&amp;art.idGruppo=1&amp;art.idSottoArticolo=1&amp;art.idSottoArticolo1=10&amp;art.progressivo=2&amp;art.versione=1">Legge 30 dicembre 2025, n. 199 — adeguamento dei requisiti pensionistici</a><small>Repubblica Italiana — Gazzetta Ufficiale · 21 gennaio 2026 · SRC-2026-0022</small></li></ol>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.</p>
+                <p class="editorial-disclosure">Questa guida è stata preparata tramite il processo editoriale automatizzato di Calcolo FIRE Italia, basato sulle fonti citate e sulle regole di qualità del progetto. Stefano Liga ne è il responsabile editoriale.</p>
+            </aside>
+
+            <aside class="content-notice warning" aria-label="Nota informativa">
+                <h2>Nota informativa</h2>
+                <p>I contenuti hanno finalità esclusivamente informative ed educative e non costituiscono consulenza finanziaria, fiscale, previdenziale o legale personalizzata. Prima di prendere decisioni, valuta la tua situazione e, quando necessario, rivolgiti a un professionista qualificato.</p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Confronta il ponte prima della pensione</h2>
+                <p>Inserisci una rendita netta dalla decorrenza ipotizzata. Mantieni uguali le altre ipotesi, posticipa l’inizio o riduci l’importo e controlla target, PAC e mesi scoperti. Prova anche lo scenario senza rendita.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Guida · GUIDE-0017</span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0017",
+  "slug": "/guida/capitale-ponte-pensione-fire",
+  "seo": {
+    "title": "Capitale ponte tra FIRE e pensione: calcolo e limiti",
+    "description": "Come stimare il capitale ponte prima della pensione: riserva SWR, decorrenza e importo netto, esempi con rendita futura e limiti del simulatore FIRE.",
+    "og_title": "Capitale ponte tra FIRE e pensione",
+    "og_description": "Separa i mesi da finanziare prima della rendita dalla riserva successiva e confronta decorrenze, importi e proiezioni senza presumere un diritto pensionistico."
+  },
+  "page": {
+    "kicker": "Risorse aggiuntive e previdenza",
+    "h1": "Capitale ponte tra FIRE e pensione: calcolo e limiti",
+    "lead": "Una pensione futura può ridurre il prelievo dal portafoglio quando inizia, ma prima serve capitale per coprire le spese. Nel metodo SWR il simulatore considera questo ponte e una riserva sul fabbisogno successivo. Qui trovi il calcolo, un confronto tra scenari e le verifiche da fare sulla stima previdenziale."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "Il ponte finanzia il fabbisogno nei mesi tra FIRE e inizio della rendita; la pensione futura non riduce retroattivamente i prelievi.",
+    "La riserva SWR parte dal fabbisogno residuo all’inizio del regime stabile. Ponte e riserva sono parti dello stesso target, non due patrimoni da contare separatamente.",
+    "Con spesa di 2.200 euro, rendita netta di 1.400 euro dopo 12 anni e tassi e fiscalità nulli, il candidato è 316.800 + 240.000 = 556.800 euro.",
+    "Il target SWR con risorse è il minore tra candidato e target base: una rendita più tardiva non produce sempre una riduzione.",
+    "La stima pensionistica deve riflettere l’interruzione del lavoro ipotizzata nel piano, con importo netto e decorrenza verificati.",
+    "Un target SWR ridotto non garantisce la copertura dell’intero orizzonte: controlla i mesi scoperti e confronta anche il metodo FINITE."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0007",
+    "SRC-2026-0021",
+    "SRC-2026-0022"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica tempi, formule del ponte e trattamento delle imposte nelle proiezioni."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Confronta la rendita ipotizzata con decorrenza più tardiva, netto inferiore e assenza di pensione."
+    },
+    {
+      "url": "/guida/rendite-pensione-capitali-futuri",
+      "label": "Rendite, pensione e capitali futuri nel FIRE",
+      "reason": "Inquadra la pensione fra le risorse aggiuntive senza confonderla con capitale già disponibile."
+    },
+    {
+      "url": "/guida/metodo-finite-o-swr",
+      "label": "Scegliere tra FINITE e SWR",
+      "reason": "Distingui una riserva di riferimento SWR dal capitale necessario per una durata finita."
+    },
+    {
+      "url": "/guida/rischio-sequenza-rendimenti-fire",
+      "label": "Rischio di sequenza dei rendimenti",
+      "reason": "Comprendi perché un ponte esposto a rendimenti variabili non è descritto da una sola traiettoria costante."
+    }
+  ],
+  "cta": {
+    "title": "Confronta il ponte prima della pensione",
+    "text": "Inserisci una rendita netta dalla decorrenza ipotizzata. Mantieni uguali le altre ipotesi, posticipa l’inizio o riduci l’importo e controlla target, PAC e mesi scoperti. Prova anche lo scenario senza rendita.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
