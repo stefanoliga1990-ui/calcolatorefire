@@ -1,0 +1,219 @@
+<section class="content-section" id="flusso" aria-labelledby="flusso-title">
+    <h2 id="flusso-title">La rendita è un flusso disponibile, distinto dal patrimonio</h2>
+    <p>
+        Nel piano FIRE una rendita periodica è un'entrata mensile che può finanziare nuovi investimenti
+        oppure una parte della spesa. Un canone incassato e il valore dell'immobile sono grandezze diverse:
+        il primo è un flusso, il secondo è un patrimonio. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica del motore, sezioni 16–19</a>
+        assegna al flusso importo, periodo e uso. Il nome della card non modifica queste regole.
+    </p>
+    <p>
+        La <a href="/guida/rendite-pensione-capitali-futuri">panoramica sulle risorse aggiuntive</a>
+        distingue rendite, investimenti e capitali una tantum. Qui approfondiamo la configurazione della
+        rendita: non stimiamo il valore di un immobile né il diritto individuale a una pensione.
+        Un campo finale vuoto significa che il flusso continua nel periodo simulato, non che sia garantito per sempre.
+    </p>
+</section>
+
+<section class="content-section" id="netto" aria-labelledby="netto-title">
+    <h2 id="netto-title">Ricostruisci il netto prima di inserirlo come entrata mensile</h2>
+    <p>
+        Parti da incassi e uscite documentati. La
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia, nella pianificazione in cinque passi</a>
+        invita a ricostruire entrate e spese, includere uscite poco frequenti e imprevisti, e correggere
+        la tendenza a sovrastimare le entrate. Applicato a una rendita, questo criterio significa distinguere
+        l'incasso lordo dal denaro effettivamente disponibile per il piano.
+    </p>
+    <p>
+        Per un affitto, prepara un budget che consideri imposte personali stimate, costi a carico del proprietario,
+        manutenzione e periodi ipotizzati senza incassi. È una procedura di costruzione dello scenario,
+        non una formula fiscale: il calcolatore non determina queste voci. Evita di sottrarre lo stesso costo
+        sia dal netto della rendita sia dalla spesa mensile del piano.
+    </p>
+    <p>
+        Le rendite sono input già netti secondo la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezione 1</a>.
+        Modificare l'aliquota sulle vendite del portafoglio non calcola le imposte su un canone, una pensione
+        o un dividendo. Per il netto personale e il regime applicabile serve una verifica specifica,
+        con un professionista qualificato quando necessario.
+    </p>
+    <p>
+        Un incasso annuale diviso per dodici può essere una media didattica utile, ma il modello lo distribuisce
+        mensilmente: non ricostruisce una cedola pagata una volta l'anno o una rata mancante. La liquidità
+        necessaria fra due incassi va verificata separatamente; una media non dimostra che ogni prelievo sia finanziato in tempo.
+    </p>
+</section>
+
+<section class="content-section" id="campi" aria-labelledby="campi-title">
+    <h2 id="campi-title">Compila importo, inizio, fine e due usi indipendenti</h2>
+    <p>
+        Nel simulatore scegli <strong>Aggiungi rendita</strong> e poi <strong>Rendita periodica</strong>.
+        I campi applicano le convenzioni delle
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">sezioni 17–19 della specifica</a>:
+        le età sono confini di pianificazione in anni interi, trasformati in mesi, senza date di calendario.
+    </p>
+    <ul>
+        <li><strong>Importo mensile netto di oggi:</strong> indica il flusso alla base monetaria iniziale, anche se inizierà in futuro.</li>
+        <li><strong>Crescita annua della rendita:</strong> imposta il tasso annuo nominale effettivo ipotizzato; non è il rendimento del patrimonio investito.</li>
+        <li><strong>Età di inizio:</strong> il flusso è attivo da quel confine, incluso. Se coincide con l'età FIRE, copre già il primo mese FIRE.</li>
+        <li><strong>Età di fine:</strong> il confine è escluso. Una rendita che finisce all'età FIRE non copre il primo prelievo; lascia vuoto solo se lo scenario la considera attiva per tutto l'orizzonte successivo.</li>
+        <li><strong>Investi prima del FIRE:</strong> versa l'intero flusso della card nel portafoglio a fine mese durante l'accumulo, con il rendimento globale di accumulo. Se disattivato, quel flusso non aumenta il capitale accumulato.</li>
+        <li><strong>Usa durante il FIRE:</strong> sottrae la rendita attiva dalla spesa del mese, prima di calcolare il prelievo richiesto al portafoglio.</li>
+    </ul>
+    <p>
+        Le due opzioni non anticipano incassi futuri: agiscono soltanto nei rispettivi periodi e nei mesi di attività.
+        Dopo una modifica ricalcola lo scenario, quindi controlla che i risultati incorporino la nuova configurazione.
+    </p>
+</section>
+
+<section class="content-section" id="crescita" aria-labelledby="crescita-title">
+    <h2 id="crescita-title">La crescita parte da oggi, anche per una rendita futura</h2>
+    <p>
+        Se <code>t</code> è il numero di mesi dal momento iniziale, <code>R_0</code> l'importo inserito
+        e <code>u</code> la crescita annua in forma decimale, il flusso nominale è:
+    </p>
+    <pre class="formula"><code>R(t) = R_0 × (1 + u)^(t / 12), nei mesi in cui la rendita è attiva</code></pre>
+    <p>
+        Questa è la regola della
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">sezione 17.2</a>.
+        Con 600 euro di oggi, crescita ipotetica del 2% e inizio fra dieci anni, il primo importo nominale
+        è <code>600 × 1,02^10 = 731,40 euro</code>. Se invece 600 euro è già l'importo nominale previsto
+        fra dieci anni, usare gli stessi 600 come base con crescita del 2% lo rivaluterebbe una seconda volta:
+        per quella precisa traiettoria la base è <code>600 / 1,02^10 = 492,21 euro</code>.
+        I risultati sono arrotondati ai centesimi; conserva la precisione nel confronto.
+    </p>
+    <p>
+        Con crescita zero, 600 euro restano nominalmente 600. Se l'inflazione ipotizzata è il 2% annuo,
+        fra dieci anni valgono circa 492,21 euro nel potere d'acquisto iniziale. La perdita di potere d'acquisto
+        e la differenza fra indice generale e spesa personale sono spiegate nelle
+        <a href="https://www.istat.it/notizia/faq-domande-frequenti-sui-prezzi-al-consumo/" data-source-id="SRC-2026-0005">FAQ ISTAT, domande 2 e 15</a>.
+        Il 2% è un'ipotesi didattica, non una previsione ISTAT. Impostare crescita e inflazione uguali
+        conserva il valore reale nel modello, ma non verifica clausole contrattuali o rivalutazioni effettive.
+    </p>
+</section>
+
+<section class="content-section" id="quota" aria-labelledby="quota-title">
+    <h2 id="quota-title">Per reinvestire una parte, separa due quote dello stesso flusso</h2>
+    <p>
+        La card offre una scelta sì/no per il reinvestimento, non una percentuale. Per modellare una quota
+        parziale, puoi dividere la rendita in due card con importi disgiunti e uguali periodo e crescita.
+        È un'applicazione delle risorse additive e delle opzioni descritte nella
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 16–18</a>.
+    </p>
+    <p>
+        Esempio proprio: su 600 euro netti mensili, una quota del 40% corrisponde a 240 euro da investire;
+        i restanti 360 euro vengono consumati prima del FIRE. Inserisci una card da 240 euro con
+        <strong>Investi prima del FIRE</strong> attivo e una da 360 euro con l'opzione disattivata.
+        Se durante il FIRE vuoi destinare tutti i 600 euro alla spesa, attiva <strong>Usa durante il FIRE</strong>
+        su entrambe. Non aggiungere anche una terza card da 600 euro: la somma dei flussi deve restare 600.
+    </p>
+    <p>
+        Questa configurazione assume che i due importi rimangano nelle stesse proporzioni e che il totale sia
+        disponibile per la spesa dopo il FIRE. Se una parte resta destinata ad altri usi, la relativa opzione
+        durante il FIRE va impostata coerentemente. Gli apporti netti investiti aumentano anche il costo fiscale,
+        secondo la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezione 5</a>.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Esempio: 600 euro per quindici anni, di cui dieci nel FIRE</h2>
+    <p>
+        Elaborazione propria: età attuale 40 anni, età FIRE 45 anni, durata FIRE 20 anni, spesa mensile
+        1.800 euro di oggi, patrimonio iniziale e capitale finale desiderato zero. Una rendita netta da 600 euro
+        inizia a 40 anni e termina a 55. Inflazione, crescita della rendita e del PAC, rendimenti di accumulo
+        e FIRE, aliquota sulle plusvalenze e bollo sono tutti zero; nessun'altra risorsa.
+        Le età sono input convenzionali, non decorrenze di una prestazione. Euro di oggi e nominali coincidono.
+    </p>
+    <p>
+        Ci sono 60 mesi di accumulo e 240 mesi FIRE. La rendita copre i primi 120 mesi FIRE: il fabbisogno
+        è 1.200 euro fino al mese 120 e torna a 1.800 dal mese 121, all'età convenzionale di 55 anni.
+        Con FINITE, senza rendimento e con capitale finale zero, la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">ricorrenza della sezione 20</a>
+        si riduce alla somma dei fabbisogni:
+    </p>
+    <pre class="formula"><code>target FINITE = 120 × 1.200 + 120 × 1.800 = 360.000 euro
+rendita interamente investita prima del FIRE = 60 × 600 = 36.000 euro
+PAC aggiuntivo = (360.000 − 36.000) / 60 = 5.400 euro al mese</code></pre>
+    <p>
+        Il PAC aggiuntivo di 5.400 euro si affianca ai 600 della rendita: entrambi finanziano l'accumulo,
+        ma il risultato PAC indica soltanto quanto resta da versare. La tabella varia fine e reinvestimento;
+        tutte le altre ipotesi restano uguali e <strong>Usa durante il FIRE</strong> è sempre attivo.
+    </p>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th scope="col">Scenario</th><th scope="col">Rendita accumulata</th><th scope="col">Target FINITE</th><th scope="col">PAC aggiuntivo mensile</th></tr></thead>
+            <tbody>
+                <tr><th scope="row">Nessuna rendita</th><td>0 euro</td><td>432.000 euro</td><td>7.200 euro</td></tr>
+                <tr><th scope="row">600 euro senza fine, reinvestiti</th><td>36.000 euro</td><td>288.000 euro</td><td>4.200 euro</td></tr>
+                <tr><th scope="row">600 euro fino a 55 anni, reinvestiti</th><td>36.000 euro</td><td>360.000 euro</td><td>5.400 euro</td></tr>
+                <tr><th scope="row">600 euro fino a 55 anni, non reinvestiti</th><td>0 euro</td><td>360.000 euro</td><td>6.000 euro</td></tr>
+                <tr><th scope="row">600 euro fino a 55 anni, 240 reinvestiti</th><td>14.400 euro</td><td>360.000 euro</td><td>5.760 euro</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>
+        Sono risultati analitici verificati con il motore del simulatore e arrotondati all'euro: il risolutore
+        numerico può lasciare differenze entro la tolleranza di un centesimo sul target.
+        La rendita prima del FIRE riduce il PAC; quella durante il FIRE riduce i fabbisogni e quindi il target FINITE.
+        Con fiscalità positiva, usa il risultato ricalcolato e non questa somma senza imposte, come richiede la
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezione 7</a>.
+        L'esempio isola il meccanismo e non suggerisce versamenti sostenibili per una persona reale.
+    </p>
+</section>
+
+<section class="content-section" id="swr" aria-labelledby="swr-title">
+    <h2 id="swr-title">Una rendita temporanea può lasciare invariato il target SWR</h2>
+    <p>
+        Il metodo SWR, cioè il tasso iniziale di prelievo scelto, tratta anche la riserva necessaria dopo l'ultima
+        variazione dei flussi. Nello stesso esempio, con SWR ipotetica del 4%, la rendita termina dopo 120 mesi
+        FIRE e la spesa torna interamente sul patrimonio. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">regola della sezione 21</a>
+        confronta il candidato composto con il target base:
+    </p>
+    <pre class="formula"><code>target base = 1.800 × 12 / 0,04 = 540.000 euro
+candidato = 120 × 1.200 + 540.000 = 684.000 euro
+target SWR = min(540.000, 684.000) = 540.000 euro</code></pre>
+    <p>
+        La rendita migliora i saldi dei primi dieci anni FIRE ma non abbassa questo target.
+        Se interamente reinvestita nei cinque anni precedenti, riduce comunque il PAC SWR a
+        <code>(540.000 − 36.000) / 60 = 8.400 euro</code> mensili. FINITE e SWR rispondono a domande diverse:
+        il <a href="/guida/metodo-finite-o-swr">confronto dei metodi</a> ne spiega i limiti.
+        Il 4% non è un rendimento né una garanzia di copertura. Per una rendita che inizia dopo l'ingresso
+        FIRE occorre invece finanziare prima l'attesa: leggi la <a href="/guida/capitale-ponte-pensione-fire">guida al capitale ponte</a>.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Controlla doppio conteggio, eccedenze e incassi incerti</h2>
+    <p>
+        Il rendimento complessivo può comprendere interessi, dividendi e variazioni di capitale; i dividendi
+        non sono garantiti, come spiega la
+        <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia nelle sezioni Rendimento e Rischio</a>.
+        Se lo stesso provento è già incluso nel rendimento reinvestito del patrimonio, aggiungerlo anche
+        come rendita lo conterebbe due volte. Se lo rappresenti come flusso separato, il rendimento assegnato
+        a quel patrimonio deve escluderlo.
+    </p>
+    <ul>
+        <li>Non sottrarre una rendita dalla spesa di partenza e poi inserirla anche nella card con uso nel FIRE attivo: sarebbe una seconda riduzione dello stesso fabbisogno.</li>
+        <li>Se la rendita supera la spesa durante il FIRE, il fabbisogno del portafoglio si ferma a zero. Il motore non reinveste automaticamente l'eccedenza né aumenta il saldo di quella differenza.</li>
+        <li>Una media mensile netta non simula sfitto, insolvenza, ritardi o manutenzioni straordinarie. Il rendimento costante non misura la probabilità che tutti gli incassi avvengano.</li>
+        <li>Una rendita che cresce meno della spesa copre una quota progressivamente minore. Il dato del primo mese FIRE non basta a descrivere tutta la durata.</li>
+    </ul>
+    <p>
+        Questi limiti sono espliciti nelle
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">sezioni 1, 17.2, 19 e 23 della specifica</a>.
+        Una scelta prudente di input resta uno scenario, non una certificazione degli incassi futuri.
+    </p>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Confronta il flusso previsto con importo minore e fine anticipata</h2>
+    <p>
+        Annota base dell'importo, netto disponibile, periodo e uso della rendita. Nel
+        <a href="/">simulatore FIRE</a> confronta lo scenario principale con un flusso inferiore, una scadenza
+        anticipata e l'assenza della rendita. Se reinvesti solo una quota, controlla che le card sommino una sola
+        volta l'entrata totale. Per ogni confronto leggi target, PAC, fabbisogno dopo la fine della rendita
+        ed eventuale mese non coperto nell'intera proiezione. La <a href="/metodologia">metodologia</a>
+        permette di verificare le convenzioni prima di attribuire significato personale al risultato.
+    </p>
+</section>

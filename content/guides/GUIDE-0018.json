@@ -1,0 +1,69 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0018",
+  "slug": "/guida/rendite-periodiche-fire",
+  "seo": {
+    "title": "Rendite periodiche nel FIRE: importi, durata e uso",
+    "description": "Come inserire rendite periodiche nel calcolo FIRE: netto, decorrenza, crescita e reinvestimento, con esempi su PAC, prelievi e rendite temporanee.",
+    "og_title": "Come considerare rendite periodiche nel piano FIRE",
+    "og_description": "Una guida ai campi del simulatore: netto disponibile, inizio, fine, crescita e uso della rendita, con un confronto tra reinvestimento totale e parziale."
+  },
+  "page": {
+    "kicker": "Risorse aggiuntive",
+    "h1": "Come considerare rendite periodiche nel piano FIRE",
+    "lead": "Una rendita periodica entra nel piano come flusso mensile netto, con inizio, eventuale fine e crescita dichiarati. Nel simulatore può essere investita prima del FIRE e ridurre i prelievi durante il FIRE. Affitti e proventi distribuiti richiedono attenzione al netto disponibile, alle interruzioni e al doppio conteggio: questa guida mostra i campi e i loro effetti con esempi riproducibili."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "L'importo è mensile, netto e in euro di oggi: il simulatore non calcola le imposte personali sulla rendita.",
+    "L'età di inizio è inclusa e quella di fine esclusa; il campo finale vuoto prolunga il flusso nell'orizzonte simulato.",
+    "La crescita parte dal mese zero, anche se la rendita inizia in futuro; crescita zero significa importo nominalmente fisso.",
+    "Investi prima del FIRE e Usa durante il FIRE sono due scelte indipendenti applicate ai mesi in cui la rendita è attiva.",
+    "Il reinvestimento riguarda tutto l'importo della card: una quota parziale richiede due flussi distinti la cui somma coincida con la rendita.",
+    "Una rendita temporanea può ridurre il target FINITE senza ridurre quello SWR; controlla anche PAC e proiezione completa."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0004",
+    "SRC-2026-0005",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica unità, intervalli mensili, trattamento delle risorse e limiti deterministici."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Confronta una rendita temporanea, una senza fine e diversi importi reinvestiti."
+    },
+    {
+      "url": "/guida/rendite-pensione-capitali-futuri",
+      "label": "Rendite, pensione e capitali futuri",
+      "reason": "Distingue il flusso periodico dal patrimonio esistente e da una somma una tantum."
+    },
+    {
+      "url": "/guida/capitale-ponte-pensione-fire",
+      "label": "Capitale ponte tra FIRE e pensione",
+      "reason": "Approfondisce i prelievi da finanziare prima che inizi una rendita futura."
+    },
+    {
+      "url": "/guida/metodo-finite-o-swr",
+      "label": "Metodo FINITE o SWR",
+      "reason": "Spiega perché i due target rispondono a domande diverse anche con la stessa rendita."
+    }
+  ],
+  "cta": {
+    "title": "Confronta periodo e uso della rendita",
+    "text": "Riproduci un flusso con netto e periodo documentati, poi confronta un importo minore, una scadenza anticipata e lo scenario senza rendita. Leggi target, PAC e proiezione fino alla fine.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

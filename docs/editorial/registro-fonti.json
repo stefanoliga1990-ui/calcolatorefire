@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T03:49:03+00:00"
+        "last_accessed_at": "2026-09-28T07:49:19+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -34,13 +34,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Documento completo; sezioni 17, 19–22, 24.3; confronto con FireCalculator.safeWithdrawalRateTarget e test swrBuildsABridgeToFuturePermanentIncome.",
+        "section": "Documento completo; sezioni 16-23 e 24.2, 24.4, 24.6; riscontro in PeriodicIncome.java, FireCalculator.periodicIncomeAt e fireCashFlows, campi della card PERIODIC_INCOME in app-91e2b4c7a630.js.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T03:49:03+00:00",
+        "checked_at": "2026-09-28T07:49:19+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -135,6 +135,12 @@
           "claim": "Sezioni 17, 19–22 e 24.3: rendita netta disponibile dalla decorrenza; fabbisogno residuo, ricorrenza del ponte, riserva del regime stabile e minimo con il target base; esempi propri con spesa 2.200 euro, rendita 1.400 euro dopo 144 mesi e confronto FINITE su 480 mesi.",
           "importance": "central",
           "verified_at": "2026-09-28T03:49:03+00:00"
+        },
+        {
+          "content_id": "GUIDE-0018",
+          "claim": "Sezioni 16-23: importo netto in euro di oggi, intervallo iniziale incluso e finale escluso, crescita dal mese zero, rendita reinvestita a fine mese, riduzione del fabbisogno FIRE, eccedenza esclusa e differenza tra FINITE e SWR; esempi propri e reinvestimento parziale tramite due flussi disgiunti.",
+          "importance": "central",
+          "verified_at": "2026-09-28T07:49:19+02:00"
         }
       ],
       "limitations": [
@@ -149,7 +155,7 @@
         }
       ],
       "local_copy": null,
-      "notes": "Fonte primaria interna per la pagina metodologia."
+      "notes": "Fonte primaria interna per la pagina metodologia. GUIDE-0018: lettura integrale nel checkout main, specifica immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03. Esempi propri: età 40, FIRE 45, durata 20 anni, spesa 1800 euro/mese, capitale iniziale/finale zero, rendimenti/inflazione/crescita PAC e rendita zero, aliquota e bollo zero, nessuna altra risorsa. Rendita 600 euro da 40 a 55 anni: 60 apporti in accumulo, 120 mesi FIRE con fabbisogno 1200 e 120 con 1800; target FINITE analitico 360000, reinvestimento 36000, PAC 5400. Senza reinvestimento PAC 6000; senza rendita target 432000 e PAC 7200; rendita senza fine target 288000 e PAC 4200. Reinvestimento parziale: due card da 240 e 360 euro, solo la prima investita in accumulo, entrambe usate nel FIRE; reinvestiti 14400, PAC 5760. Motore fiscalizzato verificato con JShell: target FINITE inferiori al valore analitico di 0,0078125 euro, PAC inferiori di 0,000130176544 euro; tabella arrotondata all’euro. SWR 0,04 temporanea: candidato 1200*120+540000=684000; target 540000, PAC 8400. Crescita/Inflazione ipotetiche: 600/(1,02)^10=492,2089799250931 euro reali; 600*(1,02)^10=731,3966519968544 euro nominali. Arrotondamento ai centesimi solo per questi valori; nessuna previsione."
     },
     {
       "id": "SRC-2026-0002",
@@ -167,7 +173,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T03:49:03+00:00"
+        "last_accessed_at": "2026-09-28T07:49:19+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -179,13 +185,13 @@
       },
       "locator": {
         "article": null,
-        "section": "Documento completo; sezioni 1, 7.2, 14.2–14.4 e 16; confronto con FiscalFireCalculator.swrBridgeIsFunded.",
+        "section": "Documento completo; sezioni 1, 5-7, 14 e 16; riscontro in FiscalFireCalculator e FiscalCalculator; esempi verificati con le classi di dominio via JShell.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T03:49:03+00:00",
+        "checked_at": "2026-09-28T07:49:19+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -256,6 +262,12 @@
           "claim": "Sezioni 1, 7.2 e 14–16: rendite inserite al netto delle imposte personali, target SWR fiscale basato sulla vendita lorda, simulazione di vendite e bollo fino al regime stabile; il risultato può avere shortfall successivi.",
           "importance": "central",
           "verified_at": "2026-09-28T03:49:03+00:00"
+        },
+        {
+          "content_id": "GUIDE-0018",
+          "claim": "Le rendite sono importi netti inseriti dall’utente; il motore non calcola imposte su affitti o proventi distribuiti, mentre gli apporti netti investiti aumentano saldo e costo fiscale. Esempi con aliquota e bollo zero e confronto col motore fiscalizzato.",
+          "importance": "central",
+          "verified_at": "2026-09-28T07:49:19+02:00"
         }
       ],
       "limitations": [
@@ -340,25 +352,25 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-27T15:40:39+02:00"
+        "last_accessed_at": "2026-09-28T07:49:19+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-27",
+        "as_of": "2026-09-28",
         "reference_period": "Principi generali di pianificazione finanziaria personale",
         "version": null,
         "provisional": false
       },
       "locator": {
         "article": null,
-        "section": "A cosa serve la pianificazione finanziaria; La pianificazione finanziaria in cinque passi",
+        "section": "A cosa serve la pianificazione finanziaria; La pianificazione finanziaria in cinque passi, punti 1, 4 e 5.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-27T15:40:39+02:00",
+        "checked_at": "2026-09-28T07:49:19+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -399,6 +411,12 @@
           "claim": "La Banca d’Italia propone di ricostruire entrate e uscite, fissare obiettivi raggiungibili, includere spese poco frequenti e imprevisti e rivedere periodicamente il budget.",
           "importance": "central",
           "verified_at": "2026-09-27T15:40:39+02:00"
+        },
+        {
+          "content_id": "GUIDE-0018",
+          "claim": "La pianificazione parte da entrate e uscite osservate, include uscite poco frequenti e imprevisti e richiede attenzione alla tendenza a sovrastimare le entrate; applicazione editoriale al netto mensile di una rendita.",
+          "importance": "central",
+          "verified_at": "2026-09-28T07:49:19+02:00"
         }
       ],
       "limitations": [
@@ -422,25 +440,25 @@
         "published": "2024-02-22",
         "updated": null,
         "first_accessed_at": "2026-09-24T21:05:22+02:00",
-        "last_accessed_at": "2026-09-27T21:43:19+02:00"
+        "last_accessed_at": "2026-09-28T07:49:19+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-27",
+        "as_of": "2026-09-28",
         "reference_period": "Definizioni e metodologia generale degli indici dei prezzi al consumo",
         "version": "Pagina pubblicata il 22 febbraio 2024",
         "provisional": false
       },
       "locator": {
         "article": null,
-        "section": "Domande 1–4: inflazione, potere d'acquisto e misurazione",
+        "section": "Documento completo; FAQ 1-3 e 15: inflazione, perdita del potere d’acquisto e differenza tra indice e consumi personali.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": "Indici NIC, IPCA e FOI"
       },
       "verification": {
-        "checked_at": "2026-09-27T21:43:19+02:00",
+        "checked_at": "2026-09-28T07:49:19+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -475,10 +493,17 @@
           "claim": "L’inflazione riduce il potere d’acquisto; gli indici ISTAT misurano la variazione di un paniere e non il prezzo personale di ogni lettore.",
           "importance": "central",
           "verified_at": "2026-09-27T21:43:19+02:00"
+        },
+        {
+          "content_id": "GUIDE-0018",
+          "claim": "Una rendita nominalmente fissa perde potere d’acquisto in presenza di aumenti dei prezzi; il paniere personale può differire dall’indice generale. Il 2% degli esempi è un’ipotesi, non un dato ISTAT.",
+          "importance": "central",
+          "verified_at": "2026-09-28T07:49:19+02:00"
         }
       ],
       "limitations": [
-        "La pagina definisce l'inflazione e gli indici ufficiali, ma non fornisce una previsione da usare automaticamente nelle simulazioni."
+        "La pagina definisce l'inflazione e gli indici ufficiali, ma non fornisce una previsione da usare automaticamente nelle simulazioni.",
+        "GUIDE-0018 usa solo definizioni, senza aliquote di indicizzazione contrattuale o dati correnti: il tasso costante del modello non ricostruisce clausole, scatti annuali o indici effettivi."
       ],
       "conflicts": [],
       "local_copy": null,
@@ -758,25 +783,25 @@
         "published": null,
         "updated": null,
         "first_accessed_at": "2026-09-25T22:57:33+02:00",
-        "last_accessed_at": "2026-09-27T23:44:05+02:00"
+        "last_accessed_at": "2026-09-28T07:49:19+02:00"
       },
       "applicability": {
         "valid_from": null,
         "valid_to": null,
-        "as_of": "2026-09-27",
+        "as_of": "2026-09-28",
         "reference_period": "Principi generali su rendimento, rischio, orizzonte e costi degli investimenti",
         "version": null,
         "provisional": false
       },
       "locator": {
         "article": null,
-        "section": "Rendimento: cos’è e come misurarlo; Rischio; Attenzione ai costi",
+        "section": "Documento completo; Rendimento: cos’è e come misurarlo; Rischio: quali pericoli corri investendo nei mercati finanziari; Attenzione ai costi.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-27T23:44:05+02:00",
+        "checked_at": "2026-09-28T07:49:19+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -823,6 +848,12 @@
           "claim": "Rendimenti futuri e inflazione sono incerti; rischio, orizzonte e costi cambiano il risultato effettivo di un investimento.",
           "importance": "central",
           "verified_at": "2026-09-27T23:44:05+02:00"
+        },
+        {
+          "content_id": "GUIDE-0018",
+          "claim": "Il rendimento può includere interessi, dividendi e variazioni di capitale; i dividendi e i rendimenti futuri non sono garantiti. Questi principi sostengono la distinzione tra proventi distribuiti e rendimento complessivo.",
+          "importance": "central",
+          "verified_at": "2026-09-28T07:49:19+02:00"
         }
       ],
       "limitations": [
