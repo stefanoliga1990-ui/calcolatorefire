@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Controlla doppio conteggio, euro di oggi, date delle rendite, PAC e costo fiscale. Esempi verificati per correggere gli input del simulatore FIRE.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Errori nel calcolo FIRE: controlli prima dei risultati">
+    <meta property="og:description" content="Un calcolo valido può usare ipotesi incoerenti. Verifica capitali distinti, unità, periodi, spese e versamenti con esempi del motore FIRE.">
+    <meta property="og:url" content="https://simulatorefire.com/guida/errori-calcolo-fire">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Errori comuni nel calcolo FIRE e come evitarli">
+    <meta property="article:published_time" content="2026-09-28">
+    <meta property="article:modified_time" content="2026-09-28">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Errori nel calcolo FIRE: controlli prima dei risultati">
+    <meta name="twitter:description" content="Un calcolo valido può usare ipotesi incoerenti. Verifica capitali distinti, unità, periodi, spese e versamenti con esempi del motore FIRE.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>Errori comuni nel calcolo FIRE e come evitarli</title>
+    <link rel="canonical" href="https://simulatorefire.com/guida/errori-calcolo-fire">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.0">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.3">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Errori comuni nel calcolo FIRE e come evitarli",
+  "description": "Controlla doppio conteggio, euro di oggi, date delle rendite, PAC e costo fiscale. Esempi verificati per correggere gli input del simulatore FIRE.",
+  "url": "https://simulatorefire.com/guida/errori-calcolo-fire",
+  "mainEntityOfPage": "https://simulatorefire.com/guida/errori-calcolo-fire",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "inLanguage": "it-IT",
+  "author": {
+    "@type": "Person",
+    "name": "Stefano Liga",
+    "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calcolo FIRE Italia",
+    "url": "https://simulatorefire.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+    }
+  },
+  "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Simulatore FIRE",
+      "item": "https://simulatorefire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guide",
+      "item": "https://simulatorefire.com/guide"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Errori comuni nel calcolo FIRE e come evitarli",
+      "item": "https://simulatorefire.com/guida/errori-calcolo-fire"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/guide">Guide</a>
+        <a class="header-link" href="/metodologia">Metodologia</a>
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li><a href="/guide">Guide</a></li>
+                <li aria-current="page">Errori comuni nel calcolo FIRE e come evitarli</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">Uso del simulatore FIRE</p>
+        <h1>Errori comuni nel calcolo FIRE e come evitarli</h1>
+        <p class="content-lead">Per evitare errori nel calcolo FIRE, conta ogni capitale e ogni entrata una sola volta, rispetta le unità dei campi e colloca le risorse nell’età in cui saranno disponibili. Controlla poi spese, versamenti e impostazioni fiscali. Le validazioni possono rifiutare input impossibili, ma un risultato senza errori non certifica che le ipotesi siano realistiche o che il piano sia sostenibile.</p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia</span>
+            <span>9 minuti di lettura</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della guida">
+            <strong>In questa guida</strong>
+            <ol><li><a href="#validazioni">Un calcolo accettato può contenere errori di pianificazione</a></li><li><a href="#risorse-distinte">Conta una sola volta capitale, versamenti e proventi</a></li><li><a href="#unita">Rispetta euro di oggi, valori nominali e tassi annui</a></li><li><a href="#periodi">Non anticipare entrate future o prolungare rendite scadute</a></li><li><a href="#budget">Confronta il budget con tutti i versamenti richiesti</a></li><li><a href="#costi-rischi">Non trasformare convenzioni fiscali e rendimenti in certezze</a></li><li><a href="#controllo-finale">Riconcilia gli input prima di usare il risultato</a></li></ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul><li>Un input accettato può duplicare lo stesso capitale o usare una disponibilità futura troppo ottimistica.</li><li>Patrimonio principale e investimenti aggiuntivi devono rappresentare somme distinte; i proventi già reinvestiti nel rendimento totale non si aggiungono come rendita.</li><li>Spesa, rendita mensile e capitale finale usano euro di oggi; i rendimenti sono nominali. Un capitale futuro richiede la scelta fra euro di oggi e nominali futuri.</li><li>Le età sono confini di pianificazione: inizio incluso, fine esclusa. Una rendita futura non copre i mesi precedenti.</li><li>Il nuovo PAC si aggiunge alle rate delle risorse già programmate. Il budget deve sostenere entrambi e gli eventuali aumenti.</li><li>Il costo fiscale automatico pari al saldo è una convenzione modificabile; rendite e capitali futuri entrano già netti nel modello.</li><li>Avvisi, confronto con ipotesi meno favorevoli e controllo del budget completano le validazioni tecniche; non forniscono una probabilità di successo.</li></ul>
+            </section>
+
+<section class="content-section" id="validazioni" aria-labelledby="validazioni-title">
+    <h2 id="validazioni-title">Un calcolo accettato può contenere errori di pianificazione</h2>
+    <p>Il simulatore controlla che gli input rispettino regole matematiche e limiti tecnici. Non può sapere se un patrimonio esiste davvero, se un’entrata sarà disponibile o se lo stesso denaro compare in due campi. La verifica utile parte quindi dagli input, prima di interpretare il target, cioè il patrimonio richiesto all’ingresso nel FIRE.</p>
+    <p>La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 8, 11 e 23</a>, distingue limiti, periodi e risorse additive. Se età FIRE ed età attuale coincidono, non ci sono mesi per accumulare: quando il capitale disponibile è insufficiente, il risultato è irraggiungibile tramite PAC, il piano di accumulo periodico. Il rimedio richiede di rivedere capitale o orizzonte; un versamento mensile più alto non crea tempo mancante.</p>
+    <p>Un avviso su un’ipotesi insolita invita a esaminarla. L’assenza di avvisi non convalida il budget o i rendimenti futuri. Questa guida propone un controllo degli errori; la <a href="/guida/leggere-risultati-simulatore-fire">lettura di risultati e grafici</a> affronta invece il significato dei numeri dopo il calcolo.</p>
+</section>
+
+<section class="content-section" id="risorse-distinte" aria-labelledby="risorse-distinte-title">
+    <h2 id="risorse-distinte-title">Conta una sola volta capitale, versamenti e proventi</h2>
+    <p>Il patrimonio principale e le card degli investimenti esistenti si sommano. Se possiedi complessivamente 180.000 euro, di cui 60.000 appartengono a una card separata, nel patrimonio principale restano 120.000 euro. Inserire 180.000 più 60.000 descrive invece 240.000 euro: il motore non riconosce che gli ultimi 60.000 sono duplicati.</p>
+    <p>Lo stesso controllo riguarda i flussi. Il rendimento totale, o <em>total return</em>, può comprendere proventi reinvestiti: aggiungere anche quei proventi come rendita li conterebbe due volte. Se un reddito viene rappresentato separatamente, il rendimento dello stock deve escluderlo. Sono convenzioni esplicite della <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica sulle risorse, sezioni 16–18 e 23</a>.</p>
+    <ul>
+        <li>Riconcilia il totale dei capitali inseriti con le somme effettivamente destinate al piano. Escludi da quel totale il denaro riservato ad altri impieghi.</li>
+        <li>I versamenti storici di un PAC sono già nel suo patrimonio corrente. Il campo versamento mensile descrive gli apporti futuri, senza ricreare quelli passati.</li>
+        <li>Per ogni entrata annota se è già nel rendimento, nella spesa netta o in una rendita. Usa una sola rappresentazione dello stesso beneficio.</li>
+        <li>Se inserisci la spesa completa e una rendita che la compensa nel FIRE, non sottrarre già quella rendita dalla spesa inserita.</li>
+    </ul>
+    <p>Un investimento marcato come non disponibile al FIRE non contribuisce al capitale disponibile né riduce il nuovo PAC. Un suo reddito utilizzabile richiede una rendita separata, con importo e periodo propri. La guida a <a href="/guida/capitale-investito-pac-esistente">patrimonio e PAC esistenti</a> approfondisce questa distinzione.</p>
+</section>
+
+<section class="content-section" id="unita" aria-labelledby="unita-title">
+    <h2 id="unita-title">Rispetta euro di oggi, valori nominali e tassi annui</h2>
+    <p>La spesa mensile e il capitale finale desiderato si inseriscono in euro di oggi, cioè con il potere d’acquisto attuale. Anche la rendita mensile parte da euro netti di oggi, poi segue il proprio tasso di crescita. Per un capitale futuro una tantum devi invece scegliere esplicitamente se l’importo rappresenta euro di oggi o euro nominali al momento della ricezione.</p>
+    <p>I rendimenti sono tassi annui nominali, al netto dei costi ricorrenti e prima delle imposte personali. Il motore considera separatamente l’inflazione: inserire già un rendimento reale, che incorpora la perdita di potere d’acquisto, cambia il significato dell’input. Queste unità sono definite nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 3–5 e 17</a>, e nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 1 e 16</a>.</p>
+    <p>Esempio proprio: con spesa di 1.800 euro di oggi, ingresso nel FIRE fra 10 anni e inflazione annua costante del 2%, la prima spesa nominale è 1.800 × 1,02 elevato a 10 = 2.194,19 euro. Se inserissi già 2.194,19 nel campo della spesa di oggi, il motore rivaluterebbe di nuovo: circa 2.674,71 euro. Gli importi sono arrotondati ai centesimi e il 2% è un’ipotesi didattica, senza valore di previsione.</p>
+    <p>Non confondere inoltre il tasso di prelievo SWR con il rendimento del portafoglio: sono input con funzioni diverse. Nel modulo i campi con il simbolo percentuale richiedono il valore percentuale; la formula tecnica può rappresentare lo stesso tasso in forma decimale.</p>
+</section>
+
+<section class="content-section" id="periodi" aria-labelledby="periodi-title">
+    <h2 id="periodi-title">Non anticipare entrate future o prolungare rendite scadute</h2>
+    <p>Le età sono confini di pianificazione in anni interi, senza data di nascita o mese del calendario. Nei periodi delle risorse l’inizio è incluso e la fine esclusa. Una rendita che termina all’età FIRE non finanzia il primo mese di FIRE; una che comincia a quell’età può farlo.</p>
+    <p>Il <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/b0c277d66775c9acbf30bbdf62226fc76b1134f5/src/main/java/com/example/calcolatorefire/domain/AdditionalResourceValidator.java" data-source-id="SRC-2026-0027">validatore originale delle risorse aggiuntive</a> rifiuta periodi incoerenti: un PAC esistente con versamenti richiede entrambe le età e deve terminarli entro l’ingresso nel FIRE; una rendita con fine esplicita deve terminare dopo l’inizio e sovrapporsi a una fase in cui è utilizzata. Un capitale futuro deve arrivare entro l’orizzonte della simulazione. Una data ammessa può comunque essere troppo anticipata rispetto all’evento reale.</p>
+    <p>Con FIRE da 50 anni per 25 anni, spesa di 1.800 euro al mese, capitale finale zero e tutti i tassi, aliquota e bollo a zero, una rendita netta di 600 euro al mese che inizia a 55 anni e prosegue senza fine richiede:</p>
+    <pre class="formula"><code>capitale iniziale = 60 mesi × 1.800 + 240 mesi × 1.200
+                  = 396.000 euro</code></pre>
+    <p>Spostarla erroneamente a 50 anni produce 360.000 euro: i 36.000 euro mancanti corrispondono a cinque anni di entrate anticipate. È un confronto proprio verificato con il motore, con rendita usata soltanto per ridurre la spesa nel FIRE e nessun’altra risorsa. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica dei flussi, sezioni 17 e 19–20</a>, impedisce che una risorsa futura finanzi retroattivamente i mesi precedenti.</p>
+    <p>Controlla quindi disponibilità, inizio, fine e utilizzo prima o durante il FIRE. Per una rendita temporanea lasciare la fine aperta equivale a ipotizzarla disponibile fino alla fine dell’orizzonte; il motore non ne verifica il contratto o la certezza.</p>
+</section>
+
+<section class="content-section" id="budget" aria-labelledby="budget-title">
+    <h2 id="budget-title">Confronta il budget con tutti i versamenti richiesti</h2>
+    <p>Il nuovo PAC è il versamento mensile aggiuntivo necessario dopo aver considerato le risorse già programmate. Il budget deve sostenere anche le rate dei PAC esistenti. Se imposti una crescita dei versamenti, il valore iniziale non rappresenta tutte le rate future: l’aumento è un impegno ipotizzato, senza una verifica automatica del reddito.</p>
+    <p>Prima di scegliere la spesa, ricostruisci anche uscite annuali e imprevisti. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d’Italia, nella pianificazione in cinque passi</a>, indica di registrare entrate e uscite, considerare le spese a bassa frequenza e verificare il budget. Una spesa annuale ipotetica di 2.400 euro equivale a 200 euro mensili; se è esclusa dai 1.800 euro di partenza, la spesa completa diventa 2.000.</p>
+    <p>La tabella è un’elaborazione propria verificata con formule e motore. In tutti i casi: età attuale 40, FIRE a 50, durata FIRE 25 anni, metodo FINITE, capitale finale zero, inflazione, rendimenti, crescita del PAC, aliquota e bollo zero. Una risorsa separata contiene 60.000 euro, riceve 500 euro al mese da 40 a 50 anni ed è disponibile al FIRE. Il costo fiscale iniziale coincide con ciascun saldo; non ci sono rendite o capitali futuri.</p>
+    <table>
+        <thead>
+            <tr><th scope="col">Input confrontati</th><th scope="col">Target</th><th scope="col">Nuovo PAC mensile</th><th scope="col">Rate mensili totali</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Spesa 1.800; principale 120.000 più risorsa 60.000</td><td>540.000 euro</td><td>2.500 euro</td><td>3.000 euro</td></tr>
+            <tr><td>Spesa 1.800; principale 180.000 più gli stessi 60.000 duplicati</td><td>540.000 euro</td><td>2.000 euro</td><td>2.500 euro</td></tr>
+            <tr><td>Spesa completa 2.000; principale 120.000 più risorsa 60.000</td><td>600.000 euro</td><td>3.000 euro</td><td>3.500 euro</td></tr>
+        </tbody>
+    </table>
+    <p>Nel primo caso: target = 1.800 × 300 mesi; la risorsa aggiunge anche 500 × 120 = 60.000 euro di versamenti futuri. Il nuovo PAC è quindi (540.000 − 120.000 − 60.000 − 60.000) / 120 = 2.500 euro. Le rate complessive sono 2.500 + 500. Il capitale duplicato riduce artificialmente il nuovo PAC di 500 euro; correggere la spesa annuale omessa lo aumenta di 500 euro rispetto al primo caso.</p>
+    <p>Target e PAC sono esposti agli euro interi; il risolutore Java riconcilia questi esempi entro un centesimo. Aliquota e bollo sono azzerati soltanto per isolare gli errori. I risultati non descrivono esenzioni fiscali, un budget personale o rendimenti futuri. La distinzione fra nuovi versamenti e risorse è documentata nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezione 18.4</a>.</p>
+</section>
+
+<section class="content-section" id="costi-rischi" aria-labelledby="costi-rischi-title">
+    <h2 id="costi-rischi-title">Non trasformare convenzioni fiscali e rendimenti in certezze</h2>
+    <p>Il costo fiscale è distinto dal valore di mercato. Il valore automatico pari al saldo è una convenzione del simulatore, modificabile se il costo attribuibile al portafoglio è diverso. Lasciarlo automatico può cancellare dal modello una plusvalenza già presente. Può anche superare il saldo in caso di perdita latente: il modello non genera per questo un credito fiscale.</p>
+    <p>Le rendite e i capitali futuri entrano già netti: il simulatore non calcola la loro fiscalità personale. I rendimenti del portafoglio devono invece rispettare la definizione dei campi, mentre il modello applica le imposte sulle vendite e il bollo separatamente. Inserire un rendimento già ridotto delle stesse imposte può duplicarne l’effetto. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 1–2 e 4–8</a>, descrive queste semplificazioni; non è una verifica tributaria individuale.</p>
+    <p>Un rendimento costante può rendere il nuovo PAC più basso, ma il risultato dipende da quell’ipotesi. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d’Italia, nelle sezioni Rischio e Attenzione ai costi</a>, richiama l’incertezza dei rendimenti e l’effetto dei costi. Il modello non simula oscillazioni, ordine delle perdite o una probabilità di successo.</p>
+    <aside class="content-notice warning" aria-labelledby="scenario-title">
+        <h3 id="scenario-title">Un target raggiunto vale sotto le ipotesi inserite</h3>
+        <p>Provare rendimenti inferiori, spese maggiori, entrate posticipate o un orizzonte più lungo aiuta a vedere la dipendenza del risultato. La scelta di un’ipotesi più favorevole per ottenere un PAC sostenibile non dimostra che il piano lo sia. Per importi netti, costo fiscale e situazioni personali da chiarire, serve la verifica appropriata, anche professionale.</p>
+    </aside>
+</section>
+
+<section class="content-section" id="controllo-finale" aria-labelledby="controllo-finale-title">
+    <h2 id="controllo-finale-title">Riconcilia gli input prima di usare il risultato</h2>
+    <ol>
+        <li>Somma i capitali distinti e identifica l’origine di ogni flusso: verifica che nessuno compaia due volte.</li>
+        <li>Annota per ciascun importo unità, natura netta o lorda, età di disponibilità e fine del periodo.</li>
+        <li>Controlla spese annuali, riserve escluse dal piano, costo fiscale e budget dei versamenti complessivi.</li>
+        <li>Dopo ogni correzione ricalcola: confronta target, PAC, proiezione e avvisi con gli input aggiornati.</li>
+        <li>Ripeti il confronto con ipotesi meno favorevoli, dichiarandole come scenari e senza attribuire probabilità.</li>
+    </ol>
+    <p>Usa la <a href="/metodologia">metodologia</a> per verificare le convenzioni e il <a href="/">simulatore FIRE</a> per rifare il calcolo. La <a href="/guida/analisi-sensibilita-fire">guida all’analisi di sensibilità</a> approfondisce come cambiare una variabile alla volta. Il risultato utile è un piano con input riconciliati e limiti comprensibili, che resta condizionato alle ipotesi.</p>
+</section>
+
+            <aside class="related-content" aria-labelledby="related-title">
+                <h2 id="related-title">Approfondisci e verifica</h2>
+                <ul><li><a href="/metodologia">Metodologia del simulatore FIRE</a><small>Verifica le unità dei campi, i periodi delle risorse e le semplificazioni del modello.</small></li><li><a href="/">Simulatore FIRE</a><small>Riproduci i controlli e ricalcola dopo aver corretto gli input.</small></li><li><a href="/guida/capitale-investito-pac-esistente">Patrimonio e PAC già esistenti</a><small>Approfondisci la separazione dei capitali e del nuovo PAC rispetto alle risorse già programmate.</small></li><li><a href="/guida/rendite-periodiche-fire">Come inserire una rendita periodica</a><small>Controlla importo netto, decorrenza, fine e utilizzo della rendita nelle due fasi.</small></li><li><a href="/guida/analisi-sensibilita-fire">Analisi di sensibilità FIRE</a><small>Confronta gli effetti di input meno favorevoli senza attribuire loro una probabilità.</small></li><li><a href="/guida/leggere-risultati-simulatore-fire">Leggere risultati e grafici FIRE</a><small>Dopo la verifica degli input, interpreta target, PAC, residuo e avvisi nelle rispettive unità.</small></li></ul>
+            </aside>
+
+            <section class="guide-sources" aria-labelledby="sources-title">
+                <h2 id="sources-title">Fonti consultate</h2>
+                <p>Le fonti sono state consultate integralmente e registrate nel processo editoriale.</p>
+                <ol><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md">Calcolo FIRE Italia — specifica matematica del motore</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0001</small></li><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/b0c277d66775c9acbf30bbdf62226fc76b1134f5/src/main/java/com/example/calcolatorefire/domain/AdditionalResourceValidator.java">Calcolo FIRE Italia — validazione delle risorse aggiuntive</a><small>Calcolo FIRE Italia · SRC-2026-0027</small></li><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md">Calcolo FIRE Italia — specifica della fiscalità semplificata</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0002</small></li><li><a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/">Pianificazione</a><small>Banca d&#x27;Italia — L&#x27;economia per tutti · SRC-2026-0004</small></li><li><a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/">Cosa sapere prima di investire</a><small>Banca d&#x27;Italia — L&#x27;economia per tutti · SRC-2026-0010</small></li></ol>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.</p>
+                <p class="editorial-disclosure">Questa guida è stata preparata tramite il processo editoriale automatizzato di Calcolo FIRE Italia, basato sulle fonti citate e sulle regole di qualità del progetto. Stefano Liga ne è il responsabile editoriale.</p>
+            </aside>
+
+            <aside class="content-notice warning" aria-label="Nota informativa">
+                <h2>Nota informativa</h2>
+                <p>I contenuti hanno finalità esclusivamente informative ed educative e non costituiscono consulenza finanziaria, fiscale, previdenziale o legale personalizzata. Prima di prendere decisioni, valuta la tua situazione e, quando necessario, rivolgiti a un professionista qualificato.</p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Ricalcola dopo aver controllato gli input</h2>
+                <p>Riconcilia i capitali, annota unità e periodi delle risorse e confronta tutti i versamenti con il budget. Poi ricalcola lo scenario e prova ipotesi meno favorevoli.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Guida · GUIDE-0028</span>
+</footer>
+</body>
+</html>

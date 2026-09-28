@@ -1,0 +1,75 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0028",
+  "slug": "/guida/errori-calcolo-fire",
+  "seo": {
+    "title": "Errori comuni nel calcolo FIRE e come evitarli",
+    "description": "Controlla doppio conteggio, euro di oggi, date delle rendite, PAC e costo fiscale. Esempi verificati per correggere gli input del simulatore FIRE.",
+    "og_title": "Errori nel calcolo FIRE: controlli prima dei risultati",
+    "og_description": "Un calcolo valido può usare ipotesi incoerenti. Verifica capitali distinti, unità, periodi, spese e versamenti con esempi del motore FIRE."
+  },
+  "page": {
+    "kicker": "Uso del simulatore FIRE",
+    "h1": "Errori comuni nel calcolo FIRE e come evitarli",
+    "lead": "Per evitare errori nel calcolo FIRE, conta ogni capitale e ogni entrata una sola volta, rispetta le unità dei campi e colloca le risorse nell’età in cui saranno disponibili. Controlla poi spese, versamenti e impostazioni fiscali. Le validazioni possono rifiutare input impossibili, ma un risultato senza errori non certifica che le ipotesi siano realistiche o che il piano sia sostenibile."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "Un input accettato può duplicare lo stesso capitale o usare una disponibilità futura troppo ottimistica.",
+    "Patrimonio principale e investimenti aggiuntivi devono rappresentare somme distinte; i proventi già reinvestiti nel rendimento totale non si aggiungono come rendita.",
+    "Spesa, rendita mensile e capitale finale usano euro di oggi; i rendimenti sono nominali. Un capitale futuro richiede la scelta fra euro di oggi e nominali futuri.",
+    "Le età sono confini di pianificazione: inizio incluso, fine esclusa. Una rendita futura non copre i mesi precedenti.",
+    "Il nuovo PAC si aggiunge alle rate delle risorse già programmate. Il budget deve sostenere entrambi e gli eventuali aumenti.",
+    "Il costo fiscale automatico pari al saldo è una convenzione modificabile; rendite e capitali futuri entrano già netti nel modello.",
+    "Avvisi, confronto con ipotesi meno favorevoli e controllo del budget completano le validazioni tecniche; non forniscono una probabilità di successo."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0027",
+    "SRC-2026-0002",
+    "SRC-2026-0004",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica le unità dei campi, i periodi delle risorse e le semplificazioni del modello."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Riproduci i controlli e ricalcola dopo aver corretto gli input."
+    },
+    {
+      "url": "/guida/capitale-investito-pac-esistente",
+      "label": "Patrimonio e PAC già esistenti",
+      "reason": "Approfondisci la separazione dei capitali e del nuovo PAC rispetto alle risorse già programmate."
+    },
+    {
+      "url": "/guida/rendite-periodiche-fire",
+      "label": "Come inserire una rendita periodica",
+      "reason": "Controlla importo netto, decorrenza, fine e utilizzo della rendita nelle due fasi."
+    },
+    {
+      "url": "/guida/analisi-sensibilita-fire",
+      "label": "Analisi di sensibilità FIRE",
+      "reason": "Confronta gli effetti di input meno favorevoli senza attribuire loro una probabilità."
+    },
+    {
+      "url": "/guida/leggere-risultati-simulatore-fire",
+      "label": "Leggere risultati e grafici FIRE",
+      "reason": "Dopo la verifica degli input, interpreta target, PAC, residuo e avvisi nelle rispettive unità."
+    }
+  ],
+  "cta": {
+    "title": "Ricalcola dopo aver controllato gli input",
+    "text": "Riconcilia i capitali, annota unità e periodi delle risorse e confronta tutti i versamenti con il budget. Poi ricalcola lo scenario e prova ipotesi meno favorevoli.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
