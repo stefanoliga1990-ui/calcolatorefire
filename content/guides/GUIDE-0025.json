@@ -1,0 +1,73 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0025",
+  "slug": "/guida/accumulo-decumulo-fire",
+  "seo": {
+    "title": "Accumulo e decumulo FIRE: versamenti, prelievi e saldi",
+    "description": "Distingui accumulo e decumulo nel FIRE: PAC, rendimenti, rendite, imposte e grafici. Un esempio collega il capitale costruito ai prelievi futuri.",
+    "og_title": "Accumulo e decumulo: come cambia il portafoglio nel FIRE",
+    "og_description": "Leggi il passaggio dai versamenti ai prelievi nel simulatore, con esempi verificati, imposte stimate e limiti delle proiezioni."
+  },
+  "page": {
+    "kicker": "Le due fasi del percorso FIRE",
+    "h1": "Accumulo e decumulo nel FIRE: dai versamenti ai prelievi",
+    "lead": "Che cosa cambia quando smetti di costruire il capitale e inizi a usarlo per le spese? Nell’accumulo aggiungi risparmio al patrimonio; nel decumulo il portafoglio finanzia il fabbisogno dopo le altre entrate. Il rendimento può continuare in entrambe le fasi, mentre cambiano tempi dei flussi e imposte stimate. Qui colleghi le due proiezioni del simulatore con un esempio riproducibile."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "Il PAC del simulatore è un versamento aggiuntivo: va distinto dagli apporti già programmati nelle altre risorse.",
+    "In accumulo il PAC entra a fine mese; nel FIRE il prelievo avviene a inizio mese, prima del rendimento sul capitale residuo.",
+    "Le rendite nette possono essere reinvestite prima del FIRE oppure ridurre i prelievi durante il FIRE, secondo le opzioni scelte.",
+    "Vendita lorda, imposta stimata e ricavo netto sono importi diversi; target e PAC dipendono anche dal costo fiscale.",
+    "I grafici mostrano valori nominali e il decumulo personale usa il capitale effettivamente disponibile, anche se supera il target.",
+    "Le proiezioni con tassi costanti non simulano volatilità o rischio di sequenza e non garantiscono la copertura delle spese reali."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0004",
+    "SRC-2026-0010"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verifica unità, timing mensile, imposte stimate e limiti delle proiezioni."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Confronta il capitale accumulato e i prelievi dello stesso scenario."
+    },
+    {
+      "url": "/guida/fire-italia",
+      "label": "Guida FIRE in Italia",
+      "reason": "Colloca accumulo e decumulo nel percorso generale di indipendenza finanziaria."
+    },
+    {
+      "url": "/guida/metodo-finite-o-swr",
+      "label": "Confronto tra FINITE e SWR",
+      "reason": "Approfondisci come viene scelto il target che collega le due fasi."
+    },
+    {
+      "url": "/guida/rendite-periodiche-fire",
+      "label": "Rendite periodiche nel FIRE",
+      "reason": "Approfondisci reinvestimento e riduzione del fabbisogno senza duplicare i flussi."
+    },
+    {
+      "url": "/guida/rischio-sequenza-rendimenti-fire",
+      "label": "Rischio di sequenza dei rendimenti",
+      "reason": "Comprendi il rischio che le proiezioni deterministiche non rappresentano."
+    }
+  ],
+  "cta": {
+    "title": "Collega il tuo scenario di accumulo al decumulo",
+    "text": "Confronta target, PAC e saldo personale, poi verifica i prelievi netti e il capitale residuo con ipotesi meno favorevoli. Controlla prima la sostenibilità degli apporti nel budget.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}

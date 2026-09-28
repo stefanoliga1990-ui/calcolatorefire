@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Distingui accumulo e decumulo nel FIRE: PAC, rendimenti, rendite, imposte e grafici. Un esempio collega il capitale costruito ai prelievi futuri.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Accumulo e decumulo: come cambia il portafoglio nel FIRE">
+    <meta property="og:description" content="Leggi il passaggio dai versamenti ai prelievi nel simulatore, con esempi verificati, imposte stimate e limiti delle proiezioni.">
+    <meta property="og:url" content="https://simulatorefire.com/guida/accumulo-decumulo-fire">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Accumulo e decumulo nel FIRE: dai versamenti ai prelievi">
+    <meta property="article:published_time" content="2026-09-28">
+    <meta property="article:modified_time" content="2026-09-28">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Accumulo e decumulo: come cambia il portafoglio nel FIRE">
+    <meta name="twitter:description" content="Leggi il passaggio dai versamenti ai prelievi nel simulatore, con esempi verificati, imposte stimate e limiti delle proiezioni.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>Accumulo e decumulo FIRE: versamenti, prelievi e saldi</title>
+    <link rel="canonical" href="https://simulatorefire.com/guida/accumulo-decumulo-fire">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.0">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.3">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Accumulo e decumulo nel FIRE: dai versamenti ai prelievi",
+  "description": "Distingui accumulo e decumulo nel FIRE: PAC, rendimenti, rendite, imposte e grafici. Un esempio collega il capitale costruito ai prelievi futuri.",
+  "url": "https://simulatorefire.com/guida/accumulo-decumulo-fire",
+  "mainEntityOfPage": "https://simulatorefire.com/guida/accumulo-decumulo-fire",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "inLanguage": "it-IT",
+  "author": {
+    "@type": "Person",
+    "name": "Stefano Liga",
+    "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calcolo FIRE Italia",
+    "url": "https://simulatorefire.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+    }
+  },
+  "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Simulatore FIRE",
+      "item": "https://simulatorefire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guide",
+      "item": "https://simulatorefire.com/guide"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Accumulo e decumulo nel FIRE: dai versamenti ai prelievi",
+      "item": "https://simulatorefire.com/guida/accumulo-decumulo-fire"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/guide">Guide</a>
+        <a class="header-link" href="/metodologia">Metodologia</a>
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li><a href="/guide">Guide</a></li>
+                <li aria-current="page">Accumulo e decumulo nel FIRE: dai versamenti ai prelievi</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">Le due fasi del percorso FIRE</p>
+        <h1>Accumulo e decumulo nel FIRE: dai versamenti ai prelievi</h1>
+        <p class="content-lead">Che cosa cambia quando smetti di costruire il capitale e inizi a usarlo per le spese? Nell’accumulo aggiungi risparmio al patrimonio; nel decumulo il portafoglio finanzia il fabbisogno dopo le altre entrate. Il rendimento può continuare in entrambe le fasi, mentre cambiano tempi dei flussi e imposte stimate. Qui colleghi le due proiezioni del simulatore con un esempio riproducibile.</p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia</span>
+            <span>8 minuti di lettura</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della guida">
+            <strong>In questa guida</strong>
+            <ol><li><a href="#due-fasi">Prima costruisci il capitale, poi lo usi per finanziare le spese</a></li><li><a href="#accumulo">In accumulo contano gli apporti e il rendimento prima del FIRE</a></li><li><a href="#decumulo">Nel decumulo distingui spesa, vendita lorda e denaro spendibile</a></li><li><a href="#proiezioni">Leggi le due curve attraverso i flussi che le generano</a></li><li><a href="#esempio">Un esempio collega dieci anni di versamenti a venticinque anni di prelievi</a></li><li><a href="#limiti">Un saldo regolare non dimostra che il percorso sia sicuro</a></li><li><a href="#passaggio">Controlla il passaggio fra le due fasi prima di interpretare il risultato</a></li></ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul><li>Il PAC del simulatore è un versamento aggiuntivo: va distinto dagli apporti già programmati nelle altre risorse.</li><li>In accumulo il PAC entra a fine mese; nel FIRE il prelievo avviene a inizio mese, prima del rendimento sul capitale residuo.</li><li>Le rendite nette possono essere reinvestite prima del FIRE oppure ridurre i prelievi durante il FIRE, secondo le opzioni scelte.</li><li>Vendita lorda, imposta stimata e ricavo netto sono importi diversi; target e PAC dipendono anche dal costo fiscale.</li><li>I grafici mostrano valori nominali e il decumulo personale usa il capitale effettivamente disponibile, anche se supera il target.</li><li>Le proiezioni con tassi costanti non simulano volatilità o rischio di sequenza e non garantiscono la copertura delle spese reali.</li></ul>
+            </section>
+
+<section class="content-section" id="due-fasi" aria-labelledby="due-fasi-title">
+    <h2 id="due-fasi-title">Prima costruisci il capitale, poi lo usi per finanziare le spese</h2>
+    <p>Nell'accumulo aggiungi al patrimonio il risparmio che puoi investire. Nel decumulo usi il portafoglio per coprire la parte delle spese che le altre entrate non finanziano. Il capitale rimasto può continuare a produrre rendimento: decumulare non significa liquidare tutto all'ingresso nel FIRE.</p>
+    <p>Il rendimento può comprendere interessi, dividendi e variazioni del valore del capitale, secondo la <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">spiegazione della Banca d'Italia su rendimento e rischio</a>. Una vendita può usare anche il capitale investito inizialmente; non coincide necessariamente con il solo guadagno.</p>
+    <p>Nel simulatore l'età FIRE è il confine fra le due proiezioni. I mesi di accumulo sono dodici volte la differenza fra età FIRE ed età attuale; i mesi di decumulo sono dodici volte la durata FIRE scelta. Sono convenzioni di pianificazione, senza date di nascita o mesi di calendario, descritte nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 2 e 14</a>.</p>
+</section>
+
+<section class="content-section" id="accumulo" aria-labelledby="accumulo-title">
+    <h2 id="accumulo-title">In accumulo contano gli apporti e il rendimento prima del FIRE</h2>
+    <p>Il patrimonio iniziale, gli investimenti aggiuntivi disponibili, i PAC già programmati e le eventuali altre entrate investite contribuiscono al saldo all'età FIRE. Il PAC richiesto dal simulatore è il versamento aggiuntivo ancora necessario, distinto dai versamenti inseriti nelle altre risorse.</p>
+    <p>Il capitale iniziale del mese produce rendimento; il PAC entra a fine mese e quindi non riceve il rendimento di quello stesso mese. Con fiscalità attiva segue la stima del bollo. Gli apporti aumentano anche il costo fiscale, cioè il capitale fiscalmente attribuibile al portafoglio; il rendimento non lo aumenta. Queste sono regole del modello nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 4, 5 e 13</a>.</p>
+    <p>Senza fiscalità né altri flussi, la ricorrenza è:</p>
+    <pre class="formula"><code>saldo a fine mese = saldo iniziale × (1 + rendimento mensile di accumulo) + PAC del mese</code></pre>
+    <p>Il rendimento mensile equivalente è (1 + rendimento annuo) elevato a 1/12, meno 1. Il tasso di crescita del PAC modifica i versamenti futuri: è denaro che dovrai apportare, non rendimento del patrimonio. Formule e distinzione sono nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 4, 8 e 18</a>.</p>
+    <p>Il calcolo del PAC va confrontato con il budget. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d'Italia sulla pianificazione</a> invita a ricostruire entrate e uscite, includere spese poco frequenti e imprevisti e verificare che gli obiettivi siano raggiungibili. Applicato al FIRE, questo significa verificare la sostenibilità dei versamenti per tutto il periodo, anche se una rata crescente riduce l'importo iniziale calcolato.</p>
+</section>
+
+<section class="content-section" id="decumulo" aria-labelledby="decumulo-title">
+    <h2 id="decumulo-title">Nel decumulo distingui spesa, vendita lorda e denaro spendibile</h2>
+    <p>La spesa mensile è inserita in euro di oggi e rivalutata con l'inflazione ipotizzata fino alla data FIRE e nei mesi successivi. Le rendite nette disponibili nel mese riducono la somma da ottenere dal portafoglio. Una rendita che inizierà più avanti non può finanziare i prelievi precedenti.</p>
+    <p>La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 17 e 19</a> definisce il fabbisogno dopo le rendite come il maggiore fra zero e spesa meno rendite. Se la rendita supera la spesa, l'eccedenza non viene automaticamente reinvestita durante il FIRE.</p>
+    <p>Con fiscalità attiva, il mese segue questo ordine: entrano eventuali capitali futuri disponibili; si vende quanto serve per ottenere il fabbisogno netto; si stima l'imposta sulla quota di plusvalenza realizzata; il capitale rimasto produce rendimento e paga il bollo stimato. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 6 e 8</a> mantiene distinti vendita lorda, imposta e ricavo netto.</p>
+    <p>Senza fiscalità, rendite o capitali futuri, e con saldo sufficiente, la ricorrenza diventa:</p>
+    <pre class="formula"><code>saldo a fine mese = (saldo iniziale − prelievo all'inizio del mese) × (1 + rendimento mensile nel FIRE)</code></pre>
+    <p>Il PAC entra a fine mese in accumulo; il primo prelievo avviene subito in decumulo. Scambiare questi istanti cambierebbe il risultato quando il rendimento è diverso da zero. Il rendimento di accumulo e quello nel FIRE sono due input separati: modificarne uno non equivale a modificare l'altro.</p>
+</section>
+
+<section class="content-section" id="proiezioni" aria-labelledby="proiezioni-title">
+    <h2 id="proiezioni-title">Leggi le due curve attraverso i flussi che le generano</h2>
+    <p>Le proiezioni del simulatore mostrano euro nominali, cioè importi al valore monetario dei rispettivi mesi. Per confrontare potere d'acquisto, leggi anche gli equivalenti in euro di oggi: un saldo nominale maggiore non implica da solo maggiore ricchezza reale.</p>
+    <ul>
+        <li><strong>Fase di accumulo PAC:</strong> la curva Patrimonio mostra il saldo proiettato delle risorse disponibili al FIRE. Capitale versato comprende il patrimonio iniziale e gli apporti successivi delle risorse incluse, non soltanto il nuovo PAC.</li>
+        <li><strong>Fase di decumulo FIRE:</strong> Patrimonio mostra il saldo personale residuo dopo le operazioni mensili. Prelievi netti cumulati somma quanto è ricavato dal portafoglio al netto delle imposte stimate; non somma le rendite esterne e non rappresenta il totale delle vendite lorde.</li>
+    </ul>
+    <p>La lettura è basata sulla <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica delle proiezioni e degli importi, sezioni 9, 10 e 22</a>, riscontrata nelle etichette e nel calcolo delle serie dell'interfaccia. La fiscalità applicata ai saldi segue la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 14–16</a>.</p>
+    <p>Il target è il capitale richiesto dal metodo scelto; il saldo accumulato è ciò che lo scenario rende disponibile. Se il capitale già disponibile supera il target, il PAC aggiuntivo può essere zero e la proiezione personale usa comunque l'intero saldo disponibile. Il decumulo non deve quindi iniziare necessariamente dal solo target.</p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Un esempio collega dieci anni di versamenti a venticinque anni di prelievi</h2>
+    <p>Elaborazione propria con metodo FINITE: età attuale 40 anni, età FIRE 50, durata FIRE 25 anni, spesa 1.800 euro al mese, patrimonio investito oggi 180.000 euro e capitale finale desiderato zero. Nessuna risorsa aggiuntiva. Rendimento di accumulo, rendimento nel FIRE, inflazione, crescita del PAC, aliquota sulle plusvalenze e bollo sono tutti zero; costo fiscale iniziale 180.000 euro.</p>
+    <p>Azzerare la fiscalità serve a isolare i flussi, non descrive un'esenzione. Con inflazione nulla, euro nominali ed euro di oggi coincidono. Le formule vengono dalle <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">sezioni 6, 8 e 9 della specifica matematica</a>:</p>
+    <pre class="formula"><code>mesi di accumulo = 10 × 12 = 120
+mesi di FIRE = 25 × 12 = 300
+target = 1.800 × 300 = 540.000 euro
+PAC mensile = (540.000 − 180.000) / 120 = 3.000 euro
+nuovi versamenti totali = 3.000 × 120 = 360.000 euro</code></pre>
+    <table>
+        <thead><tr><th scope="col">Fase e istante</th><th scope="col">Saldo nominale</th><th scope="col">Flusso determinante</th></tr></thead>
+        <tbody>
+            <tr><td>Accumulo, inizio a 40 anni</td><td>180.000 euro</td><td>Patrimonio iniziale</td></tr>
+            <tr><td>Accumulo, dopo 60 mesi</td><td>360.000 euro</td><td>180.000 euro di nuovo PAC</td></tr>
+            <tr><td>Accumulo, dopo 120 mesi</td><td>540.000 euro</td><td>360.000 euro di nuovo PAC complessivo</td></tr>
+            <tr><td>Decumulo, fine del primo mese</td><td>538.200 euro</td><td>Primo prelievo di 1.800 euro</td></tr>
+            <tr><td>Decumulo, dopo 60 mesi</td><td>432.000 euro</td><td>108.000 euro di prelievi cumulati</td></tr>
+            <tr><td>Decumulo, dopo 300 mesi</td><td>0 euro</td><td>540.000 euro di prelievi cumulati</td></tr>
+        </tbody>
+    </table>
+    <p>I valori sono arrotondati all'euro. Formule indipendenti e motore fiscale Java sono stati confrontati: la ricerca numerica del target differisce dal valore analitico di meno di un centesimo. La tabella illustra un'identità contabile sotto queste ipotesi, non un risultato garantito né un PAC sostenibile per chiunque.</p>
+    <h3 id="esempio-rendita-title">La stessa entrata può agire diversamente nelle due fasi</h3>
+    <p>Aggiungi soltanto una rendita ipotetica di 600 euro netti al mese da 40 anni, senza fine e senza rivalutazione. Seleziona sia il reinvestimento prima del FIRE sia la riduzione della spesa nel FIRE. Negli stessi 120 mesi versi così 72.000 euro di rendite; nei 300 mesi successivi il portafoglio deve fornire 1.200 euro al mese.</p>
+    <pre class="formula"><code>target con rendita = (1.800 − 600) × 300 = 360.000 euro
+PAC aggiuntivo = (360.000 − 180.000 − 72.000) / 120 = 900 euro
+saldo al FIRE = 180.000 + 72.000 + (900 × 120) = 360.000 euro</code></pre>
+    <p>Le due funzioni della rendita sono separate, come nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 18–20</a>. Anche questo confronto è verificato nel motore entro un centesimo; presume disponibilità continua della rendita e non ne stima il diritto, il rischio o la tassazione personale.</p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Un saldo regolare non dimostra che il percorso sia sicuro</h2>
+    <p>Le curve derivano da tassi costanti e flussi inseriti. Il modello non simula volatilità o rischio di sequenza, cioè l'effetto dell'ordine dei rendimenti mentre effettui prelievi. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/" data-source-id="SRC-2026-0010">Banca d'Italia su rischio, tempo e costi</a> ricorda che il rendimento futuro è incerto e che inflazione e costi possono ridurre il risultato.</p>
+    <p>FINITE finanzia la durata e il residuo richiesti sotto le ipotesi del modello. SWR determina invece un target basato sul prelievo iniziale annualizzato; la proiezione può segnalare un mese non interamente finanziato. La distinzione è nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 6, 7 e 21</a>. Raggiungere il target non elimina questa verifica.</p>
+    <aside class="content-notice warning" aria-labelledby="limite-fiscale-title">
+        <h3 id="limite-fiscale-title">La stima fiscale riguarda un portafoglio semplificato</h3>
+        <p>Il modello non distingue tutti gli strumenti, i regimi o le compensazioni fiscali. Le rendite vanno inserite già nette e non devono duplicare proventi compresi nel rendimento dello stesso capitale. Il saldo finale lasciato investito non è una somma netta dopo un'ipotetica vendita totale. Sono limiti della specifica fiscale, non una descrizione completa delle regole tributarie individuali.</p>
+    </aside>
+    <p>Per le impostazioni e le esclusioni consulta la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 1 e 7</a>. Per approfondire le oscillazioni prima dei prelievi leggi la <a href="/guida/rischio-sequenza-rendimenti-fire">guida al rischio di sequenza</a>.</p>
+</section>
+
+<section class="content-section" id="passaggio" aria-labelledby="passaggio-title">
+    <h2 id="passaggio-title">Controlla il passaggio fra le due fasi prima di interpretare il risultato</h2>
+    <ol>
+        <li>Parti dalla spesa e dalle entrate nette, includendo uscite irregolari e imprevisti nel budget.</li>
+        <li>Verifica mesi disponibili, patrimonio distinto da altre risorse e tutti i versamenti previsti.</li>
+        <li>Confronta target e saldo accumulato; controlla quale somma entra effettivamente nel decumulo.</li>
+        <li>Leggi primo ricavo netto, vendite lorde, imposte stimate, eventuale esaurimento e saldo finale insieme.</li>
+        <li>Ripeti il confronto con rendimento minore, spesa maggiore o una rendita che inizia più tardi, senza trattare nessuno scenario come previsione.</li>
+    </ol>
+    <p>Usa la <a href="/metodologia">metodologia del simulatore</a> per controllare unità e ipotesi, poi confronta le due fasi nel <a href="/">simulatore FIRE</a>. La <a href="/guida/metodo-finite-o-swr">guida a FINITE e SWR</a> approfondisce la scelta del target; questa lettura serve a collegare quel target ai flussi che lo costruiscono e lo consumano.</p>
+</section>
+
+            <aside class="related-content" aria-labelledby="related-title">
+                <h2 id="related-title">Approfondisci e verifica</h2>
+                <ul><li><a href="/metodologia">Metodologia del simulatore FIRE</a><small>Verifica unità, timing mensile, imposte stimate e limiti delle proiezioni.</small></li><li><a href="/">Simulatore FIRE</a><small>Confronta il capitale accumulato e i prelievi dello stesso scenario.</small></li><li><a href="/guida/fire-italia">Guida FIRE in Italia</a><small>Colloca accumulo e decumulo nel percorso generale di indipendenza finanziaria.</small></li><li><a href="/guida/metodo-finite-o-swr">Confronto tra FINITE e SWR</a><small>Approfondisci come viene scelto il target che collega le due fasi.</small></li><li><a href="/guida/rendite-periodiche-fire">Rendite periodiche nel FIRE</a><small>Approfondisci reinvestimento e riduzione del fabbisogno senza duplicare i flussi.</small></li><li><a href="/guida/rischio-sequenza-rendimenti-fire">Rischio di sequenza dei rendimenti</a><small>Comprendi il rischio che le proiezioni deterministiche non rappresentano.</small></li></ul>
+            </aside>
+
+            <section class="guide-sources" aria-labelledby="sources-title">
+                <h2 id="sources-title">Fonti consultate</h2>
+                <p>Le fonti sono state consultate integralmente e registrate nel processo editoriale.</p>
+                <ol><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md">Calcolo FIRE Italia — specifica matematica del motore</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0001</small></li><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md">Calcolo FIRE Italia — specifica della fiscalità semplificata</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0002</small></li><li><a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/">Pianificazione</a><small>Banca d&#x27;Italia — L&#x27;economia per tutti · SRC-2026-0004</small></li><li><a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/introduzione-agli-investimenti/">Cosa sapere prima di investire</a><small>Banca d&#x27;Italia — L&#x27;economia per tutti · SRC-2026-0010</small></li></ol>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.</p>
+                <p class="editorial-disclosure">Questa guida è stata preparata tramite il processo editoriale automatizzato di Calcolo FIRE Italia, basato sulle fonti citate e sulle regole di qualità del progetto. Stefano Liga ne è il responsabile editoriale.</p>
+            </aside>
+
+            <aside class="content-notice warning" aria-label="Nota informativa">
+                <h2>Nota informativa</h2>
+                <p>I contenuti hanno finalità esclusivamente informative ed educative e non costituiscono consulenza finanziaria, fiscale, previdenziale o legale personalizzata. Prima di prendere decisioni, valuta la tua situazione e, quando necessario, rivolgiti a un professionista qualificato.</p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Collega il tuo scenario di accumulo al decumulo</h2>
+                <p>Confronta target, PAC e saldo personale, poi verifica i prelievi netti e il capitale residuo con ipotesi meno favorevoli. Controlla prima la sostenibilità degli apporti nel budget.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Guida · GUIDE-0025</span>
+</footer>
+</body>
+</html>
