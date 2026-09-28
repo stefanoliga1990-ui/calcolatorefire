@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Costruisci uno scenario FIRE familiare con spese comuni, patrimoni distinti e rendite con decorrenze diverse. Un esempio chiarisce gli errori di aggregazione.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Calcolo FIRE Italia">
+    <meta property="og:title" content="Calcolare il FIRE per una coppia o una famiglia">
+    <meta property="og:description" content="Come contare spese e patrimoni una volta sola, riportare le età su un riferimento comune e mantenere separate le rendite. Esempio e limiti dello scenario familiare.">
+    <meta property="og:url" content="https://simulatorefire.com/guida/fire-coppia-famiglia">
+    <meta property="og:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:secure_url" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Calcolare il FIRE per una coppia o una famiglia">
+    <meta property="article:published_time" content="2026-09-28">
+    <meta property="article:modified_time" content="2026-09-28">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Calcolare il FIRE per una coppia o una famiglia">
+    <meta name="twitter:description" content="Come contare spese e patrimoni una volta sola, riportare le età su un riferimento comune e mantenere separate le rendite. Esempio e limiti dello scenario familiare.">
+    <meta name="twitter:image" content="https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3">
+    <title>FIRE per coppia e famiglia: spese, risorse e tempi</title>
+    <link rel="canonical" href="https://simulatorefire.com/guida/fire-coppia-famiglia">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
+    <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.0">
+    <link rel="stylesheet" href="/editorial-2a6c4e8d.css?v=1.3">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Calcolare il FIRE per una coppia o una famiglia",
+  "description": "Costruisci uno scenario FIRE familiare con spese comuni, patrimoni distinti e rendite con decorrenze diverse. Un esempio chiarisce gli errori di aggregazione.",
+  "url": "https://simulatorefire.com/guida/fire-coppia-famiglia",
+  "mainEntityOfPage": "https://simulatorefire.com/guida/fire-coppia-famiglia",
+  "datePublished": "2026-09-28",
+  "dateModified": "2026-09-28",
+  "inLanguage": "it-IT",
+  "author": {
+    "@type": "Person",
+    "name": "Stefano Liga",
+    "jobTitle": "Ideatore e sviluppatore di Calcolo FIRE Italia"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calcolo FIRE Italia",
+    "url": "https://simulatorefire.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://simulatorefire.com/images/logo-percorso-indipendenza.png?v=2"
+    }
+  },
+  "image": "https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3"
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Simulatore FIRE",
+      "item": "https://simulatorefire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guide",
+      "item": "https://simulatorefire.com/guide"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Calcolare il FIRE per una coppia o una famiglia",
+      "item": "https://simulatorefire.com/guida/fire-coppia-famiglia"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="/" aria-label="Calcolo FIRE Italia, vai al simulatore">
+        <img class="brand-logo" src="/images/logo-percorso-indipendenza.png?v=2" alt="" width="36" height="36">
+        <span>Calcolo FIRE Italia</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a class="header-link" href="/guide">Guide</a>
+        <a class="header-link" href="/metodologia">Metodologia</a>
+        <a class="header-link" href="/">Apri il simulatore</a>
+    </nav>
+</header>
+
+<main class="content-main" id="contenuto">
+    <header class="content-hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Simulatore FIRE</a></li>
+                <li><a href="/guide">Guide</a></li>
+                <li aria-current="page">Calcolare il FIRE per una coppia o una famiglia</li>
+            </ol>
+        </nav>
+        <p class="content-kicker">FIRE e bilancio familiare</p>
+        <h1>Calcolare il FIRE per una coppia o una famiglia</h1>
+        <p class="content-lead">Per costruire uno scenario familiare, parti dalle spese complessive prima delle rendite, conta ogni patrimonio una volta e conserva le decorrenze delle risorse individuali. Un unico riferimento temporale permette di confrontare i flussi; il risultato resta un modello economico aggregato, senza verificare diritti pensionistici o posizioni fiscali personali.</p>
+        <p class="content-meta">
+            <span>A cura di Stefano Liga, ideatore e sviluppatore di Calcolo FIRE Italia</span>
+            <span>10 minuti di lettura</span>
+        </p>
+    </header>
+
+    <div class="content-layout">
+        <nav class="content-toc" aria-label="Indice della guida">
+            <strong>In questa guida</strong>
+            <ol><li><a href="#perimetro-familiare">Un budget comune, con risorse riconoscibili</a></li><li><a href="#spese">Conta le spese condivise una volta sola</a></li><li><a href="#patrimoni">Separa il patrimonio disponibile dalle somme già contate</a></li><li><a href="#tempi">Riporta le età delle due persone su un unico riferimento</a></li><li><a href="#rendite">Mantieni separate le decorrenze e la spesa prima delle rendite</a></li><li><a href="#esempio">Un esempio con due rendite che iniziano in momenti diversi</a></li><li><a href="#limiti">Lo scenario aggregato non risolve le differenze personali</a></li><li><a href="#conclusione">Conserva budget, provenienza e calendario insieme al risultato</a></li></ol>
+        </nav>
+
+        <article class="content-article">
+            <section class="content-section summary-card" aria-labelledby="sintesi-title">
+                <h2 id="sintesi-title">In breve</h2>
+                <ul><li>Il budget familiare somma spese comuni e individuali senza duplicare i pagamenti della stessa voce.</li><li>Patrimonio principale e card degli investimenti devono rappresentare somme distinte e disponibili per il piano.</li><li>Le età di tutte le risorse seguono un solo riferimento: una decorrenza personale va tradotta in anni da oggi.</li><li>Rendite con inizi, fini o rivalutazioni diversi restano separate; non vanno sottratte dalla spesa prima di inserirle nelle card.</li><li>Il PAC richiesto è aggiuntivo ai versamenti già modellati: la sostenibilità va confrontata con il risparmio complessivo della famiglia.</li><li>Lo scenario unico non modella più posizioni fiscali o previdenziali individuali e non garantisce la tenuta del piano.</li></ul>
+            </section>
+
+<section class="content-section" id="perimetro-familiare" aria-labelledby="perimetro-familiare-title">
+    <h2 id="perimetro-familiare-title">Un budget comune, con risorse riconoscibili</h2>
+    <p>Il numero FIRE di una famiglia parte dalle uscite che il piano dovrà coprire. Non basta sommare due calcoli individuali se entrambi comprendono l’intero affitto, le bollette o lo stesso conto condiviso. Prima stabilisci quali persone e quali spese rientrano nello scenario, poi ricostruisci un unico budget e un elenco delle risorse effettivamente destinate a sostenerlo.</p>
+    <p>Il simulatore usa una spesa mensile, un’età attuale, un’età FIRE e una durata comuni, con risorse aggiuntive distinte: questa struttura è descritta nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 2, 3 e 16–17</a>. Applicarla a una famiglia è una scelta di rappresentazione del progetto. Il calcolo non decide chi possiede una somma, chi possa spenderla o come ripartire i versamenti tra le persone.</p>
+    <p>Definisci anche il momento rappresentato dall’ingresso nel FIRE: per esempio, quando entrambi smettono di finanziare le spese con il lavoro. Se uno continua a lavorare dopo quel confine, la quota netta del suo reddito destinata al budget può essere rappresentata come rendita temporanea. Il resto del suo reddito non diventa automaticamente patrimonio del piano.</p>
+</section>
+
+<section class="content-section" id="spese" aria-labelledby="spese-title">
+    <h2 id="spese-title">Conta le spese condivise una volta sola</h2>
+    <p>Ricostruisci le uscite per categorie e persone, distinguendo ciò che è condiviso da ciò che è individuale. La <a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/" data-source-id="SRC-2026-0004">Banca d’Italia, in Pianificazione</a>, propone di esaminare entrate e uscite, riportare a mese le spese poco frequenti, lasciare spazio agli imprevisti e ricontrollare il budget. Per una famiglia, questa procedura aiuta anche a riconciliare pagamenti su conti diversi.</p>
+    <ul>
+        <li>Le uscite comuni, come casa e alimentari, entrano una volta nel totale, indipendentemente da chi le paga.</li>
+        <li>Le spese individuali si aggiungono solo per la parte non già compresa nelle voci comuni.</li>
+        <li>Le spese per figli o persone sostenute dal nucleo restano esplicite, con le ipotesi sulla loro durata.</li>
+        <li>Un trasferimento tra due conti della famiglia non è una nuova spesa: verifica il pagamento finale a cui serve.</li>
+    </ul>
+    <p>Non scegliere il budget moltiplicando una spesa da single per il numero di componenti. Il <a href="https://www.istat.it/comunicato-stampa/spese-per-consumi-delle-famiglie-anno-2024/" data-source-id="SRC-2026-0015">rapporto ISTAT sui consumi del 2024, PDF allegato, pagina 6</a>, descrive economie di scala e differenze tra composizioni familiari. Sono statistiche aggregate, non una soglia FIRE personale. Inoltre i consumi includono affitti figurativi, cioè valori non monetari delle abitazioni occupate dai proprietari: il glossario, alle pagine 11–12, chiarisce perché quei totali non coincidono con le uscite di cassa. La nota metodologica segnala anche che il secondo semestre è stimato usando dati del semestre corrispondente dell’anno precedente aggiornati.</p>
+    <p>Nel tuo budget considera le uscite effettive per l’abitazione e gli altri impegni del piano. Se una rata termina o una spesa per un figlio cambia, conserva quella variazione nelle ipotesi: il campo spesa del simulatore cresce con l’inflazione inserita e non dispone di un calendario di categorie familiari. Confronta budget alternativi dichiarati, senza inventare una rendita per imitare la cessazione di una spesa.</p>
+</section>
+
+<section class="content-section" id="patrimoni" aria-labelledby="patrimoni-title">
+    <h2 id="patrimoni-title">Separa il patrimonio disponibile dalle somme già contate</h2>
+    <p>Un elenco con proprietario, importo, destinazione e disponibilità aiuta a contare ogni capitale una volta. Puoi aggregare nel patrimonio principale le somme che condividono le ipotesi del portafoglio principale, oppure usare card separate per investimenti con parametri propri. Se un investimento è in una card, il suo valore non deve restare anche nel patrimonio principale: le risorse sono additive e il motore non riconosce duplicati, secondo la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 16, 18 e 23</a>.</p>
+    <p>Per esempio, 100.000 euro della persona A, 80.000 della persona B e 40.000 condivisi fanno 220.000 euro, se sono tre somme distinte disponibili per lo scenario. Se B usa una card da 80.000 euro, il patrimonio principale diventa 140.000, non 220.000. Anche i versamenti futuri già programmati nella card restano separati dal nuovo PAC richiesto.</p>
+    <p>Una casa abitata o una riserva destinata ad altri impegni non va trasformata automaticamente in capitale investito spendibile. Se ipotizzi una vendita futura, rappresenta soltanto il capitale netto disponibile alla ricezione, con il suo confine temporale e la base in euro di oggi o nominali futuri. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">sezione 17.3 della specifica</a> distingue questi input; il modello non verifica che la vendita avverrà. Per la classificazione delle somme consulta la guida sulle <a href="/guida/rendite-pensione-capitali-futuri">risorse aggiuntive</a>.</p>
+</section>
+
+<section class="content-section" id="tempi" aria-labelledby="tempi-title">
+    <h2 id="tempi-title">Riporta le età delle due persone su un unico riferimento</h2>
+    <p>Le età nelle card seguono lo stesso asse dell’età attuale del simulatore. Se A ha 40 anni e B ne ha 37, un evento previsto quando B avrà 65 anni dista 28 anni da oggi: sul riferimento di A va inserito a 68, non a 65. Non cambia la decorrenza personale; cambia il modo di rappresentarla nello scenario.</p>
+    <pre class="formula"><code>anni da oggi = età personale all’evento − età personale attuale
+età evento nel simulatore = età attuale di riferimento + anni da oggi
+Per B: 65 − 37 = 28 anni; sul riferimento di A: 40 + 28 = 68</code></pre>
+    <p>La conversione deriva da <code>mesi = 12 × (età evento − età attuale)</code>, nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 2 e 17</a>. Il modello usa confini in anni interi, senza date di nascita o calendario. Applica la stessa conversione a inizio e fine delle rendite, versamenti e ricezione dei capitali; conserva a parte le decorrenze personali originali.</p>
+    <p>Con riferimento 40 e FIRE a 50, l’accumulo dura dieci anni: B avrà 47 anni a quel confine. Una durata FIRE di 35 anni porta il riferimento a 85 e B a 82. Queste età finali sono solo coordinate dello scenario, non previsioni di vita. La durata deve essere coerente con le persone e gli impegni che vuoi includere; il modello non produce orizzonti di sopravvivenza individuali.</p>
+</section>
+
+<section class="content-section" id="rendite" aria-labelledby="rendite-title">
+    <h2 id="rendite-title">Mantieni separate le decorrenze e la spesa prima delle rendite</h2>
+    <p>Due entrate possono essere sommate solo nei mesi in cui sono entrambe attive. Se hanno inizi, fini o rivalutazioni diversi, mantieni card distinte con nomi riconoscibili. Inserisci nel campo spesa il fabbisogno familiare prima di sottrarre queste entrate: il simulatore calcola già il fabbisogno dopo le rendite attive.</p>
+    <pre class="formula"><code>fabbisogno dopo le rendite nel mese = max(0, spesa del mese − somma delle rendite attive)</code></pre>
+    <p>La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 17.2 e 19</a>, usa importi netti in euro di oggi, un inizio incluso e una fine esclusa. Le card possono reinvestire flussi prima del FIRE e ridurre i prelievi durante il FIRE con opzioni distinte. Non reinserire come rendita reinvestita un reddito già usato per finanziare un PAC modellato. Neppure i proventi già compresi nel rendimento totale di un investimento vanno aggiunti una seconda volta.</p>
+    <p>Se una rendita futura rappresenta una pensione, importo netto e decorrenza richiedono verifica personale separata: scriverli in una card non verifica alcun diritto. La <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezione 1</a>, esclude la fiscalità delle pensioni e assume le rendite già nette. Qui descriviamo gli input, senza stabilire requisiti previdenziali.</p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Un esempio con due rendite che iniziano in momenti diversi</h2>
+    <p>Questo caso ipotetico usa A di 40 anni come riferimento e B di 37, FIRE a 50 sul riferimento e durata 35 anni, metodo FINITE e capitale finale desiderato zero. Inflazione, rendimenti di accumulo e FIRE, crescita dei versamenti e rivalutazione delle rendite sono tutti allo 0%. Aliquota sulle plusvalenze e bollo sono impostati allo 0% per isolare i flussi: è una semplificazione didattica, non un’esenzione fiscale.</p>
+    <p>La spesa è 3.000 euro mensili: 1.600 comuni, 300 individuali per ciascuno, 500 per un figlio e 3.600 euro annui di altre uscite, equivalenti a 300 al mese. Tutte le voci restano costanti per l’intero orizzonte nell’esempio, anche quella del figlio; non stiamo prevedendo la sua durata reale.</p>
+    <p>Il patrimonio principale è 140.000 euro. Una card distinta contiene gli 80.000 di B, disponibile al FIRE, con versamenti di 200 euro mensili da 40 a 50 sul riferimento, rendimento e crescita zero. I costi fiscali sono impostati uguali ai rispettivi patrimoni. Le sole altre risorse sono una rendita netta ipotetica di A da 700 euro al mese a partire dal riferimento 60 e una di B da 500 a partire dal riferimento 68: corrisponde ai suoi 65 anni personali. Entrambe hanno fine aperta, crescita zero, reinvestimento prima del FIRE disattivato e riduzione della spesa durante il FIRE attiva.</p>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Intervallo sul riferimento di A</th><th>Mesi</th><th>Rendite mensili attive</th><th>Fabbisogno mensile del portafoglio</th><th>Fabbisogno totale</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Da 50 fino a 60 esclusi</td><td>120</td><td>0 euro</td><td>3.000 euro</td><td>360.000 euro</td></tr>
+                <tr><td>Da 60 fino a 68 esclusi</td><td>96</td><td>700 euro</td><td>2.300 euro</td><td>220.800 euro</td></tr>
+                <tr><td>Da 68 fino a 85 esclusi</td><td>204</td><td>1.200 euro</td><td>1.800 euro</td><td>367.200 euro</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Con tassi nulli e senza imposte, il target FINITE somma i fabbisogni mensili, coerentemente con la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 8, 18–20</a>:</p>
+    <pre class="formula"><code>target = 360.000 + 220.800 + 367.200 = 948.000 euro
+capitale prima del nuovo PAC = 140.000 + 80.000 + 200 × 120 = 244.000 euro
+PAC aggiuntivo mensile = (948.000 − 244.000) / 120 = 5.866,67 euro circa
+versamenti mensili complessivi = 200 + 5.866,67 = 6.066,67 euro circa</code></pre>
+    <p>Sono elaborazioni proprie su input ipotetici, verificate con formule indipendenti e motore Java entro 0,01 euro. Il PAC è arrotondato ai centesimi solo alla fine; il solver numerico ha uno scarto inferiore a un centesimo sul target. Con inflazione nulla gli euro nominali coincidono con quelli di oggi. Il risultato non indica quanto ciascuno debba versare: mostra il fabbisogno totale da confrontare con il budget di risparmio comune.</p>
+    <p>Se anticipassi erroneamente anche B al riferimento 60, il target diventerebbe 900.000 euro e il PAC aggiuntivo circa 5.466,67: mancherebbero 48.000 euro, pari a 500 × 96 mesi di rendita non ancora disponibile. Togliendo entrambe le rendite il target sarebbe 1.260.000 euro e il PAC aggiuntivo circa 8.466,67. La differenza misura quanto il caso dipenda dai flussi ipotizzati, senza certificarne la disponibilità futura.</p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Lo scenario aggregato non risolve le differenze personali</h2>
+    <p>Card distinte possono conservare importi, rendimenti, versamenti e costo fiscale degli investimenti durante l’accumulo. All’ingresso nel FIRE, le risorse disponibili confluiscono nel portafoglio di decumulo, secondo la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 5 e 14–16</a>. Questa aggregazione non mantiene più posizioni tributarie individuali indipendenti e non stabilisce come finanziare i prelievi sui conti reali.</p>
+    <aside class="content-notice warning" aria-labelledby="posizioni-title">
+        <h3 id="posizioni-title">Una somma economica non è una verifica fiscale o previdenziale</h3>
+        <p>Il simulatore non modella diritti pensionistici di più persone, regimi fiscali individuali, trasferimenti di proprietà o conseguenze di successione. Un patrimonio indicato come disponibile resta un’ipotesi da verificare. Se queste differenze cambiano la fattibilità del piano, occorre una valutazione separata con le fonti e, quando necessario, con un professionista qualificato.</p>
+    </aside>
+    <p>Rendimenti e inflazione sono costanti nel modello; non vengono simulate sequenze di mercato, cambiamenti automatici della famiglia o probabilità di sopravvivenza. Confronta esplicitamente spese maggiori, una rendita ridotta o più tarda, un orizzonte diverso e la perdita di una fonte di risparmio. Per pensionamenti sfalsati, verifica anche l’intervallo in cui lavora una sola persona e le risorse disponibili in quel periodo.</p>
+    <p>Due simulazioni individuali separate possono aiutare a capire i contributi al piano, ma sommarne i risultati è corretto solo dopo aver riconciliato spese comuni, patrimoni e confini temporali. Non usare il valore più favorevole delle due come risposta familiare. Nello scenario unico controlla anche la proiezione dei prelievi e gli avvisi, non soltanto il target.</p>
+</section>
+
+<section class="content-section" id="conclusione" aria-labelledby="conclusione-title">
+    <h2 id="conclusione-title">Conserva budget, provenienza e calendario insieme al risultato</h2>
+    <p>Prima del calcolo, prepara tre elenchi riconciliati: uscite familiari, patrimoni distinti e flussi con tempi propri. Riporta le età sul riferimento scelto, poi inserisci il caso nel <a href="/">simulatore FIRE</a>. Confronta il PAC aggiuntivo più i versamenti già programmati con il risparmio disponibile e controlla come cambiano i prelievi alle diverse decorrenze.</p>
+    <p>Conserva separatamente input e risultati degli scenari, indicando quali risorse restano incerte. La <a href="/metodologia">metodologia</a> chiarisce le convenzioni; l’<a href="/guida/analisi-sensibilita-fire">analisi di sensibilità</a> aiuta a confrontarle. Il risultato utile è un piano leggibile e verificabile da entrambi, con i limiti che possono modificarlo.</p>
+</section>
+
+            <aside class="related-content" aria-labelledby="related-title">
+                <h2 id="related-title">Approfondisci e verifica</h2>
+                <ul><li><a href="/metodologia">Metodologia del simulatore FIRE</a><small>Verificare unità, asse temporale e limiti dell’aggregazione delle risorse.</small></li><li><a href="/">Simulatore FIRE</a><small>Inserire un budget familiare e confrontare scenari con decorrenze esplicite.</small></li><li><a href="/guida/fire-italia">Guida al FIRE in Italia</a><small>Inquadrare l’indipendenza finanziaria e distinguere un piano da una promessa.</small></li><li><a href="/guida/rendite-pensione-capitali-futuri">Risorse aggiuntive nel piano FIRE</a><small>Approfondire la distinzione tra stock patrimoniali, flussi periodici e capitali futuri.</small></li><li><a href="/guida/analisi-sensibilita-fire">Analisi di sensibilità FIRE</a><small>Confrontare ipotesi familiari diverse conservando input e risultati di ogni scenario.</small></li></ul>
+            </aside>
+
+            <section class="guide-sources" aria-labelledby="sources-title">
+                <h2 id="sources-title">Fonti consultate</h2>
+                <p>Le fonti sono state consultate integralmente e registrate nel processo editoriale.</p>
+                <ol><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md">Calcolo FIRE Italia — specifica matematica del motore</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0001</small></li><li><a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md">Calcolo FIRE Italia — specifica della fiscalità semplificata</a><small>Calcolo FIRE Italia · 23 settembre 2026 · SRC-2026-0002</small></li><li><a href="https://economiapertutti.bancaditalia.it/aree-tematiche/risparmio-e-investimenti/la-pianificazione/">Pianificazione</a><small>Banca d&#x27;Italia — L&#x27;economia per tutti · SRC-2026-0004</small></li><li><a href="https://www.istat.it/comunicato-stampa/spese-per-consumi-delle-famiglie-anno-2024/">Le spese per i consumi delle famiglie - Anno 2024</a><small>Istituto nazionale di statistica (ISTAT) · 7 ottobre 2025 · SRC-2026-0015</small></li></ol>
+            </section>
+
+            <aside class="article-author" aria-label="Autore e responsabilità editoriale">
+                <strong>A cura di Stefano Liga</strong>
+                <p>Stefano Liga è l'ideatore e sviluppatore di Calcolo FIRE Italia. Cura il simulatore, la documentazione della metodologia e le guide educative sul percorso FIRE, con attenzione alle ipotesi di calcolo, alle fonti e ai limiti dei risultati.</p>
+                <p class="editorial-disclosure">Questa guida è stata preparata tramite il processo editoriale automatizzato di Calcolo FIRE Italia, basato sulle fonti citate e sulle regole di qualità del progetto. Stefano Liga ne è il responsabile editoriale.</p>
+            </aside>
+
+            <aside class="content-notice warning" aria-label="Nota informativa">
+                <h2>Nota informativa</h2>
+                <p>I contenuti hanno finalità esclusivamente informative ed educative e non costituiscono consulenza finanziaria, fiscale, previdenziale o legale personalizzata. Prima di prendere decisioni, valuta la tua situazione e, quando necessario, rivolgiti a un professionista qualificato.</p>
+            </aside>
+
+            <aside class="content-cta" aria-labelledby="cta-title">
+                <h2 id="cta-title">Verifica uno scenario familiare coerente</h2>
+                <p>Prepara il budget e l’elenco delle risorse con provenienza e tempi. Inserisci uno scenario, poi confrontalo senza una rendita futura e controlla PAC complessivo e prelievi.</p>
+                <a href="/">Apri il simulatore FIRE</a>
+            </aside>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <span>Calcolo FIRE Italia</span>
+    <span>Guida · GUIDE-0030</span>
+</footer>
+</body>
+</html>

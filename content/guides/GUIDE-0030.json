@@ -1,0 +1,68 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0030",
+  "slug": "/guida/fire-coppia-famiglia",
+  "seo": {
+    "title": "FIRE per coppia e famiglia: spese, risorse e tempi",
+    "description": "Costruisci uno scenario FIRE familiare con spese comuni, patrimoni distinti e rendite con decorrenze diverse. Un esempio chiarisce gli errori di aggregazione.",
+    "og_title": "Calcolare il FIRE per una coppia o una famiglia",
+    "og_description": "Come contare spese e patrimoni una volta sola, riportare le età su un riferimento comune e mantenere separate le rendite. Esempio e limiti dello scenario familiare."
+  },
+  "page": {
+    "kicker": "FIRE e bilancio familiare",
+    "h1": "Calcolare il FIRE per una coppia o una famiglia",
+    "lead": "Per costruire uno scenario familiare, parti dalle spese complessive prima delle rendite, conta ogni patrimonio una volta e conserva le decorrenze delle risorse individuali. Un unico riferimento temporale permette di confrontare i flussi; il risultato resta un modello economico aggregato, senza verificare diritti pensionistici o posizioni fiscali personali."
+  },
+  "dates": {
+    "published": "2026-09-28",
+    "updated": "2026-09-28"
+  },
+  "summary_points": [
+    "Il budget familiare somma spese comuni e individuali senza duplicare i pagamenti della stessa voce.",
+    "Patrimonio principale e card degli investimenti devono rappresentare somme distinte e disponibili per il piano.",
+    "Le età di tutte le risorse seguono un solo riferimento: una decorrenza personale va tradotta in anni da oggi.",
+    "Rendite con inizi, fini o rivalutazioni diversi restano separate; non vanno sottratte dalla spesa prima di inserirle nelle card.",
+    "Il PAC richiesto è aggiuntivo ai versamenti già modellati: la sostenibilità va confrontata con il risparmio complessivo della famiglia.",
+    "Lo scenario unico non modella più posizioni fiscali o previdenziali individuali e non garantisce la tenuta del piano."
+  ],
+  "source_ids": [
+    "SRC-2026-0001",
+    "SRC-2026-0002",
+    "SRC-2026-0004",
+    "SRC-2026-0015"
+  ],
+  "internal_links": [
+    {
+      "url": "/metodologia",
+      "label": "Metodologia del simulatore FIRE",
+      "reason": "Verificare unità, asse temporale e limiti dell’aggregazione delle risorse."
+    },
+    {
+      "url": "/",
+      "label": "Simulatore FIRE",
+      "reason": "Inserire un budget familiare e confrontare scenari con decorrenze esplicite."
+    },
+    {
+      "url": "/guida/fire-italia",
+      "label": "Guida al FIRE in Italia",
+      "reason": "Inquadrare l’indipendenza finanziaria e distinguere un piano da una promessa."
+    },
+    {
+      "url": "/guida/rendite-pensione-capitali-futuri",
+      "label": "Risorse aggiuntive nel piano FIRE",
+      "reason": "Approfondire la distinzione tra stock patrimoniali, flussi periodici e capitali futuri."
+    },
+    {
+      "url": "/guida/analisi-sensibilita-fire",
+      "label": "Analisi di sensibilità FIRE",
+      "reason": "Confrontare ipotesi familiari diverse conservando input e risultati di ogni scenario."
+    }
+  ],
+  "cta": {
+    "title": "Verifica uno scenario familiare coerente",
+    "text": "Prepara il budget e l’elenco delle risorse con provenienza e tempi. Inserisci uno scenario, poi confrontalo senza una rendita futura e controlla PAC complessivo e prelievi.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
