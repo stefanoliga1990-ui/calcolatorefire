@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "updated_at": "2026-09-28",
   "next_id_by_year": {
-    "2026": 23
+    "2026": 25
   },
   "sources": [
     {
@@ -22,7 +22,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T13:04:38+02:00"
+        "last_accessed_at": "2026-09-28T14:04:15+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -34,13 +34,13 @@
       },
       "locator": {
         "article": null,
-        "section": "GUIDE-0021: documento completo nel checkout main, sezioni2-4,6,8-9,17-18; FireCalculator.initialContribution e FiscalAccumulationPlan.growingPac, FiscalFireCalculator e campo annualContributionGrowthRate nel frontend; confronto Python/JShell.",
+        "section": "GUIDE-0021: documento completo nel checkout main, sezioni2-4,6,8-9,17-18; FireCalculator.initialContribution e FiscalAccumulationPlan.growingPac, FiscalFireCalculator e campo annualContributionGrowthRate nel frontend; confronto Python/JShell. GUIDE-0022: documenti completi; matematica2-3,6-9,11,17,19-22; fiscalita7,14-16; formule Python e FiscalFireCalculator via JShell.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T13:04:38+02:00",
+        "checked_at": "2026-09-28T14:04:15+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -159,6 +159,12 @@
           "claim": "Crescita del PAC annua effettiva convertita in mensile; Cj=C1*(1+gm)^(j-1), versamento a fine mese, fattore F e caso r=gm. Elaborazione propria con eta 40->50, FINITE20anni, spesa1500, patrimonio e capitale terminale zero, nessuna risorsa, rendimenti/inflazione/aliquota/bollo zero: target analitico360000; g=0/2/5% produce C1=3000/2714,997344/2332,162654 e C120=3000/3304,109607/3783,433042; totale360000 in tutti i casi. g5% non realizzato e rata iniziale tenuta fissa: saldo279859,518526, divario80140,481474. Con rendimento e crescita3%: F=160,873208789 e C1=2237,787154. Formule Python confrontate con FiscalFireCalculator via JShell entro0,01euro; points contiene mesezero, rate estratte per month==13 e120. Arrotondamenti tabella all’euro.",
           "importance": "central",
           "verified_at": "2026-09-28T13:04:38+02:00"
+        },
+        {
+          "content_id": "GUIDE-0022",
+          "claim": "GUIDE-0022: documento completo nel checkout; sezioni2-3,6-9,11,17,19-22. Durata da eta FIRE,12mesi/anno; FINITE copre orizzonte e residuo, SWR senza risorse primo fabbisogno annuo/tasso e verifica mensile. Elaborazione propria Python e FiscalFireCalculator via JShell: eta40->50, spesa1500euro/mese, patrimonio/terminale zero, risorse assenti, rendimenti/inflazione/crescita PAC/aliquota/bollo zero. Durate30/40/50: target540000/720000/900000, PAC4500/6000/7500. SWR4%: target450000/PAC3750,300prelievi coperti, primo shortfall301, totale non coperto90000/270000/450000. FINITE Java differisce di0,0078125euro dal target analitico per tolleranza numerica, entro0,01euro. Esposizione arrotondata all euro. Capitale fissato540000 e durata40anni: mancano180000 dopo360prelievi.",
+          "importance": "central",
+          "verified_at": "2026-09-28T14:04:15+02:00"
         }
       ],
       "limitations": [
@@ -166,7 +172,8 @@
         "Le frasi introduttive sulla fiscalità riflettono una fase precedente: per il modello fiscale implementato prevale la specifica fiscale dedicata.",
         "GUIDE-0019: formule isolate con imposte e bollo zero; comportamento operativo verificato nel motore fiscale senza validare incassi o diritti futuri.",
         "GUIDE-0020: formule incrementali valide senza fiscalità e senza flussi FIRE aggiuntivi; rendimento costante ipotetico, nessuna garanzia sul capitale residuo reale.",
-        "GUIDE-0021: crescita mensile liscia, non scatti annuali o promozioni; formula chiusa isolata senza fiscalita. Una rata iniziale minore impegna a versamenti futuri maggiori."
+        "GUIDE-0021: crescita mensile liscia, non scatti annuali o promozioni; formula chiusa isolata senza fiscalita. Una rata iniziale minore impegna a versamenti futuri maggiori.",
+        "GUIDE-0022: orizzonte ipotetico; motore senza mortalita o probabilita personali. Esempi con tassi e fiscalita zero, non durate raccomandate."
       ],
       "conflicts": [
         {
@@ -176,7 +183,7 @@
         }
       ],
       "local_copy": null,
-      "notes": "Fonte primaria interna per la pagina metodologia. GUIDE-0018: lettura integrale nel checkout main, specifica immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03. Esempi propri: età 40, FIRE 45, durata 20 anni, spesa 1800 euro/mese, capitale iniziale/finale zero, rendimenti/inflazione/crescita PAC e rendita zero, aliquota e bollo zero, nessuna altra risorsa. Rendita 600 euro da 40 a 55 anni: 60 apporti in accumulo, 120 mesi FIRE con fabbisogno 1200 e 120 con 1800; target FINITE analitico 360000, reinvestimento 36000, PAC 5400. Senza reinvestimento PAC 6000; senza rendita target 432000 e PAC 7200; rendita senza fine target 288000 e PAC 4200. Reinvestimento parziale: due card da 240 e 360 euro, solo la prima investita in accumulo, entrambe usate nel FIRE; reinvestiti 14400, PAC 5760. Motore fiscalizzato verificato con JShell: target FINITE inferiori al valore analitico di 0,0078125 euro, PAC inferiori di 0,000130176544 euro; tabella arrotondata all’euro. SWR 0,04 temporanea: candidato 1200*120+540000=684000; target 540000, PAC 8400. Crescita/Inflazione ipotetiche: 600/(1,02)^10=492,2089799250931 euro reali; 600*(1,02)^10=731,3966519968544 euro nominali. Arrotondamento ai centesimi solo per questi valori; nessuna previsione. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile."
+      "notes": "Fonte primaria interna per la pagina metodologia. GUIDE-0018: lettura integrale nel checkout main, specifica immutata al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03. Esempi propri: età 40, FIRE 45, durata 20 anni, spesa 1800 euro/mese, capitale iniziale/finale zero, rendimenti/inflazione/crescita PAC e rendita zero, aliquota e bollo zero, nessuna altra risorsa. Rendita 600 euro da 40 a 55 anni: 60 apporti in accumulo, 120 mesi FIRE con fabbisogno 1200 e 120 con 1800; target FINITE analitico 360000, reinvestimento 36000, PAC 5400. Senza reinvestimento PAC 6000; senza rendita target 432000 e PAC 7200; rendita senza fine target 288000 e PAC 4200. Reinvestimento parziale: due card da 240 e 360 euro, solo la prima investita in accumulo, entrambe usate nel FIRE; reinvestiti 14400, PAC 5760. Motore fiscalizzato verificato con JShell: target FINITE inferiori al valore analitico di 0,0078125 euro, PAC inferiori di 0,000130176544 euro; tabella arrotondata all’euro. SWR 0,04 temporanea: candidato 1200*120+540000=684000; target 540000, PAC 8400. Crescita/Inflazione ipotetiche: 600/(1,02)^10=492,2089799250931 euro reali; 600*(1,02)^10=731,3966519968544 euro nominali. Arrotondamento ai centesimi solo per questi valori; nessuna previsione. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile. GUIDE-0022: ricontrollata nel run editorial-20260928-13; fonte immutata e conflitto storico risolto conservato."
     },
     {
       "id": "SRC-2026-0002",
@@ -194,7 +201,7 @@
         "published": null,
         "updated": "2026-09-23",
         "first_accessed_at": "2026-09-24T17:47:02+02:00",
-        "last_accessed_at": "2026-09-28T13:04:38+02:00"
+        "last_accessed_at": "2026-09-28T14:04:15+02:00"
       },
       "applicability": {
         "valid_from": null,
@@ -206,13 +213,13 @@
       },
       "locator": {
         "article": null,
-        "section": "GUIDE-0021: documento completo nel checkout main; sezioni4-7,13-16; fiscalita azzerata negli esempi, nessuna regola tributaria esterna dichiarata.",
+        "section": "GUIDE-0021: documento completo nel checkout main; sezioni4-7,13-16; fiscalita azzerata negli esempi, nessuna regola tributaria esterna dichiarata. GUIDE-0022: documenti completi; matematica2-3,6-9,11,17,19-22; fiscalita7,14-16; formule Python e FiscalFireCalculator via JShell.",
         "page": null,
         "table_or_figure": null,
         "dataset_or_series": null
       },
       "verification": {
-        "checked_at": "2026-09-28T13:04:38+02:00",
+        "checked_at": "2026-09-28T14:04:15+02:00",
         "checked_by": "automation",
         "full_content_accessed": true,
         "original_source_checked": true
@@ -307,13 +314,20 @@
           "claim": "Il bollo e il costo fiscale entrano nella simulazione congiunta di target e PAC; la formula chiusa vale con aliquota e bollo zero. Il parametro crescita conserva la ricorrenza mensile. La guida descrive il modello, non norme fiscali. Esempio verificato con FiscalSettings(0,0); il solver differisce dal target360000 di meno0,01euro.",
           "importance": "central",
           "verified_at": "2026-09-28T13:04:38+02:00"
+        },
+        {
+          "content_id": "GUIDE-0022",
+          "claim": "GUIDE-0022: documento completo consultato, sezioni7,14-16; frontend usa motore fiscale con target/PAC congiunti, copertura mensile e residuo; esempi isolati con aliquota e bollo zero. SWR non certifica la copertura della durata, riscontrato in FiscalFireCalculator e proiezioni target/personali. Nessuna regola tributaria esterna dichiarata.",
+          "importance": "central",
+          "verified_at": "2026-09-28T14:04:15+02:00"
         }
       ],
       "limitations": [
         "Modello fiscale semplificato del simulatore; non rappresenta tutti i regimi, le agevolazioni o le situazioni individuali.",
         "GUIDE-0019: una card chiamata TFR o eredità non calcola liquidazione, diritto o fiscalità della somma; importo e disponibilità richiedono verifica esterna individuale.",
         "GUIDE-0020: saldo finale lasciato investito; modello non simula liquidazione totale, imposte di successione o trasferimenti e non quantifica un’eredità netta.",
-        "GUIDE-0021: descrizione del modello con aliquota e bollo zero negli esempi, senza informazione tributaria individuale o garanzie sul target."
+        "GUIDE-0021: descrizione del modello con aliquota e bollo zero negli esempi, senza informazione tributaria individuale o garanzie sul target.",
+        "GUIDE-0022: orizzonte ipotetico; motore senza mortalita o probabilita personali. Esempi con tassi e fiscalita zero, non durate raccomandate."
       ],
       "conflicts": [
         {
@@ -323,7 +337,7 @@
         }
       ],
       "local_copy": null,
-      "notes": "Specifica interna consultata integralmente nel checkout; formule riconciliate con FiscalCalculator.java e FiscalPortfolioState.java. Esempi GUIDE-0015: p=max(0,B-F)/B; G=D/(1-tau*p); T=G*p*tau; F residuo=F*(1-G/B). B=240000, D=1500, tau=0.26, F=240000/144000/60000/260000; rendimenti, bollo, apporti e rendite zero, un mese, euro nominali. Arrotondamento espositivo ai centesimi. Con F=144000: G=1674.107142857143, T=174.107142857143, saldo=238325.89285714286, F residuo=142995.5357142857. Esempio accumulo: B=240000, F=144000, rendimento mensile=0.005, versamento=1000, bollo zero; saldo finale=242200, F finale=145000. Nessuna previsione o imposta personale. GUIDE-0016: intera specifica letta, riscontrata in FiscalCalculator.java, FiscalAccumulationProjector.java e FiscalFireCalculator.java. b_a=0.002, b_m=0.00016681963994558124; B=300000 senza rendimento/inflazione/movimenti, saldo dopo 12 mesi=299400 e dopo 360 mesi=282512.38618727017. Primo mese accumulo, PAC=1000: bollo=50.21271162361995, saldo=300949.78728837636, costo fiscale da 300000 a 301000. Primo mese decumulo, netto=1500 e imposta plusvalenze=0: bollo=49.795662523756, saldo=298450.2043374762, costo fiscale=298500. Euro nominali, arrotondamento espositivo ai centesimi, nessuna previsione. SWR base non aggiunge il bollo al primo prelievo; bollo presente in accumulo e proiezione. FINITE include bollo nel risolutore mensile. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile."
+      "notes": "Specifica interna consultata integralmente nel checkout; formule riconciliate con FiscalCalculator.java e FiscalPortfolioState.java. Esempi GUIDE-0015: p=max(0,B-F)/B; G=D/(1-tau*p); T=G*p*tau; F residuo=F*(1-G/B). B=240000, D=1500, tau=0.26, F=240000/144000/60000/260000; rendimenti, bollo, apporti e rendite zero, un mese, euro nominali. Arrotondamento espositivo ai centesimi. Con F=144000: G=1674.107142857143, T=174.107142857143, saldo=238325.89285714286, F residuo=142995.5357142857. Esempio accumulo: B=240000, F=144000, rendimento mensile=0.005, versamento=1000, bollo zero; saldo finale=242200, F finale=145000. Nessuna previsione o imposta personale. GUIDE-0016: intera specifica letta, riscontrata in FiscalCalculator.java, FiscalAccumulationProjector.java e FiscalFireCalculator.java. b_a=0.002, b_m=0.00016681963994558124; B=300000 senza rendimento/inflazione/movimenti, saldo dopo 12 mesi=299400 e dopo 360 mesi=282512.38618727017. Primo mese accumulo, PAC=1000: bollo=50.21271162361995, saldo=300949.78728837636, costo fiscale da 300000 a 301000. Primo mese decumulo, netto=1500 e imposta plusvalenze=0: bollo=49.795662523756, saldo=298450.2043374762, costo fiscale=298500. Euro nominali, arrotondamento espositivo ai centesimi, nessuna previsione. SWR base non aggiunge il bollo al primo prelievo; bollo presente in accumulo e proiezione. FINITE include bollo nel risolutore mensile. GUIDE-0021: fonte originale verificata nel run editorial-20260928-12; nessun nuovo conflitto irrisolto. Le specifiche sono immutate al commit cfc3fc4feab57fb12696b48c45a82bb5b371bc03; gli accessi istituzionali non mostrano una data ulteriore di aggiornamento verificabile. GUIDE-0022: ricontrollata nel run editorial-20260928-13; fonte immutata e conflitto storico risolto conservato."
     },
     {
       "id": "SRC-2026-0003",
@@ -1633,6 +1647,118 @@
       "conflicts": [],
       "local_copy": null,
       "notes": "Normattiva ha restituito errore di caricamento; consultata l’alternativa ufficiale Gazzetta Ufficiale e confrontata la scheda INPS aggiornata. Il PDF DEF dell’art. 24 del D.L. 201/2011 riporta una versione precedente e non è usato per dimostrare il quadro attuale. Nessun conflitto tra la norma utilizzata e la scheda INPS per le affermazioni della guida."
+    },
+    {
+      "id": "SRC-2026-0023",
+      "status": "approved",
+      "level": "A",
+      "type": "institutional_page",
+      "title": "Tavole di mortalità della popolazione residente — descrizione, glossario e note",
+      "responsible_entity": "ISTAT",
+      "authors": [
+        "ISTAT"
+      ],
+      "url": "https://demo.istat.it/app/?i=TVM",
+      "persistent_identifier": null,
+      "dates": {
+        "published": null,
+        "updated": null,
+        "first_accessed_at": "2026-09-28T14:04:15+02:00",
+        "last_accessed_at": "2026-09-28T14:04:15+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-28",
+        "reference_period": "Definizioni e metodologia; nessuna statistica corrente impiegata",
+        "version": "Pagina metodologica consultata nel run",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Descrizione; Glossario: speranza di vita all eta x; Note: ex e sopravviventi lx",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-28T14:04:15+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0022",
+          "claim": "La speranza di vita all eta x e il numero medio di anni residui sotto i rischi di mortalita dell anno osservato, condizionato ai sopravviventi all eta x. Una media non e un limite massimo o una data personale; il residuo non si ottiene sottraendo l eta alla speranza di vita alla nascita. Descrizione, glossario e note consultati integralmente, nessun valore delle tavole usato.",
+          "importance": "central",
+          "verified_at": "2026-09-28T14:04:15+02:00"
+        }
+      ],
+      "limitations": [
+        "Tavole di periodo, non previsioni individuali o di coorte; nessuna probabilita personale di copertura finanziaria.",
+        "Data di pubblicazione/revisione non indicata, riferimento alle sole definizioni metodologiche.",
+        "Generazione fittizia con basi diverse nel glossario1000 e nelle note100000; normalizzazione irrilevante per ex, nessun conteggio impiegato."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Originale ISTAT letto tramite web, incluse definizioni e formule delle note. Indicatori demografici2025 consultati come ricerca ma non usati: stime annuali non necessarie alla domanda; nessun conflitto sostanziale."
+    },
+    {
+      "id": "SRC-2026-0024",
+      "status": "approved",
+      "level": "A",
+      "type": "institutional_page",
+      "title": "Mortality and the Provision of Retirement Income — Abstract ed Executive summary",
+      "responsible_entity": "OECD",
+      "authors": [
+        "OECD"
+      ],
+      "url": "https://www.oecd.org/en/publications/mortality-and-the-provision-of-retirement-income_a10a6c09-en.html",
+      "persistent_identifier": "10.1787/a10a6c09-en",
+      "dates": {
+        "published": "2023-02-02",
+        "updated": null,
+        "first_accessed_at": "2026-09-28T14:04:15+02:00",
+        "last_accessed_at": "2026-09-28T14:04:15+02:00"
+      },
+      "applicability": {
+        "valid_from": null,
+        "valid_to": null,
+        "as_of": "2026-09-28",
+        "reference_period": "Definizioni e metodologia; nessuna statistica corrente impiegata",
+        "version": "Pagina ufficiale OECD2023: abstract ed executive summary completi",
+        "provisional": false
+      },
+      "locator": {
+        "article": null,
+        "section": "Abstract; Executive summary: rappresentativita della popolazione, miglioramenti futuri e limiti delle ipotesi",
+        "page": null,
+        "table_or_figure": null,
+        "dataset_or_series": null
+      },
+      "verification": {
+        "checked_at": "2026-09-28T14:04:15+02:00",
+        "checked_by": "automation",
+        "full_content_accessed": true,
+        "original_source_checked": true
+      },
+      "usages": [
+        {
+          "content_id": "GUIDE-0022",
+          "claim": "OECD richiede che le ipotesi di mortalita siano rappresentative della popolazione destinataria e tengano conto dei miglioramenti futuri. Differenze tra gruppi e giudizio nella modellazione limitano la trasferibilita di una media nazionale a un individuo. Nessuna statistica OECD o effetto COVID impiegato.",
+          "importance": "central",
+          "verified_at": "2026-09-28T14:04:15+02:00"
+        }
+      ],
+      "limitations": [
+        "Documento per regolatori e fornitori di reddito pensionistico, non durata FIRE individuale.",
+        "Usato integralmente il contenuto pertinente pubblicato nella pagina: abstract e sintesi ufficiale; non risultati del rapporto che richiedono capitoli aggiuntivi.",
+        "Principi metodologici2023, non stima della mortalita italiana corrente."
+      ],
+      "conflicts": [],
+      "local_copy": null,
+      "notes": "Pagina originale disponibile e letta nello strumento web; urllib403 e link ipotizzato al riepilogo non disponibile, usata pagina ufficiale originale accessibile. Coerente con definizione ISTAT, nessun conflitto irrisolto."
     }
   ]
 }

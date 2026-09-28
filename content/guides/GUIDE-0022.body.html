@@ -1,0 +1,171 @@
+<section class="content-section" id="orizzonte" aria-labelledby="orizzonte-title">
+    <h2 id="orizzonte-title">La durata parte dall'ingresso nel FIRE</h2>
+    <p>
+        La durata FIRE indica per quanti anni il modello proietta le spese dopo l'ingresso nel FIRE.
+        È distinta dagli anni di accumulo precedenti. Se l'età attuale è 40 anni, l'età FIRE è 50 e la
+        durata è 40 anni, il modello considera 10 anni di accumulo e 40 di decumulo, fino al confine
+        dei 90 anni. Sono convenzioni di pianificazione, non date di nascita o previsioni di vita:
+        la <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 2, 3 e 17</a>
+        trasforma ogni anno in 12 mesi interi.
+    </p>
+    <pre class="formula"><code>Età al confine finale = età FIRE + durata FIRE
+Mesi da finanziare = 12 × durata FIRE</code></pre>
+    <p>
+        Il rischio di longevità, per un piano finanziato dal patrimonio, è che le spese debbano essere
+        sostenute oltre l'orizzonte finanziato. Per esaminarlo serve confrontare più orizzonti:
+        scegliere una durata più breve abbassa il fabbisogno calcolato, ma non elimina gli anni che
+        potrebbero restare da finanziare. La durata adatta a una persona non è determinata da questa guida.
+    </p>
+</section>
+
+<section class="content-section" id="vita-media" aria-labelledby="vita-media-title">
+    <h2 id="vita-media-title">La speranza di vita non è una scadenza personale</h2>
+    <p>
+        Il <a href="https://demo.istat.it/app/?i=TVM" data-source-id="SRC-2026-0023">glossario ISTAT delle tavole di mortalità</a>
+        definisce la speranza di vita all'età raggiunta come il numero medio di anni residui, ipotizzando
+        i rischi di mortalità per età osservati nell'anno di riferimento. La media riguarda chi è
+        sopravvissuto fino a quell'età: non si ricava il tempo residuo sottraendo la propria età dalla
+        speranza di vita alla nascita. Una media non è un limite massimo e non indica che tutti vivranno
+        fino allo stesso compleanno.
+    </p>
+    <p>
+        Le tavole di periodo descrivono un insieme di rischi osservati; non incorporano automaticamente
+        tutti i cambiamenti che una generazione sperimenterà in futuro. Nel suo
+        <a href="https://www.oecd.org/en/publications/mortality-and-the-provision-of-retirement-income_a10a6c09-en.html" data-source-id="SRC-2026-0024">rapporto sulla mortalità e il reddito pensionistico, sintesi ufficiale</a>,
+        OECD sottolinea la necessità di ipotesi rappresentative della popolazione interessata e di
+        considerare i miglioramenti futuri della mortalità. Sono principi di modellazione rivolti
+        soprattutto ai sistemi pensionistici, non una formula per scegliere una durata FIRE individuale.
+    </p>
+    <p>
+        La conseguenza per questa guida è una scelta di metodo: usa le statistiche per capire
+        l'incertezza e confronta un orizzonte di base con altri più lunghi. Non trasformare una media
+        nazionale in una data personale di esaurimento del capitale. Qui non attribuiamo probabilità
+        alle durate illustrate né usiamo una stima statistica come input automatico.
+    </p>
+</section>
+
+<section class="content-section" id="metodi" aria-labelledby="metodi-title">
+    <h2 id="metodi-title">FINITE finanzia i mesi scelti; SWR va verificato lungo quei mesi</h2>
+    <p>
+        Nel metodo <strong>FINITE</strong>, chiamato Durata finita nell'interfaccia, l'orizzonte entra
+        nella ricerca del capitale necessario per i prelievi e per l'eventuale saldo finale desiderato.
+        Nel modello fiscalizzato il motore cerca una soluzione che copra i fabbisogni mensili netti e
+        conservi il residuo richiesto, con una tolleranza monetaria di un centesimo. È il comportamento
+        descritto nella <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-fiscalita-semplificata.md" data-source-id="SRC-2026-0002">specifica fiscale, sezioni 7 e 14–16</a>.
+        Il risultato resta condizionato a spese, rendimenti, inflazione, risorse e fiscalità inseriti.
+    </p>
+    <p>
+        <strong>SWR</strong> è il tasso di prelievo iniziale scelto. Senza risorse aggiuntive e con
+        fiscalità zero, il target divide la prima spesa annualizzata per quel tasso: allungare la durata
+        non modifica questa formula, ma aggiunge mesi alla proiezione. La
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica matematica, sezioni 7 e 9</a>
+        richiede infatti di segnalare il primo fabbisogno non coperto, detto <em>shortfall</em>.
+        SWR non è il rendimento del portafoglio né una garanzia di rendita perpetua.
+    </p>
+    <p>
+        Non estendere la formula semplice a ogni scenario: risorse future e fiscalità cambiano i calcoli.
+        Il confronto completo è nella guida <a href="/guida/metodo-finite-o-swr">Metodo FINITE o SWR</a>.
+        Per il rischio di longevità conta anche il confine scelto: una proiezione senza mesi scoperti
+        fino a quel confine non dimostra la copertura dei mesi successivi.
+    </p>
+</section>
+
+<section class="content-section" id="esempio" aria-labelledby="esempio-title">
+    <h2 id="esempio-title">Lo stesso budget per 30, 40 o 50 anni</h2>
+    <p>
+        Esempio didattico: età attuale 40 anni, età FIRE 50, spesa di 1.500 euro al mese interamente
+        finanziata dal patrimonio. Patrimonio iniziale e capitale finale desiderato sono zero;
+        non ci sono investimenti aggiuntivi, rendite o capitali futuri. Inflazione, rendimenti di
+        accumulo e FIRE, crescita del PAC, aliquota sulle plusvalenze e bollo sono tutti zero.
+        La fiscalità è azzerata soltanto per isolare l'effetto della durata. Con inflazione zero,
+        valori nominali ed euro di oggi coincidono.
+    </p>
+    <pre class="formula"><code>FINITE = 1.500 euro/mese × 12 × durata in anni
+PAC mensile = target ÷ 120 mesi di accumulo</code></pre>
+    <table>
+        <thead>
+            <tr><th scope="col">Durata FIRE</th><th scope="col">Età al confine finale</th><th scope="col">Target FINITE</th><th scope="col">PAC mensile</th></tr>
+        </thead>
+        <tbody>
+            <tr><th scope="row">30 anni</th><td>80 anni</td><td>540.000 euro</td><td>4.500 euro</td></tr>
+            <tr><th scope="row">40 anni</th><td>90 anni</td><td>720.000 euro</td><td>6.000 euro</td></tr>
+            <tr><th scope="row">50 anni</th><td>100 anni</td><td>900.000 euro</td><td>7.500 euro</td></tr>
+        </tbody>
+    </table>
+    <p>
+        Elaborazione propria sulle <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">formule delle sezioni 6 e 8</a>,
+        verificata con calcolo indipendente e motore fiscale Java entro un centesimo, con importi
+        esposti all'euro. Il prelievo avviene a inizio mese e il PAC a fine mese. In ogni scenario FINITE
+        il capitale finanzia esattamente i mesi previsti e il saldo finale è zero, salvo la tolleranza
+        numerica. Gli anni aggiunti aumentano linearmente il target in questo esempio a rendimento
+        zero; con altri tassi la relazione cambia. Le durate e i versamenti non sono raccomandazioni.
+    </p>
+    <p>
+        Selezionando invece SWR al 4%, solo come ipotesi, il target è 1.500 × 12 ÷ 0,04 =
+        <strong>450.000 euro</strong> e il PAC è 3.750 euro al mese per tutte e tre le durate.
+        Senza rendimento, quel capitale copre 300 prelievi, cioè 25 anni: il primo mese scoperto è
+        il 301 in tutti i casi. La proiezione non copre neppure il primo orizzonte di 30 anni.
+        Non basta che il target rimanga uguale per concludere che la durata sia irrilevante.
+    </p>
+</section>
+
+<section class="content-section" id="capitale-fissato" aria-labelledby="capitale-fissato-title">
+    <h2 id="capitale-fissato-title">Ricalcolare il target non rende sufficiente il vecchio capitale</h2>
+    <p>
+        Nella tabella, ogni durata genera un nuovo capitale da costruire. Se invece mantieni
+        540.000 euro, raggiunti per finanziare 30 anni dell'esempio, e devi sostenere le stesse spese
+        per 40 anni, i primi 360 prelievi consumano tutto. Il mese 361 è scoperto e per i dieci anni
+        aggiuntivi mancano 1.500 × 120 = <strong>180.000 euro</strong>, nelle sole ipotesi dell'esempio.
+        Cambiare la durata nel calcolatore mostrerà un target maggiore: non aggiunge denaro a un
+        patrimonio già fissato.
+    </p>
+    <p>
+        Una riserva al termine dell'orizzonte può rendere visibile un diverso obiettivo, ma non
+        certifica quanti anni ulteriori saranno finanziati. Per verificare quel fabbisogno devi
+        includere anche quei mesi e le relative ipotesi. La guida sul
+        <a href="/guida/capitale-finale-fire">capitale finale desiderato</a> distingue l'obiettivo
+        di riserva dal saldo effettivamente proiettato.
+    </p>
+</section>
+
+<section class="content-section" id="confronto" aria-labelledby="confronto-title">
+    <h2 id="confronto-title">Confronta orizzonti più lunghi con input coerenti</h2>
+    <ol>
+        <li>Annota età FIRE, durata e somma delle due: rendi esplicito fino a quale confine stai finanziando le spese.</li>
+        <li>Calcola un orizzonte di base e poi altri più lunghi, mantenendo uguali spesa, rendimenti, inflazione, patrimonio, crescita del PAC e impostazioni fiscali.</li>
+        <li>Confronta target e PAC in FINITE; in SWR leggi anche primo mese scoperto e saldo finale, oltre al target.</li>
+        <li>Ricontrolla le risorse: l'orizzonte esteso può includere una decorrenza, una fine di rendita o un capitale futuro prima esclusi. Se accade, il confronto non isola più soltanto la durata.</li>
+        <li>Ripeti separatamente con spese maggiori o rendimenti meno favorevoli. Registra cosa hai cambiato, senza chiamare il risultato una probabilità di successo.</li>
+    </ol>
+    <p>
+        Le regole temporali delle risorse sono nella
+        <a href="https://github.com/stefanoliga1990-ui/calcolatorefire/blob/main/docs/specifica-matematica.md" data-source-id="SRC-2026-0001">specifica, sezioni 17 e 19–22</a>.
+        La <a href="/metodologia">metodologia</a> aiuta a confrontare gli output con le stesse unità.
+        Questi confronti mostrano il costo delle ipotesi scelte, senza stabilire quale durata sia giusta per te.
+    </p>
+</section>
+
+<section class="content-section" id="limiti" aria-labelledby="limiti-title">
+    <h2 id="limiti-title">Un orizzonte lungo resta uno scenario condizionato</h2>
+    <p>
+        Il simulatore non applica tavole di mortalità, non stima l'età del decesso e non produce
+        probabilità di sopravvivenza o di successo finanziario. Usa tassi costanti e una spesa che
+        segue l'inflazione ipotizzata: bisogni di assistenza, spese straordinarie e cambiamenti del
+        tenore di vita devono essere valutati come ulteriori ipotesi, non sono previsti automaticamente.
+        Il <a href="/guida/rischio-sequenza-rendimenti-fire">rischio di sequenza dei rendimenti</a>
+        è un rischio distinto dalla longevità, anch'esso assente dalla proiezione a tasso costante.
+    </p>
+    <aside class="content-notice warning" aria-labelledby="copertura-title">
+        <h3 id="copertura-title">Copertura dei mesi simulati e vita futura sono due verifiche diverse</h3>
+        <p>
+            Un saldo finale positivo non dimostra la copertura per tutta la vita. Un saldo zero
+            al confine può essere coerente con FINITE, ma lascia aperta la domanda su come finanziare
+            eventuali anni successivi. Nessuno dei due risultati autorizza da solo una decisione personale di uscita dal lavoro.
+        </p>
+    </aside>
+    <p>
+        Nel <a href="/">simulatore FIRE</a>, confronta un orizzonte di base con altri più lunghi e
+        conserva le ipotesi insieme ai risultati. Il punto da verificare è quanto cambia il fabbisogno
+        e quali mesi risultano coperti; la durata della vita e la sostenibilità reale restano incerte.
+    </p>
+</section>

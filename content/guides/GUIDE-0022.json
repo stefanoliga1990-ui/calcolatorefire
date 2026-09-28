@@ -1,0 +1,41 @@
+{
+  "$schema": "./guide.schema.json",
+  "schema_version": "1.0",
+  "content_id": "GUIDE-0022",
+  "slug": "/guida/durata-fire-longevita",
+  "seo": {
+    "title": "Durata del FIRE e longevità: quale orizzonte simulare",
+    "description": "La durata FIRE è un'ipotesi, non una previsione di vita. Confronta orizzonti, capitale FINITE e copertura SWR con esempi e limiti del simulatore.",
+    "og_title": "Durata del FIRE e rischio di longevità",
+    "og_description": "Un capitale può coprire l'orizzonte scelto e restare insufficiente se serve più a lungo. Scopri come confrontare durate diverse e leggere FINITE e SWR."
+  },
+  "page": {
+    "kicker": "Rischi del FIRE",
+    "h1": "Durata del FIRE e rischio di longevità",
+    "lead": "Per quanti anni deve finanziare le spese il patrimonio FIRE? La durata inserita è un orizzonte di pianificazione: nessuna media statistica stabilisce quanto vivrai. Per valutarne l'effetto, confronta più durate mantenendo uguali le altre ipotesi. FINITE ricalcola il capitale per i mesi scelti; SWR richiede di controllare anche la copertura nella proiezione."
+  },
+  "dates": { "published": "2026-09-28", "updated": "2026-09-28" },
+  "summary_points": [
+    "La durata FIRE si conta dall'ingresso nel FIRE: iniziare a 50 anni e simulare 40 anni porta il confine finale a 90 anni.",
+    "La speranza di vita residua è una media condizionata all'età raggiunta, non un'età massima o una previsione personale.",
+    "Il rischio di longevità è che le spese debbano essere finanziate più a lungo di quanto previsto nel piano.",
+    "FINITE cerca il capitale necessario per l'orizzonte e il residuo scelti, sotto le ipotesi inserite; non finanzia automaticamente gli anni successivi.",
+    "Senza risorse aggiuntive e con fiscalità zero, il target SWR non cambia con la durata: controlla il primo mese scoperto nella proiezione.",
+    "Confrontare durate ricalcolando il target misura il fabbisogno; verificare un capitale già fissato risponde a una domanda diversa.",
+    "Il simulatore non stima mortalità, probabilità di sopravvivenza o probabilità di successo finanziario."
+  ],
+  "source_ids": ["SRC-2026-0001", "SRC-2026-0002", "SRC-2026-0023", "SRC-2026-0024"],
+  "internal_links": [
+    { "url": "/metodologia", "label": "Metodologia del simulatore FIRE", "reason": "Verifica confini temporali, prelievi mensili, fiscalità e limiti della proiezione." },
+    { "url": "/", "label": "Simulatore FIRE", "reason": "Confronta durate diverse conservando gli stessi input di spesa, rendimenti e patrimonio." },
+    { "url": "/guida/metodo-finite-o-swr", "label": "Metodo FINITE o SWR", "reason": "Approfondisci come i due metodi costruiscono il target iniziale." },
+    { "url": "/guida/capitale-finale-fire", "label": "Capitale finale nel FIRE", "reason": "Distingui una riserva al confine finale dal finanziamento degli anni successivi." },
+    { "url": "/guida/rischio-sequenza-rendimenti-fire", "label": "Rischio di sequenza dei rendimenti", "reason": "Comprendi un rischio di mercato distinto dalla durata della vita e assente dal modello costante." }
+  ],
+  "cta": {
+    "title": "Confronta più orizzonti di decumulo",
+    "text": "Annota età FIRE e durata, poi estendi l'orizzonte lasciando uguali gli altri input. Confronta target, PAC, primo mese scoperto e saldo finale senza attribuire probabilità ai risultati.",
+    "label": "Apri il simulatore FIRE",
+    "url": "/"
+  }
+}
