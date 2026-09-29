@@ -1888,6 +1888,50 @@ select[aria-invalid="true"] {
     margin-bottom: 0;
 }
 
+.home-fire-number p {
+    color: var(--ink-soft);
+    line-height: 1.6;
+}
+
+.home-fire-number .home-fire-formula {
+    padding: 18px;
+    border-radius: 14px;
+    color: var(--green-dark);
+    background: var(--green-pale);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    overflow-wrap: anywhere;
+}
+
+.home-fire-example {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.home-fire-example > div {
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    overflow-wrap: anywhere;
+}
+
+.home-fire-example dt {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.home-fire-example dd {
+    margin: 8px 0 0;
+    color: var(--green-dark);
+    font-size: 1.2rem;
+    font-weight: 750;
+    line-height: 1.4;
+}
+
 .explanation-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2135,6 +2179,10 @@ footer {
 }
 
 @media (max-width: 920px) {
+    .home-fire-example {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .home-overview {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -2174,6 +2222,10 @@ footer {
 }
 
 @media (max-width: 620px) {
+    .home-fire-example {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
     .intro,
     .home-benefits,
     .app-layout,

@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.math.BigDecimal;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -60,7 +61,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("name=\"twitter:description\" content=\"Calcola il patrimonio necessario per il FIRE in Italia e il PAC mensile, considerando inflazione, rendimento, plusvalenze e imposta di bollo.\"")))
                 .andExpect(content().string(containsString("rel=\"canonical\" href=\"https://simulatorefire.com/\"")))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=8.2\"")))
+                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=8.3\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Calcolatore FIRE Italia per l'indipendenza finanziaria.</h1>")))
                 .andExpect(content().string(containsString("<p>Stima il patrimonio necessario per vivere di rendita e il PAC mensile per raggiungerlo, considerando le tue ipotesi su inflazione e rendimenti e la fiscalità italiana.</p>")))
                 .andExpect(content().string(containsString("aria-label=\"Cosa puoi stimare con il simulatore\"")))
@@ -239,6 +240,57 @@ class HomePageTest {
         mockMvc.perform(get("/guida/fire-italia"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("text/html"));
+    }
+
+    @Test
+    void explainsTheSimplifiedFireNumberWithAConsistentExample() throws Exception {
+        String page = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        var section = Pattern.compile("(?s)<section\\b[^>]*id=\"numero-fire\"[^>]*>(.*?)</section>").matcher(page);
+        assertTrue(section.find());
+        String editorial = section.group();
+        assertTrue(!editorial.contains("hidden"));
+        assertTrue(page.indexOf("id=\"home-overview\"") < section.start());
+        assertTrue(section.end() < page.indexOf("id=\"come-funziona\""));
+        assertTrue(editorial.contains("aria-labelledby=\"numero-fire-title\""));
+        assertTrue(editorial.contains("<h2 id=\"numero-fire-title\">Numero FIRE: quanto capitale serve?</h2>"));
+        assertTrue(editorial.contains("<strong>Capitale FIRE = spesa annua / SWR</strong>"));
+        for (String concept : new String[] {"metodo SWR semplificato", "espresso in forma decimale",
+                "esempio didattico", "senza inflazione, fiscalità o risorse aggiuntive",
+                "non è una raccomandazione personale", "né una garanzia", "non sostituisce la simulazione completa",
+                "pensione e altre risorse", "durata", "capitale finale nel metodo FINITE",
+                "con SWR verifica", "plusvalenze e bollo", "differire dai 600.000 euro"}) {
+            assertTrue(editorial.contains(concept), "Concetto mancante: " + concept);
+        }
+        assertTrue(editorial.contains("Spesa mensile</dt>"));
+        assertTrue(editorial.contains("Spesa annua (mensile × 12)</dt>"));
+        assertTrue(editorial.contains("SWR iniziale</dt>"));
+        assertTrue(editorial.contains("Capitale semplificato</dt>"));
+        BigDecimal monthly = fireExampleValue(editorial, "monthly", "2.000 euro");
+        BigDecimal annual = fireExampleValue(editorial, "annual", "24.000 euro");
+        BigDecimal swrPercent = fireExampleValue(editorial, "swr", "4%");
+        BigDecimal capital = fireExampleValue(editorial, "capital", "600.000 euro");
+        assertEquals(new BigDecimal("2000"), monthly);
+        assertEquals(new BigDecimal("24000"), annual);
+        assertEquals(new BigDecimal("4"), swrPercent);
+        assertEquals(new BigDecimal("600000"), capital);
+        assertEquals(annual, monthly.multiply(new BigDecimal("12")));
+        assertEquals(0, annual.divide(swrPercent.movePointLeft(2)).compareTo(capital));
+        assertTrue(editorial.contains("24.000 euro / 0,04 = 600.000 euro"));
+        assertTrue(editorial.contains("href=\"/guida/numero-fire\">Approfondisci il numero FIRE e il capitale necessario per vivere di rendita</a>"));
+        assertEquals(1L, Pattern.compile("href=\"/guida/numero-fire\"").matcher(page).results().count());
+        mockMvc.perform(get("/guida/numero-fire"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("text/html"));
+    }
+
+    private static BigDecimal fireExampleValue(String section, String id, String visibleValue) {
+        var value = Pattern.compile("<data id=\"fire-example-" + id + "\" value=\"([0-9.]+)\">([^<]+)</data>")
+                .matcher(section);
+        assertTrue(value.find(), "Valore mancante nell'esempio: " + id);
+        assertEquals(visibleValue, value.group(2));
+        return new BigDecimal(value.group(1));
     }
 
     @Test

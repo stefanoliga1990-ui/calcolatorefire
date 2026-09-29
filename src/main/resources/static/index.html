@@ -25,7 +25,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=2">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=2">
     <link rel="preload" href="/fonts/InterVariable.woff2?v=4.1" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.2">
+    <link rel="stylesheet" href="/styles-7c8e1a4b5d20.css?v=8.3">
     <script src="/app-91e2b4c7a630.js?v=7.9" defer></script>
 </head>
 <body>
@@ -587,6 +587,23 @@
             <p><a class="help-source" href="/guida/fire-italia">Leggi la guida completa al FIRE in Italia</a> per approfondire il percorso e il contesto italiano.</p>
         </section>
     </div>
+
+    <section class="explanation home-fire-number" id="numero-fire" aria-labelledby="numero-fire-title">
+        <h2 id="numero-fire-title">Numero FIRE: quanto capitale serve?</h2>
+        <p>Un primo riferimento è il numero FIRE del metodo SWR semplificato: dividi la spesa annua da finanziare con il patrimonio per il tasso iniziale annuo di prelievo (SWR), espresso in forma decimale.</p>
+        <p class="home-fire-formula"><strong>Capitale FIRE = spesa annua / SWR</strong></p>
+        <h3>Un esempio con 2.000 euro al mese</h3>
+        <p>Questo esempio didattico usa importi allo stesso valore degli euro, senza inflazione, fiscalità o risorse aggiuntive:</p>
+        <dl class="home-fire-example" aria-label="Esempio di numero FIRE semplificato">
+            <div><dt>Spesa mensile</dt><dd><data id="fire-example-monthly" value="2000">2.000 euro</data></dd></div>
+            <div><dt>Spesa annua (mensile × 12)</dt><dd><data id="fire-example-annual" value="24000">24.000 euro</data></dd></div>
+            <div><dt>SWR iniziale</dt><dd><data id="fire-example-swr" value="4">4%</data></dd></div>
+            <div><dt>Capitale semplificato</dt><dd><data id="fire-example-capital" value="600000">600.000 euro</data></dd></div>
+        </dl>
+        <p>Il calcolo è 24.000 euro / 0,04 = 600.000 euro. Il 4% serve solo a illustrare la formula: non è una raccomandazione personale né una garanzia di durata del patrimonio.</p>
+        <p>Questa formula non sostituisce la simulazione completa: fiscalità, inflazione, pensione e altre risorse possono modificare il target. Il simulatore considera anche la durata e l'eventuale capitale finale nel metodo FINITE; con SWR verifica il patrimonio lungo l'orizzonte scelto. Il risultato con la stima di plusvalenze e bollo può quindi differire dai 600.000 euro dell'esempio.</p>
+        <p><a class="help-source" href="/guida/numero-fire">Approfondisci il numero FIRE e il capitale necessario per vivere di rendita</a></p>
+    </section>
 
     <section class="explanation" id="come-funziona" aria-labelledby="explanation-title">
         <p class="step-label">Come funziona</p>

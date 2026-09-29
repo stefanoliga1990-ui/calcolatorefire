@@ -218,7 +218,7 @@
       "id": "SEO-HOME-004",
       "order": 4,
       "title": "Aggiungere formula del numero FIRE ed esempio numerico",
-      "status": "pending",
+      "status": "completed",
       "depends_on": [
         "SEO-HOME-003"
       ],
@@ -247,12 +247,20 @@
         ".\\mvnw.cmd -Dtest=HomePageTest test"
       ],
       "result": {
-        "started_at": null,
-        "completed_at": null,
-        "attempt_count": 0,
-        "commit": null,
-        "summary": null,
-        "checks": [],
+        "started_at": "2026-09-29T10:07:33.6587956+02:00",
+        "completed_at": "2026-09-29T10:12:09.8306907+02:00",
+        "attempt_count": 1,
+        "commit": "HEAD_PENDING_SELF_REFERENCE",
+        "summary": "Aggiunta sotto le sezioni introduttive la sezione Numero FIRE con formula SWR semplificata, esempio didattico di 2.000 euro mensili, 24.000 euro annui, SWR 4% e capitale di 600.000 euro. Esplicitate differenze rispetto alla simulazione con fiscalita, inflazione, pensione e altre risorse, durata e capitale finale per FINITE e verifica dell'orizzonte per SWR. Inserito un link contestuale alla guida numero FIRE. Layout responsive dell'esempio, CSS della home v=8.3 e test con verifica matematica dei valori estratti dall'HTML e degli importi visibili. Modificati soltanto index.html, styles-7c8e1a4b5d20.css, HomePageTest.java e questo file di stato.",
+        "checks": [
+          ".\\mvnw.cmd -Dtest=HomePageTest test: PASS, 6 test, 0 fallimenti, 0 errori, 0 saltati.",
+          "Test HTML server-side: PASS, formula e input/risultato disponibili senza hidden; spesa annua = mensile x 12 e capitale = annua / (SWR / 100) verificati con BigDecimal dai valori HTML. Un solo H1, sezione H2 e esempio H3, unico link descrittivo a /guida/numero-fire con destinazione HTTP 200, CSS v=8.3.",
+          "Browser locale http://localhost:8080/: PASS a 320, 375, 768 e 1180 px, nessun overflow della pagina, della sezione o dei suoi elementi e nessuna sovrapposizione con le sezioni adiacenti. Esempio a una, due e quattro colonne secondo il viewport; controllo visivo a 320 e 1180 px.",
+          "Accessibilita: PASS, link alla guida raggiunto con Tab e Shift+Tab, focus-visible con outline solid di 3 px; contrasto dei nuovi testi almeno 5,90:1. Viewport temporaneo ripristinato e tab di verifica chiusa.",
+          "Percorso guidato e calcolo locale: PASS, tutti i sei passaggi con valori predefiniti, risultati FIRE 683.720 euro e PAC 2887 euro/mese, grafici popolati e risorse aggiuntive visibili; nessun messaggio di errore e nessun errore console.",
+          "Revisione editoriale e diff: PASS, esempio matematico distinto dal target fiscalizzato e privo di raccomandazioni o garanzie; testo coerente con guida numero FIRE e metodologia locali. Modifiche limitate ai quattro file previsti, senza modifiche a JavaScript, formule del motore, API, valori predefiniti, struttura del wizard, sitemap.xml, robots.txt o dati strutturati. Altri task e stato generale del workflow invariati; JSON valido; git diff --check PASS.",
+          "Verifica preliminare: branch miglioramento-seo, checkout pulito, nessun task in_progress e nessun index.lock. Nessuna run indipendente attiva nello stesso repository; il solo task attivo elencato coincide con il task sorgente di questa delega. Processi Java preesistenti riferiti al server Spring Boot locale."
+        ],
         "blocker": null
       }
     },
