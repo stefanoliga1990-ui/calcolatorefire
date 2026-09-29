@@ -378,6 +378,59 @@ class HomePageTest {
         }
     }
 
+    @Test
+    void answersCommonFireQuestionsInVisibleServerSideHtml() throws Exception {
+        String page = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        var faq = Pattern.compile("(?s)<section\\b[^>]*id=\"domande-frequenti\"[^>]*>(.*?)</section>").matcher(page);
+        assertTrue(faq.find());
+        String editorial = faq.group();
+        assertTrue(editorial.contains("aria-labelledby=\"faq-title\""));
+        assertTrue(editorial.contains("<h2 id=\"faq-title\">Domande frequenti sul calcolatore FIRE</h2>"));
+        assertTrue(page.indexOf("id=\"come-funziona\"") < faq.start());
+        assertTrue(faq.end() < page.indexOf("class=\"disclaimer\""));
+        assertEquals(1L, Pattern.compile("<h1\\b", Pattern.CASE_INSENSITIVE).matcher(page).results().count());
+        assertTrue(!Pattern.compile("(?i)\\bhidden\\b|aria-hidden|<details\\b|<script\\b|style=").matcher(editorial).find());
+        assertTrue(!Pattern.compile("(?i)FAQPage|QAPage").matcher(page).find());
+
+        String[][] answers = {
+                {"Quanto capitale serve per vivere di rendita?", "spesa annua / SWR", "riferimento semplificato",
+                        "inflazione, fiscalità e risorse aggiuntive", "non garantisce"},
+                {"Qual è la differenza tra numero FIRE e PAC?", "patrimonio obiettivo", "versamento mensile iniziale",
+                        "capitale già investito", "anni disponibili", "non verifica"},
+                {"Il calcolatore considera le tasse italiane?", "plusvalenze realizzate", "costo fiscale", "bollo",
+                        "26% è un valore iniziale modificabile", "non un'aliquota valida per ogni investimento", "trattamento fiscale personale"},
+                {"Posso includere pensione, affitti e altri investimenti?", "importi netti stimati da te", "decorrenza e durata",
+                        "disponibilità indicata", "evitando doppi conteggi", "non calcola il diritto o l'importo della pensione"},
+                {"Quali sono i limiti della regola del 4%?", "tasso iniziale di prelievo", "non un rendimento garantito",
+                        "studi storici", "rischio di sequenza", "rendimenti costanti", "non assegna una probabilità di successo"},
+                {"Che differenza c'è tra euro di oggi ed euro futuri?", "potere d'acquisto attuale", "importi nominali",
+                        "rivaluta la spesa di oggi", "equivalente del target in euro di oggi", "senza correggere due volte"}
+        };
+        var entries = Pattern.compile("(?s)<h3>(.*?)</h3>\\s*<p>(.*?)</p>").matcher(editorial);
+        int entryCount = 0;
+        while (entries.find()) {
+            assertTrue(entryCount < answers.length, "FAQ inattesa");
+            String[] answer = answers[entryCount++];
+            assertEquals(answer[0], entries.group(1));
+            for (int i = 1; i < answer.length; i++) {
+                assertTrue(entries.group(2).contains(answer[i]), "Concetto FAQ mancante: " + answer[i]);
+            }
+        }
+        assertEquals(answers.length, entryCount);
+        String[][] guides = {
+                {"/guida/rendite-pensione-capitali-futuri", "guida a rendite, pensione e capitali futuri"},
+                {"/guida/rendimento-nominale-reale", "guida a rendimento nominale e reale"}
+        };
+        for (String[] guide : guides) {
+            assertTrue(editorial.contains("href=\"" + guide[0] + "\">" + guide[1] + "</a>"));
+            mockMvc.perform(get(guide[0]))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentTypeCompatibleWith("text/html"));
+        }
+    }
+
     private static BigDecimal fireExampleValue(String section, String id, String visibleValue) {
         var value = Pattern.compile("<data id=\"fire-example-" + id + "\" value=\"([0-9.]+)\">([^<]+)</data>")
                 .matcher(section);

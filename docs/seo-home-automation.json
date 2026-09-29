@@ -368,7 +368,7 @@
       "id": "SEO-HOME-007",
       "order": 7,
       "title": "Aggiungere domande frequenti visibili",
-      "status": "pending",
+      "status": "completed",
       "depends_on": [
         "SEO-HOME-006"
       ],
@@ -397,12 +397,21 @@
         ".\\mvnw.cmd -Dtest=HomePageTest test"
       ],
       "result": {
-        "started_at": null,
-        "completed_at": null,
-        "attempt_count": 0,
-        "commit": null,
-        "summary": null,
-        "checks": [],
+        "started_at": "2026-09-29T10:42:10.8816269+02:00",
+        "completed_at": "2026-09-29T10:46:55.7588251+02:00",
+        "attempt_count": 1,
+        "commit": "HEAD_PENDING_SELF_REFERENCE",
+        "summary": "Aggiunta una sezione con sei domande e risposte sintetiche sempre visibili nell'HTML iniziale: capitale per vivere di rendita, numero FIRE e PAC, tasse italiane, pensione/affitti/investimenti, limiti della regola del 4% ed euro di oggi/futuri. Inseriti due link contestuali alle guide su risorse e rendimento nominale/reale, riutilizzando il layout responsive home-overview. Nessun accordion, dipendenza JavaScript o markup FAQPage/QAPage. Aggiunto un test dedicato ai contenuti, alla visibilita server-side e alle destinazioni dei link. Modificati soltanto index.html, HomePageTest.java e questo file di stato.",
+        "checks": [
+          ".\\mvnw.cmd -Dtest=HomePageTest test: PASS, 9 test, 0 fallimenti, 0 errori, 0 saltati.",
+          "Test HTML server-side: PASS, sei coppie domanda H3/risposta presenti nella risposta iniziale, sezione H2 dopo Come funziona e prima del disclaimer, un solo H1. Nessun hidden, aria-hidden, details, script o stile inline nella FAQ; assenza di FAQPage/QAPage nell'intera home. Due link descrittivi con destinazioni HTTP 200 e text/html.",
+          "Browser locale http://localhost:8080/: PASS a 320, 375, 768 e 1180 px, tutte le sei risposte visibili, nessun overflow della FAQ o dei suoi elementi e nessuna sovrapposizione tra risposte o con sezioni adiacenti. Layout a una colonna sui viewport stretti e due su desktop; controllo visivo desktop e delle risposte iniziali/finali a 320 px.",
+          "Accessibilita: PASS, entrambi i link FAQ raggiunti con Tab e ritorno con Shift+Tab, focus-visible con outline solid di 3 px anche a 320 px; contrasto di 15 elementi nuovi almeno 5,90:1. Nessun errore console; viewport temporaneo ripristinato e tab di verifica chiusa. Verifica details/summary non applicabile: domande e risposte sempre aperte, senza componenti interattivi.",
+          "Revisione editoriale: PASS, risposte originali e sintetiche coerenti con metodologia, testi del wizard e guide locali; target e PAC distinti, stima fiscale non universale, pensione e affitti come importi netti stimati dall'utente, date/disponibilita e doppi conteggi espliciti. Regola del 4% distinta dal rendimento, limiti storici e deterministici evidenziati; euro di oggi distinti dai nominali futuri. Nessuna promessa o consulenza personale, nessuna ampia porzione copiata dalle guide.",
+          "Aggiornamento versione CSS/JavaScript e relative asserzioni: non applicabile, nessun asset modificato; riutilizzato home-overview esistente, riferimenti CSS v=8.3 e JavaScript v=7.9 invariati.",
+          "git diff --check: PASS; diff revisionato e limitato ai tre file indicati, senza file aggiuntivi o modifiche a motore, formule, API, valori predefiniti, wizard, sitemap.xml, robots.txt o dati strutturati. Nessun box autore o dato personale aggiunto. JSON valido; altri task e stato generale del workflow invariati.",
+          "Verifica preliminare e prima della chiusura: branch miglioramento-seo, checkout inizialmente pulito, nessun task in_progress e nessun index.lock. Nessuna run indipendente attiva nello stesso repository; il solo task attivo elencato coincide con il task sorgente di questa delega. Processi Java preesistenti riferiti al server Spring Boot locale."
+        ],
         "blocker": null
       }
     },
