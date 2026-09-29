@@ -75,7 +75,7 @@
       "id": "SEO-HOME-001",
       "order": 1,
       "title": "Aggiornare metadata e hero della home",
-      "status": "pending",
+      "status": "completed",
       "depends_on": [],
       "objective": "Rendere immediatamente chiari intento di ricerca, contesto italiano e risultati principali del simulatore.",
       "requirements": [
@@ -101,12 +101,18 @@
         ".\\mvnw.cmd -Dtest=HomePageTest test"
       ],
       "result": {
-        "started_at": null,
-        "completed_at": null,
-        "attempt_count": 0,
-        "commit": null,
-        "summary": null,
-        "checks": [],
+        "started_at": "2026-09-29T02:25:53.4799433+02:00",
+        "completed_at": "2026-09-29T02:27:21.1772981+02:00",
+        "attempt_count": 1,
+        "commit": "HEAD_PENDING_SELF_REFERENCE",
+        "summary": "Aggiornati title, meta description, Open Graph, Twitter, og:image:alt, H1 e introduzione con il posizionamento FIRE Italia, capitale necessario e PAC. Aggiunte asserzioni esplicite sui metadata, sul testo visibile e sull'unicita dell'H1. Modificati soltanto index.html, HomePageTest.java e questo file di stato.",
+        "checks": [
+          ".\\mvnw.cmd -Dtest=HomePageTest test: PASS, 4 test, 0 fallimenti, 0 errori, 0 saltati.",
+          "git diff --check: PASS.",
+          "Revisione del diff: modifiche limitate a metadata e hero, test della home e stato SEO-HOME-001; struttura e comportamento del wizard, asset, valori predefiniti, formule e API invariati.",
+          "HTML iniziale verificato dai test: un solo H1, metadata social coerenti con title e description, introduzione visibile con patrimonio necessario, vivere di rendita, PAC, inflazione, rendimenti e fiscalita italiana.",
+          "Verifica preliminare: branch miglioramento-seo, checkout pulito, nessun task in_progress, nessun index.lock e nessun altro task attivo nello stesso repository; processi Java preesistenti limitati al server Spring Boot locale."
+        ],
         "blocker": null
       }
     },

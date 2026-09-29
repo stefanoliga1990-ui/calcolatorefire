@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -44,18 +45,24 @@ class HomePageTest {
                 .andExpect(content().contentTypeCompatibleWith("text/html"))
                 .andExpect(content().string(containsString("href=\"/images/favicon-32x32.png?v=2\"")))
                 .andExpect(content().string(containsString("href=\"/images/apple-touch-icon.png?v=2\"")))
-                .andExpect(content().string(containsString("property=\"og:title\" content=\"Simulatore FIRE\"")))
+                .andExpect(content().string(containsString("<title>Calcolatore FIRE Italia: capitale necessario e PAC.</title>")))
+                .andExpect(content().string(containsString("name=\"description\" content=\"Calcola il patrimonio necessario per il FIRE in Italia e il PAC mensile, considerando inflazione, rendimento, plusvalenze e imposta di bollo.\"")))
+                .andExpect(content().string(containsString("property=\"og:title\" content=\"Calcolatore FIRE Italia: capitale necessario e PAC.\"")))
+                .andExpect(content().string(containsString("property=\"og:description\" content=\"Calcola il patrimonio necessario per il FIRE in Italia e il PAC mensile, considerando inflazione, rendimento, plusvalenze e imposta di bollo.\"")))
                 .andExpect(content().string(containsString("property=\"og:url\" content=\"https://simulatorefire.com/\"")))
                 .andExpect(content().string(containsString("property=\"og:image\" content=\"https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3\"")))
                 .andExpect(content().string(containsString("property=\"og:image:secure_url\" content=\"https://simulatorefire.com/images/og-simulatore-fire.jpg?v=3\"")))
                 .andExpect(content().string(containsString("property=\"og:image:width\" content=\"1200\"")))
                 .andExpect(content().string(containsString("property=\"og:image:height\" content=\"630\"")))
+                .andExpect(content().string(containsString("property=\"og:image:alt\" content=\"Calcolatore FIRE Italia per l'indipendenza finanziaria\"")))
                 .andExpect(content().string(containsString("name=\"twitter:card\" content=\"summary_large_image\"")))
+                .andExpect(content().string(containsString("name=\"twitter:title\" content=\"Calcolatore FIRE Italia: capitale necessario e PAC.\"")))
+                .andExpect(content().string(containsString("name=\"twitter:description\" content=\"Calcola il patrimonio necessario per il FIRE in Italia e il PAC mensile, considerando inflazione, rendimento, plusvalenze e imposta di bollo.\"")))
                 .andExpect(content().string(containsString("rel=\"canonical\" href=\"https://simulatorefire.com/\"")))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
                 .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=8.0\"")))
-                .andExpect(content().string(containsString("<h1 id=\"page-title\">Simulatore FIRE</h1>")))
-                .andExpect(content().string(containsString("Stima il patrimonio necessario per andare in FIRE e il PAC per raggiungerlo.")))
+                .andExpect(content().string(containsString("<h1 id=\"page-title\">Calcolatore FIRE Italia per l'indipendenza finanziaria.</h1>")))
+                .andExpect(content().string(containsString("<p>Stima il patrimonio necessario per vivere di rendita e il PAC mensile per raggiungerlo, considerando le tue ipotesi su inflazione e rendimenti e la fiscalità italiana.</p>")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
                 .andExpect(content().string(not(containsString("Pianificazione FIRE, con ipotesi trasparenti"))))
                 .andExpect(content().string(not(containsString("Nessun account"))))
@@ -165,6 +172,7 @@ class HomePageTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
+        assertEquals(1L, Pattern.compile("<h1\\b", Pattern.CASE_INSENSITIVE).matcher(page).results().count());
         int ageStepPosition = page.indexOf("data-wizard-step=\"1\"");
         int methodPosition = page.indexOf("name=\"method\" value=\"FINITE\"");
         int durationPosition = page.indexOf("id=\"fireDurationYears\"");
