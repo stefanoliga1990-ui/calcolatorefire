@@ -201,6 +201,11 @@
     box-shadow: var(--shadow);
 }
 
+.privacy-article {
+    max-width: 850px;
+    margin-bottom: 48px;
+}
+
 .content-article h2 {
     margin: 0 0 16px;
     color: var(--green-dark);

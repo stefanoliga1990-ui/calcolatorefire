@@ -18,6 +18,7 @@ public class CanonicalPageController {
     private static final MediaType HTML_UTF_8 = new MediaType("text", "html", StandardCharsets.UTF_8);
     private final Resource homePage = new ClassPathResource("static/index.html");
     private final Resource methodologyPage = new ClassPathResource("static/metodologia.html");
+    private final Resource privacyPage = new ClassPathResource("static/privacy.html");
 
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
     ResponseEntity<Resource> serveCanonicalHome() {
@@ -46,6 +47,21 @@ public class CanonicalPageController {
     ResponseEntity<Void> redirectMethodologyAliases() {
         return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
                 .location(URI.create("/metodologia"))
+                .build();
+    }
+
+    @GetMapping(value = "/privacy", produces = MediaType.TEXT_HTML_VALUE)
+    ResponseEntity<Resource> servePrivacyPage() {
+        return ResponseEntity.ok()
+                .contentType(HTML_UTF_8)
+                .header(HttpHeaders.CONTENT_LANGUAGE, "it-IT")
+                .body(privacyPage);
+    }
+
+    @GetMapping({"/privacy/", "/privacy.html"})
+    ResponseEntity<Void> redirectPrivacyAliases() {
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
+                .location(URI.create("/privacy"))
                 .build();
     }
 }
