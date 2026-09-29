@@ -7,9 +7,9 @@
     "repository_root": "C:/Users/utente/Downloads/calcolatorefire",
     "state_file": "docs/seo-home-automation.json",
     "branch": "miglioramento-seo",
-    "status": "active",
+    "status": "completed",
     "created_at": "2026-09-28",
-    "completed_at": null
+    "completed_at": "2026-09-29T11:19:08.3616337+02:00"
   },
   "execution_policy": {
     "tasks_per_run": 1,
@@ -515,7 +515,7 @@
       "id": "SEO-HOME-010",
       "order": 10,
       "title": "Eseguire revisione finale SEO, responsive, accessibilita e test",
-      "status": "pending",
+      "status": "completed",
       "depends_on": [
         "SEO-HOME-009"
       ],
@@ -548,12 +548,23 @@
         "git status --short"
       ],
       "result": {
-        "started_at": null,
-        "completed_at": null,
-        "attempt_count": 0,
-        "commit": null,
-        "summary": null,
-        "checks": [],
+        "started_at": "2026-09-29T11:13:14.2252099+02:00",
+        "completed_at": "2026-09-29T11:19:08.3616337+02:00",
+        "attempt_count": 1,
+        "commit": "HEAD_PENDING_SELF_REFERENCE",
+        "summary": "Completata la revisione finale della home: metadata e contenuti coerenti, gerarchia semantica, link, visibilita server-side, responsive, focus, contrasto e funzionamento del simulatore verificati. Intera suite Maven passata; nessuna regressione del workflow rilevata e nessuna modifica a HTML, CSS, JavaScript o test necessaria. Modificato soltanto questo file di stato, con SEO-HOME-010 e workflow completed e relativi timestamp. Branch miglioramento-seo pronto per la verifica manuale locale dell'utente.",
+        "checks": [
+          ".\\mvnw.cmd test: PASS, BUILD SUCCESS, 359 test in 26 suite, 0 fallimenti, 0 errori, 0 saltati. Conteggio confermato dai report Surefire generati durante questa run; escluso dal conteggio un report obsoleto del 24 settembre. HomePageTest: 11 test; GuidePageControllerTest: 4 test.",
+          "Revisione SEO e HTML iniziale: PASS, title/description e metadata Open Graph/Twitter allineati a H1, hero, funzioni e contenuto visibile. Un solo H1, H2/H3 coerenti, header/main/footer e navigazioni etichettate; input racchiusi in label descrittive, riferimenti aria-labelledby/aria-describedby risolti. Formula ed esempio SWR coerenti e verificati dai test. Contenuti editoriali e sei FAQ presenti nell'HTML iniziale e sempre leggibili senza dipendenze JavaScript.",
+          "Link e dati strutturati: PASS nei test della suite, tutte le destinazioni interne HTTP 200 e text/html, frammenti esistenti e canonical coerenti; dieci guide distinte senza duplicazioni, anchor descrittive e contestuali. Unico JSON-LD WebSite valido e coerente con canonical e branding; assenti Person, AggregateRating, Review, FAQPage e QAPage.",
+          "Browser locale http://localhost:8080/: PASS a 320, 375, 768 e 1180 px, nessun overflow orizzontale della pagina o dei nuovi componenti, nessuna sovrapposizione tra blocchi o colonne. Verificati layout dei vantaggi, sintesi, formula/esempio, PAC/metodi, fiscalita, FAQ e disclaimer prima e dopo il calcolo; controlli visivi mobile e desktop. Lo scorrimento interno dell'avanzamento wizard sui viewport stretti e preesistente e confinato al componente.",
+          "Accessibilita: PASS, tutti gli undici link editoriali percorsi con Tab a 320 px e ritorno con Shift+Tab, focus-visible con outline solid di 3 px entro la larghezza della pagina. Contrastati 80 elementi testuali del hero e delle sezioni nuove o aggiornate: rapporto minimo 5,19:1, nessun valore inferiore a 4,5:1. Details/summary non applicabile: nessuno presente, FAQ sempre aperte.",
+          "Verifica funzionale locale: PASS, sei passaggi del wizard e invio da tastiera con valori predefiniti FINITE, FIRE 683.720 euro e PAC 2887 euro/mese. Aggiunta e ricalcolo di una rendita di prova di 500 euro/mese dall'eta di 50 anni: FIRE 561.694 euro e PAC 2372 euro/mese, stato Risultati aggiornati e proiezione della risorsa popolata. Modifica dello scenario e cambio a SWR riusciti, target 522.842 euro con la stessa rendita; nessun alert di errore. Grafici accumulo/decumulo e risorsa visibili e popolati alle quattro larghezze; tooltip raggiunti da tastiera, frecce aggiornano i punti dei grafici principali. Nessun errore o warning console; viewport ripristinato e tab temporanea chiusa.",
+          "Revisione editoriale e dell'intero diff del workflow: PASS, home focalizzata su simulatore FIRE Italia, capitale e PAC; sintesi distinte dagli approfondimenti, FAQ concise senza duplicazioni estese, limiti e finalita educative chiari, nessun keyword stuffing o promessa introdotta. Nessun box autore, dato personale, rating o recensione; nessuna attivita Search Console o remota. API, formule, valori predefiniti, JavaScript, struttura del wizard, sitemap.xml e robots.txt invariati rispetto all'inizio del workflow.",
+          "Modifiche a test e versioni degli asset: non applicabili in questo task di revisione, nessuna regressione rilevante scoperta e nessun asset modificato; coperture precedenti della home, link, esempio e JSON-LD passate. Riferimenti CSS v=8.3 e JavaScript v=7.9 invariati.",
+          "git diff --check: PASS; git status --short e revisione del diff: unica modifica docs/seo-home-automation.json. JSON valido, task SEO-HOME-001..009 preservati e completed; completato soltanto SEO-HOME-010, quindi workflow completed. Staging limitato al percorso esplicito del file di stato e singolo commit locale con riferimento HEAD_PENDING_SELF_REFERENCE.",
+          "Verifica preliminare e prima della chiusura: branch miglioramento-seo, checkout inizialmente pulito, nessun task in_progress e nessun index.lock. Nessuna run indipendente attiva nello stesso repository; il solo task attivo elencato coincide con il task sorgente di questa delega. Processi Java preesistenti riferiti al server Spring Boot locale; nessuna operazione remota eseguita."
+        ],
         "blocker": null
       }
     }
