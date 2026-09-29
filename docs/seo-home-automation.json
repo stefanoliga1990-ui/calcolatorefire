@@ -419,7 +419,7 @@
       "id": "SEO-HOME-008",
       "order": 8,
       "title": "Rifinire architettura e anchor dei collegamenti interni",
-      "status": "pending",
+      "status": "completed",
       "depends_on": [
         "SEO-HOME-007"
       ],
@@ -446,12 +446,20 @@
         ".\\mvnw.cmd -Dtest=HomePageTest,GuidePageControllerTest test"
       ],
       "result": {
-        "started_at": null,
-        "completed_at": null,
-        "attempt_count": 0,
-        "commit": null,
-        "summary": null,
-        "checks": [],
+        "started_at": "2026-09-29T10:58:34.3033819+02:00",
+        "completed_at": "2026-09-29T11:02:56.2391608+02:00",
+        "attempt_count": 1,
+        "commit": "HEAD_PENDING_SELF_REFERENCE",
+        "summary": "Rifinite sei anchor e le frasi contestuali dei collegamenti a FIRE Italia, numero FIRE, PAC, plusvalenze/costo fiscale, bollo e metodologia, rendendo piu concise le descrizioni senza ripetizioni superflue. Verificati tutti i link interni della home e la coerenza con l'intento delle dieci guide collegate. Ogni guida era gia presente una sola volta: nessuna duplicazione inutile da rimuovere, nessun nuovo link o elenco aggiunto; mantenuti i due accessi utili alla metodologia, dalla navigazione e dalla spiegazione del modello. Aggiunto un test che verifica tutte le destinazioni interne, i frammenti, i canonical e l'assenza di guide duplicate. Modificati soltanto index.html, HomePageTest.java e questo file di stato.",
+        "checks": [
+          ".\\mvnw.cmd -Dtest=HomePageTest,GuidePageControllerTest test: PASS, 14 test (10 home, 4 guide), 0 fallimenti, 0 errori, 0 saltati.",
+          "Test di tutti i link interni nell'HTML iniziale: PASS, pagine raggiungibili con HTTP 200 e text/html, frammento #top esistente, dieci guide distinte collegate una volta ciascuna, anchor non vuote e URL corrispondenti ai canonical. Verificati anche /guide e i due accessi contestuali a /metodologia.",
+          "Revisione editoriale: PASS, anchor concise coerenti con titoli, introduzioni e sintesi delle guide locali; FIRE Italia mantiene il contesto generale, numero FIRE il capitale per vivere di rendita, PAC i versamenti, FINITE/SWR i metodi e le guide fiscali la tassazione. Link mantenuti nelle rispettive sezioni, nessun elenco esteso di guide, nessuna duplicazione non utile. Metadata, H1 e contenuti sostanziali della home invariati.",
+          "Browser locale http://localhost:8080/: PASS a 320, 375, 768 e 1180 px, nessun overflow orizzontale della pagina o dei link editoriali; tutti i link restano entro i rispettivi paragrafi. Controllo visivo della sezione numero FIRE su desktop; i sei link modificati raggiunti con Shift+Tab e Tab presentano focus-visible con outline solid di 3 px a 320 px. Nessun errore console; viewport temporaneo ripristinato e tab di verifica chiusa.",
+          "Aggiornamento versione CSS/JavaScript e relative asserzioni: non applicabile, nessun asset modificato; riferimenti CSS v=8.3 e JavaScript v=7.9 invariati.",
+          "git diff --check: PASS; diff revisionato e limitato ai tre file indicati. Nessuna modifica a guide, motore, formule, API, valori predefiniti, wizard, CSS, JavaScript, sitemap.xml, robots.txt o dati strutturati; nessun box autore o dato personale aggiunto. JSON valido, altri task e stato generale del workflow invariati.",
+          "Verifica preliminare e prima della chiusura: branch miglioramento-seo, checkout inizialmente pulito, nessun task in_progress e nessun index.lock. Nessuna run indipendente attiva nello stesso repository; il solo task attivo elencato coincide con il task sorgente di questa delega. Processi Java preesistenti riferiti al server Spring Boot locale."
+        ],
         "blocker": null
       }
     },

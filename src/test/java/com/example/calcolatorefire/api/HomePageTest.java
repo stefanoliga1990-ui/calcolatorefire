@@ -12,6 +12,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -77,8 +80,8 @@ class HomePageTest {
                 .andExpect(content().string(containsString("class=\"brand-logo\"")))
                 .andExpect(content().string(containsString("href=\"/guide\">Guide</a>")))
                 .andExpect(content().string(containsString("href=\"/metodologia\">Metodologia</a>")))
-                .andExpect(content().string(containsString("Leggi la guida completa al FIRE in Italia")))
-                .andExpect(content().string(containsString("Leggi formule, convenzioni e limiti nella metodologia completa")))
+                .andExpect(content().string(containsString("href=\"/guida/fire-italia\">guida al FIRE in Italia</a>")))
+                .andExpect(content().string(containsString("href=\"/metodologia\">formule, convenzioni e limiti del modello</a>")))
                 .andExpect(content().string(containsString("src=\"/images/logo-percorso-indipendenza.png?v=2\"")))
                 .andExpect(content().string(containsString("id=\"fire-form\"")))
                 .andExpect(content().string(containsString("class=\"app-layout is-wizard-view\" id=\"scenario-layout\"")))
@@ -235,7 +238,7 @@ class HomePageTest {
         assertTrue(editorial.contains("indipendenza finanziaria e pensionamento anticipato"));
         assertTrue(editorial.contains("non richiede di smettere definitivamente di lavorare"));
         assertTrue(editorial.contains("senza garantire risultati"));
-        assertTrue(editorial.contains("href=\"/guida/fire-italia\">Leggi la guida completa al FIRE in Italia</a>"));
+        assertTrue(editorial.contains("href=\"/guida/fire-italia\">guida al FIRE in Italia</a>"));
         assertEquals(1L, Pattern.compile("href=\"/guida/fire-italia\"").matcher(page).results().count());
         mockMvc.perform(get("/guida/fire-italia"))
                 .andExpect(status().isOk())
@@ -278,7 +281,7 @@ class HomePageTest {
         assertEquals(annual, monthly.multiply(new BigDecimal("12")));
         assertEquals(0, annual.divide(swrPercent.movePointLeft(2)).compareTo(capital));
         assertTrue(editorial.contains("24.000 euro / 0,04 = 600.000 euro"));
-        assertTrue(editorial.contains("href=\"/guida/numero-fire\">Approfondisci il numero FIRE e il capitale necessario per vivere di rendita</a>"));
+        assertTrue(editorial.contains("href=\"/guida/numero-fire\">numero FIRE e il capitale per vivere di rendita</a>"));
         assertEquals(1L, Pattern.compile("href=\"/guida/numero-fire\"").matcher(page).results().count());
         mockMvc.perform(get("/guida/numero-fire"))
                 .andExpect(status().isOk())
@@ -315,7 +318,7 @@ class HomePageTest {
         assertTrue(editorial.contains("verifica poi i prelievi sull'orizzonte scelto e segnala eventuali ammanchi"));
         assertTrue(editorial.contains("Un target SWR non garantisce che il patrimonio copra tutta la durata"));
         String[][] guides = {
-                {"/guida/pac-per-raggiungere-il-fire", "Approfondisci il PAC per raggiungere il FIRE"},
+                {"/guida/pac-per-raggiungere-il-fire", "PAC per raggiungere il FIRE"},
                 {"/guida/metodo-finite-o-swr", "Confronta i metodi FINITE e SWR"},
                 {"/guida/regola-del-4-percento-swr", "origine e limiti della regola del 4%"}
         };
@@ -354,8 +357,8 @@ class HomePageTest {
         }
         String[][] guides = {
                 {"/guida/tassazione-fire-italia", "guida alla tassazione nel FIRE in Italia"},
-                {"/guida/plusvalenze-costo-fiscale-fire", "plusvalenze e costo fiscale nel calcolo FIRE"},
-                {"/guida/imposta-bollo-investimenti-fire", "imposta di bollo sugli investimenti nel FIRE"}
+                {"/guida/plusvalenze-costo-fiscale-fire", "plusvalenze e costo fiscale"},
+                {"/guida/imposta-bollo-investimenti-fire", "imposta di bollo sugli investimenti"}
         };
         for (String[] guide : guides) {
             assertTrue(editorial.contains("href=\"" + guide[0] + "\">" + guide[1] + "</a>"));
@@ -429,6 +432,50 @@ class HomePageTest {
                     .andExpect(status().isOk())
                     .andExpect(content().contentTypeCompatibleWith("text/html"));
         }
+    }
+
+    @Test
+    void servesEveryInternalHomeLinkAndAvoidsDuplicateGuideLinks() throws Exception {
+        String page = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        var links = Pattern.compile("(?s)<a\\b[^>]*\\bhref=\"([^\"]+)\"[^>]*>(.*?)</a>").matcher(page);
+        Set<String> guidePaths = new HashSet<>();
+        Set<String> checkedPaths = new HashSet<>();
+        int internalLinks = 0;
+        while (links.find()) {
+            URI destination = URI.create(links.group(1));
+            if (destination.isAbsolute() || destination.getRawAuthority() != null) {
+                continue;
+            }
+            internalLinks++;
+            String path = destination.getPath();
+            String target = page;
+            if (!path.isEmpty()) {
+                target = mockMvc.perform(get(path))
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentTypeCompatibleWith("text/html"))
+                        .andReturn().getResponse().getContentAsString();
+                checkedPaths.add(path);
+            }
+            if (destination.getFragment() != null) {
+                assertTrue(target.contains("id=\"" + destination.getFragment() + "\""),
+                        "Ancora interna inesistente: " + destination);
+            }
+            if (path.startsWith("/guida/")) {
+                assertTrue(guidePaths.add(path), "Guida collegata più volte nella home: " + path);
+                assertTrue(!links.group(2).replaceAll("<[^>]+>", "").isBlank(),
+                        "Anchor della guida priva di testo: " + path);
+                assertTrue(target.contains("rel=\"canonical\" href=\"https://simulatorefire.com" + path + "\""),
+                        "Il link deve puntare al percorso canonico della guida: " + path);
+            }
+        }
+        assertTrue(internalLinks > 0, "Nessun link interno verificato");
+        assertTrue(checkedPaths.containsAll(Set.of("/guide", "/metodologia")));
+        assertEquals(Set.of("/guida/fire-italia", "/guida/numero-fire", "/guida/pac-per-raggiungere-il-fire",
+                "/guida/metodo-finite-o-swr", "/guida/regola-del-4-percento-swr", "/guida/tassazione-fire-italia",
+                "/guida/plusvalenze-costo-fiscale-fire", "/guida/imposta-bollo-investimenti-fire",
+                "/guida/rendite-pensione-capitali-futuri", "/guida/rendimento-nominale-reale"), guidePaths);
     }
 
     private static BigDecimal fireExampleValue(String section, String id, String visibleValue) {
