@@ -60,7 +60,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("name=\"twitter:description\" content=\"Calcola il patrimonio necessario per il FIRE in Italia e il PAC mensile, considerando inflazione, rendimento, plusvalenze e imposta di bollo.\"")))
                 .andExpect(content().string(containsString("rel=\"canonical\" href=\"https://simulatorefire.com/\"")))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=8.1\"")))
+                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=8.2\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Calcolatore FIRE Italia per l'indipendenza finanziaria.</h1>")))
                 .andExpect(content().string(containsString("<p>Stima il patrimonio necessario per vivere di rendita e il PAC mensile per raggiungerlo, considerando le tue ipotesi su inflazione e rendimenti e la fiscalità italiana.</p>")))
                 .andExpect(content().string(containsString("aria-label=\"Cosa puoi stimare con il simulatore\"")))
@@ -207,6 +207,38 @@ class HomePageTest {
         assertTrue(fireResultsPosition >= 0 && fireResultsPosition < pacResultsPosition);
         assertTrue(pacResultsPosition < editButtonPosition);
         assertTrue(editButtonPosition < resourcesPosition);
+    }
+
+    @Test
+    void explainsTheCalculatorAndFireInVisibleEditorialSections() throws Exception {
+        String page = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        var overview = Pattern.compile("(?s)<div\\b[^>]*id=\"home-overview\"[^>]*>(.*?)</div>").matcher(page);
+        assertTrue(overview.find());
+        String editorial = overview.group();
+        assertTrue(!editorial.contains("hidden"));
+        assertTrue(page.indexOf("id=\"projections\"") < overview.start());
+        assertTrue(overview.end() < page.indexOf("id=\"come-funziona\""));
+        assertTrue(editorial.contains("<section id=\"cosa-calcola\" aria-labelledby=\"cosa-calcola-title\">"));
+        assertTrue(editorial.contains("<h2 id=\"cosa-calcola-title\">Cosa calcola il simulatore FIRE</h2>"));
+        for (String concept : new String[] {"patrimonio necessario all'ingresso nel FIRE", "versamento mensile",
+                "piano di accumulo (PAC)", "capitale già investito", "anni disponibili", "inflazione e rendimenti",
+                "stima semplificata", "plusvalenze", "bollo", "pensione", "rendite", "investimenti esistenti",
+                "capitali futuri", "importi e date", "quando sono disponibili", "importi netti stimati da te"}) {
+            assertTrue(editorial.contains(concept), "Concetto mancante: " + concept);
+        }
+        assertTrue(editorial.contains("<section id=\"cos-e-fire\" aria-labelledby=\"cos-e-fire-title\">"));
+        assertTrue(editorial.contains("<h2 id=\"cos-e-fire-title\">Cos'è il FIRE?</h2>"));
+        assertTrue(editorial.contains("<span lang=\"en\">Financial Independence, Retire Early</span>"));
+        assertTrue(editorial.contains("indipendenza finanziaria e pensionamento anticipato"));
+        assertTrue(editorial.contains("non richiede di smettere definitivamente di lavorare"));
+        assertTrue(editorial.contains("senza garantire risultati"));
+        assertTrue(editorial.contains("href=\"/guida/fire-italia\">Leggi la guida completa al FIRE in Italia</a>"));
+        assertEquals(1L, Pattern.compile("href=\"/guida/fire-italia\"").matcher(page).results().count());
+        mockMvc.perform(get("/guida/fire-italia"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("text/html"));
     }
 
     @Test

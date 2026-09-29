@@ -168,7 +168,7 @@
       "id": "SEO-HOME-003",
       "order": 3,
       "title": "Aggiungere le sezioni Cosa calcola e Cos'e il FIRE",
-      "status": "pending",
+      "status": "completed",
       "depends_on": [
         "SEO-HOME-002"
       ],
@@ -197,12 +197,20 @@
         ".\\mvnw.cmd -Dtest=HomePageTest test"
       ],
       "result": {
-        "started_at": null,
-        "completed_at": null,
-        "attempt_count": 0,
-        "commit": null,
-        "summary": null,
-        "checks": [],
+        "started_at": "2026-09-29T08:26:28+02:00",
+        "completed_at": "2026-09-29T08:29:47.1624229+02:00",
+        "attempt_count": 1,
+        "commit": "HEAD_PENDING_SELF_REFERENCE",
+        "summary": "Aggiunte sotto il calcolatore le sezioni sintetiche Cosa calcola il simulatore FIRE e Cos'e il FIRE, visibili nell'HTML iniziale. Descritti target, PAC, capitale gia investito, ipotesi di inflazione e rendimenti, fiscalita semplificata e risorse aggiuntive con importi e date. Espanso e tradotto l'acronimo, chiarita la possibilita di continuare a lavorare e spostato il link descrittivo alla guida FIRE accanto alla definizione. Layout a due colonne su desktop e una su viewport stretti, CSS della home v=8.2 e test aggiornati. Modificati soltanto index.html, styles-7c8e1a4b5d20.css, HomePageTest.java e questo file di stato.",
+        "checks": [
+          ".\\mvnw.cmd -Dtest=HomePageTest test: PASS, 5 test, 0 fallimenti, 0 errori, 0 saltati.",
+          "Test HTML server-side: PASS, due sezioni semantiche senza hidden dopo il calcolatore e prima di Come funziona, titoli H2, un solo H1, concetti richiesti e traduzione dell'acronimo presenti; unico link descrittivo alla guida /guida/fire-italia, destinazione HTTP 200; CSS v=8.2.",
+          "Browser locale http://localhost:8080/: PASS a 320, 375, 768 e 1180 px, nessun overflow orizzontale della pagina o delle nuove sezioni e nessuna sovrapposizione tra sezioni o con il wizard; una colonna fino a 920 px, due su desktop. Controllo visivo a 320 e 1180 px.",
+          "Navigazione da tastiera del link alla guida: PASS con Tab e Shift+Tab, focus visibile con outline solid di 3 px. Viewport temporaneo ripristinato al termine.",
+          "Revisione editoriale e funzionale: PASS, sintesi originale distinta dalla guida generale e coerente con funzioni e metodologia locali; pensione e rendite indicate come importi netti stimati dall'utente, risorse subordinate alla disponibilita temporale, nessuna promessa. JavaScript, formule, API, valori predefiniti e struttura del wizard invariati; CSS aggiunto solo per home-overview, nessun box autore, dato personale o markup FAQ, sitemap.xml e robots.txt invariati.",
+          "git diff --check: PASS; diff revisionato e limitato ai quattro file previsti, senza file aggiuntivi nel repository.",
+          "Verifica preliminare: branch miglioramento-seo, checkout pulito, nessun task in_progress, nessun index.lock e nessun altro task attivo nello stesso repository; processi Java preesistenti riferiti al server Spring Boot locale."
+        ],
         "blocker": null
       }
     },

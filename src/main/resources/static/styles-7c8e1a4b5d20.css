@@ -1873,6 +1873,21 @@ select[aria-invalid="true"] {
     max-width: 680px;
 }
 
+.home-overview {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+}
+
+.home-overview p {
+    color: var(--ink-soft);
+    line-height: 1.6;
+}
+
+.home-overview p:last-child {
+    margin-bottom: 0;
+}
+
 .explanation-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2120,6 +2135,10 @@ footer {
 }
 
 @media (max-width: 920px) {
+    .home-overview {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
     .app-layout {
         grid-template-columns: 1fr;
     }
