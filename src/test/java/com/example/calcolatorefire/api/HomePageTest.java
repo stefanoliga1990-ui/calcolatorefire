@@ -329,6 +329,55 @@ class HomePageTest {
         }
     }
 
+    @Test
+    void explainsSimplifiedTaxationAndVisibleSimulationLimits() throws Exception {
+        String page = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        var tax = Pattern.compile("(?s)<section\\b[^>]*id=\"fiscalita-fire\"[^>]*>(.*?)</section>").matcher(page);
+        assertTrue(tax.find());
+        String editorial = tax.group();
+        assertTrue(!editorial.contains("hidden"));
+        assertTrue(page.indexOf("id=\"home-plan\"") < tax.start());
+        assertTrue(tax.end() < page.indexOf("id=\"come-funziona\""));
+        assertEquals(1L, Pattern.compile("<h1\\b", Pattern.CASE_INSENSITIVE).matcher(page).results().count());
+        assertTrue(editorial.contains("aria-labelledby=\"fiscalita-fire-title\""));
+        assertTrue(editorial.contains("<h2 id=\"fiscalita-fire-title\">Fiscalità italiana: cosa stima il simulatore</h2>"));
+        for (String concept : new String[]{"modello fiscale semplificato", "costo fiscale residuo", "quote ancora detenute", "plusvalenza latente",
+                "quota di guadagno realizzata", "prelievo lordo", "spesa netta",
+                "26% è l'aliquota ordinaria iniziale del modello, modificabile",
+                "non si applica indistintamente a ogni strumento o situazione personale",
+                "costo fiscale aggregato non ricostruisce", "bollo del modello riduce il saldo investito",
+                "anche senza vendite o plusvalenze", "0,20% annuo", "riduzione mensile equivalente",
+                "non il calendario degli addebiti fiscali reali", "importi già netti stimati dall'utente"}) {
+            assertTrue(editorial.contains(concept), "Concetto fiscale mancante: " + concept);
+        }
+        String[][] guides = {
+                {"/guida/tassazione-fire-italia", "guida alla tassazione nel FIRE in Italia"},
+                {"/guida/plusvalenze-costo-fiscale-fire", "plusvalenze e costo fiscale nel calcolo FIRE"},
+                {"/guida/imposta-bollo-investimenti-fire", "imposta di bollo sugli investimenti nel FIRE"}
+        };
+        for (String[] guide : guides) {
+            assertTrue(editorial.contains("href=\"" + guide[0] + "\">" + guide[1] + "</a>"));
+            assertEquals(1L, Pattern.compile("href=\"" + Pattern.quote(guide[0]) + "\"")
+                    .matcher(page).results().count());
+            mockMvc.perform(get(guide[0]))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentTypeCompatibleWith("text/html"));
+        }
+        var limits = Pattern.compile("(?s)<section class=\"disclaimer\"[^>]*>(.*?)</section>").matcher(page);
+        assertTrue(limits.find());
+        assertTrue(tax.end() < limits.start());
+        assertTrue(!limits.group().contains("hidden"));
+        assertTrue(limits.group().contains("<strong>Questa simulazione ha finalità educative. Non costituisce consulenza finanziaria, fiscale o previdenziale.</strong>"));
+        for (String concept : new String[]{"rendimenti costanti", "non simula la volatilità né il rischio di sequenza",
+                "ordine dei rendimenti durante i prelievi", "non esprimono probabilità di successo",
+                "regimi", "agevolazioni", "differenze personali", "variazioni normative",
+                "sostenibilità reale del PAC", "reddito, spese e imprevisti", "il valore calcolato non la verifica"}) {
+            assertTrue(limits.group().contains(concept), "Limite mancante: " + concept);
+        }
+    }
+
     private static BigDecimal fireExampleValue(String section, String id, String visibleValue) {
         var value = Pattern.compile("<data id=\"fire-example-" + id + "\" value=\"([0-9.]+)\">([^<]+)</data>")
                 .matcher(section);

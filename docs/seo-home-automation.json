@@ -317,7 +317,7 @@
       "id": "SEO-HOME-006",
       "order": 6,
       "title": "Esplicitare fiscalita italiana e limiti della simulazione",
-      "status": "pending",
+      "status": "completed",
       "depends_on": [
         "SEO-HOME-005"
       ],
@@ -346,12 +346,21 @@
         ".\\mvnw.cmd -Dtest=HomePageTest test"
       ],
       "result": {
-        "started_at": null,
-        "completed_at": null,
-        "attempt_count": 0,
-        "commit": null,
-        "summary": null,
-        "checks": [],
+        "started_at": "2026-09-29T10:27:38.3092413+02:00",
+        "completed_at": "2026-09-29T10:32:52+02:00",
+        "attempt_count": 1,
+        "commit": "HEAD_PENDING_SELF_REFERENCE",
+        "summary": "Aggiunta una sezione fiscale sintetica e visibile nell'HTML iniziale: plusvalenze, costo fiscale residuo, prelievo lordo e bollo descritti come stime del modello semplificato. Chiariti il 26% e lo 0,20% come valori iniziali modificabili, distinti dal trattamento fiscale personale e dal calendario reale degli addebiti. Collegati contestualmente i tre approfondimenti fiscali. Ampliato il disclaimer con volatilita, rischio di sequenza, variazioni normative, differenze personali e sostenibilita reale del PAC; finalita educative e assenza di consulenza evidenziate. Riutilizzato lo stile responsive esistente. Modificati soltanto index.html, HomePageTest.java e questo file di stato.",
+        "checks": [
+          ".\\mvnw.cmd -Dtest=HomePageTest test: PASS sull'implementazione finale, 8 test, 0 fallimenti, 0 errori, 0 saltati.",
+          "Test HTML server-side: PASS, sezione fiscale e disclaimer visibili senza hidden, un solo H1, titolo H2 e sottotitoli H3 coerenti; valori iniziali distinti dalla situazione personale, limiti deterministici e fiscali espliciti. Tre link fiscali descrittivi presenti una sola volta ciascuno con destinazioni HTTP 200 e text/html.",
+          "Browser locale http://localhost:8080/: PASS a 320, 375, 768 e 1180 px, nessun overflow orizzontale della pagina, della sezione fiscale o del disclaimer e nessuna sovrapposizione con le sezioni adiacenti. Layout fiscale a una colonna sui viewport stretti e due su desktop. Controllo visivo della sezione fiscale desktop e del disclaimer a 320 e 1180 px.",
+          "Accessibilita: PASS, tre link fiscali raggiunti con Tab e ritorno con Shift+Tab, focus-visible con outline solid di 3 px; contrasto di 17 elementi nuovi o aggiornati almeno 5,19:1. Nessun errore console; viewport temporaneo ripristinato e tab di verifica chiusa.",
+          "Revisione editoriale: PASS, sintesi originale coerente con metodologia e guide fiscali locali; modello aggregato distinto dal conteggio fiscale personale, bollo separato dalle plusvalenze, rendite e capitali futuri indicati come importi netti stimati dall'utente. Disclaimer dedicato ai limiti, senza duplicare formule o interi paragrafi delle guide; nessuna affermazione fiscale assoluta o consulenziale.",
+          "Aggiornamento versione CSS/JavaScript e relative asserzioni: non applicabile, nessun asset modificato; riutilizzato home-overview esistente, riferimenti CSS v=8.3 e JavaScript v=7.9 invariati.",
+          "git diff --check: PASS; diff revisionato e limitato ai tre file indicati, senza file aggiuntivi o modifiche a motore, formule, API, valori predefiniti, wizard, sitemap.xml, robots.txt o dati strutturati. Nessun box autore o dato personale aggiunto. JSON valido; altri task e stato generale del workflow invariati.",
+          "Verifica preliminare: branch miglioramento-seo, checkout pulito, nessun task in_progress e nessun index.lock. Nessuna run indipendente attiva nello stesso repository; il solo task attivo elencato coincide con il task sorgente di questa delega. Processi Java preesistenti riferiti al server Spring Boot locale."
+        ],
         "blocker": null
       }
     },
