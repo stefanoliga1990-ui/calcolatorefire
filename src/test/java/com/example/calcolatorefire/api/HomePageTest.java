@@ -28,6 +28,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import tools.jackson.databind.json.JsonMapper;
+
 @SpringBootTest
 class HomePageTest {
 
@@ -476,6 +478,42 @@ class HomePageTest {
                 "/guida/metodo-finite-o-swr", "/guida/regola-del-4-percento-swr", "/guida/tassazione-fire-italia",
                 "/guida/plusvalenze-costo-fiscale-fire", "/guida/imposta-bollo-investimenti-fire",
                 "/guida/rendite-pensione-capitali-futuri", "/guida/rendimento-nominale-reale"), guidePaths);
+    }
+
+    @Test
+    void servesValidWebsiteStructuredDataConsistentWithTheHomeBranding() throws Exception {
+        String html = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("text/html"))
+                .andReturn().getResponse().getContentAsString();
+
+        var scripts = Pattern.compile("<script\\b[^>]*type=\"application/ld\\+json\"[^>]*>(.*?)</script>",
+                Pattern.DOTALL | Pattern.CASE_INSENSITIVE).matcher(html);
+        assertTrue(scripts.find(), "JSON-LD WebSite mancante nell'HTML iniziale");
+        var website = JsonMapper.builder().build().readTree(scripts.group(1));
+        assertTrue(website.isObject());
+        assertEquals(5, website.size(), "Il markup deve contenere soltanto l'identita del sito");
+        assertEquals("https://schema.org", website.get("@context").asText());
+        assertEquals("WebSite", website.get("@type").asText());
+        assertEquals("Calcolo FIRE Italia", website.get("name").asText());
+        assertEquals("https://simulatorefire.com/", website.get("url").asText());
+        assertTrue(website.get("alternateName").isArray());
+        assertEquals(2, website.get("alternateName").size());
+        assertEquals("Simulatore FIRE Italia", website.get("alternateName").get(0).asText());
+        assertEquals(URI.create(website.get("url").asText()).getHost(),
+                website.get("alternateName").get(1).asText());
+        assertTrue(!scripts.find(), "La home deve contenere un solo blocco JSON-LD WebSite");
+
+        var canonical = Pattern.compile("<link rel=\"canonical\" href=\"([^\"]+)\">").matcher(html);
+        assertTrue(canonical.find());
+        assertEquals(canonical.group(1), website.get("url").asText());
+        assertTrue(html.contains("property=\"og:site_name\" content=\"" + website.get("name").asText() + "\""));
+        String body = html.substring(html.indexOf("<body>"));
+        assertTrue(body.contains("<span>" + website.get("name").asText() + "</span>"));
+        assertTrue(body.contains("Cosa calcola il simulatore FIRE"));
+        assertTrue(body.contains("Calcolatore FIRE Italia"));
+        assertTrue(!Pattern.compile("Person|AggregateRating|Review|FAQPage|QAPage").matcher(html).find(),
+                "La home non deve contenere markup personale, rating, recensioni o FAQ");
     }
 
     private static BigDecimal fireExampleValue(String section, String id, String visibleValue) {

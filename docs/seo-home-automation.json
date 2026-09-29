@@ -467,7 +467,7 @@
       "id": "SEO-HOME-009",
       "order": 9,
       "title": "Aggiungere dati strutturati WebSite",
-      "status": "pending",
+      "status": "completed",
       "depends_on": [
         "SEO-HOME-008"
       ],
@@ -494,12 +494,20 @@
         ".\\mvnw.cmd -Dtest=HomePageTest test"
       ],
       "result": {
-        "started_at": null,
-        "completed_at": null,
-        "attempt_count": 0,
-        "commit": null,
-        "summary": null,
-        "checks": [],
+        "started_at": "2026-09-29T11:07:10.7301539+02:00",
+        "completed_at": "2026-09-29T11:09:07.2990971+02:00",
+        "attempt_count": 1,
+        "commit": "HEAD_PENDING_SELF_REFERENCE",
+        "summary": "Aggiunto nella head della home un unico blocco JSON-LD WebSite con name Calcolo FIRE Italia, alternateName Simulatore FIRE Italia e simulatorefire.com e URL https://simulatorefire.com/. Aggiunto un test che effettua il parsing del JSON restituito nell'HTML iniziale e verifica tipo, contesto, identita, nomi alternativi, coerenza con canonical e branding ed esclusione di markup non supportati. Modificati soltanto index.html, HomePageTest.java e questo file di stato.",
+        "checks": [
+          ".\\mvnw.cmd -Dtest=HomePageTest test: PASS, 11 test, 0 fallimenti, 0 errori, 0 saltati; BUILD SUCCESS.",
+          "Test HTML server-side: PASS, unico blocco JSON-LD analizzato con Jackson, oggetto WebSite con soli cinque campi previsti, contesto schema.org, nome esatto, due nomi alternativi e URL esatto. URL coincidente con canonical e dominio coincidente con alternateName simulatorefire.com; name coerente con og:site_name e brand visibile. Variante Simulatore FIRE Italia riconoscibile dai titoli visibili sul simulatore FIRE e dal contesto italiano.",
+          "Parsing indipendente del blocco JSON-LD con ConvertFrom-Json: PASS; tipo, nome, URL e due nomi alternativi verificati. JSON del workflow valido, altri task e stato generale invariati; SEO-HOME-010 resta pending.",
+          "Revisione del markup e del diff: PASS, aggiunta limitata ai dati identificativi del sito nella head, nessun Person, AggregateRating, Review, FAQPage o QAPage; nessuna dichiarazione personale, rating, recensione o promessa. Contenuto visibile, heading, wizard, motore, API, formule, valori predefiniti, sitemap.xml e robots.txt invariati.",
+          "Aggiornamento versione CSS/JavaScript e verifiche responsive o di interazione: non applicabili alla modifica, nessun asset o elemento visibile/interattivo modificato; riferimenti CSS v=8.3 e JavaScript v=7.9 invariati. Script JSON-LD di soli dati, presente nell'HTML iniziale e senza codice eseguibile.",
+          "git diff --check: PASS; diff revisionato e limitato ai tre file previsti, senza file aggiuntivi nel repository.",
+          "Verifica preliminare e prima della chiusura: branch miglioramento-seo, checkout inizialmente pulito, nessun task in_progress e nessun index.lock. Nessuna run indipendente attiva nello stesso repository; il solo task attivo elencato coincide con il task sorgente di questa delega. Processi Java preesistenti riferiti al server Spring Boot locale."
+        ],
         "blocker": null
       }
     },
