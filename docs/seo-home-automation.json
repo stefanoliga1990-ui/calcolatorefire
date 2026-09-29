@@ -268,7 +268,7 @@
       "id": "SEO-HOME-005",
       "order": 5,
       "title": "Spiegare PAC e confronto tra FINITE e SWR",
-      "status": "pending",
+      "status": "completed",
       "depends_on": [
         "SEO-HOME-004"
       ],
@@ -295,12 +295,21 @@
         ".\\mvnw.cmd -Dtest=HomePageTest test"
       ],
       "result": {
-        "started_at": null,
-        "completed_at": null,
-        "attempt_count": 0,
-        "commit": null,
-        "summary": null,
-        "checks": [],
+        "started_at": "2026-09-29T10:18:59.9172697+02:00",
+        "completed_at": "2026-09-29T10:23:21.5410486+02:00",
+        "attempt_count": 1,
+        "commit": "HEAD_PENDING_SELF_REFERENCE",
+        "summary": "Aggiunte sotto il numero FIRE due sezioni sintetiche, visibili nell'HTML iniziale: dal capitale FIRE al PAC mensile e confronto FINITE/SWR. Chiariti capitale obiettivo, versamento iniziale, ruolo di capitale iniziale, anni disponibili, rendimento ipotizzato e crescita dei versamenti, senza garanzie di sostenibilita o raggiungimento del target. Descritti durata definita e capitale finale per FINITE, tasso iniziale e verifica sull'orizzonte per SWR. Inseriti tre link contestuali alle guide PAC, metodi e regola del 4%. Riutilizzato il layout responsive home-overview esistente. Modificati soltanto index.html, HomePageTest.java e questo file di stato.",
+        "checks": [
+          ".\\mvnw.cmd -Dtest=HomePageTest test: PASS, 7 test, 0 fallimenti, 0 errori, 0 saltati.",
+          "Test HTML server-side: PASS, sezioni semantiche visibili senza hidden dopo il numero FIRE e prima di Come funziona, titoli H2 e sottotitoli H3, un solo H1; distinzione target/PAC, parametri, limiti e descrizioni FINITE/SWR verificati. Tre link descrittivi presenti una sola volta ciascuno, con destinazioni HTTP 200 e text/html.",
+          "Browser locale http://localhost:8080/: PASS a 320, 375, 768 e 1180 px, nessun overflow orizzontale della pagina o delle nuove sezioni, nessuna sovrapposizione interna o con le sezioni adiacenti; una colonna sui viewport stretti e due su desktop. Controllo visivo delle nuove sezioni a 320 e 1180 px.",
+          "Accessibilita: PASS, tutti e tre i link raggiunti con Tab, ritorno con Shift+Tab, focus-visible con outline solid di 3 px; contrasto dei nuovi testi almeno 5,90:1. Nessun errore console; viewport temporaneo ripristinato e tab di verifica chiusa.",
+          "Revisione editoriale: PASS, sintesi originale coerente con metodologia, guide PAC/metodi/SWR e testi del wizard locali; FINITE finanzia una durata definita con eventuale capitale finale, SWR parte dal tasso iniziale e viene verificato sull'orizzonte. Nessuna raccomandazione personale o promessa; PAC distinto dal patrimonio obiettivo e crescita dei versamenti associata a importi futuri maggiori.",
+          "Aggiornamento versione CSS/JavaScript e relative asserzioni: non applicabile, nessun asset modificato; riutilizzato lo stile home-overview gia presente, riferimenti CSS v=8.3 e JavaScript v=7.9 invariati.",
+          "git diff --check: PASS; diff revisionato e limitato ai tre file indicati, senza file aggiuntivi, modifiche a motore, formule, API, valori predefiniti, wizard, sitemap.xml, robots.txt o dati strutturati. Nessun box autore o dato personale aggiunto. JSON valido, altri task e stato generale del workflow invariati.",
+          "Verifica preliminare: branch miglioramento-seo, checkout pulito, nessun task in_progress e nessun index.lock. Nessuna run indipendente attiva nello stesso repository; il solo task attivo elencato coincide con il task sorgente di questa delega. Processi Java preesistenti riferiti al server Spring Boot locale."
+        ],
         "blocker": null
       }
     },

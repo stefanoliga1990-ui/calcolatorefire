@@ -285,6 +285,50 @@ class HomePageTest {
                 .andExpect(content().contentTypeCompatibleWith("text/html"));
     }
 
+    @Test
+    void distinguishesThePacFromTheFireTargetAndComparesTheMethods() throws Exception {
+        String page = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        var plan = Pattern.compile("(?s)<div\\b[^>]*id=\"home-plan\"[^>]*>(.*?)</div>").matcher(page);
+        assertTrue(plan.find());
+        String editorial = plan.group(1);
+        assertTrue(!plan.group().contains("hidden"));
+        assertEquals(2L, Pattern.compile("<section\\b").matcher(editorial).results().count());
+        assertEquals(1L, Pattern.compile("<h1\\b", Pattern.CASE_INSENSITIVE).matcher(page).results().count());
+        assertTrue(page.indexOf("id=\"numero-fire\"") < page.indexOf("id=\"home-plan\""));
+        assertTrue(page.indexOf("id=\"home-plan\"") < page.indexOf("id=\"come-funziona\""));
+        assertTrue(editorial.contains("id=\"pac-fire\" aria-labelledby=\"pac-fire-title\""));
+        assertTrue(editorial.contains("<h2 id=\"pac-fire-title\">Dal capitale FIRE al PAC mensile</h2>"));
+        for (String concept : new String[]{"patrimonio obiettivo", "versamento mensile iniziale", "divario",
+                "capitale iniziale", "anni disponibili", "rendimento ipotizzato", "crescita dei versamenti",
+                "importi maggiori nei mesi successivi", "non certifica che il PAC sia sostenibile",
+                "non garantisce il raggiungimento dell'obiettivo"}) {
+            assertTrue(editorial.contains(concept), "Concetto PAC mancante: " + concept);
+        }
+        assertTrue(editorial.contains("id=\"metodi-fire\" aria-labelledby=\"metodi-fire-title\""));
+        assertTrue(editorial.contains("<h2 id=\"metodi-fire-title\">FINITE o SWR: due modi di stimare il capitale</h2>"));
+        assertTrue(editorial.contains("<h3>FINITE: durata finita</h3>"));
+        assertTrue(editorial.contains("durata definita del FIRE e un eventuale capitale finale"));
+        assertTrue(editorial.contains("<h3>SWR: tasso iniziale di prelievo</h3>"));
+        assertTrue(editorial.contains("La SWR non è un rendimento"));
+        assertTrue(editorial.contains("verifica poi i prelievi sull'orizzonte scelto e segnala eventuali ammanchi"));
+        assertTrue(editorial.contains("Un target SWR non garantisce che il patrimonio copra tutta la durata"));
+        String[][] guides = {
+                {"/guida/pac-per-raggiungere-il-fire", "Approfondisci il PAC per raggiungere il FIRE"},
+                {"/guida/metodo-finite-o-swr", "Confronta i metodi FINITE e SWR"},
+                {"/guida/regola-del-4-percento-swr", "origine e limiti della regola del 4%"}
+        };
+        for (String[] guide : guides) {
+            assertTrue(editorial.contains("href=\"" + guide[0] + "\">" + guide[1] + "</a>"));
+            assertEquals(1L, Pattern.compile("href=\"" + Pattern.quote(guide[0]) + "\"")
+                    .matcher(page).results().count());
+            mockMvc.perform(get(guide[0]))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentTypeCompatibleWith("text/html"));
+        }
+    }
+
     private static BigDecimal fireExampleValue(String section, String id, String visibleValue) {
         var value = Pattern.compile("<data id=\"fire-example-" + id + "\" value=\"([0-9.]+)\">([^<]+)</data>")
                 .matcher(section);
