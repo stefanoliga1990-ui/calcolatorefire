@@ -60,9 +60,16 @@ class HomePageTest {
                 .andExpect(content().string(containsString("name=\"twitter:description\" content=\"Calcola il patrimonio necessario per il FIRE in Italia e il PAC mensile, considerando inflazione, rendimento, plusvalenze e imposta di bollo.\"")))
                 .andExpect(content().string(containsString("rel=\"canonical\" href=\"https://simulatorefire.com/\"")))
                 .andExpect(content().string(containsString("href=\"/fonts/InterVariable.woff2?v=4.1\"")))
-                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=8.0\"")))
+                .andExpect(content().string(containsString("href=\"/styles-7c8e1a4b5d20.css?v=8.1\"")))
                 .andExpect(content().string(containsString("<h1 id=\"page-title\">Calcolatore FIRE Italia per l'indipendenza finanziaria.</h1>")))
                 .andExpect(content().string(containsString("<p>Stima il patrimonio necessario per vivere di rendita e il PAC mensile per raggiungerlo, considerando le tue ipotesi su inflazione e rendimenti e la fiscalità italiana.</p>")))
+                .andExpect(content().string(containsString("aria-label=\"Cosa puoi stimare con il simulatore\"")))
+                .andExpect(content().string(containsString("<strong>Capitale FIRE con FINITE o SWR</strong>")))
+                .andExpect(content().string(containsString("Stima il patrimonio necessario con una durata definita o un tasso iniziale di prelievo.")))
+                .andExpect(content().string(containsString("<strong>PAC mensile per il tuo target</strong>")))
+                .andExpect(content().string(containsString("Calcola il versamento mensile in base al capitale già investito e agli anni disponibili.")))
+                .andExpect(content().string(containsString("<strong>Fiscalità italiana e risorse aggiuntive</strong>")))
+                .andExpect(content().string(containsString("Stima plusvalenze e bollo e considera pensione, rendite e capitali futuri nel tuo scenario.")))
                 .andExpect(content().string(not(containsString("Quanto ti serve per raggiungere il FIRE?"))))
                 .andExpect(content().string(not(containsString("Pianificazione FIRE, con ipotesi trasparenti"))))
                 .andExpect(content().string(not(containsString("Nessun account"))))
@@ -173,6 +180,13 @@ class HomePageTest {
                 .getResponse()
                 .getContentAsString();
         assertEquals(1L, Pattern.compile("<h1\\b", Pattern.CASE_INSENSITIVE).matcher(page).results().count());
+        var benefits = Pattern.compile("(?s)<ul\\b[^>]*id=\"home-benefits\"[^>]*>(.*?)</ul>").matcher(page);
+        assertTrue(benefits.find());
+        assertEquals(3L, Pattern.compile("<li\\b").matcher(benefits.group(1)).results().count());
+        assertTrue(!benefits.group().contains("hidden"));
+        int benefitsPosition = page.indexOf("id=\"home-benefits\"");
+        assertTrue(page.indexOf("</section>") < benefitsPosition);
+        assertTrue(benefitsPosition < page.indexOf("id=\"scenario-layout\""));
         int ageStepPosition = page.indexOf("data-wizard-step=\"1\"");
         int methodPosition = page.indexOf("name=\"method\" value=\"FINITE\"");
         int durationPosition = page.indexOf("id=\"fireDurationYears\"");

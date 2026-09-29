@@ -120,7 +120,7 @@
       "id": "SEO-HOME-002",
       "order": 2,
       "title": "Aggiungere una sintesi dei vantaggi sopra il wizard",
-      "status": "pending",
+      "status": "completed",
       "depends_on": [
         "SEO-HOME-001"
       ],
@@ -147,12 +147,20 @@
         ".\\mvnw.cmd -Dtest=HomePageTest test"
       ],
       "result": {
-        "started_at": null,
-        "completed_at": null,
-        "attempt_count": 0,
-        "commit": null,
-        "summary": null,
-        "checks": [],
+        "started_at": "2026-09-29T05:26:38.9659318+02:00",
+        "completed_at": "2026-09-29T05:29:26.5012992+02:00",
+        "attempt_count": 1,
+        "commit": "HEAD_PENDING_SELF_REFERENCE",
+        "summary": "Aggiunta tra hero e wizard una lista semantica compatta con tre vantaggi: capitale FIRE con FINITE o SWR, PAC mensile per il target, fiscalita italiana e risorse aggiuntive. Contenuti visibili nell'HTML iniziale, stile responsive dedicato, versione CSS della home aggiornata a 8.1 e asserzioni adeguate. Modificati soltanto index.html, styles-7c8e1a4b5d20.css, HomePageTest.java e questo file di stato.",
+        "checks": [
+          ".\\mvnw.cmd -Dtest=HomePageTest test: PASS, 4 test, 0 fallimenti, 0 errori, 0 saltati.",
+          "git diff --check: PASS; diff revisionato e limitato ai quattro file previsti, senza modifiche a JavaScript, API, formule, valori predefiniti, struttura del wizard, sitemap.xml o robots.txt.",
+          "Test HTML server-side: PASS, tre elementi della lista visibili senza attributi hidden, posizionati dopo il hero e prima del wizard; un solo H1 e riferimento CSS v=8.1.",
+          "Browser locale http://localhost:8080/: PASS a 320, 375, 621, 768 e 1180 px, nessun overflow orizzontale della pagina o della fascia e nessuna sovrapposizione con il wizard; controllo visivo a 320 e 1180 px.",
+          "Percorso guidato locale: PASS, tutti i sei passaggi e calcolo con valori predefiniti; risultati FIRE e PAC popolati (683.720 euro e 2887 euro/mese), grafici e risorse aggiuntive visibili, nessun messaggio di errore.",
+          "Coerenza dei vantaggi: PASS, metodi FINITE/SWR, PAC, stime di plusvalenze e bollo, pensione/rendite/capitali futuri riscontrati nel wizard, nella metodologia e nel codice esistente; nessuna promessa di rendimento o sostenibilita.",
+          "Verifica preliminare: branch miglioramento-seo, checkout pulito, nessun task in_progress, nessun index.lock e nessun altro task attivo nello stesso repository; processi Java preesistenti riferiti al server Spring Boot locale."
+        ],
         "blocker": null
       }
     },

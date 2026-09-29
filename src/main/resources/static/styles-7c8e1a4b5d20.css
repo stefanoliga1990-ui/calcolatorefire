@@ -164,6 +164,40 @@ h1 {
     letter-spacing: -0.012em;
 }
 
+.home-benefits {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto 24px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    list-style: none;
+}
+
+.home-benefits li {
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    overflow-wrap: anywhere;
+}
+
+.home-benefits strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.home-benefits p {
+    margin-bottom: 0;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
 .method-badge {
     padding: 8px 12px;
     border: 1px solid rgba(27, 102, 122, 0.22);
@@ -2122,6 +2156,7 @@ footer {
 
 @media (max-width: 620px) {
     .intro,
+    .home-benefits,
     .app-layout,
     .additional-resources,
     .projections,
@@ -2151,6 +2186,15 @@ footer {
 
     .intro {
         margin: 28px auto 20px;
+    }
+
+    .home-benefits {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+    }
+
+    .home-benefits li {
+        padding: 12px;
     }
 
     .panel {
